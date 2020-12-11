@@ -1,0 +1,24 @@
+{
+  "name": "gitbook",
+  "version": "1.0.0",
+  "description": "前端学习笔记",
+  "main": "app.js",
+  "scripts": {
+    "dev": "nodemon --harmony app.js --config nodemonrc.json",
+    "deploy:stag": "NODE_ENV=staging pm2 deploy ecosystem.config.js staging",
+    "deploy:prod": "NODE_ENV=production  pm2 deploy ecosystem.config.js production"
+  },
+  "keywords": [
+    "学习",
+    "笔记"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "koa": "^2.13.0",
+    "koa-static": "^5.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6"
+  }
+}
