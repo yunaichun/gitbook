@@ -24,7 +24,7 @@ module.exports = {
       ref: 'origin/master',
       repo: 'git@github.com:yunaichun/gitbook.git',
       path: '/var/www/gitbook',
-      'post-deploy' : 'cnpm ci && gitbook install && gitbook build && pm2 startOrReload ecosystem.config.js --env staging'
+      'post-deploy' : 'gitbook build && pm2 startOrReload ecosystem.config.js --env staging'
     },
     production : {
       user: 'root',
@@ -32,7 +32,7 @@ module.exports = {
       ref: 'origin/master',
       repo: 'git@github.com:yunaichun/gitbook.git',
       path: '/var/www/gitbook',
-      'post-deploy' : 'cnpm ci && gitbook install && gitbook build && pm2 startOrReload ecosystem.config.js --env production'
+      'post-deploy' : 'gitbook build && pm2 startOrReload ecosystem.config.js --env production'
     }
   }
 };
