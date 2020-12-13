@@ -6,7 +6,7 @@
     * [水平垂直居中](./frontend/css/center/README.md)
     * [BFC](./frontend/css/bfc/README.md)
     * [特殊形状](./frontend/css/special-shape/README.md)
-    * [自适应多列布局](./frontend/css/adaptive-two-columns/README.md)
+    * [自适应多列布局](./frontend/css/adaptive-columns/README.md)
     * [响应式布局](./frontend/css/responsive-layout/README.md)
     * [预编译](./frontend/css/precompiled/README.md)
   * [JavaScript]()
