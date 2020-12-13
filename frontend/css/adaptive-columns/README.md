@@ -284,5 +284,7 @@
 > 其余参考两列自适应布局方法。
 
 ## 参考资料
+
 [css布局 - 两栏自适应布局的几种实现方法汇总](https://cloud.tencent.com/developer/article/1393337)
+
 [我熟知的三种三栏网页宽度自适应布局方法](https://www.zhangxinxu.com/wordpress/2009/11/我熟知的三种三栏网页宽度自适应布局方法)
