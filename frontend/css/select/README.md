@@ -1,10 +1,10 @@
 ## 简介
 
->css 选择器学习笔记。
+> CSS 选择器学习笔记。
 
 ## 选择器种类
 
-```
+```text
 1. 元素选择器
 2. 分组选择器（逗号分隔）  
 3. 类选择器
@@ -31,7 +31,7 @@
 
 ## 伪元素
 
->伪元素则创建了一个文档数外的元素。
+> 伪元素则创建了一个文档数外的元素。
 
 ```text
 ::before         在元素之前添加内容。
@@ -42,7 +42,7 @@
 
 ## 伪类
 
->伪类的操作对象是文档树中已有的元素。
+> 伪类的操作对象是文档树中已有的元素。
 
 ```text
 :link             向未被访问的链接添加样式。
@@ -68,21 +68,32 @@
 
 ## 清除浮动
 
->利用伪元素清除浮动。
+> 利用伪元素清除浮动。
 
-```javascript
-.clearfix:before,
-.clearfix:after{
-    content: "";
-    display: block;
-    height: 0;
-    visibility: hidden;
-    clear: both; 
-}
-// == ie6、7兼容
-.clearfix{
-    zoom: 1;
-}
+```html
+<style>
+    .clearfix:before,
+    .clearfix:after{
+        content: "";
+        display: block;
+        height: 0;
+        visibility: hidden;
+        clear: both; 
+    }
+    // == ie6、7兼容
+    .clearfix{
+        zoom: 1;
+    }
+    .float {
+        float: left;
+    }
+</style>
+<div class="container clearfix">
+    <div class="item">
+        hi
+    </div>
+</div>
+
 ```
 
 ## 参考资料

@@ -1,10 +1,10 @@
 ## 简介
 
->css 水平垂直居中学习笔记。
+> CSS 水平垂直居中学习笔记。
 
 ## 定宽定高块状元素
 
-> margin+line-height+text-align
+> margin + line-height + text-align
 
 ```html
 <style>
@@ -23,7 +23,7 @@
 
 ## 不定宽高块状元素方法
 
-> 绝对定位 + margin:auto
+> 绝对定位 + margin: auto
 
 ```html
 <style>
@@ -72,7 +72,7 @@
 </div>
 ```
 
-> table布局
+> table 布局
 
 ```html
 <style>
@@ -94,7 +94,7 @@
 </div>
 ```
 
-> flex布局
+> flex 布局
 
 ```html
 <style>

@@ -3,7 +3,7 @@
 * [前端]()
   * [CSS]()
     * [选择器](./frontend/css/select/README.md)
-    * [居中](./frontend/css/center/README.md)
+    * [水平垂直居中](./frontend/css/center/README.md)
     * [BFC](./frontend/css/bfc/README.md)
     * [三角形](./frontend/css/triangle/README.md)
     * [自适应正方形](./frontend/css/adaptive-square/README.md)
