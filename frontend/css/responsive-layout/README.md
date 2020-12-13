@@ -167,18 +167,11 @@ grid 布局项目中使用的比较少，就不班门弄斧了。
 
 ## 参考资料
 
-[移动web开发之像素和DPR](https://www.cnblogs.com/xiaohuochai/p/5494624.html)
-
-[UI尺寸规范](https://tool.lanrentuku.com/guifan/ui.html)
-
-[茴字的四种写法—浅谈移动前端适配](https://mp.weixin.qq.com/s/nQ6qF2IxSP-JXYm6sNcV6Q)
-
-[从网易与淘宝的font-size思考前端设计稿与工作流](https://www.cnblogs.com/lyzg/p/4877277.html)
-
-[Flex 布局教程：语法篇](http://www.ruanyifeng.com/blog/2015/07/flex-grammar.html)
-
-[Flex 详解](https://blog.csdn.net/fengyjch/article/details/79047908)
-
-[vh、vw、vmin、vmax 知多少](https://github.com/chokcoco/iCSS/issues/15)
-
-[CSS Grid 网格布局教程](https://www.ruanyifeng.com/blog/2019/03/grid-layout-tutorial.html)
+- [移动web开发之像素和DPR](https://www.cnblogs.com/xiaohuochai/p/5494624.html)
+- [UI尺寸规范](https://tool.lanrentuku.com/guifan/ui.html)
+- [茴字的四种写法—浅谈移动前端适配](https://mp.weixin.qq.com/s/nQ6qF2IxSP-JXYm6sNcV6Q)
+- [从网易与淘宝的font-size思考前端设计稿与工作流](https://www.cnblogs.com/lyzg/p/4877277.html)
+- [Flex 布局教程：语法篇](http://www.ruanyifeng.com/blog/2015/07/flex-grammar.html)
+- [Flex 详解](https://blog.csdn.net/fengyjch/article/details/79047908)
+- [vh、vw、vmin、vmax 知多少](https://github.com/chokcoco/iCSS/issues/15)
+- [CSS Grid 网格布局教程](https://www.ruanyifeng.com/blog/2019/03/grid-layout-tutorial.html)
