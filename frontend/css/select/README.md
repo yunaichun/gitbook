@@ -80,9 +80,8 @@
         visibility: hidden;
         clear: both; 
     }
-    // == ie6、7兼容
     .clearfix{
-        zoom: 1;
+        zoom: 1;/*ie6、7兼容*/
     }
     .float {
         float: left;
@@ -93,7 +92,6 @@
         hi
     </div>
 </div>
-
 ```
 
 ## 参考资料
