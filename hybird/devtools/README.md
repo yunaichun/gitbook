@@ -87,6 +87,8 @@ import eruda from 'eruda';
 eruda.init();
 ```
 
+## 参考资料
+
 - [Node 调试工具入门教程](http://www.ruanyifeng.com/blog/2018/03/node-debugger.html)
 - [移动端真机调试指南](https://aotu.io/notes/2017/02/24/Mobile-debug/index.html)
 - [Android 设备的远程调试入门](https://developers.google.com/web/tools/chrome-devtools/remote-debugging?hl=zh-cn)
