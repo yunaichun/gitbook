@@ -2,45 +2,73 @@
 
 > nrm 学习笔记。
 
-## Ubuntu 安装
+## 镜像源管理
 
 ```text
-wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.2/install.sh | zsh
+安装
+npm i nrm -g
 
-source ~/.zshrc
+添加
+nrm add qingting 镜像源
+
+查看
+nrm ls
+
+切换
+nrm use 镜像源
 ```
 
-## Mac 安装
+## 镜像配置
 
 ```text
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.2/install.sh | zsh
+查看
+npm config ls
 
-source ~/.zshrc
+设置
+npm config set <key> <value> [-g|--global]
+
+获取
+npm config get <key>
+
+删除
+npm config delete <key>
+
+修改
+npm config edit
 ```
 
-## 常见命令
+## 测试包
 
 ```text
-查看已经安装的node
-nvm ls
+组件库本地目录测试
+npm link 
 
-查看可以安装的node
-nvm ls-remote
+项目中其他项目测试
+npm link package-name
+```
 
-安装指定版本
-nvm install v10.15.0
+## 发布包
 
-安装稳定版
-nvm install stable
+```text
+升级补丁版本号
+npm version patch
 
-切换不同node版本
-nvm use v10.15.0
+升级小版本号
+npm version minor
 
-通过官网安装的node版本号查看
-nvm use system
+升级大版本号
+npm version major
+
+登录
+npm login
+
+发布
+npm publish
 ```
 
 ## 参考资料
 
-- [在 Mac 下安装 nvm 管理 node（解决版）](https://segmentfault.com/a/1190000017391932)
-- [node版本管理工具nvm-Mac下安装及使用](https://segmentfault.com/a/1190000004404505)
+- [nrm安装与配置](https://juejin.cn/post/6844904008994275335)
+- [npm命令配置技巧](https://www.jianshu.com/p/0f8ba68a04ec)
+- [npm常用命令](https://www.jianshu.com/p/087d839e1d0c)
+- [如何发布自己的NPM包（模块）？](https://juejin.cn/post/6844903673684836365)
