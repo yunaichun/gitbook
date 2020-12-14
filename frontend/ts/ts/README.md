@@ -1,8 +1,8 @@
 ## 简介
 
-> Typescript 学习入门。可参考下方实战项目和参考资料快速入门。
+> Typescript 学习。可参考下方实战项目和参考资料快速入门。
 
-## 实战项目
+## 练习 demo
 
 地址: https://github.com/yunaichun/typescript-study/tree/master/ts
 
