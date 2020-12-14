@@ -2,7 +2,7 @@
 
 > Typescript 学习。可参考下方实战项目和参考资料快速入门。
 
-## 练习 demo
+## 练习 Demo
 
 地址: https://github.com/yunaichun/typescript-study/tree/master/ts
 

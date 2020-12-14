@@ -2,7 +2,7 @@
 
 > Flow 学习入门。可参考下方实战项目和参考资料快速入门。
 
-## 实战项目
+## 练习 Demo
 
 地址: https://github.com/yunaichun/typescript-study/tree/master/flow
 

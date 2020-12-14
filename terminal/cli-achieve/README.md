@@ -20,4 +20,3 @@
 
 - [从零开发一个健壮的npm包](https://juejin.cn/post/6844903605229584398)
 - [node命令行工具之实现项目工程自动初始化的标准流程](https://juejin.cn/post/6844903910793019399)
-- [](https://juejin.cn/post/6844903928316821517#heading-12)
