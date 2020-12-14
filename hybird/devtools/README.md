@@ -1,6 +1,6 @@
 ## 简介
 
-> CSS 选择器学习笔记。
+> 移动端调试学习笔记。
 
 ## 不同环境调试介绍
 
@@ -40,7 +40,11 @@ chrome: https://developers.google.com/web/tools/chrome-devtools/remote-debugging
 https://chls.pro/ssl
 http://www.charlesproxy.com/getssl
 
-3. 查询具体手机: 安全人员选项开启，同时 usb 调试打开
+3. 安卓手机
+安全人员选项开启，同时 usb 调试打开
+
+4. 苹果手机
+Safari -> 高级 -> 开启网页检查器
 ```
 
 > 注意事项
