@@ -107,7 +107,7 @@ android:label="flutter_app"   //配置APP的名称，支持中文
 android:icon="@mipmap/ic_launcher" //APP图标的文件名称
 ```
 
-> 2、生成 keystore
+> 2、生成签名证书
 
 ```text
 keytool工具位置查找: flutter doctor -v
@@ -146,6 +146,11 @@ buildTypes {
     }
 }
 替换为 ->
+buildTypes {
+    release {
+        signingConfig signingConfigs.release
+    }
+}
 signingConfigs {
     release {
         keyAlias keystoreProperties['keyAlias']
@@ -154,17 +159,12 @@ signingConfigs {
         storePassword keystoreProperties['storePassword']
     }
 }
-buildTypes {
-    release {
-        signingConfig signingConfigs.release
-    }
-}
 ```
 
 > 5、添加网络权限
 
 ```text
-位置: android/app/src/main/AndroidManifest.xml
+位置: my_app/android/app/src/main/AndroidManifest.xml
 
 内容: 
 <uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -178,9 +178,9 @@ buildTypes {
 ```text
 命令: flutter build apk
 
-输出: build/app/outputs/apk/release/app-release.apk
+输出: my_app/build/app/outputs/apk/release/app-release.apk
 
-安装到虚拟机: flutter install 【需要flutter run起来项目】
+安装到模拟器: flutter install 【需要flutter run起来项目】
 ```
 
 # Flutter 项目实战

@@ -85,20 +85,80 @@ $ react-native run-ios
 
 # React Native 打包 Android apk
 
-> 前期环境配置与 Flutter 的打包一致，只不过是用原生 Android 进行构建打包的
+> 1、生成签名证书
 
+```text
+keytool工具位置查找: flutter doctor -v
+
+keytool位置: cd /Applications/Android Studio.app/Contents/jre/jdk/Contents/Home/jre/bin
+
+生成 keystore: ./keytool -genkey -v -keystore ~/key.jks -keyalg RSA -keysize 2048 -validity 10000 -alias key
 ```
-第一步：生成Android签名证书
 
-第二步：设置gradle变量
+> 2、创建 key.properties 文件
 
-第三步：在gradle配置文件中添加签名配置
+```text
+位置: my_app/android/key.properties
 
-第四步：签名打包APK
-进入项目下的android目录 -> $./gradlew assembleRelease
+内容: 
+storePassword=***
+keyPassword=***
+keyAlias=key
+storeFile=/Users/yunaichun/key.jks
+```
 
-第五步：验证打包后文件
-react-native run-android --variant=release
+> 3、配置 key 注册
+
+```text
+位置: my_app/android/app/build.gradle
+
+内容1: android{ 这一行前面,加入如下代码
+def keystorePropertiesFile = rootProject.file("key.properties")
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
+内容2:
+buildTypes {
+    release {
+        signingConfig signingConfigs.debug
+    }
+}
+替换为 ->
+buildTypes {
+    release {
+        signingConfig signingConfigs.release
+    }
+}
+signingConfigs {
+    release {
+        keyAlias keystoreProperties['keyAlias']
+        keyPassword keystoreProperties['keyPassword']
+        storeFile file(keystoreProperties['storeFile'])
+        storePassword keystoreProperties['storePassword']
+    }
+}
+```
+
+> 4、添加网络权限
+
+```text
+位置: my_app/android/app/src/main/AndroidManifest.xml
+
+内容: 
+<uses-permission android:name="android.permission.READ_PHONE_STATE" />
+<uses-permission android:name="android.permission.INTERNET" />
+<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+```
+
+> 5、生成 apk
+
+```text
+进入项目下的android目录: ./gradlew assembleRelease
+
+输出: my_app/build/app/outputs/apk/release/app-release.apk
+
+验证打包后文件: react-native run-android --variant=release
 ```
 
 # React Native 项目实战
