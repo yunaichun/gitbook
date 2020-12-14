@@ -21,7 +21,7 @@ $ expo init my_app
 $ npm start
 ```
 
-> react-native 初始化
+> react-native-cli 初始化
 
 ```bash
 $ cnpm install -g react-native-cli
@@ -35,27 +35,24 @@ $ react-native init my_app --version 0.44.3
 ## Android 模拟器
 
 ```text
-1. 安装 Android Studio
+1. 安装 jdk8
+地址: https://www.imooc.com/article/287706
+Android SDK 位置: sdk.dir = ~/Library/Android/sdk
 
-2. 模拟器下载
+2. 安装 Android Studio
+
+3. 模拟器下载
 Android Studio -> Tools -> AVD manager
-
-3. 安装 jdk8
-地址：https://www.imooc.com/article/287706
-
-3. Android SDK 位置
-sdk.dir = ~/Library/Android/sdk
+模拟器安装位置: /Users/yunaichun/.android/avd
 
 4. 启动模拟器
+$ ~/Library/Android/sdk/emulator/emulator -list-avds
 $ ~/Library/Android/sdk/emulator/emulator @Nexus_5X_API_29
 
-5. 启动项目
-$ react-native run-android
-
-6. 刷新 【在模拟器界面操作】
+5. 刷新 【在模拟器界面操作】
 double click: r
 
-7. 打开调试面板
+6. 打开调试面板
 command + m
 ```
 
@@ -65,23 +62,30 @@ command + m
 1. 模拟器下载
 xCode -> preference -> components
 
-2. 启动项目
-$ react-native run-ios
-
-3. 启动模拟器
+2. 启动模拟器
 open -a Simulator
 Hardware -> Device -> 不同系统 -> 选择其他iPhone
 
-4. 刷新 【在模拟器界面操作】
+3. 刷新 【在模拟器界面操作】
 command + r
 
-5. 打开调试面板
+4. 打开调试面板
 command + d
+```
+
+### 启动项目
+
+```bash
+# 启动 Android
+$ react-native run-android
+
+# 启动 iOS
+$ react-native run-ios
 ```
 
 # React Native 打包 Android apk
 
-> 与 Flutter 的打包一致
+> 前期环境配置与 Flutter 的打包一致，只不过是用原生 Android 进行构建打包的
 
 ```
 第一步：生成Android签名证书
