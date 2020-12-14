@@ -7,10 +7,11 @@
 > 标准输入、标准输出、错误输出
 
 ```text
-1、输入重定向：
+1、输入重定向
 read var  <  ~/test.txt
 
-2、输出重定向：echo 123 > ~/test.txt  
+2、输出重定向
+echo 123 > ~/test.txt
 >      替换原文件
 >>     追加至原文件
 2>     将错误输出到原文件
@@ -23,18 +24,6 @@ read var  <  ~/test.txt
 
 ```text
 ls -alh | more
-```
-
-## shell 脚本执行方式
-
-```text
-1、会重新开一个进程
-bash xxx.sh
-./xxx.sh
-
-2、在当前进程执行
-source xxx.sh
-. xxx.sh
 ```
 
 ## shell 脚本执行方式
