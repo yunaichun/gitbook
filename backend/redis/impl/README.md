@@ -2,7 +2,7 @@
 
 > Redis 在 koa2 中缓存请求学习笔记。
 
-## RedisStore 接口层
+## RedisStore 方法封装
 
 > redisImpl.js
 
@@ -44,7 +44,9 @@ module.exports = new RedisStore();
 ```
 
 
-## controller 层请求缓存至 redis
+## controller 层
+
+> 请求缓存至 redis
 
 ```javascript
 async cacheToRedis(ctx, next) {

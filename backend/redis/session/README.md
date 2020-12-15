@@ -2,7 +2,7 @@
 
 > Redis 在 koa2 存储 session 学习笔记。
 
-## 中间件代码
+## 中间件封装
 
 > middleware/session/redis.js
 
@@ -50,7 +50,7 @@ module.exports = session({
 
 ## koa2 入口文件
 
-> app.js
+> app.js 引用上步封装的中间件
 
 ```javascript
 const Koa = require('koa');
@@ -65,10 +65,13 @@ app.listen(3000, () => {
 
 ## controller 层 session 设置和获取
 
-> session 写入 Redis
+> 将 session 写入 Redis
 
 ```javascript
 async setSessionToRedis(ctx, next) {
+  // == session 被存储在 redis 中,
+  // == key 值为 SESSION_ID:7d388242d5ea08e43fedac11b8289ae8356a45ecce2fae1f
+  // == value 为设置的值
   ctx.session = {
     user_id: Math.random().toString(36).substr(2),
     count: 0
@@ -82,9 +85,8 @@ async setSessionToRedis(ctx, next) {
 
 ```javascript
 async getSessionFromRedis(ctx, next) {
-  ctx.session.count = ctx.session.count + 1;
-  // == session 被存储在 redis 中,key 值为 SESSION_ID:7d388242d5ea08e43fedac11b8289ae8356a45ecce2fae1f , value 为设置的值
   // == ctx.session 等价于 get SESSION_ID:7d388242d5ea08e43fedac11b8289ae8356a45ecce2fae1f
+  ctx.session.count = ctx.session.count + 1;
   ctx.body = Utils.success(ctx.session);
   await next();
 }
