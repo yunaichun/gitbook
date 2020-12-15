@@ -4,7 +4,7 @@
 
 ## sequelize 封装
 
-> 主要是导出 sequelize 对象模型, 供 model 层使用
+> 主要是导出连接了数据库的 sequelize , 供 model 层使用
 
 ```javascript
 const Sequelize = require('sequelize');
@@ -32,7 +32,7 @@ module.exports = {
 
 ## model 层
 
-> 主要是导出连接了数据库的 sequelize, 供 service 层使用
+> 主要是导出 sequelize 对象模型, 供 service 层使用
 
 ```javascript
 const { Sequelize, sequelize } = require('./index');

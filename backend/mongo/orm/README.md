@@ -4,7 +4,7 @@
 
 ## mongoose 封装
 
-> 主要是导出 mongoose 对象模型, 供 model 层使用
+> 主要是导出连接了数据库的 mongoose , 供 model 层使用
 
 ```javascript
 const mongoose = require('mongoose');
@@ -30,7 +30,7 @@ module.exports = {
 
 ## model 层
 
-> 主要是导出连接了数据库的 mongoose, 供 service 层使用
+> 主要是导出 mongoose 对象模型, 供 service 层使用
 
 ```javascript
 const { mongoose } = require('./index');
