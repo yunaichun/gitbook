@@ -15,7 +15,7 @@ brew install redis
 ```text
 命令: apt install redis-server
 
-安装位置: /etc/redis/redis.conf
+配置文件: /etc/redis/redis.conf
 ```
 
 > redis.conf 必要修改
