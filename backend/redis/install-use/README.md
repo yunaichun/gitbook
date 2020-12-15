@@ -1,6 +1,6 @@
 ## 简介
 
-> Redis 安装和使用学习笔记。
+> Redis 安装及使用学习笔记。
 
 ## 安装
 
@@ -35,6 +35,12 @@ tail -f /var/log/redis/redis-server.log
 ```
 
 ## 启动和登录
+
+> 版本
+
+```text
+redis-server --version
+```
 
 > 启动
 
