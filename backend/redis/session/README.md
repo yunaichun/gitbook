@@ -83,8 +83,8 @@ async setSessionToRedis(ctx, next) {
 ```javascript
 async getSessionFromRedis(ctx, next) {
   ctx.session.count = ctx.session.count + 1;
-  // == session 被存储在 _mysql_session_store 表中
-  // == ctx.session 等价于 select data from  where id=`SESSION_ID:${ctx.cookies.get('SESSION_ID')}`;
+  // == session 被存储在 redis 中,key 值为 SESSION_ID:7d388242d5ea08e43fedac11b8289ae8356a45ecce2fae1f , value 为设置的值
+  // == ctx.session 等价于 get SESSION_ID:7d388242d5ea08e43fedac11b8289ae8356a45ecce2fae1f
   ctx.body = Utils.success(ctx.session);
   await next();
 }
