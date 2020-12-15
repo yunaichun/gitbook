@@ -23,11 +23,11 @@
 ## 基本使用
 
 ```text
-sudo nginx
+启动: sudo nginx
 
-sudo nginx -s stop
+停止: sudo nginx -s stop
 
-sudo nginx -s reload
+重启: sudo nginx -s reload
 ```
 
 ## 跨域和均衡负载
@@ -64,7 +64,7 @@ upstream webUpStreaml {
 server {
     listen                8000;
     server_name           127.0.0.1;
-    
+
     location / {
         proxy_pass        http://webUpStreaml;
     }
