@@ -63,7 +63,7 @@ npm version major
 npm login
 
 发布
-npm publish
+npm publish --access public
 ```
 
 ## 参考资料
