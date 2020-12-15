@@ -43,7 +43,7 @@
   * [Node]()
     * [express](./backend/node/express/README.md)
     * [koa](./backend/node/koa/README.md)
-    * [ssr](./backend/node/koa/README.md)
+    * [ssr](./backend/node/ssr/README.md)
     * [接口压测](./backend/node/test/README.md)
     * [全栈实践](./backend/node/practice/README.md)
   * [MySQL]()
