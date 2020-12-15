@@ -2,7 +2,7 @@
 
 > Flutter 学习笔记。
 
-## Flutter 项目初始化
+## 项目初始化
 
 > pod setup
 
@@ -12,7 +12,7 @@ $ sudo gem install cocoapods
 $ pod setup
 ```
 
-> 初始化项目
+> 创建项目
 
 ```text
 flutter create my_app
@@ -53,7 +53,7 @@ Hardware -> Device -> 不同系统 -> 选择其他iPhone
 R
 ```
 
-### 启动项目
+## 启动项目
 
 > 项目启动
 
@@ -94,7 +94,7 @@ maven{
 }
 ```
 
-# Flutter 打包 Android apk
+## 打包 Android apk
 
 > 1、启动图标
 
@@ -183,7 +183,7 @@ signingConfigs {
 安装到模拟器: flutter install 【需要flutter run起来项目】
 ```
 
-# Flutter 项目实战
+## 项目实战
 
 > 项目地址: https://github.com/yunaichun/flutter_study
 

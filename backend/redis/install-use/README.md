@@ -1,6 +1,6 @@
 ## 简介
 
-> Redis 学习笔记。
+> Redis 安装和使用学习笔记。
 
 ## 安装
 
@@ -97,3 +97,4 @@ keys *
 - [redis中文文档](http://www.redis.cn/documentation.html)
 - [ubuntu 18.04 安装 Redis](https://wangxin1248.github.io/linux/2018/07/ubuntu18.04-install-redis.html)
 - [redis五种数据类型和常用命令及适用场景](https://www.cnblogs.com/ryanlamp/p/9689682.html)
+- [DataBase | Redis](https://www.bookstack.cn/read/Nodejs-Roadmap/redis.md)

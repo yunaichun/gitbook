@@ -2,14 +2,14 @@
 
 > React Native 学习笔记。
 
-## React 项目初始化
+## React项目初始化
 
 ```bash
 npm install -g npx
 npx create-react-app my-app
 ```
 
-## React Native 项目初始化
+## React Native项目初始化
 
 > expo 初始化
 
@@ -73,7 +73,7 @@ command + r
 command + d
 ```
 
-### 启动项目
+## 启动项目
 
 ```bash
 # 启动 Android
@@ -83,7 +83,7 @@ $ react-native run-android
 $ react-native run-ios
 ```
 
-# React Native 打包 Android apk
+## 打包 Android apk
 
 > 1、生成签名证书
 
@@ -161,7 +161,7 @@ signingConfigs {
 验证打包后文件: react-native run-android --variant=release
 ```
 
-# React Native 项目实战
+## 项目实战
 
 > 项目地址: https://github.com/yunaichun/rn_study
 
