@@ -12,12 +12,12 @@
 
 ## 如何实现 SSR ？
 
-**此处以一个项目例子目录结构进行介绍。**
+> 此处以一个项目例子目录结构进行介绍。
 
 #### package.json 配置
 
-> 1. npm run build 执行 webpack 构建
-> 2. npm run server 运行 dist 静态服务目录
+- npm run build 执行 webpack 构建
+- npm run server 运行 dist 静态服务目录
 
 ```
 {
@@ -30,9 +30,9 @@
 
 #### webpack 配置
 
-> 1. 配置多入口页面
-> 2. HtmlWebpackPlugin 构建前端渲染页面
-> 3. 开启 dist 目录构建 watch
+- 配置多入口页面
+- HtmlWebpackPlugin 构建前端渲染页面
+- 开启 dist 目录构建 watch
 
 ```javascript
 module.exports = {
@@ -70,7 +70,7 @@ module.exports = {
 
 #### app.js
 
-> 将 build 目录挂载为静态服务目录
+- 将 build 目录挂载为静态服务目录
 
 ```javascript
 const Koa = require('koa');
@@ -101,9 +101,9 @@ module.exports = router;
 
 #### 控制层
 
-> 1. 获取 webpack 构建拿到的渲染页面 root 节点
-> 2. 获取 webpack 构建拿到的渲染页面 header 头部
-> 3. 渲染完成之后将数据挂载到 window 之上, 供前端渲染使用
+- 获取 webpack 构建拿到的渲染页面 root 节点
+- 获取 webpack 构建拿到的渲染页面 header 头部
+- 渲染完成之后将数据挂载到 window 之上, 供前端渲染使用
 
 ```javascript
 const api = require('../api');
@@ -152,8 +152,8 @@ module.exports = {
 
 #### ssr.jsx
 
-> 服务端渲染 DOM 是 React.renderToString
-> 服务端渲染路由是 StaticRouter
+- 服务端渲染 DOM 是 React.renderToString
+- 服务端渲染路由是 StaticRouter
 
 ```javascript
 import React from 'react';
@@ -179,7 +179,7 @@ export default function ssr({ url, context }) {
 
 #### header.jsx
 
-> 服务端渲染 DOM 是 React.renderToString
+- 服务端渲染 DOM 是 React.renderToString
 
 ```javascript
 import React from 'react';
@@ -198,8 +198,8 @@ export default function head({title, description, keywords}) {
 
 #### main.jsx
 
-> 前端渲染 DOM 是 React.hydrate
-> 前端渲染路由是 BrowserRouter
+- 前端渲染 DOM 是 React.hydrate
+- 前端渲染路由是 BrowserRouter
 
 ```javascript
 import React from 'react';
@@ -221,9 +221,9 @@ ReactDOM.hydrate(
 ## 如何看待 SSR ？
 
 ```text
-是否使用 SSR 还是要看业务是否需要: seo 检索优化；首屏加载性能优化。
+是否使用 SSR 还是要看业务是否需要: seo 检索优化；首屏渲染性能要求较高。
 
-可以看到 SSR 也增加了项目的复杂度和可维护性: 需要在前端和服务端写2套渲染逻辑。
+可以看到 SSR 也增加了项目的复杂度和可维护性: 需要在前端和服务端写 2 套渲染逻辑。
 ```
 
 ## 参考资料
