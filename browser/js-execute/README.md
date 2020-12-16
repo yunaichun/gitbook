@@ -2,30 +2,6 @@
 
 > 浏览器中 JS 执行机制学习笔记。
 
-## 语言特性
-
-> 分类
-
-```text
-静态语言: 使用之前需要知道变量类型。
-弱类型语言: 支持隐式类型转换。JS 是属于弱语言类型的语言。
-```
-
-> JS 数据类型
-
-```text
-基本类型: 存储在栈中。包括: Boolean、String、Undefined、Null、Number。
-引用类型: 存储在堆中。包括: Object、Array、Function。
-```
-
-> JS 属性类型
-
-```text
-可枚举属性: 基本类型的原型属性是可枚举的，如 Boolean、String、Undefined、Null。
-不可枚举属性: 基本包装类型的原型属性是不可枚举的，如 Object、Array、Function、Number。
-```
-
-
 ## 执行上下文
 
 #### 什么是执行上下文
