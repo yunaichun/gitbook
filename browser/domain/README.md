@@ -15,11 +15,11 @@
 ## 同源策略有哪些限制
 
 ```text
-1、Cookie、LocalStorage、IndexDB 不会共享
+1、DOM 层面: DOM 无法获得
 
-2、DOM 无法获得
+2、数据层面: Cookie、LocalStorage、IndexDB 不会共享
 
-3、Ajax 请求不能发送 
+3、网络层面: Ajax 请求不能发送 
 ```
 
 ## 前端有哪些跨域方案

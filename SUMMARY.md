@@ -80,7 +80,7 @@
   * [浏览器BOM对象](./browser/bom/README.md)
   * [浏览器异步任务](./browser/async/README.md)
   * [浏览器跨域简介](./browser/domain/README.md)
-  * [浏览器安全简介](./browser/domain-security/README.md)
+  * [浏览器安全简介](./browser/security/README.md)
 * [网络协议]()
   * [HTTP简介]()
   * [WebSocket]()
