@@ -76,7 +76,6 @@ defer: 脚本在 DOMContentLoaded 事件之前执行。
 
 <!-- prefetch 的资源一般来说优先级较低，会在浏览器『空闲』时进行下载。 -->
 <link rel="prefetch" href="//example.com/industry-qualification-audit/js/common-main.550d4.chunk.js">
-<link rel="prefetch" href="//example.com/industry-qualification-audit/js/Food.86661.chunk.js">
 ```
 
 ## 预解析DNS
