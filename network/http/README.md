@@ -332,9 +332,9 @@ Access-Control-Expose-Headers
 
 ```text
 绝对时间: 服务端下发的时间，但是客户端可能不一致
-Expires: Thu，21 Jan 2017 23:39:02 GMT 
+Expires: Thu，21 Jan 2017 23:39:02 GMT
 
-相对时间: 以客户端为准，单位为秒；两个都下发的话，以此为标准
+相对时间: 以客户端为准，单位为秒；Expires 也下发的话，以此为标准
 Cache-Controll: max-age=3600
 ```
 
@@ -363,17 +363,17 @@ If-Range: entity-tag/HTTP-date
 **条件响应头**
 
 ```text
-上次修改时间，服务器下发的
-Last-Modified
-
-服务端响应给客户端的，客户端可以通过 If-None-Match 携带此值
+服务端响应给客户端的，客户端可以通过 If-None-Match 发送给服务端进行对比
 Etag
+
+上次修改时间，客户端可以通过 If-None-Match 发送给服务端进行对比
+Last-Modified
 ```
 
 #### Cache-Control
 
 ```text
-max-age: 指定多久后过期【Expirses 指代什么时候过期】。CSS 和 Javascript 文件可以这样设置。
+max-age: 指定多久后过期。CSS 和 Javascript 文件可以这样设置。
 
 no-cache: 表明必须向服务器发送一次请求，该请求头部必须携带 If-None-Match 等校验信息。服务端将会验证资源是否被修改过。HTML 文件可以这样设置。
 
