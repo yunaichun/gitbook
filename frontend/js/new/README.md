@@ -2,9 +2,7 @@
 
 > new 原理学习笔记。
 
-## 清除浮动
-
-> 利用伪元素清除浮动。
+## new 原理
 
 ```js
 function fakeNew(object) {
@@ -13,14 +11,14 @@ function fakeNew(object) {
     // == 等价于
 	// == let obj = {};
 	// == obj.__proto__ = object.prototype;
+    
     // == 2、执行构造函数中的代码（为这个对象添加属性和方法）
     let k = object.call(obj);
     // == 3、返回对象
 	if (typeof k === 'object') {
 		return k;
-	} else {
-		return obj;
-	}
+    }
+    return obj;
 }
 
 let M = function(name) {
@@ -31,7 +29,7 @@ let obj = fakeNew(M);
 console.log(obj instanceof M);
 ```
 
-## instanceof 的原理
+## instanceof 原理
 
 ```js
 const A = function() {}
