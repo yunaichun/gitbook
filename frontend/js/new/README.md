@@ -1,0 +1,51 @@
+## 简介
+
+> new 原理学习笔记。
+
+## 清除浮动
+
+> 利用伪元素清除浮动。
+
+```js
+function fakeNew(object) {
+    // == 1. 创建对象，同时设置该对象的 __proto__ 属性
+    let obj = Object.create(object.prototype);
+    // == 等价于
+	// == let obj = {};
+	// == obj.__proto__ = object.prototype;
+    // == 2、执行构造函数中的代码（为这个对象添加属性和方法）
+    let k = object.call(obj);
+    // == 3、返回对象
+	if (typeof k === 'object') {
+		return k;
+	} else {
+		return obj;
+	}
+}
+
+let M = function(name) {
+	this.name = name;
+}
+let obj = fakeNew(M);
+
+console.log(obj instanceof M);
+```
+
+## instanceof 的原理
+
+```js
+const A = function() {}
+const a = new A();
+
+// == a instanceof A 等价于 a.__proto__ === A.prototype
+console.log(a instanceof A);
+console.log(a.__proto__ === A.prototype);
+console.log(A.prototype.__proto__ === Object.prototype);
+
+// == 判断实例是哪个构造函数实例的：
+console.log(a.constructor === A);
+```
+
+## 参考资料
+
+- [JavaScript专题之模拟实现new](https://zhuanlan.zhihu.com/p/49210829)
