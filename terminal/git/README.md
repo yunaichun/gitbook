@@ -40,6 +40,19 @@ git log --pretty=oneline
 git reflog
 ```
 
+## 撤销修改
+
+```text
+1、add 之前
+git checkout -- fileName（可以恢复没有git add 但是rm file的操作）
+
+2、add 之后，commit 之前
+git reset HEAD fileName
+
+3、commit 之后
+git reset --hard commitid
+```
+
 ## 本地分支操作
 
 ```text
