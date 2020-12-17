@@ -32,7 +32,9 @@ child.reads.english = true;
 console.log(child.reads, parent.reads); 
 ```
 
-## Object.assign 和 扩展运算符 只能实现浅拷贝
+## Object.assign和扩展运算符
+
+**引用类型的值会相互传递，是浅拷贝**
 
 ```js
 const obj = { a: { b: 1}};
