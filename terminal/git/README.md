@@ -71,14 +71,10 @@ git checkout dev(上面两步等价于 git checkout -b dev)
 4、删除本地分支
 git branch -d dev
 
-5、删除远程分支
-git push origin --delete 远程分支
-
-6、合并本地分支至master分支（在master分支执行操作）
-git merge dev
+5、合并本地分支至master分支（在master分支执行操作）
 git merge --no-ff -m ""  dev 
 
-7、合并其他分支指定 commit 至指定分支（在当前分支执行操作）
+6、合并其他分支指定 commit 至指定分支（在当前分支执行操作）
 git cherry-pick commitid
 ```
 
@@ -97,7 +93,10 @@ git checkout -b dev origin/dev
 4、推送本地分支至远程
 git push origin (master dev)
 
-5、更新本地分支
+5、删除远程分支
+git push origin --delete 远程分支
+
+6、更新本地分支
 git pull
 ```
 
