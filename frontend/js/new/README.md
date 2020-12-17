@@ -44,6 +44,16 @@ console.log(A.prototype.__proto__ === Object.prototype);
 console.log(a.constructor === A);
 ```
 
+## Object.create 与 new 的区别
+
+```js
+const a = { x: 1 };
+const b = new Object(a);
+const c = Object.create(a);
+console.log(b.__proto__ === Object.prototype);
+console.log(c.__proto__ === a);
+```
+
 ## 参考资料
 
 - [JavaScript专题之模拟实现new](https://zhuanlan.zhihu.com/p/49210829)
