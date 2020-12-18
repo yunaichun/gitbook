@@ -29,21 +29,6 @@ let obj = fakeNew(M);
 console.log(obj instanceof M);
 ```
 
-## instanceof 原理
-
-```js
-const A = function() {}
-const a = new A();
-
-// == a instanceof A 等价于 a.__proto__ === A.prototype
-console.log(a instanceof A);
-console.log(a.__proto__ === A.prototype);
-console.log(A.prototype.__proto__ === Object.prototype);
-
-// == 判断实例是哪个构造函数实例的：
-console.log(a.constructor === A);
-```
-
 ## Object.create 与 new 的区别
 
 ```js
