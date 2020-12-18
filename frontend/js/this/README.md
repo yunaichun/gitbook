@@ -1,6 +1,6 @@
 ## 简介
 
-> js 节流与防抖学习笔记。
+> this 关键字学习笔记。
 
 ## 节流
 
@@ -16,4 +16,4 @@
 
 ## 参考资料
 
-- []()
+- [彻底理解js中this的指向](https://mp.weixin.qq.com/s/KtIujq2Iq3YTHvWevJw8Cg)
