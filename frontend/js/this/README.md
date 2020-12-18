@@ -103,6 +103,19 @@ console.log(a.user); // undefined
 console.log(a instanceof fn); // false
 ```
 
+#### 构造函数中通过 bind 函数改变 this 指向
+
+```js
+var name = 'name1';
+function A(name) {
+    this.name = name
+    setTimeout(function() {
+        console.log(this.name);
+    }.bind(this));
+}
+var a = new A('name2'); // name2
+```
+
 ## 箭头函数
 
 ```text

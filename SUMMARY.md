@@ -19,7 +19,7 @@
     * [深拷贝](./frontend/js/copy/README.md)
     * [new实现](./frontend/js/new/README.md)
     * [reduce实现](./frontend/js/reduce/README.md)
-    * [promise原理](./frontend/js/promise/README.md)
+    * [promise实现](./frontend/js/promise/README.md)
     * [generator原理](./frontend/js/generator/README.md)
     * [async原理](./frontend/js/async/README.md)
   * [TypeScript]()
