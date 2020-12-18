@@ -1,8 +1,8 @@
 ## 简介
 
-> reduce 原理学习笔记。
+> reduce 实现学习笔记。
 
-## reduce 原理
+## reduce 实现
 
 ```js
 // == reduce 的思想是归并的思想

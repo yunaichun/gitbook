@@ -1,8 +1,8 @@
 ## 简介
 
-> new 原理学习笔记。
+> new 实现学习笔记。
 
-## new 原理
+## new 实现
 
 ```js
 function fakeNew(object) {
