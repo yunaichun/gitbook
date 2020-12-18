@@ -125,7 +125,6 @@ myObj.showThis();
 console.log(myObj.name); // name2
 ```
 
-
 ## 参考资料
 
 - [彻底理解js中this的指向](https://mp.weixin.qq.com/s/KtIujq2Iq3YTHvWevJw8Cg)
