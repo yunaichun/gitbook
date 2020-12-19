@@ -6,8 +6,11 @@
 
 #### 插件安装
 
-```text
+```bash
+# babel 
 npm install  babel-loader @babel/core  --save-dev
+
+# presets
 npm  install  @babel/preset-env  --save-dev
 ```
 
@@ -32,18 +35,18 @@ babel-preset-react
 
 #### 全局垫片
 
-```text
-安装: 为应用准备
+```bash
+# 安装: 为应用准备
 npm install babel-polyfill --save
 
-使用
+# 使用
 import 'babel-polyfill'
 ```
 
 #### 局部垫片
 
-```text
-安装: 为开发框架准备
+```bash
+# 安装: 为开发框架准备
 npm install @babel/plugin-transform-runtime --save-dev
 ```
 
@@ -76,27 +79,27 @@ module.exports = {
   },
 };
 ```
-npm i typescipt ts-loader  --save-dev
-npm i typescipt awesome-typescript-loader  --save-dev
 
 ## 编译JS
 
-
 #### 插件安装
 
-```text
-npm i typescipt ts-loader  --save-dev
-npm i typescipt ts-node  --save-dev
+```bash
+# ts-loader
+npm i typescipt ts-loader --save-dev
+
+# ts-node
+npm i typescipt ts-node --save-dev
 ```
 
 #### 安装申明文件
 
-```text
-法一：
+```bash
+# 法一
 npm install @types/lodash --save
 npm install @types/vue --save
 
-法二：
+# 法二
 npm install typings -g
 typings install lodash --save
 ```
@@ -138,9 +141,9 @@ module.exports = {
 
 - [webpack 官方文档](https://webpack.js.org/)
 - [babel 官方文档](https://babeljs.io/)
-- [极客时间 - 玩转 webpack](https://time.geekbang.org/course/intro/100028901)
-- [开课吧 - 3步助你理解webpack构建原理](https://learn.kaikeba.com/catalog/211875)
-- [字节跳动 - Webpack 揭秘](https://juejin.im/post/6844903685407916039)
+- [玩转 webpack](https://time.geekbang.org/course/intro/100028901)
+- [3步助你理解webpack构建原理](https://learn.kaikeba.com/catalog/211875)
+- [Webpack揭秘——走向高阶前端的必经之路 ](https://juejin.im/post/6844903685407916039)
 - [webpack4 新特性](https://lz5z.com/webpack4-new/)
 - [Babel是如何读懂JS代码的](https://zhuanlan.zhihu.com/p/27289600)
 - [Babel 的工作原理以及怎么写一个 Babel 插件](https://cloud.tencent.com/developer/article/1520124)
