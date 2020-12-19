@@ -1,6 +1,16 @@
 ## 简介
 
-> Webpack 优化打包速度学习笔记。
+> webpack 优化打包速度学习笔记。
+
+## 打包结果分析
+
+```js
+// == 1、官方分析工具: http://webpack.github.io/analyse
+webpack --profile --json > stats.json
+
+// == 2、插件: webpack-bundle-analyzer
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+```
 
 ## 如何优化代码构建速度
 
@@ -35,6 +45,7 @@ optimization.minimizer 里通过 terser-webpack-plugin 代码并行压缩（para
 
 ```js
 module.exports = {
+  mode: 'production',
   module: {
     rules: [
       // == 加载 js

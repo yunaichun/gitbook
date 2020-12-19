@@ -1,6 +1,6 @@
 ## 简介
 
-> Webpack 编译JS和TS学习笔记。
+> webpack 编译JS和TS学习笔记。
 
 ## 编译ES 6/7 
 

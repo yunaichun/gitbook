@@ -1,6 +1,6 @@
 ## 简介
 
-> Webpack 代码分割学习笔记。
+> webpack 代码分割学习笔记。
 
 ## 优点
 
@@ -69,7 +69,7 @@ module.exports = {
 ## 异步代码分割
 
 ```js
-// import 动态引用模块，指定模块名称
+// == import 动态引用模块，指定模块名称
 import(
     /* webpackChunkName: async-chunk-name */
     /* webpackMode: lazy */

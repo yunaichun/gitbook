@@ -1,6 +1,6 @@
 ## 简介
 
-> Webpack 学习笔记。
+> webpack 学习笔记。
 
 ## 前端构建必要性
 
@@ -61,21 +61,11 @@ Plugin： 用来定义webpack打包过程的方式，一个插件是含有apply�
 ## Tree-shaking是什么
 
 ```text
-Tree-shaking是指在打包中剔除哪些引入了，但是在代码中没有被用到的那些死代码。
+Tree-shaking 是指在打包中剔除哪些引入了，但是在代码中没有被用到的那些死代码
 
-在webpack3中Tree-shaking是通过UglifyJSPlugin来Tree-shaking JS；
+在 webpack3 中 Tree-shaking 是通过 UglifyJSPlugin 来 Tree-shaking JS
 
-CSS需要使用Purify-CSS做到Tree-shaking
-```
-
-## 如何做到长缓存优化
-
-```text
-浏览器在用户访问页面的时候，为了加快加载速度，会对用户访问的静态资源进行存储，
-但是每一次代码升级或是更新，都需要浏览器去下载新的代码，最方便和简单的更新方式就是引入新的文件名称。
-
-在webpack中可以在output给输出的文件指定chunkhash，并且分离经常更新的代码和框架代码。
-通过NamedModulesPlugin或是HashedModuleIdsPlugin使未修改的文件再次打包文件名不变。
+CSS需要使用 Purify-CSS 做到 Tree-shaking
 ```
 
 ## 框架对比
