@@ -2,7 +2,7 @@
 
 > webpack 自定义 plugin 学习笔记。
 
-## 内容替换 plugin
+## 打包源文件 plugin
 
 ```js
 const path = require('path');
@@ -58,6 +58,7 @@ class ZipPlugin {
 }
 module.exports = ZipPlugin;
 ```
+
 ## webpack 引入插件
 
 ```js
@@ -77,7 +78,6 @@ module.exports = {
         }),
     ]
 }
-
 ```
 
 ## 参考资料

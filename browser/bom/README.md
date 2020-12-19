@@ -177,20 +177,6 @@ ev.addEventListener('click', function (e) {
 5、当前点击对象：event.target
 ```
 
-#### Event对象的常见应用
-
-```text
-1、阻止默认行为：event.preventDefault()
-
-2、阻止默认行为：event.stopPropagation()
-
-3、阻止相同事件：event.stopImmediatePropagation() 【一个按钮绑定多个click事件】
-
-4、绑定事件对象：event.currentTarget
-
-5、当前点击对象：event.target
-```
-
 #### 自定义事件
 
 **Event**
