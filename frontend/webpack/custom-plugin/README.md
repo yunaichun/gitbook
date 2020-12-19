@@ -1,6 +1,6 @@
 ## 简介
 
-> webpack 学习笔记。
+> webpack 自定义 plugin 学习笔记。
 
 ## 简介
 
