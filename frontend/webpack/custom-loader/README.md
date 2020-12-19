@@ -139,6 +139,10 @@ runLoaders({
 });
 ```
 
+## 项目地址
+
+地址: https://github.com/yunaichun/webpack-study
+
 ## 参考资料
 
 - [webpack 官方文档](https://webpack.js.org/)

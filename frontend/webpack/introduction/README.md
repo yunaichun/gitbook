@@ -81,6 +81,10 @@ gulp严格上讲，模块化不是他强调的东西，他旨在规范前端开�
 webpack更是明显强调模块化开发，而那些文件压缩合并、预处理等功能，不过是他附带的功能。（目的是模块化开发）
 ```
 
+## 项目地址
+
+地址: https://github.com/yunaichun/webpack-study
+
 ## 参考资料
 
 - [webpack 官方文档](https://webpack.js.org/)

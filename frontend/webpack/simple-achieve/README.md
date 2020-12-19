@@ -72,7 +72,6 @@ module.exports = {
 ## webpack 编译函数
 
 ```js
-
 const fs = require('fs');
 const path = require('path');
 const { getAST, getDependencis, transform } = require('./parser');
@@ -206,6 +205,10 @@ module.exports = class Compiler {
     },
 })
 ```
+
+## 项目地址
+
+地址: https://github.com/yunaichun/webpack-study
 
 ## 参考资料
 
