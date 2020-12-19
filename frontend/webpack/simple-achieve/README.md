@@ -2,16 +2,6 @@
 
 > webpack 简易实现学习笔记。
 
-## webpack 编译入口
-
-```js
-const Compiler = require('./compiler');
-const options = require('../simplepack.config');
-
-const compiler = new Compiler(options);
-compiler.run();
-```
-
 ## webpack 配置文件
 
 ```js
@@ -25,6 +15,16 @@ module.exports = {
         filename: 'main.js'
     }
 };
+```
+
+## webpack 编译入口
+
+```js
+const Compiler = require('./compiler');
+const options = require('../simplepack.config');
+
+const compiler = new Compiler(options);
+compiler.run();
 ```
 
 ## babel 解析工具
