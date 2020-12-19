@@ -58,22 +58,12 @@ Loader：处理非JS文件；转化为JS模块；
 Plugin： 用来定义webpack打包过程的方式，一个插件是含有apply方法的对象，通过这个方法可以参与到整个webpack打包的各个流程（生命周期）。
 ```
 
-## webpack-dev-server和模块热更新是什么
-
-```text
-1、webpack-dev-server和http服务器如nginx有什么区别？（Express+hot-middleware）
-webpack-dev-server使用内存来存储webpack开发环境下的打包文件，并且可以使用模块热更新，他比传统http服务队开发更加简单有效。
-
-2、什么是模块热更新？（websocket连接）
-是webpack的一个功能，可以使修改后的代码不用刷新浏览器就可以更新，是高级版的自动刷新浏览器。
-```
-
 ## Tree-shaking是什么
 
 ```text
-Tree-shaking是指在打包中取出哪些引入了，但是在代码中没有被用到的那些死代码。
+Tree-shaking是指在打包中剔除哪些引入了，但是在代码中没有被用到的那些死代码。
 
-在webpack中Tree-shaking是通过UglifyJSPlugin来Tree-shaking JS；
+在webpack3中Tree-shaking是通过UglifyJSPlugin来Tree-shaking JS；
 
 CSS需要使用Purify-CSS做到Tree-shaking
 ```
