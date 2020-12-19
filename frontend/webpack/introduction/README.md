@@ -2,7 +2,7 @@
 
 > Webpack 学习笔记。
 
-## 为什么前端需要构建？
+## 前端构建必要性
 
 ```text
 开发复杂化：开发越来越复杂
@@ -14,7 +14,7 @@
 开发模块化
 ```
 
-## 什么是webpack？为什么选择webpack？
+## webpack是什么
 
 ```text
 webpac 是一个模块打包器，它可以递归的打包项目中的所有模块，最终生成几个打包后的文件。
@@ -40,7 +40,7 @@ V3: Scope Hoisting（作用域提升、打包后性能提升）、Magic Comments
 V4: 零配置概念、模式（mode）、optimization(优化)；
 ```
 
-## 什么是bundle、chunk、module？
+## bundle、chunk、module是什么
 
 ```text
 chunk：代码块；懒加载代码块（require.ensure）、提取公共的代码块（commensChunkPlugin）、动态加载的代码块（import）；
@@ -50,7 +50,7 @@ bundle：一堆资源（assets）合并在一起；
 module：loaders处理完的文件都是一个一个的模块（如图片、csss等）；
 ```
 
-## 什么是Loader、Plugin？
+## Loader、Plugin是什么
 
 ```text
 Loader：处理非JS文件；转化为JS模块；
@@ -58,7 +58,7 @@ Loader：处理非JS文件；转化为JS模块；
 Plugin： 用来定义webpack打包过程的方式，一个插件是含有apply方法的对象，通过这个方法可以参与到整个webpack打包的各个流程（生命周期）。
 ```
 
-## webpack-dev-server 和模块热更新是什么？
+## webpack-dev-server和模块热更新是什么
 
 ```text
 1、webpack-dev-server和http服务器如nginx有什么区别？（Express+hot-middleware）
@@ -68,17 +68,17 @@ webpack-dev-server使用内存来存储webpack开发环境下的打包文件，�
 是webpack的一个功能，可以使修改后的代码不用刷新浏览器就可以更新，是高级版的自动刷新浏览器。
 ```
 
-## 什么是Tree-shaking？CSS可以Tree-shaking吗？
+## Tree-shaking是什么
 
 ```text
 Tree-shaking是指在打包中取出哪些引入了，但是在代码中没有被用到的那些死代码。
 
 在webpack中Tree-shaking是通过UglifyJSPlugin来Tree-shaking JS；
 
-CSS需要使用Purify-CSS。
+CSS需要使用Purify-CSS做到Tree-shaking
 ```
 
-## 什么是长缓存？在webpack中如何做到长缓存优化？
+## 如何做到长缓存优化
 
 ```text
 浏览器在用户访问页面的时候，为了加快加载速度，会对用户访问的静态资源进行存储，
@@ -88,25 +88,36 @@ CSS需要使用Purify-CSS。
 通过NamedModulesPlugin或是HashedModuleIdsPlugin使未修改的文件再次打包文件名不变。
 ```
 
-## 如何优化代码build速度？
+## 如何优化代码构建速度
 
 ```text
-1、减少babel-loader处理范围，开启缓存options.cacheDirectory
+1、缩小构建范围
+减少 babel-loader 处理范围
+减少 resolve 查找文件范围
 
-2、去掉sourcemap配置，减少resolve，
+2、使用 TreeShaking 擦除无用的 CSS
+plugin 里通过 purgecss-webpack-plugin 插件去除无用的css类（需要配合 mini-css-extract-plugin 插件一起使用）
+plugin 里通过 optimize-css-assets-webpack-plugin 插件开启压缩和优化css
 
-3、分离第三方vendor代码和业务app代码
-DLLPlugin：会生成一个 map 的 JSON 文件，与打包文件一一对应映射关系
-DLLReferencePlugin：在打包 app 的时候回引用这个映射关系
+3、预编译资源模块
+webpack.DllPlugin: 会生成一个 map 的 JSON 文件，与打包文件一一对应映射关系
+webpack.DLLReferencePlugin: 在打包 app 的时候回引用这个映射关系
 
-4、UglifyJsPlugin中使用parallel（平行线程并行处理）和cache配置（使用缓存）
+4、利用缓存提升二次构建速度
+babel-loader 通过设置 babel-loader?cacheDirectory=true 开启转换js语法缓存
+optimization.minimizer 里通过 terser-webpack-plugin 开启代码压缩时开启缓存（cache: true）
+plugin 里通过 hard-source-webpack-plugin 插件开启硬件缓存
 
-5、使用happypack使loader可以并行处理，减少文件处理的时间，
-cache-loader缓存loader处理的结果，
-升级node和webpack
+5、开启多进程
+loader 里通过 thread-loader 多进程构建、
+optimization.minimizer 里通过 terser-webpack-plugin 代码并行压缩（parallel: true）
+
+6、其他
+去掉 sourcemap 配置
+升级 node 和 webpack
 ```
 
-## 对比
+## 框架对比
 
 ```text
 1、rollup
