@@ -1,11 +1,96 @@
 ## 简介
 
-> Webpack 学习笔记。
+> Webpack 处理资源文件学习笔记。
 
-## 简介
+## 安装
 
-```text
+```bash
+# 处理图片和字体
+npm install file-loader --save-dev
 
+# 压缩图片
+npm install image-webpack-loader  --save-dev
+
+# 生成HTML
+npm install html-webpack-plugin  --save-dev 
+```
+
+## webpack 配置
+
+```js
+module.exports = {
+  module: {
+    rules: [
+      // == 加载图片
+      {
+        test: /.(png|jpg|gif|jpeg)$/,
+        use: [
+          // == 加载图片
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 5000,
+              name: '[name]_[hash:8].[ext]',
+            },
+          },
+          // == 压缩图片
+          {
+            loader: 'image-webpack-loader',
+            options: {
+              mozjpeg: {
+                progressive: true,
+                quality: 65,
+              },
+              // optipng.enabled: false will disable optipng
+              optipng: {
+                enabled: false,
+              },
+              pngquant: {
+                quality: [0.65, 0.90],
+                speed: 4,
+              },
+              gifsicle: {
+                interlaced: false,
+              },
+              // the webp option will enable WEBP
+              webp: {
+                quality: 75,
+              },
+            },
+          },
+        ],
+      },
+      // == 加载字体
+      {
+        test: /.(woff|woff2|eot|ttf|otf)$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[name]_[hash:8][ext]',
+            },
+          },
+        ],
+      },
+    ],
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      inject: true,
+      filename: `${pageName}.html`,
+      template: path.join(projectRoot, `./src/${pageName}/index.html`),
+      chunks: ['vendors', pageName],
+      minify: {
+        html5: true,
+        minifyJS: true,
+        minifyCSS: true,
+        removeComments: false,
+        collapseWhitespace: true,
+        preserveLineBreaks: false,
+      },
+    })
+  ]
+};
 ```
 
 ## 参考资料
