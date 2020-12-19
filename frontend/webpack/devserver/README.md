@@ -8,9 +8,11 @@
 1、配置 webpack-dev-server 和模块热更新
 npm install webpack-dev-server --save-dev
 
-2、开启SourceMap调试
+2、开启 SourceMap 调试
 
-3、设置ESLint
+3、plugins 添加构建异常和终端处理
+
+4、设置ESLint
 npm install eslint babel-eslint eslint-config-airbnb-base eslint-config-standard --save-dev
 ```
 
@@ -44,11 +46,20 @@ module.exports = {
     contentBase: './dist',
     stats: 'errors-only',
   },
-  plugins: [
-    new webpack.HotModuleReplacementPlugin(),
-  ],
   // == 开启 source map
   devtool: 'cheap-source-map',
+  plugins: [
+    new webpack.HotModuleReplacementPlugin(),
+    // == 构建异常和终端处理
+    function errorPlugin() {
+      this.hooks.done.tap('done', (stats) => {
+        if (stats.compilation.errors && stats.compilation.errors.length && process.argv.indexOf('--watch') === -1) {
+          process.exit(1);
+        }
+      });
+    },
+  ],
+  stats: 'errors-only',
 };
 ```
 

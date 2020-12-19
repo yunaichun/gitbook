@@ -32,7 +32,7 @@
     * [处理样式](./frontend/webpack/style/README.md)
     * [处理资源文件](./frontend/webpack/file/README.md)
     * [开发环境配置](./frontend/webpack/devserver/README.md)
-    * [优化打包速度](./frontend/webpack/optimization-build/README.md)
+    * [打包速度优化](./frontend/webpack/optimization-build/README.md)
     * [长缓存优化](./frontend/webpack/optimization-cache/README.md)
     * [自定义插件](./frontend/webpack/custom-plugin/README.md)
     * [自定义loader](./frontend/webpack/custom-loader/README.md)

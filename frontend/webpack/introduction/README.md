@@ -78,35 +78,6 @@ CSS需要使用Purify-CSS做到Tree-shaking
 通过NamedModulesPlugin或是HashedModuleIdsPlugin使未修改的文件再次打包文件名不变。
 ```
 
-## 如何优化代码构建速度
-
-```text
-1、缩小构建范围
-减少 babel-loader 处理范围
-减少 resolve 查找文件范围
-
-2、使用 TreeShaking 擦除无用的 CSS
-plugin 里通过 purgecss-webpack-plugin 插件去除无用的css类（需要配合 mini-css-extract-plugin 插件一起使用）
-plugin 里通过 optimize-css-assets-webpack-plugin 插件开启压缩和优化css
-
-3、预编译资源模块
-webpack.DllPlugin: 会生成一个 map 的 JSON 文件，与打包文件一一对应映射关系
-webpack.DLLReferencePlugin: 在打包 app 的时候回引用这个映射关系
-
-4、利用缓存提升二次构建速度
-babel-loader 通过设置 babel-loader?cacheDirectory=true 开启转换js语法缓存
-optimization.minimizer 里通过 terser-webpack-plugin 开启代码压缩时开启缓存（cache: true）
-plugin 里通过 hard-source-webpack-plugin 插件开启硬件缓存
-
-5、开启多进程
-loader 里通过 thread-loader 多进程构建、
-optimization.minimizer 里通过 terser-webpack-plugin 代码并行压缩（parallel: true）
-
-6、其他
-去掉 sourcemap 配置
-升级 node 和 webpack
-```
-
 ## 框架对比
 
 ```text
