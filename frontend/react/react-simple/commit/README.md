@@ -1,14 +1,16 @@
 ## 简介
 
-> React 简易实现-commit学习笔记。
+> React 简易实现-Render and Commit Phases学习笔记。
 
-## 存在缺陷
+## 上一节存在问题
 
 ```js
 function performUnitOfWork() {
+    // ...
     if (fiber.parent) {
         fiber.parent.dom.appendChild(fiber.dom);
     }
+    // ...
 }
 ```
 
