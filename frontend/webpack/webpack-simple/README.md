@@ -208,7 +208,7 @@ module.exports = class Compiler {
 
 ## 项目地址
 
-地址: https://github.com/yunaichun/webpack-study
+地址: https://github.com/yunaichun/webpack-study/webpack-simple
 
 ## 参考资料
 
