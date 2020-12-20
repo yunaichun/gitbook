@@ -2,7 +2,7 @@
 
 > React 简易实现-JSX的本质学习笔记。
 
-## JSX是什么
+## JSX 是什么
 
 ```text
 JSX 实质会被 react 的 createElement 方法解析；返回一个数据对象。
