@@ -52,7 +52,7 @@
       * [redux-promise](./frontend/react/redux/redux-promise/README.md)
       * [Provider与connect](./frontend/react/redux/provider-connect/README.md)
     * [React简易实现]()
-      * [@babel/plugin-transform-react-jsx](./frontend/react/react-simple/babel-plugin/README.md)
+      * [JSX的本质](./frontend/react/react-simple/jsx/README.md)
       * [createElement](./frontend/react/react-simple/createElement/README.md)
       * [render](./frontend/react/react-simple/render/README.md)
       * [Concurrent Mode](./frontend/react/react-simple/Concurrent/README.md)
