@@ -71,6 +71,7 @@ export default function bindActionCreators(actionCreators, dispatch) {
 
 ```js
 function getData(option) {
+    // == 返回的结果不是标准的 action，是一个函数: 通过 redux-thunk 中间件处理
     return dispatch => {
         return Get(url, option).then(res => {
             dispatch({ type, payload });
@@ -104,6 +105,7 @@ export default connect(
 ```js
 export const actionObj = {
     getData(option) {
+        // == 返回的结果不是标准的 action，是一个函数: 通过 redux-thunk 中间件处理
         return dispatch => {
             return Get(url, option).then(res => {
                 dispatch({ type, payload });

@@ -45,6 +45,8 @@ export default function promiseMiddleware({ dispatch }) {
 ## 执行逻辑
 
 ```text
+以 action 不是标准的 FSA 对象为例，action 是标准的 FSA 对象逻辑分析一致:
+
 action 为 Promise 函数的话，执行此 Promise 函数，传入 dispatch，
 
 然后可以在此 Promise 函数的 then 方法里再调用 dispatch 方法真正的改变应用的状态。
@@ -57,8 +59,7 @@ action 为 Promise 函数的话，执行此 Promise 函数，传入 dispatch，
 ```js
 export const actionObj = {
     getData(option) {
-        // == 返回的结果不是标准的 action，是一个 Promise
-        // == 通过 redux-promise 中间件处理
+        // == 返回的结果不是标准的 action，是一个函数: 通过 redux-promise 中间件处理
         return new Promise((res, rej) => {
           res({type, payload})
         });
