@@ -2,7 +2,7 @@
 
 > Redux bindActionCreator 源码及使用学习笔记。
 
-## 用途：
+## 用途
 
 ```text
 配合 react-redux 的 connect 使用，可以不让组件察觉到 Redux 的存在，

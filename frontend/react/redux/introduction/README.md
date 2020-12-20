@@ -42,14 +42,6 @@
 非标准的 action redux是怎么处理，后面到中间件的时候会详细分析。
 ```
 
-#### subscribe
-
-```text
-是一个函数；
-
-接收一个 listener 参数，内部完成对监听的收集，类似 Promise.then、express/koa 的 app.use 完成中间件(监听)的收集。
-```
-
 #### dispatch
 
 ```text
@@ -60,6 +52,14 @@
 核心是完成 2 个操作：
 1、内部去调用 reducer 函数，去改变 store 的状态；
 2：遍历执行收集的所有监听函数。
+```
+
+#### subscribe
+
+```text
+是一个函数；
+
+接收一个 listener 参数，内部完成对监听的收集，类似 Promise.then、express/koa 的 app.use 完成中间件(监听)的收集。
 ```
 
 #### enhancer
