@@ -93,8 +93,6 @@ export default function applyMiddleware(...middlewares) {
 在中间件中传递 store 参数，相当于 applyMiddleware 传递 middlewareAPI
 
 在中间件中传递 next 参数，相当于 applyMiddleware 传递 store.dispatch
-
-最后返回一个接收 action 为参数的函数，此函数就是 dispatch 函数的表现。所以说增强了dispatch 方法。
 ```
 
 ## 日志打印中间件
