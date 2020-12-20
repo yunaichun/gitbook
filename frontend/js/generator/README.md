@@ -2,7 +2,39 @@
 
 > Generator 自动管理流程学习笔记。
 
-## Generator-Thunk函数
+## Generator 使用
+
+```text
+1、执行g.next(): 得到的是 yield 后面的值
+
+2、执行g.next(value): 会将上一步 yield 后面的值设置为 value
+
+3、执行g.return(value): 得到结果为 { value, done: true }
+
+
+4、Generator 函数是遍历器函数，执行 Generator 函数会生成遍历器对象；遍历器对象具有遍历器接口如下；
+例: function* numbers() { yield 1; yield 2; return 3; yield 4; }
+
+扩展运算符: [...numbers()] // [1, 2]
+
+Array.form 方法: Array.from(numbers()) // [1, 2]
+
+解构赋值（不需要调用next方法）: let [x, y] = numbers(); // 1 2
+
+for...of 不需要调用next方法）: for (let n of numbers()) { console.log(n); } // 1 2
+
+
+5、某对象的 Symbol.iterator 属性为遍历器函数，则 该对象 变为遍历器对象，具有遍历器接口。例：
+function* gen() {}
+let g = gen(); // g 为遍历器对象
+g[Symbol.iterator] === gen
+g[Symbol.iterator]() === g
+
+
+6、yield*：在一个 Generator 函数执行另一个 Generator 函数，yield* 后面跟遍历器对象。
+```
+
+## Thunk函数自动执行
 
 #### Thunk函数定义
 
@@ -73,7 +105,7 @@ function run(genFuc) {
 run(genFuc);
 ```
 
-## Generator-Promise对象
+## Promise对象自动执行
 
 #### Promise对象案例
 
@@ -129,39 +161,7 @@ function run(genFuc) {
 run(genFuc);
 ```
 
-## Generator注意点
-
-```text
-1、执行g.next(): 得到的是 yield 后面的值
-
-2、执行g.next(value): 会将上一步 yield 后面的值设置为 value
-
-3、执行g.return(value): 得到结果为 { value, done: true }
-
-
-4、Generator 函数是遍历器函数，执行 Generator 函数会生成遍历器对象；遍历器对象具有遍历器接口如下；
-例: function* numbers() { yield 1; yield 2; return 3; yield 4; }
-
-扩展运算符: [...numbers()] // [1, 2]
-
-Array.form 方法: Array.from(numbers()) // [1, 2]
-
-解构赋值（不需要调用next方法）: let [x, y] = numbers(); // 1 2
-
-for...of 不需要调用next方法）: for (let n of numbers()) { console.log(n); } // 1 2
-
-
-5、某对象的 Symbol.iterator 属性为遍历器函数，则 该对象 变为遍历器对象，具有遍历器接口。例：
-function* gen() {}
-let g = gen(); // g 为遍历器对象
-g[Symbol.iterator] === gen
-g[Symbol.iterator]() === g
-
-
-6、yield*：在一个 Generator 函数执行另一个 Generator 函数，yield* 后面跟遍历器对象。
-```
-
-## 斐波那契数列
+##斐波那契数列
 
 #### generator函数实现
 
