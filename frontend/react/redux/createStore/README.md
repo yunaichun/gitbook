@@ -142,7 +142,7 @@ function renderContent(newContent, oldContent = {}) {
 renderApp(store.getState());
 ```
 
-## 页面修改后渲染
+## 修改状态后渲染
 
 ```js
 /*修改标题文本*/
