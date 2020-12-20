@@ -20,7 +20,7 @@ function createThunkMiddleware(extraArgument) {
   // == 此处的 next 实际被传入的是 applyMiddleware.js 中的 store.dispatch
   return ({ dispatch, getState }) => next => action => {
     if (typeof action === 'function') {
-      // == 在 action 内部再调用 dispatch 方法真正的改变应用的状态
+      // == 执行 action 函数，在 action 内部再调用 dispatch 方法真正的改变应用的状态
       return action(dispatch, getState, extraArgument);
     }
     return next(action);
@@ -36,7 +36,7 @@ thunk.withExtraArgument = createThunkMiddleware;
 ```text
 action 为函数的话，执行此 action 函数，传入 dispatch 和 getState，
 
-然后可以在此 action 函数中实际再调用真实的 dispatch 方法去更改应用的状态。
+然后可以在此 action 函数内部再调用 dispatch 方法真正的改变应用的状态。
 ```
 
 ## 使用案例
