@@ -157,7 +157,8 @@ module.exports = {
 
 ## 参考资料
 
-- [mongoose 官方文档](http://mongoosejs.com/docs/guide.html)
+- [mongoosejs 官方文档](https://mongoosejs.com/docs/guide.html)
+- [mongoosejs 中文文档](http://www.mongoosejs.net/docs/guide.html)
 - [koa2入门（3）mongoose 增删改查](https://www.cnblogs.com/cckui/p/10429064.html)
 - [Mongoose 之 populate 使用](https://www.geekjc.com/post/5b1776a7ddaf2b2080df6bc5)
 - [消息队列(暂存)](https://cloud.tencent.com/developer/article/1543087)

@@ -12,3 +12,7 @@
 - [nodejs 中文文档](http://nodejs.cn/api/)
 - [koa 官方文档](http://koajs.com/)
 - [koa 中文文档](https://koa.bootcss.com/)
+- [mongoosejs 官方文档](https://mongoosejs.com/docs/guide.html)
+- [mongoosejs 中文文档](http://www.mongoosejs.net/docs/guide.html)
+- [Sequelize 官方文档](https://sequelize.org)
+- [Sequelize 中文文档](https://www.sequelize.com.cn)

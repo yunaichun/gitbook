@@ -169,6 +169,8 @@ module.exports = {
 
 ## 参考资料
 
+- [Sequelize 官方文档](https://sequelize.org)
+- [Sequelize 中文文档](https://www.sequelize.com.cn)
 - [廖雪峰 - 使用Sequelize](https://www.liaoxuefeng.com/wiki/1022910821149312/1101571555324224)
 - [详细易用的 Sequelize 解读](https://juejin.cn/post/6844903897673269255)
 - [sequelize model的常用方法](https://blog.csdn.net/skyblacktoday/article/details/104351477)
