@@ -69,7 +69,7 @@ export default function applyMiddleware(...middlewares) {
       dispatch: (...args) => dispatch(...args)
     }
 
-    // == 中间件第一个参数先传入 store
+    // == 中间件第一个参数先注入 store 的 getState 和 dispatch 方法
     const chain = middlewares.map(middleware => middleware(middlewareAPI))
 
     // == 中间件第二个参数传入 store.dispatch，此时返回一个新的 dispatch 函数

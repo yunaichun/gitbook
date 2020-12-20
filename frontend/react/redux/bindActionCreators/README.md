@@ -73,7 +73,7 @@ export default function bindActionCreators(actionCreators, dispatch) {
 function getData(option) {
     return dispatch => {
         return Get(url, option).then(res => {
-            dispatch(otherAction);
+            dispatch({ type, payload });
         });
     };
 }
@@ -89,8 +89,8 @@ export default connect(
     }),
     dispatch => {
         return {
-            // == 执行 this.props.getData(data) 等价于 dispatch(getData(data))
-            // == getData(data) 不是标准的 action，后续讲中间件会讲到
+            // == 执行 this.props.getData(data) 等价于 this.props.dispatch(getData(data))
+            // == getData(data) 不是标准的 action，而是一个函数，后续讲中间件会讲到
             getData: bindActionCreators(getData, dispatch)
         };
    }
@@ -106,7 +106,7 @@ export const actionObj = {
     getData(option) {
         return dispatch => {
             return Get(url, option).then(res => {
-                dispatch(otherAction);
+                dispatch({ type, payload });
             });
         };
     },
@@ -122,8 +122,8 @@ export default connect(
     }),
     dispatch => {
         return {
-            // == 执行 this.props.actions.getData(data) 等价于 dispatch(actionObj.getData(data))
-            // == actionObj.getData(data) 不是标准的 action，后续讲中间件会讲到
+            // == 执行 this.props.actions.getData(data) 等价于 this.props.dispatch(actionObj.getData(data))
+            // == actionObj.getData(data) 返回的结果不是标准的 action，而是一个函数，后续讲中间件会讲到
             actions: bindActionCreators(actionObj, dispatch)
         };
    }
