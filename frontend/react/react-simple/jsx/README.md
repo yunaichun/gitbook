@@ -9,7 +9,7 @@ JSX 实质会被 react 的 createElement 方法解析；返回一个数据对象
 
 下面我们通过 @babel/plugin-transform-react-jsx 插件来看一下。
 
-其作用是: 可以自定义解析 jsx 语法的函数名称。
+其作用是: 可以自定义解析 jsx 语法的 createElement 函数名称。
 ```
 
 ## webpack 配置
@@ -42,10 +42,10 @@ module.exports = {
 ## JSX 解析结果
 
 ```js
-import React, { createElement as simpleCreateElement } from 'react';
+import React, { createElement as createElementSimple } from 'react';
 import ReactDOM from 'react-dom';
 
-// == jsx 语法会被 simpleCreateElement 函数解析成一个对象
+// == jsx 语法会被 createElementSimple 函数解析成一个对象
 const element1 = <h1 title="foo">Hello</h1>;
 // console.log(11111, element1);
 
@@ -54,7 +54,7 @@ ReactDOM.render(element1, container);
 ```
 
 ```text
-上面 jsx 语法会被 simpleCreateElement 函数解析成一个对象，如下所示
+上面 jsx 语法会被 createElementSimple 函数解析成一个对象，如下所示
 
 {
   type: "h1",
@@ -65,14 +65,14 @@ ReactDOM.render(element1, container);
 }
 ```
 
-## simpleCreateElement 执行结果
+## createElementSimple 执行结果
 
 ```js
-import React, { createElement as simpleCreateElement } from 'react';
+import React, { createElement as createElementSimple } from 'react';
 import ReactDOM from 'react-dom';
 
-// == 执行 simpleCreateElement 函数，传入 type、props、children 之后，返回一个对象
-const element2 = simpleCreateElement(
+// == 执行 createElementSimple 函数，传入 type、props、children 之后，返回一个对象
+const element2 = createElementSimple(
   'h1',
   { title: 'foo' },
   'Hello'
@@ -84,7 +84,7 @@ ReactDOM.render(element1, container);
 ```
 
 ```text
-执行 simpleCreateElement 函数，传入 type、props、children 之后，返回一个对象，如下所示
+执行 createElementSimple 函数，传入 type、props、children 之后，返回一个对象，如下所示
 
 {
   type: "h1",
@@ -100,7 +100,7 @@ ReactDOM.render(element1, container);
 ```text
 上两步执行结果相同。由此可知 JSX 的本质是: 
 
-1、执行 simpleCreateElement 函数
+1、执行 createElementSimple 函数
 
 2、根据 dom 树结构传入 type、props、children 属性
 

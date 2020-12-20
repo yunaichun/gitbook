@@ -2,10 +2,10 @@
 
 > React 简易实现-createElement学习笔记。
 
-## simpleCreateElement 实现
+## createElementSimple 实现
 
 ```text
-由上一节可知 simpleCreateElement 本质:
+由上一节可知 createElementSimple 本质:
 
 1、参数: type、props、children 属性
 
@@ -13,7 +13,7 @@
 ```
 
 ```js
-export default function simpleCreateElement(type, props, ...children) {
+export default function createElementSimple(type, props, ...children) {
   return {
     type,
     props: {
@@ -60,11 +60,11 @@ const element = (
   </div>
 );
 // == 等价于
-// const element = simpleCreateElement(
+// const element = createElementSimple(
 //   "div",
 //   { id: "foo" },
-//   simpleCreateElement("a", null, "bar"),
-//   simpleCreateElement("b")
+//   createElementSimple("a", null, "bar"),
+//   createElementSimple("b")
 // );
 console.log(1111, element);
 ```
