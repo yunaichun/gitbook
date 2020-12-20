@@ -118,6 +118,7 @@ export const actionObj = {
 > connect
 
 ```js
+// == connect 的实现后续会讲到
 export default connect(
     state => ({
         data: state.data.toJSON(),
@@ -131,6 +132,10 @@ export default connect(
    }
 )(Index);
 ```
+
+## 源码阅读
+
+> 地址: https://github.com/yunaichun/react-study
 
 ## 参考资料
 

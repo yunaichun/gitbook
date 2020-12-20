@@ -57,6 +57,10 @@ Redux 可以看作是 Flux 架构的一种实现，相比 Flux 架构的不同�
 - bindActionCreators
 - applyMiddleware
 
+## 源码阅读
+
+> 地址: https://github.com/yunaichun/react-study
+
 ## 参考资料
 
 - [Redux官方文档](https://redux.js.org/introduction/getting-started)

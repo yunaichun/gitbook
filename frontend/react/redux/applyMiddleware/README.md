@@ -118,6 +118,10 @@ const logger = store => next => action => {
 即增强了 action 的类型
 ```
 
+## 源码阅读
+
+> 地址: https://github.com/yunaichun/react-study
+
 ## 参考资料
 
 - [Redux官方文档](https://redux.js.org/introduction/getting-started)
