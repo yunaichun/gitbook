@@ -7,7 +7,7 @@
 ```text
 可以参考文章 Redux 开发实用教程: https://www.devio.org/2019/03/04/redux-development-practical-tutorial。
 
-总结来说，Redux 可以看作是 Flux 架构的一种实现，相比 Flux 架构的不同之处是：
+Redux 可以看作是 Flux 架构的一种实现，相比 Flux 架构的不同之处是：
 1、Redux 只有一个 store
 2、没有 Dispatcher
 ```
@@ -17,7 +17,7 @@
 #### createStore
 
 ```text
-是一个函数；
+是一个函数：创建数据源；
 
 接收三个参数，reducer，preloadedState，enhancer；
 
@@ -27,7 +27,7 @@
 #### reducer
 
 ```text
-是一个函数；
+是一个函数：修改数据源；
 
 接收两个参数，intinalState、action；
 
@@ -37,7 +37,7 @@
 #### action
 
 ```text
-是一个标准的FSA对象，至少有一个 type 的属性。参考[flux-standard-action](https://www.npmjs.com/package/flux-standard-action)。
+是一个标准的FSA对象，至少有一个 type 的属性：代表修改数据源的类型。参考[flux-standard-action](https://www.npmjs.com/package/flux-standard-action)。
 
 非标准的 action redux是怎么处理，后面到中间件的时候会详细分析。
 ```
@@ -45,44 +45,14 @@
 #### dispatch
 
 ```text
-是一个函数；
+是一个函数：调用 reducer 修改数据源，同时遍历执行 subscribe 函数收集的所有监听函数。；
 
 接收 action 对象。被认为是改变整个 store 应用状态的唯一方法。
-
-核心是完成 2 个操作：
-1、内部去调用 reducer 函数，去改变 store 的状态；
-2：遍历执行收集的所有监听函数。
-```
-
-#### subscribe
-
-```text
-是一个函数；
-
-接收一个 listener 参数，内部完成对监听的收集，类似 Promise.then、express/koa 的 app.use 完成中间件(监听)的收集。
-```
-
-#### enhancer
-
-```text
-是一个函数，接收 createStore 返回一个增强的 createStore 方法。
-
-即如果存在 enhancer 参数，createStore(reducer, preloadedState, enhancer) 等价于 enhancer(createStore)(reducer, preloadedState)。
-```
-
-#### 整个应用的初始状态
-
-```text
-createStore 的第二个参数 preloadedState，
-
-reducer 的第一个参数 intinalState。
-
-优先级是前者大。可以参考: https://cn.redux.js.org/docs/recipes/reducers/InitializingState.html
 ```
 
 ## 核心方法
 
-- createStore
+- createStore: dispatch、subscribe、getState
 - combineReducers
 - bindActionCreators
 - applyMiddleware
