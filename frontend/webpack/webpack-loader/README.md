@@ -141,7 +141,7 @@ runLoaders({
 
 ## 项目地址
 
-地址: https://github.com/yunaichun/webpack-study/webpack-loader/webpack-loader
+地址: https://github.com/yunaichun/webpack-study/tree/master/webpack-loader
 
 ## 参考资料
 

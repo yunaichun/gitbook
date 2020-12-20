@@ -21,7 +21,7 @@ function createThunkMiddleware(extraArgument) {
   return ({ dispatch, getState }) => next => action => {
     if (typeof action === 'function') {
       // == 执行 action 函数，在 action 内部再调用 dispatch 方法真正的改变应用的状态
-      // == 这里传入 dispatch 在真正调用的时候传递的才是实际的实参
+      // == 这里传入 dispatch 只是形参，在真正调用的时候传入的 next 才是实参
       return action(dispatch, getState, extraArgument);
     }
     return next(action);

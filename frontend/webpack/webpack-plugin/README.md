@@ -82,7 +82,7 @@ module.exports = {
 
 ## 项目地址
 
-地址: https://github.com/yunaichun/webpack-study/webpack-plugin
+地址: https://github.com/yunaichun/webpack-study/tree/master/webpack-plugin
 
 ## 参考资料
 
