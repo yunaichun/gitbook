@@ -6,10 +6,11 @@
 
 > 先看一个函数组件的渲染
 
-```js
+```text
 function App(props) {
   return <h1>Hi {props.name}</h1>;
 }
+
 const element = <App name="foo" />;
 const container = document.getElementById('root');
 render(element, container);
@@ -59,18 +60,14 @@ function performUnitOfWork(fiber) {
   // return next unit of work
 
   // == 1. 首先, 我们创建一个新节点
-  // == 2. 通过 reconcileChildren 函数来创建新的 Fiber 树
   const isFunctionComponent =
     fiber.type instanceof Function;
+  // == 2. 通过 reconcileChildren 函数来创建新的 Fiber 树
   if (isFunctionComponent) {
     updateFunctionComponent(fiber);
   } else {
     updateHostComponent(fiber);
   }
-
-  // == 2. 通过 reconcileChildren 函数来创建新的 Fiber 树
-  // const elements = fiber.props.children
-  // reconcileChildren(fiber, elements)
 
   // == 3. 最后, 搜索下一个工作单元: 首先子节点 -> 然后右兄弟节点 -> 最后父节点. 依此类推
   if (fiber.child) {
@@ -96,6 +93,11 @@ function updateHostComponent(fiber) {
   if (!fiber.dom) {
     fiber.dom = createDom(fiber);
   }
+  // == 2. 通过 reconcileChildren 函数来创建新的 Fiber 树
+  // == 2.1：分析根 Fiber 节点的第一个子节点渲染
+  // == 此处的 elements 是【根 Fiber 节点的第一个子节点（babel解析后的）】数据
+  // == 此处的 fiber.alternate.child 是首次渲染时【根 Fiber 节点的第一个子节点的备份】
+  // == 2.2：假如第一个子节点是修改状态，在 reconcileChildren 阶段即存入 alternate 备份，进行第一步同样的比较逻辑
   reconcileChildren(fiber, fiber.props.children);
 }
 
