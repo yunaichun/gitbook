@@ -19,13 +19,14 @@ render(element, container);
 > 函数组件 Fiber 节点的 type 属性是什么
 
 ```text
-函数组件 Fiber 节点的 type 属性函数本身
+1、函数组件 Fiber 节点的 type 属性函数本身
 
-则执行此函数  Fiber 节点的 type 会返回当前函数组件的实际 Fiber 子节点树，如下
+2、则执行此函数即 fiber.type(fiber.props) 会返回当前函数组件的实际的节点树，
+
+3、如下
 function App(props) {
   return <h1>Hi {props.name}</h1>;
 }
-
 等价于
 function App(props) {
   return createElement(
