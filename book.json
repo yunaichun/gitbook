@@ -21,6 +21,8 @@
         "code",
         "copy-code-button",
         "back-to-top-button",
+        "pageview-count",
+        "anchor-navigation-ex",
         "prism",
         "click-reveal"
     ],
@@ -35,6 +37,10 @@
         },
         "github": {
             "url": "https://github.com/yunaichun"
+        },
+        "anchor-navigation-ex": {
+            "showLevel": false,
+            "showGoTop": false
         }
     },
     "links": {
