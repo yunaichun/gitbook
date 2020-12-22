@@ -39,7 +39,7 @@
     * [webpack简易实现](./frontend/webpack/webpack-simple/README.md)
   * [Vue]()
     * [MVVM简易实现]()
-      * [MVVM简介](./frontend/vue/mvvm/introduction/README.md)
+      * [实现目标](./frontend/vue/mvvm/introduction/README.md)
       * [observer](./frontend/vue/mvvm/observer/README.md)
       * [Watcher](./frontend/vue/mvvm/watcher/README.md)
       * [Dep](./frontend/vue/dep/mvvm/README.md)
