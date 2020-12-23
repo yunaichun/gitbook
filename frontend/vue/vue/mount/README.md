@@ -1,14 +1,14 @@
 
  ## 简介
 
-> Vue 源码阅读整体流程学习笔记。
+> Vue 源码阅读渲染流程学习笔记。
 
-## Vue 运行流程图
+## Vue 渲染流程图
 
-- 流程图图片地址: https://www.answera.top/frontend/vue/vue/process/process.png
-- 流程图 XMind 地址: https://www.answera.top/frontend/vue/vue/process/process.xmind
+- 流程图图片地址: https://www.answera.top/frontend/vue/vue/mount/mount.png
+- 流程图 XMind 地址: https://www.answera.top/frontend/vue/vue/mount/mount.xmind
 
-![process](./process.png)
+![mount](./mount.png)
 
 ## 源码阅读
 

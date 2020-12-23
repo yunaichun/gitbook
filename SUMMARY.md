@@ -45,7 +45,7 @@
       * [Dep](./frontend/vue/mvvm/dep/README.md)
     * [Vue源码分析]()
       * [整体流程](./frontend/vue/vue/process/README.md)
-      * [模版编译](./frontend/vue/vue/compile/README.md)
+      * [渲染流程](./frontend/vue/vue/mount/README.md)
     * [Vuex源码分析](./frontend/vue/vuex/README.md)
   * [React]()
     * [Redux源码分析]()
