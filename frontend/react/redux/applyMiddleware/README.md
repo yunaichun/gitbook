@@ -15,9 +15,9 @@ const store = applyMiddleware(thunk, promise, logger)(createStore)(reducer, init
 ## applyMiddleware 源码
 
 ```text
-applyMiddleware 接收中间件数组
+applyMiddleware 接收中间件数组，返回一个函数。
 
-返回增强的 createStore 方法
+返回的函数数接收 createStore 作为参数，返回增强的 createStore 方法。
 ```
 
 ```js
@@ -90,11 +90,13 @@ export default function compose(...funcs) {
 ## 中间件形式
 
 ```text
-由源码可以看出，一个最简单的中间件的格式: store => next => action => {}
+1、由源码可以看出，一个最简单的中间件的格式: store => next => action => {}
 
-在中间件中传递 store 参数，相当于 applyMiddleware 传递 middlewareAPI
+2、通过中间件的第一个参数 { getState, dispatch }
+可以调用 getState( 以此获取 store 应用的状态。
+可以在内部的 action 函数里传入 dispatch 作为形式参数。（如后面的 redux-thunk、redux-promise 中间件）
 
-在中间件中传递 next 参数，相当于 applyMiddleware 传递 store.dispatch
+3、通过中间件的第二个参数 next，实际是直接调用 store.dispatch。可以在中间内部做额外的逻辑。（如下面的 log 中间件）
 ```
 
 ## 日志中间件
