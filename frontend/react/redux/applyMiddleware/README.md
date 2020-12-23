@@ -18,37 +18,12 @@ let enhanceCreateStore = compose(
 const store = enhanceCreateStore(reducers, initialState)
 ```
 
-### compose 源码
-
-```text
-接收中间件数组，中间件从后向前直行
-
-返回一个函数
-```
-
-```js
-export default function compose(...funcs) {
-  /*当未传入函数时，返回一个函数：arg => arg*/
-  if (funcs.length === 0) {
-    return arg => arg
-  }
-
-  /*当只传入一个函数时，直接返回这个函数*/
-  if (funcs.length === 1) {
-    return funcs[0]
-  }
-
-  /*返回组合后的函数*/
-  return funcs.reduce((a, b) => (...args) => a(b(...args)))
-}
-```
-
 ## applyMiddleware 源码
 
 ```text
-接收中间件数组
+applyMiddleware 接收中间件数组
 
-返回一个创建【增强的 createStore 函数】的函数
+返回增强的 createStore 方法
 ```
 
 ```js
@@ -85,7 +60,37 @@ export default function applyMiddleware(...middlewares) {
 }
 ```
 
-## 中间件的形式
+## compose 源码
+
+```text
+compose 接收中间件数组。由 applyMiddleware 源码可知，此数组的每一项中间件均执行了一次，传入了第一个参数 store。
+
+compose 返回一个函数，此函数从后向前执行传进来的中间件数组的每一项，每次的执行结果传入到中间件数组的前一项。
+
+reduce 假如处理到第三个中间件，则结果为: (...arg1) => ((...args) => a(b(...args)))(c(...args1))
+```
+
+```js
+export default function compose(...funcs) {
+  /*当未传入函数时，返回一个函数：arg => arg*/
+  if (funcs.length === 0) {
+    return arg => arg
+  }
+
+  /*当只传入一个函数时，直接返回这个函数*/
+  if (funcs.length === 1) {
+    return funcs[0]
+  }
+
+  /*返回组合后的函数*/
+  // == reduce 处理到第三个中间件: (...arg1) => ((...args) => a(b(...args)))(c(...args1))
+  return funcs.reduce((a, b) => (...args) => a(b(...args)))
+}
+
+
+```
+
+## 中间件形式
 
 ```text
 由源码可以看出，一个最简单的中间件的格式: store => next => action => {}
@@ -95,7 +100,7 @@ export default function applyMiddleware(...middlewares) {
 在中间件中传递 next 参数，相当于 applyMiddleware 传递 store.dispatch
 ```
 
-## 日志打印中间件
+## 日志中间件
 
 ```js
 const logger = store => next => action => {
@@ -104,16 +109,19 @@ const logger = store => next => action => {
   next(action);
   console.log(`current state ${store.getState()}`);
 }
+
+const store = applyMiddleware(logger)(createStore)(reducer, initialState);
+store.dispatch(action);
 ```
 
-## applyMiddleware 的本质
+## applyMiddleware 作用
 
 ```text
-增强了 store
+1、由日志中间件可以看出，applyMiddleware 可以对 store.dispatch 做一层拦截，在内部做一些额外的操作。
+（类似 es6 装饰器、node 中间件、react 高阶函数）
 
-即增强了 store 的 dispatch 方法
-
-即增强了 action 的类型
+2、由后面2节 redux-thunk、redux-promise 中间件则会对 action 的类型做扩充。
+（增强了 store -> 即增强了 store 的 dispatch 方法 -> 即增强了 action 的类型）
 ```
 
 ## 源码阅读
