@@ -90,7 +90,8 @@ export default connect(
     }),
     dispatch => {
         return {
-            // == 执行 this.props.getData(data) 等价于 this.props.dispatch(getData(data))
+            // == 通过 connect 让组件具有 getData 属性，后续讲 connect 会讲到
+            // == 执行 this.props.getData(data) 实际是执行 store.dispatch(getData())
             // == getData(data) 不是标准的 action，而是一个函数，后续讲中间件会讲到
             getData: bindActionCreators(getData, dispatch)
         };
@@ -125,7 +126,8 @@ export default connect(
     }),
     dispatch => {
         return {
-            // == 执行 this.props.actions.getData(data) 等价于 this.props.dispatch(actionObj.getData(data))
+            // == 通过 connect 让组件具有 actions 属性，actions 的值是 actionObj 对象，后续讲 connect 会讲到
+            // == 执行 this.props.actions.getData(data) 实际是执行 store.dispatch(actionObj.getData())
             // == actionObj.getData(data) 返回的结果不是标准的 action，而是一个函数，后续讲中间件会讲到
             actions: bindActionCreators(actionObj, dispatch)
         };

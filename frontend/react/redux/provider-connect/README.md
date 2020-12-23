@@ -44,11 +44,10 @@ Provider.propTypes = {
 #### 含义
 
 ```text
-高阶组件是一个函数，接收一个组件作为参数，返回一个新的组件。作用是可以在此高阶组件内部做一些业务数据等处理。
+高阶组件是一个函数，接收一个组件作为参数，对此组件做了一层拦截（有点像 es6 的装饰器、node 的中间件）。
+作用是可以在此高阶组件内部对传进来来的组件做一些业务数据等前置处理。
 
-connect 是一个函数，接收两个参数 mapStateToProps 和 mapDispatchToProps 两个对象参数。
-执行后返回一个高阶组件。
-
+connect 是一个函数，执行后返回一个高阶组件。接收两个参数 mapStateToProps 和 mapDispatchToProps 两个对象参数。
 connect 函数的作用是可以使容器组件获取到 context 中的指定的值。
 ```
 

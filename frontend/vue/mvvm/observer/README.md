@@ -34,7 +34,7 @@ export function observer(data) {
 #### 核心逻辑
 
 ```text
-Observer 主要做了两件事
+Observer 主要做了以下几件事
 1、data.__ob__ = new Observer(data);
 
 2、data.__ob__.dep = new Dep();

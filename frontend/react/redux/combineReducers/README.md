@@ -7,17 +7,15 @@
 ```text
 可以把多个 reducer 结合起来，返回一个新的 reducer。
 
-配合 react-redux 的 connect 使用，可以不让组件察觉到 Redux 的存在， 即在 react 组件中不会显示 dispatch。
+作用是拆分业务数据处理模块，让应用业务处理逻辑更清晰。
 ```
 
 ## combineReducers 源码
 
 ```text
-是一个函数，接收 reducers 对象({ key: value })。
+是一个函数，接收 reducers 对象({ key: value })。返回一个新的 reducer 函数。
 
-返回一个新的 reducer 函数。
-
-由于此函数是 reducer，所以可以知道此函数依旧接收 intinalState 和 action 为参数，返回新状态。
+由于返回的是 reducer 函数，所以可以知道此函数依旧接收 intinalState 和 action 为参数，返回新状态。
 
 dispatch 一个 action 会遍历所有被 combineReducers 处理的所有 reducer，每个 reducer 都会调用 reducer(state[key], action)
 ```
