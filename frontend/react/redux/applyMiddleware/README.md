@@ -5,17 +5,11 @@
 ## 用法
 
 ```js
-// == 用法一
+// == 用法一(createStore 内部实际是调用用法二)
 const store = createStore(reducer, initial_state, applyMiddleware(thunk, promise, logger))
 
 // == 用法二
-const store = applyMiddleware(thunk, promise)(createStore)(reducer, initialState)
-
-// == 用法三
-let enhanceCreateStore = compose(
-    applyMiddleware(thunk, promise, logger),
- )(createStore);
-const store = enhanceCreateStore(reducers, initialState)
+const store = applyMiddleware(thunk, promise, logger)(createStore)(reducer, initialState)
 ```
 
 ## applyMiddleware 源码
