@@ -78,6 +78,7 @@ export default function compose(...funcs) {
 
   /*返回组合后的函数*/
   // == reduce 处理到第三个中间件: (...arg1) => ((...args) => a(b(...args)))(c(...args1))
+  // == 此处的 reduce 最终处理的结果是返回一个函数，由 applyMiddleware 方法可知传入第一个值为 store.dispatch
   return funcs.reduce((a, b) => (...args) => a(b(...args)))
 }
 
