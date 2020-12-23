@@ -96,11 +96,11 @@ export default function compose(...funcs) {
 
 可以调用 getState( 以此获取 store 应用的状态。
 
-拿 redux-thunk 举例， action 的形参为 dispatch 。调用的时候要看 dispatch 真正传入的是什么就可以分析出来实参。（如后面的 redux-thunk、redux-promise 中间件）
+拿 redux-thunk 举例， action 的形参为 dispatch 。调用的时候要看 dispatch 真正传入的是什么就可以分析出来实参。
 
 既然 dispatch 是形参，那么即可随便传，参考 applyMiddleware 方法中传入 (...args) => {} 也 OK。
 
-3、通过调用中间件的第二个参数 next，实际是直接调用 store.dispatch。可以在中间内部做额外的逻辑。（如下面的 log 中间件）
+3、通过调用中间件的第二个参数 next，实际是直接调用 store.dispatch。可以在中间内部做额外的逻辑。
 ```
 
 ## 日志中间件
@@ -121,8 +121,8 @@ store.dispatch(action);
 
 ```text
 1、由后面2节 redux-thunk、redux-promise 中间件则会对 action 的类型做扩充。
-拿 redux-thunk 举例， action 的形参为 dispatch 。调用的时候要看 dispatch 真正传入的是什么就可以分析出来实参。（如后面的 redux-thunk、redux-promise 中间件）
-（增强了 store -> 即增强了 store 的 dispatch 方法 -> 即增强了 action 的类型）
+拿 redux-thunk 举例， action 的形参为 dispatch 。调用的时候要看 dispatch 真正传入的是什么就可以分析出来实参。
+（如后面的 redux-thunk、redux-promise 中间件: 增强了 store -> 即增强了 store 的 dispatch 方法 -> 即增强了 action 的类型）
 
 2、由日志中间件可以看出，applyMiddleware 可以对 store.dispatch 做一层拦截，在内部做一些额外的操作。
 （类似 es6 装饰器、node 中间件、react 高阶函数）
