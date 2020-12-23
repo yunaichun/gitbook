@@ -1,16 +1,16 @@
 
  ## 简介
 
-> React - createContainer 源码阅读学习笔记。
+> React - React.children 源码阅读学习笔记。
 
-## createContainer 流程图
+## React.children 流程图
 
-地址: https://www.processon.com/view/link/5f984a95079129768b35d2e1
+地址: https://www.processon.com/view/link/5f8448657d9c0806f270b676
 
- <iframe
- height=2400
+ <iframe  
+ height=1400
  width=100% 
- src="https://www.processon.com/view/link/5f984a95079129768b35d2e1"  
+ src="https://www.processon.com/view/link/5f8448657d9c0806f270b676"  
  frameborder=0  
  allowfullscreen>
  </iframe>

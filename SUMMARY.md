@@ -66,6 +66,7 @@
       * [Function Components](./frontend/react/react-simple/function/README.md)
       * [Hooks](./frontend/react/react-simple/hooks/README.md)
     * [React源码分析]()
+      * [ReactDOM.children](./frontend/react/source-code/ReactDOM.children/README.md)
       * [ReactDOM.render](./frontend/react/source-code/ReactDOM.render/README.md)
       * [createContainer](./frontend/react/source-code/createContainer/README.md)
       * [listenToAllSupportedEvents](./frontend/react/source-code/listenToAllSupportedEvents/README.md)

@@ -1,7 +1,7 @@
 
  ## 简介
 
-> React ReactDOM.render 源码阅读学习笔记。
+> React - ReactDOM.render 源码阅读学习笔记。
 
 ## ReactDOM.render 流程图
 

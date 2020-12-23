@@ -1,7 +1,7 @@
 
  ## 简介
 
-> React listenToAllSupportedEvents 源码阅读学习笔记。
+> React - listenToAllSupportedEvents 源码阅读学习笔记。
 
 ## listenToAllSupportedEvents 流程图
 
