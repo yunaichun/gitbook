@@ -57,7 +57,7 @@ export default function render(element, container) {
 }
 ```
 
-#### 设置根子 Fiber 节点的 alternate 和 effectTag 属性
+#### 设置子 Fiber 节点的 alternate 和 effectTag 属性
 
 ```js
 // == 3. 每个工作单元任务
