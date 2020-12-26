@@ -1,6 +1,6 @@
 ## 简介
 
-> React 生命周期 学习笔记。
+> React 生命周期学习笔记。
 
 ## 挂载阶段
 
@@ -11,15 +11,15 @@
 2、static getDerivedStateFromProps(nextProps, prevState)    <->   componentWillMount
 
 3、render
-原生的DOM，如div
-React组件
+原生的 DOM，如 div
+React 组件
 Fragment（片段）
 Portals（插槽）
-字符串和数字，被渲染成text节点
-Boolean和null，不会渲染任何东西
+字符串和数字，被渲染成 text 节点
+Boolean 和 null，不会渲染任何东西
 
 4、componentDidMount
-componentWillUnmount中取消订阅
+componentWillUnmount 中取消订阅
 ```
 
 ## 更新阶段
@@ -40,19 +40,20 @@ componentWillUnmount中取消订阅
 1、static getDerivedStateFromProps(nextProps, prevState)   <->  componentWillReceiveProps
 一个静态方法，所以不能在这个函数里面使用this，
 这个函数有两个参数 props 和 state，分别指接收到的新参数和当前的state对象，
-这个函数会返回一个对象用来更新当前的state对象，如果不需要更新可以返回null
+这个函数会返回一个对象用来更新当前的 state 对象，如果不需要更新可以返回null
 
 2、shouldComponentUpdate(nextProps, nextState)
+默认返回 true
 需要将 this.props 与 nextProps以及 this.state 与 nextState 进行比较来决定是否返回 false，来减少重新渲染
-官方提倡我们使用PureComponent来减少重新渲染的次数而不是手工编写shouldComponentUpdate代码
+官方提倡我们使用 PureComponent 来减少重新渲染的次数而不是手工编写 shouldComponentUpdate 代码
 
 3、render
 
 4、getSnapshotBeforeUpdate(prevProps, prevState)   <->  componentWillUpdate
-这个方法在render之后，componentDidUpdate之前调用，
-有两个参数prevProps和prevState，表示之前的属性和之前的state，
-这个函数有一个返回值，会作为第三个参数传给componentDidUpdate，如果你不想要返回值，请返回null，不写的话控制台会有警告
-还有这个方法一定要和componentDidUpdate一起使用，否则控制台也会有警告
+这个方法在 render 之后，componentDidUpdate 之前调用，
+有两个参数 prevProps 和 prevState，表示之前的属性和之前的 state，
+这个函数有一个返回值，会作为第三个参数传给 componentDidUpdate，如果你不想要返回值，请返回 null，不写的话控制台会有警告
+还有这个方法一定要和 componentDidUpdate 一起使用，否则控制台也会有警告
 
 5、componentDidUpdate(prevProps, prevState, snapshot)
 ```
@@ -82,7 +83,8 @@ componentWillUnmount
 
 - [React 函数式组件性能优化指南](https://zhuanlan.zhihu.com/p/137302815)
 - [烤透 React Hook](https://juejin.cn/post/6867745889184972814)
-- [21个React性能优化技巧](https://www.infoq.cn/article/KVE8xtRs-uPphptq5LUz)
+- [21 个 React 性能优化技巧](https://www.infoq.cn/article/KVE8xtRs-uPphptq5LUz)
+- [React.PureComponent 配上 ImmutableJS 才更有意义](https://juejin.cn/post/6844903501592526855)
 
 #### 核心思想
 

@@ -112,7 +112,8 @@ setState 的“异步”并不是说内部由异步代码实现，
 
 - [React 函数式组件性能优化指南](https://zhuanlan.zhihu.com/p/137302815)
 - [烤透 React Hook](https://juejin.cn/post/6867745889184972814)
-- [21个React性能优化技巧](https://www.infoq.cn/article/KVE8xtRs-uPphptq5LUz)
+- [21 个 React 性能优化技巧](https://www.infoq.cn/article/KVE8xtRs-uPphptq5LUz)
+- [React.PureComponent 配上 ImmutableJS 才更有意义](https://juejin.cn/post/6844903501592526855)
 
 #### 核心思想
 

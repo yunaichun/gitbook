@@ -1,6 +1,6 @@
 ## 简介
 
-> React Hooks 等性能优化学习笔记。
+> React Hooks等性能优化学习笔记。
 
 ## 减少重新 render 的次数
 
@@ -84,6 +84,61 @@ export default class ShouldComponentUpdateUsage extends React.Component {
     )
   }
 }
+```
+
+#### PureComponent
+
+```
+只不过会在 render 之前帮组件自动执行一次shallowEqual（浅比较），来决定是否更新组件，浅比较类似于浅复制，只会比较第一层。
+
+使用 PureComponent 相当于省去了写 shouldComponentUpdate 函数，
+
+当组件更新时，如果组件的 props 和 state： 
+1. 引用和第一层数据都没发生改变， render 方法就不会触发，这是我们需要达到的效果。
+2. 虽然第一层数据没变（因为 setState 会生成一个新对象），但引用变了，就会造成虚拟 DOM 计算的浪费。
+3. 第一层数据改变（js 中引用类型共享地址），但引用没变，会造成不渲染，所以需要很小心的操作数据。
+```
+
+#### Immutable.js
+
+**immutable data structures（持久性数据结构）**
+
+```
+数据一旦创建，就不能再被更改，
+
+任何修改或添加删除操作都会返回一个新的 Immutable 对象。
+
+相比 js: 浅拷贝引用类型会共享地址、深拷贝浪费性能。
+```
+
+**structural sharing（结构共享）**
+
+```
+结构共享是指没有改变的数据共用一个引用，这样既减少了深拷贝的性能消耗，也减少了内存。
+
+当我们对一个 Immutable 对象进行操作的时候，ImmutableJS基于哈希映射树(hash map tries)和 vector map tries，
+
+只修改该节点以及它的祖先节点，其他保持不变，这样可以共享相同的部分，大大提高性能。
+```
+
+```js
+var obj = {
+  count: 1,
+  list: [1, 2, 3, 4, 5]
+}
+var map1 = Immutable.fromJS(obj);
+var map2 = map1.set('count', 2);
+
+console.log(map1 === map2); // false
+console.log(map1.list === map2.list); // true
+```
+
+#### PureComponent + Immutable.js
+
+```
+1、使用 Immutable.js，引用类型的修改，也会重新渲染了；其次不需要深拷贝浪费性能
+
+2、使用 PureComponent，不用写 shouldComponentUpdate 函数了
 ```
 
 ## 减少计算的量
@@ -202,8 +257,8 @@ componentDidCatch()
 
 - [React 函数式组件性能优化指南](https://zhuanlan.zhihu.com/p/137302815)
 - [烤透 React Hook](https://juejin.cn/post/6867745889184972814)
-- [21个React性能优化技巧](https://www.infoq.cn/article/KVE8xtRs-uPphptq5LUz)
-
+- [21 个 React 性能优化技巧](https://www.infoq.cn/article/KVE8xtRs-uPphptq5LUz)
+- [React.PureComponent 配上 ImmutableJS 才更有意义](https://juejin.cn/post/6844903501592526855)
 #### 核心思想
 
 - [React Fiber 是什么？](https://github.com/WangYuLue/react-in-deep/blob/main/02.React%20Fiber%20%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F.md)
