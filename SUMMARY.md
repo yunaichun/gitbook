@@ -116,7 +116,7 @@
 * [网络协议]()
   * [HTTP简介](./network/http/README.md)
 * [算法]()
-  * [简介](./algorithm/introduction/README.md)
+  * [链表](./algorithm/linked-list/README.md)
   * [栈](./algorithm/stack/README.md)
   * [队列](./algorithm/queue/README.md)
   * [优先队列](./algorithm/priority-queue/README.md)
