@@ -119,7 +119,6 @@
   * [链表](./algorithm/linked-list/README.md)
   * [栈](./algorithm/stack/README.md)
   * [队列](./algorithm/queue/README.md)
-  * [优先队列](./algorithm/priority-queue/README.md)
   * [哈希表](./algorithm/hash/README.md)
   * [二叉树](./algorithm/binary-tree/README.md)
   * [常用排序算法](./algorithm/sort/README.md)
