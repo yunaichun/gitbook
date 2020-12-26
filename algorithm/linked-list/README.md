@@ -53,9 +53,9 @@ console.log(list)
 
 ## 反转链表
 
-```js
-// == leetcode: https://leetcode.com/problems/reverse-linked-list
+leetcode: https://leetcode.com/problems/reverse-linked-list
 
+```js
 class Solution {
     constructor() {
     }
@@ -78,9 +78,9 @@ class Solution {
 
 ## 链表是否存在环
 
-```js
-// == leetcode: https://leetcode.com/problems/linked-list-cycle
+leetcode: https://leetcode.com/problems/linked-list-cycle
 
+```js
 class Solution {
     constructor() {
     }
@@ -97,8 +97,6 @@ class Solution {
     }
 }
 ```
-
-
 
 ## 参考资料
 
