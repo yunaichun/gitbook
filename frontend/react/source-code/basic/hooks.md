@@ -96,7 +96,7 @@ export default class ShouldComponentUpdateUsage extends React.Component {
 当组件更新时，如果组件的 props 和 state： 
 1. 引用和第一层数据都没发生改变， render 方法就不会触发，这是我们需要达到的效果。
 2. 虽然第一层数据没变（因为 setState 会生成一个新对象），但引用变了，就会造成虚拟 DOM 计算的浪费。
-3. 第一层数据改变（js 中引用类型共享地址），但引用没变，会造成不渲染，所以需要很小心的操作数据。
+3. 第一层数据改变（因为 props 引用类型地址共享），但引用没变，会造成不渲染，所以需要很小心的操作数据。
 ```
 
 #### Immutable.js
