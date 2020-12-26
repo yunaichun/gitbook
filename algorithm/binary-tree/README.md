@@ -95,6 +95,86 @@ console.log(list)
 console.log(list.preOrder(list.head))
 ```
 
+## 验证是否是BST
+
+leetcode: https://leetcode.com/problems/validate-binary-search-tree
+
+```js
+class Solution {
+    constructor() {
+    }
+    // == root 为 BST 实例
+    // == 方法一：左 < 根 < 右
+    isValidBST(root) {
+        if (root.left) {
+            if (root.val > root.left.val) { 
+                return this.isValidBST(root.left);
+            } else {
+                return false;
+            }
+        }
+        if (root.right) {
+            if (root.val < root.right.val) { 
+                return this.isValidBST(root.right);
+            } else {
+                return false;
+            }
+        }
+        return true;
+    }
+}
+```
+
+## BST最近公共祖先
+
+leetcode: https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree
+
+```js
+class Solution {
+    constructor() {
+    }
+    lowestBSTAncestor(root, p, q) {
+        if (root === null) {
+            return null;
+        } else {
+            if (root.val > p.val && root.val > q.val) {
+                return this.lowestBSTAncestor(root.left, p, q);
+            }
+            if (root.val < p.val && root.val < q.val) {
+                return this.lowestBSTAncestor(root.right, p, q);
+            }
+            return root;
+        }
+    }
+}
+```
+
+## 普通树最近公共祖先
+
+leetcode: https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree
+
+```js
+class Solution {
+    constructor() {
+    }
+    lowestCommonAncestor(root, p, q) {
+        if (root === null) {
+            return null;
+        } else {
+            // == root 为 q 或为 p，代表找到了
+            if(root === p || root === q) return root;
+            // == root 即不为 q 也不为 p
+            let left = lowestCommonAncestor(root.left, p, q);
+            let right = lowestCommonAncestor(root.right, p, q);
+            if (left === null) return right;
+            if (right === null) return left;
+            // == left 和 right 均不为 null，则 left 和 right 是 root 左右子树
+            return root;
+        }
+    }
+}
+```
+
 ## 参考资料
 
 - [数据结构与算法JavaScript描述](https://book.douban.com/subject/25945449/)
