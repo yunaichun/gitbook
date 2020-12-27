@@ -37,9 +37,11 @@ for (var i = 0; i < arr.length -1; i++) {
 ```js
 for (var i = 1; i < arr.length; i++) {
     var min = arr[i];
+    // == 整体往前移
     for (var j = i; arr[j -1] > min && j > 0; j--) {
         arr[j] = arr[j - 1];
     }
+    // == 最后的位置放入最小的
     arr[j] = min;
 }
 ```
