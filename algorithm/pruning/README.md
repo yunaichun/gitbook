@@ -4,8 +4,8 @@
 
 ## 数独
 
-leetcode-36: https://leetcode.com/problems/valid-sudoku
-leetcode-37: https://leetcode.com/problems/sudoku-solver
+- leetcode-36: https://leetcode.com/problems/valid-sudoku
+- leetcode-37: https://leetcode.com/problems/sudoku-solver
 
 ```js
 class Solution {
@@ -81,8 +81,8 @@ console.log(a.isValidSudoku(board))
 
 ## N皇后
 
-leetcode-51: https://leetcode.com/problems/n-queens
-leetcode-52: https://leetcode.com/problems/n-queens-ii
+- leetcode-51: https://leetcode.com/problems/n-queens
+- leetcode-52: https://leetcode.com/problems/n-queens-ii
 
 ```js
 class Solution {
