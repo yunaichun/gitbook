@@ -148,6 +148,73 @@ class Solution {
 }
 ```
 
+## 三角形从顶到低最小路径和
+
+leetcode: https://leetcode.com/problems/triangle
+
+```js
+class Solution {
+    constructor() {
+    }
+    // == 第一步：定义状态：a[i][j] 代表走到第 i 层 第 j 列所需要的最短路径（从最底部走到最顶部）
+    // == 第二步：状态转移方程：a[i][j] = Math.min(a[i -1][j], a[i - 1][j + 1]) + triangle[i][j] 
+    // == 初始状态：a[m - 1] = triangle[triangle.length - 1]
+    // == 求 a[0][0]
+    minimumTotal(triangle) {
+        let a = [];
+        const level = triangle.length;
+        // == 第 level 层
+        a[level - 1] = triangle[level - 1];
+        // == 根据第 level 层推导出第 level - 1 层
+        for (let i = level - 2; i > -1; i--) {
+            const currentLevel = triangle[i];
+            if(!a[i]) a[i] = [];
+            for (let j = 0, len = currentLevel.length; j < len; j++) {
+                a[i][j] = Math.min(a[i + 1][j] , a[i + 1][j + 1]) + currentLevel[j];
+            }
+        }
+        return a[0][0];
+    }
+}
+```
+
+## 最短编辑距离
+
+leetcode: https://leetcode.com/problems/edit-distance
+
+```js
+class Solution {
+    constructor() {
+    }
+    // == 第一步：定义状态：a[i][j] 代表 word1 前 i 个字符转换到 word2 前 j 个字符需要的最少操作步骤（insert、delete、replace）
+    // == 第二步：状态转移方程：a[i][j] = Math.min(a[i -1][j], a[i][j - 1], a[i - 1][j - 1]) + 1
+    // == 初始状态：a[i][0] = i, a[0][j] = j
+    // == 求 a[m][n]
+    minDistance(word1, word2) {
+        let m = word1.length;
+        let n = word2.length;
+        let a = [];
+        for (let i = 0; i < m + 1; i++) {
+            a[i] = [];
+            for (let j = 0; j < n + 1; j++) {
+                if (i === 0) {
+                    a[i][j] = j; 
+                } else if (j === 0) {
+                    a[i][j] = i; 
+                } else {
+                    if (word1[i - 1] === word2[j - 1]) {
+                        a[i][j] = a[i - 1][j - 1];
+                    } else {
+                        a[i][j] = Math.min(a[i -1][j], a[i][j - 1], a[i - 1][j - 1]) + 1;
+                    }
+                }
+            }
+        }
+        return a[m][n];
+    }
+}
+```
+
 ## 参考资料
 
 - [数据结构与算法JavaScript描述](https://book.douban.com/subject/25945449/)
