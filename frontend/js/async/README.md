@@ -36,19 +36,19 @@ function spawn(genFuc) {
     return new Promise(function(resolve, reject) {
         function run(genFuc) {
             let gen = genFuc();
-            function thenback(data) {
+            function resolve(data) {
                 let result = gen.next(data);
                 
                 if (result.done) return result.value;
                 
                 Promise.resolve(result.value)
                 .then(function(value) {
-                    thenback(value);
+                    resolve(value);
                 }, function(reason) {
                     gen.throw(reason);
                 });
             }
-            thenback();
+            resolve();
         }
         run(genFuc);
     });

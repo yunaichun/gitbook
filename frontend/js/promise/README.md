@@ -180,7 +180,7 @@ PromiseNew.resolve = function(value) {
 }
 ```
 
-## PromiseNew.resolve 方法
+## PromiseNew.reject 方法
 
 ```js
 PromiseNew.reject = function(value) {
