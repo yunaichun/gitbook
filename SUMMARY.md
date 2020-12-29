@@ -72,6 +72,7 @@
       * [createContainer](./frontend/react/source-code/createContainer/README.md)
       * [listenToAllSupportedEvents](./frontend/react/source-code/listenToAllSupportedEvents/README.md)
       * [updateContainer](./frontend/react/source-code/updateContainer/README.md)
+      * [新特性Server Component](./frontend/react/source-code/daily/server-component.md)
 * [后端]()
   * [Node]()
     * [express](./backend/node/express/README.md)
