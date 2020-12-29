@@ -62,6 +62,67 @@ React事件阻止默认行为方式: e.preventDefault()
 点击菜单外部，执行 document 上事件，关闭菜单。
 ```
 
+## cloneNode 不会拷贝 react 绑定的事件
+
+```js
+// == 按需加载
+useEffect(() => {
+    import('swiper').then((fileData) => {
+        setFileData(fileData);
+    });
+}, []);
+
+// == 根据 __reactEventHandlers 找到 elem 绑定的 react 事件
+const findEventHandlers = (elem) => {
+    for (const key of Object.keys(elem)) {
+        if (key.indexOf('__reactEventHandlers') > -1) return elem[key];
+    }
+}
+
+// == 根据 swiper 的 index 找到 cloneNode 对应的初始 node
+const findTargetSlideByIndex = (slides, index) => {
+    for (let i = 0, n = slides.length; i < n; i++) {
+        const slide = slides[i];
+        const handlers = findEventHandlers(slide);
+        if (handlers && slide.dataset.swiperSlideIndex === index) return slide;
+    }
+}
+
+// == node: cloneNode 生成的节点
+// == targetNode: swiper 通过 react 初始生成的 node 节点
+const cycleBindEvent = (node, targetNode) => {
+    // == 1、绑定当前节点
+    const handlerTree = findEventHandlers(targetNode);
+    if (handlerTree && handlerTree.onClick) {
+        node.onclick = handlerTree.onClick;
+    }
+    // == 2、循环绑定子节点
+    if (node.childNodes && node.childNodes.length) {
+        for (let i = 0, n = node.childNodes.length; i < n; i++) {
+            const childNode = node.childNodes[i];
+            const targetChildNode = targetNode.childNodes[i];
+            cycleBindEvent(childNode, targetChildNode);
+        }
+    }
+}
+
+useEffect(() => {
+    if (!fileData) return;
+    const swiper = new fileData.default(ref.current, config);
+    if (!swiper.slides) return;
+    for (let i = 0, n = swiper.slides.length; i < n; i++) {
+        const slide = swiper.slides[i];
+        const handlersTree = findEventHandlers(slide);
+        // == 含有 __reactEventHandlers 属性: swiper 通过 react 初始生成的 node 节点
+        if (handlersTree) continue;
+        // == 不含有 __reactEventHandlers 属性: cloneNode 生成的节点
+        // == 找到绑定对应的 __reactEventHandlers 事件
+        const targetSlide = findTargetSlideByIndex(swiper.slides, slide.dataset.swiperSlideIndex);
+        cycleBindEvent(slide, targetSlide);
+    }
+}, [fileData]);
+```
+
 ## 参考资料
 
 #### 知识概览
