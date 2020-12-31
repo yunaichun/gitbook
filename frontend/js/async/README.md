@@ -41,6 +41,7 @@ function spawn(genFuc) {
                 
                 if (result.done) return result.value;
                 
+                // == 递归调用
                 Promise.resolve(result.value)
                 .then(function(value) {
                     resolve(value);

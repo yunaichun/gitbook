@@ -239,7 +239,7 @@ PromiseNew.race = function(promises) {
 }
 ```
 
-## 最终实现地址
+## 最终实现
 
 Promise实现: https://github.com/yunaichun/javascript-note/blob/master/JS笔记/重要笔记/Promise构造函数实现.js
 

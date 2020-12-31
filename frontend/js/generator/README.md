@@ -98,6 +98,7 @@ function run(genFuc) {
     function callback(err, data) {
         let result = gen.next(data);
         if (result.done) return;
+        // == 递归调用
         result.value(callback);
     }
     callback();
@@ -152,6 +153,7 @@ function run(genFuc) {
 	function resolve(data) {
 		let result = gen.next(data);
 		if (result.done) return result.value;
+        // == 递归调用
 		result.value.then(function(data) {
 			resolve(data);
 		});

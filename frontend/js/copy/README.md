@@ -6,7 +6,7 @@
 
 ```js
 function extendDeep(parent, child) {
-    if (!child) child = Array.isArray(parent[key]) ? [] : {};
+    if (!child) child = Array.isArray(parent) ? [] : {};
     for (let key in parent) {
         if (parent.hasOwnProperty(key)) {
             if (typeof parent[key] === 'object') {
