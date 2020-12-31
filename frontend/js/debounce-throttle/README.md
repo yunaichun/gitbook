@@ -44,4 +44,4 @@ function throttle(fn, interval = 200) {
 
 ## 参考资料
 
-- [JS事件中防抖debounce和节流throttle概念原理的学习]http://webfront-js.com/articaldetail/99.html()
+- [JS事件中防抖debounce和节流throttle概念原理的学习](http://webfront-js.com/articaldetail/99.html)

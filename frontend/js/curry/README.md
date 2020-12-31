@@ -37,7 +37,3 @@ console.log(curry(add, 1, 2)(3)(4)(5)(6, 7, 8)(9)(0));
 #### Thunk函数
 
 [Thunk函数](../generator/README.md)
-
-## 参考资料
-
-- []()
