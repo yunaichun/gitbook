@@ -2,10 +2,10 @@
 
 > React - updateContainer 源码阅读学习笔记。
 
-## updateContainer 运行流程图
+## updateContainer 流程
 
-流程图图片地址: https://www.answera.top/frontend/react/source-code/updateContainer/updateContainer.png
-流程图 XMind 地址: https://www.answera.top/frontend/react/source-code/updateContainer/updateContainer.xmind
+- 图片地址: https://www.answera.top/frontend/react/source-code/updateContainer/updateContainer.png
+- 源文件地址: https://www.answera.top/frontend/react/source-code/updateContainer/updateContainer.xmind
 
 ![updateContainer](./updateContainer.png)
 

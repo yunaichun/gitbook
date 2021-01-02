@@ -3,9 +3,9 @@
 
 > React - createContainer 源码阅读学习笔记。
 
-## createContainer 流程图
+## createContainer 流程
 
-地址: https://www.processon.com/view/link/5f984a95079129768b35d2e1
+- 图片地址: https://www.processon.com/view/link/5f984a95079129768b35d2e1
 
  <iframe
  height=2400

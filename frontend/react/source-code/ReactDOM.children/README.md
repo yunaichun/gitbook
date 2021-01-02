@@ -3,9 +3,9 @@
 
 > React - React.children 源码阅读学习笔记。
 
-## React.children 流程图
+## React.children 流程
 
-地址: https://www.processon.com/view/link/5f8448657d9c0806f270b676
+- 图片地址: https://www.processon.com/view/link/5f8448657d9c0806f270b676
 
  <iframe  
  height=1400

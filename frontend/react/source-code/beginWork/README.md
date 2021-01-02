@@ -2,15 +2,18 @@
 
 > React - beginWork 源码阅读学习笔记。
 
-## 函数组件 beginWork 运行流程图
+## 函数组件 beginWork 流程
 
-流程图图片地址: https://www.answera.top/frontend/react/source-code/beginWork/beginWork-Function.png
-流程图 XMind 地址: https://www.answera.top/frontend/react/source-code/beginWork/beginWork-Function.xmind
+- 图片地址: https://www.answera.top/frontend/react/source-code/beginWork/beginWork-Function.png
+- 源文件地址: https://www.answera.top/frontend/react/source-code/beginWork/beginWork-Function.xmind
 
 ![beginWork-Function](./beginWork-Function.png)
 
-## class 组件 beginWork 运行流程图
+## class 组件 beginWork 流程
 
+```
+待看
+```
 
 ## 源码阅读
 

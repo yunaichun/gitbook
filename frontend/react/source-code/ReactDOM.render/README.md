@@ -3,9 +3,9 @@
 
 > React - ReactDOM.render 源码阅读学习笔记。
 
-## ReactDOM.render 流程图
+## ReactDOM.render 流程
 
-地址: https://www.processon.com/view/link/5f84ffd0e0b34d071100bbda
+- 图片地址: https://www.processon.com/view/link/5f84ffd0e0b34d071100bbda
 
  <iframe  
  height=1400
