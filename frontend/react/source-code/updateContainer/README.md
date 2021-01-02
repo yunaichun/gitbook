@@ -2,25 +2,12 @@
 
 > React - updateContainer 源码阅读学习笔记。
 
-## updateContainer 流程
+## updateContainer 运行流程图
 
-```text
-updateContainer ->
+流程图图片地址: https://www.answera.top/frontend/react/source-code/updateContainer/updateContainer.png
+流程图 XMind 地址: https://www.answera.top/frontend/react/source-code/updateContainer/updateContainer.xmind
 
-scheduleUpdateOnFiber(container.current) ->
-
-performSyncWorkOnRoot(rootFiber)
-```
-
-## performSyncWorkOnRoot 流程
-
-```
-1. flushPassiveEffects -> runWithPriority -> flushPassiveEffectsImpl -> flushSyncCallbackQueue
-
-2. renderRootSync -> workLoopSync -> performUnitOfWork(workInProgress)
-
-3. commitRoot(rootFiber)
-```
+![updateContainer](./updateContainer.png)
 
 ## 源码阅读
 
@@ -31,6 +18,8 @@ performSyncWorkOnRoot(rootFiber)
 - [React官方文档](https://reactjs.org)
 - [React源码](https://github.com/facebook/react/tree/8b2d3783e58d1acea53428a10d2035a8399060fe)
 - [React源码解析](https://react.jokcy.me/)
+- [凹凸实验室](https://aotu.io/notes/2020/11/12/react-indoor/index.html)
 - [阿里知乎专栏](https://zhuanlan.zhihu.com/purerender)
-- [React内部原理](http://tcatche.site/2017/07/react-internals-part-one-basic-rendering/)
 - [React技术揭秘](https://react.iamkasong.com/)
+- [React技术揭秘](https://react.iamkasong.com/)
+- [React内部原理](http://tcatche.site/2017/07/react-internals-part-one-basic-rendering/)
