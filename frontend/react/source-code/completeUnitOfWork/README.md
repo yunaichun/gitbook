@@ -10,7 +10,8 @@
 
 2、completeUnitOfWork 内部遍历的顺序是：
 从最底部的第一个节点开始；每个工作节点都会执行 completeWork 方法；
-下一个工作节点是 siblings；如果没有 siblings，下一个工作节点是 parent。
+下一个工作节点是 siblings；
+如果没有 siblings，下一个工作节点是 parent。
 
 3、由此可以看到：
 completeUnitOfWork 是从底部向上一层一层处理，即为自下而上的广度优先。
@@ -34,8 +35,7 @@ completeUnitOfWork 是从底部向上一层一层处理，即为自下而上的�
 2、completeWork 内部遍历的顺序是：
 先从 workInProgress 深度递归的最底部的 child；
 然后最底部的 child 的 sibling；
-如果没有 sibling 向上到 parent，重复上面的操作；
-直到 workInProgress。
+如果没有 sibling 向上到 parent，重复上面的操作；直到 workInProgress。
 
 3、由此可以看到：
 completeWork 是从当前节点先深度优先递归到最底层，然后广度优先遍历完当前层，再回到上一层。
