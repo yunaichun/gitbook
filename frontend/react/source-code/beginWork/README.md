@@ -2,16 +2,14 @@
 
 > React - beginWork 源码阅读学习笔记。
 
-## 函数组件 beginWork 流程
+## beginWork 流程
 
-#### 整体流程
+- 图片地址: https://www.answera.top/frontend/react/source-code/beginWork/beginWork.png
+- 源文件地址: https://www.answera.top/frontend/react/source-code/beginWork/beginWork.xmind
 
-- 图片地址: https://www.answera.top/frontend/react/source-code/beginWork/beginWork-Function.png
-- 源文件地址: https://www.answera.top/frontend/react/source-code/beginWork/beginWork-Function.xmind
+![beginWork](./beginWork.png)
 
-![beginWork-Function](./beginWork-Function.png)
-
-#### 遍历逻辑
+## 遍历逻辑
 
 ```
 1、beginWork 主要作用是 reconcile 协调处理所有子节点；
@@ -26,10 +24,64 @@
 beginWork 是顶部向下一层一层处理，即为自上而下的广度优先。
 ```
 
-## class 组件 beginWork 流程
+## 单节点diff
 
 ```
-待看
+位置: react-reconciler/src/ReactChildFiber.old.js
+方法: reconcileSingleElement 
+
+1、key 相同，type 相同：复用 FiberNode 节点
+
+2、key 相同，type 不同：将 child 及其兄弟 fiber 都标记删除。
+
+3、key 不同：仅将 child 标记删除
+```
+
+## 节点 effect 链表
+
+```
+位置: react-reconciler/src/ReactChildFiber.old.js
+方法: deleteChild 
+
+1、parent 添加第一个删除节点 childToDelete
+
+parent.firstEffect = child = parent.lastEffect
+
+
+2、parent 添加第二个删除节点 childToDelete
+
+                    nextEffect 
+parent.firstEffect -----------> parent.lastEffect = child
+
+
+3、parent 添加第三个删除节点 childToDelete
+
+                     nextEffect        nextEffect
+parent.firstEffect -----------> child -----------> parent.lastEffect = child
+```
+
+## 多节点diff
+
+```
+位置: react-reconciler/src/ReactChildFiber.old.js
+方法: reconcileChildrenArray 
+
+
+1、同时遍历 newChildren 和 oldFiber
+两者 key 相同 -> 复用节点；
+两者 key 不同 -> 跳出循环；
+两者 key 相同，复用节点但无 alternate 属性 -> 标记删除。
+
+2、newChildren 遍历完，oldFiber 没遍历完
+将 oldFiber 后续 siblings 标记删除
+
+3、newChildren 没遍历完，oldFiber 遍历完
+将剩余 newChildren 标记新增
+
+4、newChildren 没遍历完，oldFiber 没遍历完
+优先复用；
+没有则创建；
+复用节点但无 alternate 属性，标记删除。
 ```
 
 ## 源码阅读
