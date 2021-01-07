@@ -69,7 +69,7 @@ parent.firstEffect -----------> child -----------> parent.lastEffect = child
 
 1、同时遍历 newChildren 和 oldFiber
 两者 key 相同 -> 复用节点；
-两者 key 不同 -> 跳出循环；
+两者 key 不同 -> 跳出循环；之后可能会走下面 2，3，4步骤的逻辑；
 两者 key 相同，复用节点但无 alternate 属性 -> 标记删除。
 
 2、newChildren 遍历完，oldFiber 没遍历完
