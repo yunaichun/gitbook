@@ -26,8 +26,8 @@ const update = {
   // == 对于 HostRoot，payload 为 ReactDOM.render 的第一个传参。
   payload: null,
   // == 更新的回调函数。不同类型组件挂载的数据不同：
-  // == 对于 ClassComponent，payload 为 this.setState 的第二个传参。
-  // == 对于 HostRoot，payload 为 ReactDOM.render 的第三个传参。
+  // == 对于 ClassComponent，callback 为 this.setState 的第二个传参。
+  // == 对于 HostRoot，callback 为 ReactDOM.render 的第三个传参。
   callback: null,
 
   // == 与其他Update连接形成链表。挂载 fiber.updateQueue.shared.pending.next
@@ -42,22 +42,20 @@ const update = {
 update --------> fiber.updateQueue.shared.pending --------->  update
 ```
 
-## scheduleUpdateOnFiber 调度 Fiber 节点的挂载和更新
+## scheduleUpdateOnFiber 调度 Fiber 节点的挂载
 
 ```js
+// == 同步 render: legacy 模式，通过  ReactDOM.render 创建的 dom
 if (lane === SyncLane) {
-  // == mount 阶段: legacy 模式
+  // == 非批量更新且尚未渲染
   if (
-    // == 检查我们是否在未批处理的更新中
     (executionContext & LegacyUnbatchedContext) !== NoContext &&
-    // == 检查我们是否尚未渲染
     (executionContext & (RenderContext | CommitContext)) === NoContext
   ) {
     schedulePendingInteractions(root, lane);
-    // == 初始渲染
     performSyncWorkOnRoot(root);
   }
-  // == update 阶段
+  // == 批量更新或已经渲染
   else {
     // == 调度更新
     ensureRootIsScheduled(root, eventTime);
@@ -65,37 +63,21 @@ if (lane === SyncLane) {
 
     if (executionContext === NoContext) {
       resetRenderTimer();
-      // == 同步执行回调
       flushSyncCallbackQueue();
     }
   }
 }
-// == 非同步渲染，其他优先级: concurrent 模式，通过  ReactDOM.createRoot 创建的 dom
+// == 非同步 render: concurrent 模式，通过  ReactDOM.createRoot 创建的 dom
 else {
-  // Schedule a discrete update but only if it's not Sync.
-  if (
-    (executionContext & DiscreteEventContext) !== NoContext &&
-    // == 1、用户交互操作、2、立即更新
-    (priorityLevel === UserBlockingSchedulerPriority ||
-      priorityLevel === ImmediateSchedulerPriority)
-  ) {
-    // This is the result of a discrete event. Track the lowest priority
-    // discrete update per root so we can flush them early, if needed.
-    if (rootsWithPendingDiscreteUpdates === null) {
-      rootsWithPendingDiscreteUpdates = new Set([root]);
-    } else {
-      rootsWithPendingDiscreteUpdates.add(root);
-    }
-  }
+  // == ... 省略
+
   // == 调度更新
   ensureRootIsScheduled(root, eventTime);
   schedulePendingInteractions(root, lane);
 }
 ```
 
-## mount 阶段
-
-#### react 渲染模式
+## react 渲染模式
 
 ```
 react 模式: https://zh-hans.reactjs.org/docs/concurrent-mode-adoption.html#why-so-many-modes
@@ -107,39 +89,15 @@ react 模式: https://zh-hans.reactjs.org/docs/concurrent-mode-adoption.html#why
 3、concurrent 模式: ReactDOM.createRoot(rootNode).render(<App />)。创建的更新具有不同的优先级，同时也是可以打断的
 ```
 
-#### 核心逻辑
+## 渲染逻辑
 
 ```
 一、legacy 模式
-performSyncWorkOnRoot(root);
+1、非批量更新且尚未渲染: performSyncWorkOnRoot(root);
 
-二、concurrent 模式
-ensureRootIsScheduled(root, eventTime);
-```
-
-## update 阶段
-
-#### 触发更新操作
-
-```
-1、HostRoot
-ReactDOM.render
-
-2、ClassComponent
-this.setState、this.forceUpdate
-
-3、FunctionComponent
-useState、useReducer
-
-4、props 改变
-```
-
-#### update 代码逻辑
-
-```
-一、legacy 模式
-1、ensureRootIsScheduled(root, eventTime);
-2、当 executionContext === NoContext 时，会执行 flushSyncCallbackQueue();
+2、批量更新或已经渲染: ensureRootIsScheduled(root, eventTime); 本质也是调用 performSyncWorkOnRoot(root);
+不过当 executionContext === NoContext 时，会执行 flushSyncCallbackQueue();
+(setTimeout 中执行 setState, 导致 batchedUpdates 中 executionContext 为 null)
 
 二、concurrent 模式
 ensureRootIsScheduled(root, eventTime);
