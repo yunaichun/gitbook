@@ -18,7 +18,7 @@
 ## 后续
 
 ```
-从 ReactDOM.render 流程图可以看到，后续代码需要关注以下几个函数：
+从上面流程图可以看到，ReactDOM.render 函数三个核心功能分别是：
 
 1、createContainer
 

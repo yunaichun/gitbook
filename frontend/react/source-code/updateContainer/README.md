@@ -89,7 +89,7 @@ react 模式: https://zh-hans.reactjs.org/docs/concurrent-mode-adoption.html#why
 3、concurrent 模式: ReactDOM.createRoot(rootNode).render(<App />)。创建的更新具有不同的优先级，同时也是可以打断的
 ```
 
-## 渲染流程
+## react 渲染流程
 
 ```
 一、legacy 模式
@@ -108,8 +108,7 @@ ensureRootIsScheduled(root, eventTime); 本质也是调用 performSyncWorkOnRoot
 ## 后续
 
 ```
-从 updateContainer 流程图可以看到，updateContainer 不管什么模式创建都会走 performSyncWorkOnRoot 这个函数，
-而这个函数三个核心功能分别是：
+从上面流程图可以看到，updateContainer 不管什么模式都会走 performSyncWorkOnRoot 这个函数，而这个函数三个核心功能分别是：
 
 1、beginWork
 
