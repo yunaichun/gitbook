@@ -1,18 +1,11 @@
 ## 简介
 
-> React - setState 源码阅读学习笔记。
+> React - Function Component 源码阅读学习笔记。
 
-## 触发更新操作
+## useState
 
 ```
-1、HostRoot
-ReactDOM.render
-
-2、ClassComponent
-this.setState、this.forceUpdate
-
-3、FunctionComponent
-useState、useReducer
+待看
 ```
 
 ## 源码阅读

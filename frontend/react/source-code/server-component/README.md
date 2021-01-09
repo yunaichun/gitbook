@@ -1,6 +1,10 @@
 ## 简介
 
-> React Server Component 学习笔记。
+> React Server Component 实践学习笔记。
+
+## 示例 demo
+
+http://www.answera.top:5000
 
 ## 项目启动
 
@@ -213,10 +217,6 @@ export default function NoteList({searchText}) {
 3、Fast performance
 其次可以看到 Server Component 不会被 download 到客户端。这样将会大大减少 bundle 的大小。
 ```
-
-## 示例 demo
-
-http://www.answera.top:5000
 
 ## 参考资料
 
