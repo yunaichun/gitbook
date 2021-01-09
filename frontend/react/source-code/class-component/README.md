@@ -75,11 +75,11 @@ componentDidCatch()
 
 ```js
 componentDidMount() { 
-    console.log('开始调用', this.state.count); // 开始调用 0 
+    console.log('初始 state: ', this.state.count); // 初始 state: 0 
     this.setState({ count: this.state.count + 1 }); 
-    console.log('count1', this.state.count); // count1 0 
+    console.log('第一次 setState 之后: ', this.state.count); // 第一次 setState 之后: 0 
     this.setState({ count: this.state.count + 1 }); 
-    console.log('count2', this.state.count); // count2 0 
+    console.log('第二次 setState 之后: ', this.state.count); // 第二次 setState 之后: 0 
 }
 ```
 
@@ -90,11 +90,11 @@ componentDidMount() {
 ```js
 componentDidMount() { 
     setTimeout(() => { 
-        console.log('开始调用', this.state.count); // 开始调用 0 
+        console.log('初始 state: ', this.state.count); // 初始 state: 0 
         this.setState({ count: this.state.count + 1 }); 
-        console.log('count1', this.state.count); // count1 1 
+        console.log('第一次 setState 之后: ', this.state.count); // 第一次 setState 之后: 1 
         this.setState({ count: this.state.count + 1 }); 
-        console.log('count2', this.state.count); // count2 2 
+        console.log('第二次 setState 之后: ', this.state.count); // 第二次 setState 之后: 2 
     }, 0); 
 }
 ```
@@ -105,12 +105,12 @@ componentDidMount() {
 
 ```js
 componentDidMount() { 
-    console.log('开始调用', this.state.count); // 开始调用 0 
+    console.log('初始 state: ', this.state.count); // 初始 state:  0 
     this.setState({ count: this.state.count + 1 }, () => {
-        console.log('count1', this.state.count); // count1 1 
+        console.log('第一次 setState 之后: ', this.state.count); // 第一次 setState 之后: 1 
     }); 
     this.setState({ count: this.state.count + 1 }, () => {
-        console.log('count2', this.state.count); // count2 1
+        console.log('第二次 setState 之后: ', this.state.count); // 第二次 setState 之后: 1
     }); 
 }
 ```

@@ -4,11 +4,17 @@
 
 ## Class Component 性能优化
 
-#### shouldComponentUpdate 减少重新 render 的次数
+#### shouldComponentUpdate
 
-> 可以比较 state 和 props 前后的值决定是否更新。
->
-> 返回 true 则更新，否则不更新。
+**作用**
+
+```
+1、可以比较 state 和 props 前后的值决定是否更新。
+
+2、返回 true 则更新，否则不更新；可以减少重新 render 的次数
+```
+
+**示例**
 
 ```js
 import React from "react";
@@ -19,7 +25,7 @@ export default class ShouldComponentUpdateUsage extends React.Component {
     super(props);
     this.state = {
       value1: '渲染在页面中的值',
-      value2: '不会渲染在页面中的值'
+      value2: '不会渲染在页面中的值'    
     }
   }
   componentDidMount() {
@@ -40,14 +46,14 @@ export default class ShouldComponentUpdateUsage extends React.Component {
 }
 ```
 
-#### PureComponent 减少重新 render 的次数
+#### PureComponent
 
 **本质**
 
 ```
-组件自动执行一次 shallowEqual，默认会做一层浅比较。
+1、组件自动执行一次 shallowEqual，默认会做一层浅比较。
 
-相当于省去了写 shouldComponentUpdate 函数。
+2、相当于省去了写 shouldComponentUpdate 函数。
 ```
 
 **存在问题**
@@ -63,20 +69,20 @@ export default class ShouldComponentUpdateUsage extends React.Component {
 **immutable data structures（持久性数据结构）**
 
 ```
-数据一旦创建，就不能再被更改，任何修改或添加删除操作都会返回一个新的 Immutable 对象。
+1、数据一旦创建，就不能再被更改，任何修改或添加删除操作都会返回一个新的 Immutable 对象。
 
-相比 js，浅拷贝引用类型会共享地址、深拷贝浪费性能。
+2、相比 js，浅拷贝引用类型会共享地址、深拷贝浪费性能。
 ```
 
 **structural sharing（结构共享）**
 
 ```
-结构共享是指没有改变的数据共用一个引用，这样既减少了深拷贝的性能消耗，也减少了内存。
+1、结构共享是指没有改变的数据共用一个引用，这样既减少了深拷贝的性能消耗，也减少了内存。
 
-当我们对一个 Immutable 对象进行操作的时候，Immutable.js 只修改该节点以及它的祖先节点，其他保持不变，这样可以共享相同的部分，大大提高性能。
+2、当我们对一个 Immutable 对象进行操作的时候，Immutable.js 只修改该节点以及它的祖先节点，其他保持不变，这样可以共享相同的部分，大大提高性能。
 ```
 
-**特性举例**
+**示例**
 
 ```js
 var obj = {
@@ -92,7 +98,7 @@ console.log(map1 === map2); // == false
 console.log(map1.list === map2.list); // == true
 ```
 
-#### PureComponent 与 Immutable.js 两者结合
+#### PureComponent 与 Immutable.js 结合
 
 **优点**
 
@@ -112,11 +118,16 @@ console.log(map1.list === map2.list); // == true
 
 ## Function Component 性能优化
 
-#### React.memo 减少重新 render 的次数
+#### React.memo
+**作用**
 
-> 如果传递的 props 不变为则不会更新子组件，默认会做一层浅比较。
->
-> 返回 true 则不更新，否则更新
+```
+1、如果传递的 props 不变为则不会更新子组件，默认只会做一层浅比较
+
+2、返回 true 则不更新，否则更新；减少重新 render 的次数
+```
+
+**示例**
 
 ```js
 function MyComponent(props) {
@@ -129,11 +140,9 @@ function areEqual(prevProps, nextProps) {
 React.memo(MyComponent, areEqual);
 ```
 
-#### React.useCallback 减少重新 render 的次数
+#### React.useCallback
 
-> 在函数式组件里每次重新渲染，函数组件都会重头开始重新执行。
->
-> 两次创建的函数肯定发生了改变，所以导致了子组件重新渲染。
+**示例**
 
 ```js
 import React, { useState, useCallback } from 'react';
@@ -146,13 +155,9 @@ function Child(props) {
 function App() {
   const [parent, setParent] = useState('不会传递给子组件的值');
 
-  // const callback = () => {
-  //   console.log(1111);
-  // };
-  // == 通过 useCallback 避保持函数不变
-  const callback = useCallback(() => {
+  const callback = () => {
     console.log(1111);
-  }, []);
+  };
   
   return (
     <div className="App">
@@ -165,14 +170,32 @@ function App() {
 ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
-#### React.useMemo 减少计算的量
+**解释**
+
+```
+1、在函数式组件里每次重新渲染，函数组件都会重头开始重新执行
+
+2、两次创建的函数肯定发生了改变，所以导致了子组件重新渲染
+
+3、通过 useCallback 避保持函数改变
+const callback = useCallback(() => {
+  console.log(1111);
+}, []);
+```
+
+#### React.useMemo
+
+**作用**
+
+```
+1、第一个参数就是一个函数，返回的值会被缓存起来，同时这个值会作为 useMemo 的返回值；减少计算的量
+
+2、第二个参数是数组依赖，如果数组里面的值有变化，那么就会重新执行第一步
+```
+
+**示例**
 
 ```js
-1、作用
-第一个参数就是一个函数，这个函数返回的值会被缓存起来，同时这个值会作为 useMemo 的返回值，
-第二个参数是一个数组依赖，如果数组里面的值有变化，那么就会重新去执行第一个参数里面的函数，并将函数返回的值缓存起来并作为 useMemo 的返回值 。
-
-2、原因
 function expensiveFn() {
     let result = 0;
     for (let i = 0; i < 10000; i++) {
@@ -192,22 +215,19 @@ import React, { lazy, Suspense } from "react";
 
 export default class CallingLazyComponents extends React.Component {
   render() {
-    
-    var ComponentToLazyLoad = null;
-    
-    if(this.props.name == "Mayank") { 
-      ComponentToLazyLoad = lazy(() => import("./mayankComponent"));
-    } else if(this.props.name == "Anshul") {
-      ComponentToLazyLoad = lazy(() => import("./anshulComponent"));
+    let ComponentToLazyLoad = null;
+
+    if(this.props.name == 'component 1') { 
+      ComponentToLazyLoad = lazy(() => import('component1'));
+    } else if(this.props.name == 'component 2') {
+      ComponentToLazyLoad = lazy(() => import('component2'));
     }
+
     return (
-        <div>
-            <h1>This is the Base User: {this.state.name}</h1>
-            <Suspense fallback={<div>Loading...</div>}>
-                <ComponentToLazyLoad />
-            </Suspense>
-        </div>
-    )
+        <Suspense fallback={<div>Loading...</div>}>
+            <ComponentToLazyLoad />
+        </Suspense>
+    );
   }
 }
 ```

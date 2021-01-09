@@ -78,7 +78,7 @@
       * [Class Component](./frontend/react/source-code/class-component/README.md)
       * [Function Component](./frontend/react/source-code/function-component/README.md)
       * [Server Component](./frontend/react/source-code/server-component/README.md)
-      * [React 性能优化](./frontend/react/source-code/optimization-performance/README.md)
+      * [性能优化相关](./frontend/react/source-code/optimization-performance/README.md)
 * [后端]()
   * [Node]()
     * [express](./backend/node/express/README.md)
