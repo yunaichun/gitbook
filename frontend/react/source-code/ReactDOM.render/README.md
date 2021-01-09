@@ -15,6 +15,18 @@
  allowfullscreen>
  </iframe>
 
+## 后续
+
+```
+从 ReactDOM.render 流程图可以看到，后续代码需要关注以下几个函数：
+
+1、createContainer
+
+2、listenToAllSupportedEvents
+
+3、updateContainer
+```
+
 ## 源码阅读
 
 > 地址: https://github.com/yunaichun/react-study

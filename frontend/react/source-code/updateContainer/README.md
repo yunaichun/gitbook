@@ -89,18 +89,33 @@ react 模式: https://zh-hans.reactjs.org/docs/concurrent-mode-adoption.html#why
 3、concurrent 模式: ReactDOM.createRoot(rootNode).render(<App />)。创建的更新具有不同的优先级，同时也是可以打断的
 ```
 
-## 渲染逻辑
+## 渲染流程
 
 ```
 一、legacy 模式
-1、非批量更新且尚未渲染: performSyncWorkOnRoot(root);
+1、非批量更新且尚未渲染
+performSyncWorkOnRoot(root);
 
-2、批量更新或已经渲染: ensureRootIsScheduled(root, eventTime); 本质也是调用 performSyncWorkOnRoot(root);
-不过当 executionContext === NoContext 时，会执行 flushSyncCallbackQueue();
-(setTimeout 中执行 setState, 导致 batchedUpdates 中 executionContext 为 null)
+2、批量更新或已经渲染
+ensureRootIsScheduled(root, eventTime); 本质也是调用 performSyncWorkOnRoot(root);
+当 executionContext === NoContext 时，会执行 flushSyncCallbackQueue();
+如在 setTimeout 中执行 setState, 导致 batchedUpdates 中 executionContext 为 null。
 
 二、concurrent 模式
-ensureRootIsScheduled(root, eventTime);
+ensureRootIsScheduled(root, eventTime); 本质也是调用 performSyncWorkOnRoot(root);
+```
+
+## 后续
+
+```
+从 updateContainer 流程图可以看到，updateContainer 不管什么模式创建都会走 performSyncWorkOnRoot 这个函数，
+而这个函数三个核心功能分别是：
+
+1、beginWork
+
+2、completeUnitOfWork
+
+3、commitRoot
 ```
 
 ## 源码阅读
