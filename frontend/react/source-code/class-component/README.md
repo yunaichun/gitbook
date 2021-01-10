@@ -159,11 +159,9 @@ reconcileChildren 流程参考这里: https://www.answera.top/frontend/react/sou
 3、返回下一个工作单元 workInProgress.child
 ```
 
-## 问题解惑
+## setState 相关问题及分析
 
-#### 生命周期和合成事件
-
-**setState 是异步**
+#### 生命周期和合成事件 setState 是异步
 
 ```js
 componentDidMount() { 
@@ -175,37 +173,7 @@ componentDidMount() {
 }
 ```
 
-**原因分析**
-
-```
-待解答
-```
-
-#### 异步代码和原生事件
-
-**setState 是同步**
-
-```js
-componentDidMount() { 
-    setTimeout(() => { 
-        console.log('初始 state: ', this.state.count); // 初始 state: 0 
-        this.setState({ count: this.state.count + 1 }); 
-        console.log('第一次 setState 之后: ', this.state.count); // 第一次 setState 之后: 1 
-        this.setState({ count: this.state.count + 1 }); 
-        console.log('第二次 setState 之后: ', this.state.count); // 第二次 setState 之后: 2 
-    }, 0); 
-}
-```
-
-**原因分析**
-
-```
-待解答
-```
-
-#### 连续多次执行
-
-**setState 只会更新最后一次**
+#### 连续多次执行 setState 只会更新最后一次
 
 ```js
 componentDidMount() { 
@@ -219,10 +187,77 @@ componentDidMount() {
 }
 ```
 
-**原因分析**
+#### setState 第一个参数是函数不会合并
+
+```js
+componentDidMount() { 
+    console.log('初始 state: ', this.state.count); // 初始 state:  0 
+    this.setState((state, props) => {
+        return {count: state.count + 1};
+    }, () => {
+        console.log('第一次 setState 之后: ', this.state.count); // 第一次 setState 之后: 1 
+    }); 
+    this.setState((state, props) => {
+        return {count: state.count + 1};
+    }, () => {
+        console.log('第二次 setState 之后: ', this.state.count); // 第二次 setState 之后: 2
+    }); 
+}
+```
+
+#### 异步代码和原生事件 setState 是同步
+
+```js
+componentDidMount() { 
+    setTimeout(() => { 
+        console.log('初始 state: ', this.state.count); // 初始 state: 0 
+        this.setState({ count: this.state.count + 1 }); 
+        console.log('第一次 setState 之后: ', this.state.count); // 第一次 setState 之后: 1 
+        this.setState({ count: this.state.count + 1 }); 
+        console.log('第二次 setState 之后: ', this.state.count); // 第二次 setState 之后: 2 
+    }, 0); 
+}
+```
+
+#### 原因分析
 
 ```
-待解答
+由流程图可知: https://www.answera.top/frontend/react/source-code/beginWork/beginWork.png
+
+1、setState 会引发一次重新渲染，会依次调用
+enqueueSetState -> enqueueSetState
+
+2、如果是生命周期或者合成事件: 会先输出 this.state；然后执行 render；
+如果是异步代码或者原生事件: 会先执行 render；然后输出代码。
+
+3、重新渲染会经历的重要过程
+enqueueUpdate: 处理多次 setState 调用，形成更新队列的链表
+processUpdateQueue: 内部会循环更新队列的链表，每次循环都会调用 getStateFromUpdate 获取新的 state
+
+4、getStateFromUpdate 获取新的 state 
+4.1、如果 payload 是对象
+return Object.assign({}, prevState, payload);
+4.2、如果 payload 是函数
+partialState = payload.call(instance, prevState, nextProps)
+return Object.assign({}, prevState, partialState)
+
+5、经历过上面 2 和 3 步会执行
+finishClassComponent -> nextChildren = instance.render(); -> reconcileChildren
+
+6、由上面 5 可知
+直到 render 函数被调用的时候，this.state 才会拿到最新计算出来值
+```
+
+```
+所以
+
+1、多次调用 setState 会通过 enqueueSetState 方法形成更新队列的链表；
+在 processUpdateQueue 函数中通过 getStateFromUpdate 函数循环合并
+
+2、如果 payload 是对象的话，合并一定是保留最后一个的结果
+
+3、如果 payload 是函数的话，每个函数计算后都会得到一个新的 state 作为下一个合并的 prevState 传入，所以不会被覆盖掉；
+其实如果一开始 setState 的 payload 为函数，只要遇到 payload 为对象的话，之前 payload 为函数所做的合并都无效了。
 ```
 
 ## 生命周期介绍
