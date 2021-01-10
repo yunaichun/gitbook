@@ -9,7 +9,7 @@
 
 ![beginWork](./beginWork.png)
 
-## 流程分析
+## 前期处理
 
 #### 函数组件
 
@@ -19,7 +19,79 @@
 
 参考这里: https://www.answera.top/frontend/react/source-code/class-component
 
-## 节点 diff 逻辑
+#### 主要作用
+
+```
+1、在这里根据 UpdateQueue 计算出最新的 workInProgress
+
+2、然后在 reconcileChildren 阶段根据最新的 workInProgress 去更新 current
+
+3、前期如果是类组件，则 new 出来；如果是函数组件，则执行此函数；保证最终输出给 reconcileChildren 的都是一致的 jsx 
+```
+
+## reconcileChildren 流程分析
+
+#### reconcileChildren 分析
+
+**参数**
+
+```
+1、workInProgress: 代表新 Fiber
+2、current: 代表 旧 Fiber 的第一个子节点
+3、nextChildren: renderWithHooks 返回的值
+4、renderLanes: 调度优先级
+```
+
+**流程**
+
+```
+1、实际会调用 ReactChildFiber.old.js 文件的 ChildReconciler 函数
+2、实际会调用 ChildReconciler 函数
+3、ChildReconciler 会返回 reconcileChildFibers 函数
+```
+
+**返回**
+
+```
+workInProgress.child = reconcileChildFibers(
+    workInProgress,
+    current.child,
+    nextChildren,
+    renderLanes,
+);
+reconcileChildFibers 会执行 reconcileChildFibers，通过 sibling 处理所有子节点
+```
+
+#### reconcileChildFibers 分析
+
+**参数**
+
+```
+1、returnFiber: 构建中 Fiber
+2、currentFirstChild: 代表 旧 Fiber 的第一个子节点
+3、newChild: 不同组件实际返回的子节点
+4、lanes: 调度优先级
+
+reconcileChildFibers 的参数即为 reconcileChildren 的参数
+```
+
+**单节点diff**
+
+```
+1、调用函数 reconcileSingleElement
+
+2、与 reconcileChildFibers 参数一致
+```
+
+**多节点diff**
+
+```
+1、调用函数 reconcileChildrenArray
+
+2、与 reconcileChildFibers 参数一致
+```
+
+## 节点 diff 逻辑分析
 
 #### 遍历逻辑
 
