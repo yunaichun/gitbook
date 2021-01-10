@@ -9,7 +9,94 @@
 
 ![beginWork](./beginWork.png)
 
-## 遍历逻辑
+## 流程分析
+
+#### 函数组件
+
+**updateFunctionComponent**
+
+```
+一、updateFunctionComponent 参数
+1、current: 代表 旧 Fiber
+2、workInProgress: 代表新 Fiber
+3、Component: 这个 type 实际是函数组件本身，执行就会返回函数组件 return 的内容
+4、resolvedProps: 新的 props
+5、renderLanes: 调度优先级
+
+二、updateFunctionComponent 内部
+1、renderWithHooks 返回函数组件的children
+2、reconcileChildren 通过 sibling 处理所有子节点
+```
+
+**renderWithHooks**
+
+```
+1、执行函数组件：children = Component(props, secondArg)
+
+2、返回函数组件的 children 节点
+```
+
+**reconcileChildren**
+
+```
+一、reconcileChildren 参数
+1、workInProgress: 代表新 Fiber
+2、current: 代表 旧 Fiber 的第一个子节点
+3、nextChildren: renderWithHooks 返回的值
+4、renderLanes: 调度优先级
+
+二、reconcileChildren 实际调用
+1、实际会调用 ReactChildFiber.old.js 文件的 ChildReconciler 函数
+2、实际会调用 ChildReconciler 函数
+3、ChildReconciler 会返回 reconcileChildFibers 函数
+
+三、reconcileChildren 返回
+workInProgress.child = reconcileChildFibers(
+    workInProgress,
+    current.child,
+    nextChildren,
+    renderLanes,
+);
+reconcileChildFibers 会执行 reconcileChildFibers，通过 sibling 处理所有子节点
+```
+
+**reconcileChildFibers**
+
+```
+一、reconcileChildFibers 的参数即为 reconcileChildren 的参数
+
+二、reconcileChildFibers 参数
+1、returnFiber: 构建中 Fiber
+2、currentFirstChild: 代表 旧 Fiber 的第一个子节点
+3、newChild: 不同组件实际返回的子节点
+4、lanes: 调度优先级
+```
+
+**reconcileSingleElement**
+
+```
+1、单节点diff
+
+2、与 reconcileChildFibers 参数一致
+```
+
+**reconcileChildrenArray**
+
+```
+1、多节点diff
+
+2、与 reconcileChildFibers 参数一致
+```
+
+#### class组件
+
+```
+待看
+```
+
+## 节点 diff 逻辑
+
+#### 遍历逻辑
 
 ```
 1、beginWork 主要作用是 reconcile 协调处理所有子节点；
@@ -24,7 +111,7 @@
 beginWork 是顶部向下一层一层处理，即为自上而下的广度优先。
 ```
 
-## 单节点diff
+#### 单节点diff
 
 ```
 位置: react-reconciler/src/ReactChildFiber.old.js
@@ -37,7 +124,7 @@ beginWork 是顶部向下一层一层处理，即为自上而下的广度优先�
 3、key 不同：仅将 child 标记删除
 ```
 
-## 节点 effect 链表
+#### 节点 effect 链表
 
 ```
 位置: react-reconciler/src/ReactChildFiber.old.js
@@ -60,12 +147,11 @@ parent.firstEffect -----------> parent.lastEffect = child
 parent.firstEffect -----------> child -----------> parent.lastEffect = child
 ```
 
-## 多节点diff
+#### 多节点diff
 
 ```
 位置: react-reconciler/src/ReactChildFiber.old.js
 方法: reconcileChildrenArray 
-
 
 1、同时遍历 newChildren 和 oldFiber
 两者 key 相同 -> 复用节点；
