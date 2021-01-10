@@ -24,9 +24,11 @@
 ```
 1、在这里根据 UpdateQueue 计算出最新的 workInProgress
 
-2、然后在 reconcileChildren 阶段根据最新的 workInProgress 去更新 current
+2、然后在 reconcileChildren 阶段根据 current 与 workInProgress 对比
+找出差异，更新 workInProgress
 
-3、前期如果是类组件，则 new 出来；如果是函数组件，则执行此函数；保证最终输出给 reconcileChildren 的都是一致的 jsx 
+3、前期如果是类组件，则 new 出来；如果是函数组件，则执行此函数
+保证最终输出给 reconcileChildren 的都是一致的 jsx 
 ```
 
 ## reconcileChildren 流程分析

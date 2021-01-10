@@ -23,28 +23,14 @@
 **流程**
 
 ```
-1、renderWithHooks 返回函数组件的children
-2、reconcileChildren 通过 sibling 处理所有子节点
-```
+1、renderWithHooks 返回函数组件的 children
+children = Component(props, secondArg)
 
-#### renderWithHooks 流程分析
+2、reconcileChildren(current, workInProgress, nextChildren, renderLanes);
+通过 current.sibling 处理所有子节点
+reconcileChildren 流程参考这里: https://www.answera.top/frontend/react/source-code/beginWork
 
-```
-1、执行函数组件：children = Component(props, secondArg)
-
-2、返回函数组件的 children 节点
-```
-
-#### reconcileChildren 流程分析
-
-```
-参考这里: https://www.answera.top/frontend/react/source-code/beginWork
-```
-
-#### 最终返回
-
-```
-返回下一个工作单元 workInProgress.child
+3、返回下一个工作单元 workInProgress.child
 ```
 
 ## useState 等 Hooks

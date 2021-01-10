@@ -149,9 +149,11 @@ workInProgress.memoizedState = Object.assign({}, prevState, partialState);
 #### finishClassComponent 流程分析
 
 ```
-1、nextChildren = instance.render();
+1、执行实例的 render 方法返回 class 组件的 children
+nextChildren = instance.render();
 
 2、reconcileChildren(current, workInProgress, nextChildren, renderLanes);
+通过 current.sibling 处理所有子节点
 reconcileChildren 流程参考这里: https://www.answera.top/frontend/react/source-code/beginWork
 
 3、返回下一个工作单元 workInProgress.child
