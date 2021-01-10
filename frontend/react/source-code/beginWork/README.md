@@ -36,9 +36,9 @@
 **参数**
 
 ```
-1、workInProgress: 代表新 Fiber
-2、current: 代表 旧 Fiber 的第一个子节点
-3、nextChildren: renderWithHooks 返回的值
+1、current: 代表 旧 Fiber 的第一个子节点
+2、workInProgress: 代表新 Fiber
+3、nextChildren: 对于 class 组件是 instance.render(); 对于函数组件是 renderWithHooks 返回的值
 4、renderLanes: 调度优先级
 ```
 
@@ -59,7 +59,7 @@ workInProgress.child = reconcileChildFibers(
     nextChildren,
     renderLanes,
 );
-reconcileChildFibers 会执行 reconcileChildFibers，通过 sibling 处理所有子节点
+reconcileChildFibers 会执行通过 sibling 处理所有子节点
 ```
 
 #### reconcileChildFibers 分析
@@ -68,11 +68,9 @@ reconcileChildFibers 会执行 reconcileChildFibers，通过 sibling 处理所�
 
 ```
 1、returnFiber: 构建中 Fiber
-2、currentFirstChild: 代表 旧 Fiber 的第一个子节点
-3、newChild: 不同组件实际返回的子节点
+2、currentFirstChild: 代表旧 Fiber 的第一个子节点
+3、newChild: 对于 class 组件是 instance.render(); 对于函数组件是 renderWithHooks 返回的值
 4、lanes: 调度优先级
-
-reconcileChildFibers 的参数即为 reconcileChildren 的参数
 ```
 
 **单节点diff**

@@ -41,6 +41,12 @@
 参考这里: https://www.answera.top/frontend/react/source-code/beginWork
 ```
 
+#### 最终返回
+
+```
+返回下一个工作单元 workInProgress.child
+```
+
 ## useState 等 Hooks
 
 ```

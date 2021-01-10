@@ -146,29 +146,22 @@ const partialState = getDerivedStateFromProps(nextProps, prevState);
 workInProgress.memoizedState = Object.assign({}, prevState, partialState);
 ```
 
-#### resumeMountClassInstance 流程分析
-
-```
-待整理
-```
-
-#### updateClassInstance 流程分析
-
-```
-待整理
-```
-
 #### finishClassComponent 流程分析
 
 ```
-待整理
+1、nextChildren = instance.render();
+
+2、reconcileChildren(current, workInProgress, nextChildren, renderLanes);
+reconcileChildren 流程参考这里: https://www.answera.top/frontend/react/source-code/beginWork
+
+3、返回下一个工作单元 workInProgress.child
 ```
 
-## 问题合集
+## 问题解惑
 
 #### 生命周期和合成事件
 
-**是异步**
+**setState 是异步**
 
 ```js
 componentDidMount() { 
@@ -188,7 +181,7 @@ componentDidMount() {
 
 #### 异步代码和原生事件
 
-**是同步**
+**setState 是同步**
 
 ```js
 componentDidMount() { 
@@ -208,9 +201,9 @@ componentDidMount() {
 待解答
 ```
 
-#### 连续多次 setState
+#### 连续多次执行
 
-**只会更新最后一次**
+**setState 只会更新最后一次**
 
 ```js
 componentDidMount() { 
