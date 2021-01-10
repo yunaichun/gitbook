@@ -12,34 +12,36 @@
 ## createUpdate 创建 update 更新对象
 
 ```js
-// == 根据 eventTime, lane 创建更新对象
-const update = {
-  // == 任务时间，通过 performance.now() 获取的毫秒数
-  eventTime,
-  // == 优先级相关字段
-  lane,
+1、eventTime
+任务时间，通过 performance.now() 获取的毫秒数
 
-  // == 更新的类型，包括 UpdateState | ReplaceState | ForceUpdate | CaptureUpdate
-  tag: UpdateState,
-  // == 更新挂载的数据。不同类型组件挂载的数据不同：
-  // == 对于 ClassComponent，payload 为 this.setState 的第一个传参。
-  // == 对于 HostRoot，payload 为 ReactDOM.render 的第一个传参。
-  payload: null,
-  // == 更新的回调函数。不同类型组件挂载的数据不同：
-  // == 对于 ClassComponent，callback 为 this.setState 的第二个传参。
-  // == 对于 HostRoot，callback 为 ReactDOM.render 的第三个传参。
-  callback: null,
+2、lane
+优先级相关字段
 
-  // == 与其他Update连接形成链表。挂载 fiber.updateQueue.shared.pending.next
-  next: null,
-};
+3、tag
+更新的类型，包括 UpdateState | ReplaceState | ForceUpdate | CaptureUpdate
+更新挂载的数据。不同类型组件挂载的数据不同：
+
+
+4、payload: null,
+更新的回调函数。不同类型组件挂载的数据不同：
+对于 ClassComponent，payload 为 this.setState 的第一个传参。
+对于 HostRoot，payload 为 ReactDOM.render 的第一个传参。
+
+5、callback: null,
+对于 ClassComponent，callback 为 this.setState 的第二个传参。
+对于 HostRoot，callback 为 ReactDOM.render 的第三个传参。
+
+6、next: null,
+与其他 Update 连接形成链表
 ```
 
-## enqueueUpdate 形成更新链表
+## enqueueUpdate 形成环状链表
 
-```
-          next                                      next
-update --------> fiber.updateQueue.shared.pending --------->  update
+```js
+const pending = current.updateQueue.shared
+update.next = pending.next;
+pending.next = update;
 ```
 
 ## scheduleUpdateOnFiber 调度 Fiber 节点的挂载

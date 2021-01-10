@@ -2,7 +2,235 @@
 
 > React - Class Component 源码阅读学习笔记。
 
-## 生命周期
+## 知识回顾
+
+参考这里: https://www.answera.top/frontend/react/source-code/beginWork
+
+## beginWork 流程分析
+
+#### constructClassInstance 流程分析
+
+**实际调用 adoptClassInstance**
+
+```
+instance.updater = classComponentUpdater;
+
+workInProgress.stateNode = instance;
+```
+
+**classComponentUpdater 对象**
+
+```
+1、isMounted
+2、enqueueReplaceState
+3、enqueueForceUpdate
+4、enqueueSetState
+```
+
+**enqueueSetState 流程**
+
+```
+1、getInstance
+2、requestEventTime
+3、requestUpdateLane
+4、createUpdate
+5、enqueueUpdate
+6、scheduleUpdateOnFiber ，与 updateContainer 流程是一样的
+```
+
+#### initializeUpdateQueue 流程分析
+
+**创建 updateQueue 结构**
+
+```js
+1、baseState: fiber.memoizedState
+本次更新前该 Fiber 节点的 state，Update 基于该 state 计算更新后的 state
+
+2、firstBaseUpdate 和lastBaseUpdate
+本次更新前该 Fiber 节点已保存的 Update
+以链表形式存在，链表头为 firstBaseUpdate 
+链表尾为 lastBaseUpdate
+
+3、shared.pending
+触发更新时，产生的 Update 会保存在 shared.pending 中形成单向环状链表
+当由 Update 计算 state 时这个环会被剪开并连接在 lastBaseUpdate 后面
+
+4、effects
+数组。保存 update.calback !== null 的 Update
+```
+
+**赋值给 Fiber 节点**
+
+```
+fiber.updateQueue = queue;
+```
+
+#### processUpdateQueue 流程分析
+
+**首先处理 workInProgress、current 更新链表**
+
+```
+1、lastBaseUpdate 为 null
+firstBaseUpdate = workInProgress.updateQueue.shared.pending
+
+2、lastBaseUpdate 不为 null
+                    next 
+firstBaseUpdate -----------> workInProgress.updateQueue.shared.pending = lastPendingUpdate
+
+3、假如再加入一个新的 Update
+                    next                  next
+firstBaseUpdate -----------> 上次 Update -----------> workInProgress.updateQueue.shared.pending = lastPendingUpdate
+```
+
+**通过不断移动 next 遍历 workInProgress 的更新队列**
+
+```
+1、类似 createUpdate 一样手动创建一个 update 对象
+
+2、内部根据 getStateFromUpdate 通过 update.payload 获取最新的 state
+
+3、firstBaseUpdate.next 为 null 且 pendingQueue 为 null 终止循环
+因为调度的原因，可能上一层的 Update 没执行完，放在 UpdateQueue 的 lastPendingUpdate 之后
+```
+
+**更新 UpdateQueue 对象的 baseState、firstBaseUpdate、lastBaseUpdate**
+
+```
+queue.baseState = newState;
+queue.firstBaseUpdate = newFirstBaseUpdate;
+queue.lastBaseUpdate = newLastBaseUpdate;
+```
+
+**更新 workInProgress 的 memoizedState**
+
+```
+workInProgress.memoizedState = newState;
+```
+
+#### getStateFromUpdate 流程分析
+
+**参数**
+
+```
+1、workInProgress: 新 Fiber
+2、queue: workInProgress 更新队列
+3、update: 类似 createUpdate 一样手动创建一个 update 对象
+4、prevState: UpdateQueue.baseState
+5、nextProps: new props
+6、instance: class 组件实例
+```
+
+**流程**
+
+```
+1、CaptureUpdate
+
+2、ReplaceState
+const nextState = payload.call(instance, prevState, nextProps);
+return nextState
+
+3、UpdateState
+const nextState = payload.call(instance, prevState, nextProps);
+return Object.assign({}, prevState, partialState)
+
+4、ForceUpdate
+return prevState;
+```
+
+#### getDerivedStateFromProps 流程分析
+
+```js
+const partialState = getDerivedStateFromProps(nextProps, prevState);
+
+// == 返回新的 state
+workInProgress.memoizedState = Object.assign({}, prevState, partialState);
+```
+
+#### resumeMountClassInstance 流程分析
+
+```
+待整理
+```
+
+#### updateClassInstance 流程分析
+
+```
+待整理
+```
+
+#### finishClassComponent 流程分析
+
+```
+待整理
+```
+
+## 问题合集
+
+#### 生命周期和合成事件
+
+**是异步**
+
+```js
+componentDidMount() { 
+    console.log('初始 state: ', this.state.count); // 初始 state: 0 
+    this.setState({ count: this.state.count + 1 }); 
+    console.log('第一次 setState 之后: ', this.state.count); // 第一次 setState 之后: 0 
+    this.setState({ count: this.state.count + 1 }); 
+    console.log('第二次 setState 之后: ', this.state.count); // 第二次 setState 之后: 0 
+}
+```
+
+**原因分析**
+
+```
+待解答
+```
+
+#### 异步代码和原生事件
+
+**是同步**
+
+```js
+componentDidMount() { 
+    setTimeout(() => { 
+        console.log('初始 state: ', this.state.count); // 初始 state: 0 
+        this.setState({ count: this.state.count + 1 }); 
+        console.log('第一次 setState 之后: ', this.state.count); // 第一次 setState 之后: 1 
+        this.setState({ count: this.state.count + 1 }); 
+        console.log('第二次 setState 之后: ', this.state.count); // 第二次 setState 之后: 2 
+    }, 0); 
+}
+```
+
+**原因分析**
+
+```
+待解答
+```
+
+#### 连续多次 setState
+
+**只会更新最后一次**
+
+```js
+componentDidMount() { 
+    console.log('初始 state: ', this.state.count); // 初始 state:  0 
+    this.setState({ count: this.state.count + 1 }, () => {
+        console.log('第一次 setState 之后: ', this.state.count); // 第一次 setState 之后: 1 
+    }); 
+    this.setState({ count: this.state.count + 1 }, () => {
+        console.log('第二次 setState 之后: ', this.state.count); // 第二次 setState 之后: 1
+    }); 
+}
+```
+
+**原因分析**
+
+```
+待解答
+```
+
+## 生命周期介绍
 
 #### 挂载阶段
 
@@ -23,7 +251,7 @@ Boolean 和 null，不会渲染任何东西
 
 #### 更新阶段
 
-> 触发更新操作
+**触发更新操作**
 
 ```
 1、HostRoot: ReactDOM.render
@@ -33,7 +261,7 @@ Boolean 和 null，不会渲染任何东西
 3、FunctionComponent: useState、useReducer
 ```
 
-> 经历过程
+**经历过程**
 
 ```
 1、static getDerivedStateFromProps(nextProps, prevState) 取代 componentWillReceiveProps
@@ -65,60 +293,6 @@ componentWillUnmount
 static getDerivedStateFromError()
 
 componentDidCatch()
-```
-
-## setState 相关问题
-
-#### 生命周期和合成事件
-
-> 是异步
-
-```js
-componentDidMount() { 
-    console.log('初始 state: ', this.state.count); // 初始 state: 0 
-    this.setState({ count: this.state.count + 1 }); 
-    console.log('第一次 setState 之后: ', this.state.count); // 第一次 setState 之后: 0 
-    this.setState({ count: this.state.count + 1 }); 
-    console.log('第二次 setState 之后: ', this.state.count); // 第二次 setState 之后: 0 
-}
-```
-
-#### 异步代码和原生事件
-
-> 是同步
-
-```js
-componentDidMount() { 
-    setTimeout(() => { 
-        console.log('初始 state: ', this.state.count); // 初始 state: 0 
-        this.setState({ count: this.state.count + 1 }); 
-        console.log('第一次 setState 之后: ', this.state.count); // 第一次 setState 之后: 1 
-        this.setState({ count: this.state.count + 1 }); 
-        console.log('第二次 setState 之后: ', this.state.count); // 第二次 setState 之后: 2 
-    }, 0); 
-}
-```
-
-#### 连续多次 setState
-
-> 只会更新最后一次
-
-```js
-componentDidMount() { 
-    console.log('初始 state: ', this.state.count); // 初始 state:  0 
-    this.setState({ count: this.state.count + 1 }, () => {
-        console.log('第一次 setState 之后: ', this.state.count); // 第一次 setState 之后: 1 
-    }); 
-    this.setState({ count: this.state.count + 1 }, () => {
-        console.log('第二次 setState 之后: ', this.state.count); // 第二次 setState 之后: 1
-    }); 
-}
-```
-
-## setState 源码阅读
-
-```
-待看
 ```
 
 ## 源码阅读
