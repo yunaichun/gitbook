@@ -2,14 +2,14 @@
 
 > React - beginWork 源码阅读学习笔记。
 
-## beginWork 流程
+## beginWork 整体流程
 
 - 图片地址: https://www.answera.top/frontend/react/source-code/beginWork/beginWork.png
 - 源文件地址: https://www.answera.top/frontend/react/source-code/beginWork/beginWork.xmind
 
 ![beginWork](./beginWork.png)
 
-## 前期处理
+## reconcileChildren 前处理
 
 #### 函数组件
 
@@ -28,7 +28,7 @@
 找出差异，更新 workInProgress
 
 3、前期如果是类组件，则 new 出来；如果是函数组件，则执行此函数
-保证最终输出给 reconcileChildren 的都是一致的 jsx 
+保证最终输出给 reconcileChildren 的都是一致的 children 
 ```
 
 ## reconcileChildren 流程分析
@@ -40,7 +40,7 @@
 ```
 1、current: 代表 旧 Fiber 的第一个子节点
 2、workInProgress: 代表新 Fiber
-3、nextChildren: 对于 class 组件是 instance.render(); 对于函数组件是 renderWithHooks 返回的值
+3、nextChildren: 对于 class 组件是 instance.render(); 对于函数组件是 Component(props, secondArg)
 4、renderLanes: 调度优先级
 ```
 

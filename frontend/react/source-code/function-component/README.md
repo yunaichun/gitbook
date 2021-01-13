@@ -2,11 +2,14 @@
 
 > React - Function Component 源码阅读学习笔记。
 
-## 知识回顾
+## beginWork 整体流程
 
-参考这里: https://www.answera.top/frontend/react/source-code/beginWork
+- 图片地址: https://www.answera.top/frontend/react/source-code/beginWork/beginWork.png
+- 源文件地址: https://www.answera.top/frontend/react/source-code/beginWork/beginWork.xmind
 
-## beginWork 流程分析
+![beginWork](../beginWork/beginWork.png)
+
+## reconcileChildren 前处理
 
 #### updateFunctionComponent 流程分析
 
@@ -28,10 +31,13 @@ children = Component(props, secondArg)
 
 2、reconcileChildren(current, workInProgress, nextChildren, renderLanes);
 通过 current.sibling 处理所有子节点
-reconcileChildren 流程参考这里: https://www.answera.top/frontend/react/source-code/beginWork
 
 3、返回下一个工作单元 workInProgress.child
 ```
+
+#### reconcileChildren 流程分析
+
+参考这里: https://www.answera.top/frontend/react/source-code/beginWork
 
 ## useState 等 Hooks
 

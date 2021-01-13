@@ -2,13 +2,31 @@
 
 > React - Class Component 源码阅读学习笔记。
 
-## 知识回顾
+## beginWork 整体流程
 
-参考这里: https://www.answera.top/frontend/react/source-code/beginWork
+- 图片地址: https://www.answera.top/frontend/react/source-code/beginWork/beginWork.png
+- 源文件地址: https://www.answera.top/frontend/react/source-code/beginWork/beginWork.xmind
 
-## beginWork 流程分析
+![beginWork](../beginWork/beginWork.png)
 
-#### constructClassInstance 流程分析
+## reconcileChildren 前处理
+
+#### updateFunctionComponent 流程分析
+
+```
+由流程图可知 updateFunctionComponent 会经历流程:
+
+1、constructClassInstance
+
+2、mountClassInstance
+initializeUpdateQueue -> processUpdateQueue -> getDerivedStateFromProps
+
+3、finishClassComponent
+
+下面按照顺序依次看下上面函数做了哪些事情。
+```
+
+#### 1、constructClassInstance 流程分析
 
 **实际调用 adoptClassInstance**
 
@@ -24,7 +42,7 @@ workInProgress.stateNode = instance;
 1、isMounted
 2、enqueueReplaceState
 3、enqueueForceUpdate
-4、enqueueSetState
+4、enqueueSetState，这个函数即为 setState 函数的实现
 ```
 
 **enqueueSetState 流程**
@@ -38,7 +56,7 @@ workInProgress.stateNode = instance;
 6、scheduleUpdateOnFiber ，与 updateContainer 流程是一样的
 ```
 
-#### initializeUpdateQueue 流程分析
+#### 2、initializeUpdateQueue 流程分析
 
 **创建 updateQueue 结构**
 
@@ -65,7 +83,7 @@ workInProgress.stateNode = instance;
 fiber.updateQueue = queue;
 ```
 
-#### processUpdateQueue 流程分析
+#### 3、processUpdateQueue 流程分析
 
 **首先处理 workInProgress、current 更新链表**
 
@@ -107,7 +125,7 @@ queue.lastBaseUpdate = newLastBaseUpdate;
 workInProgress.memoizedState = newState;
 ```
 
-#### getStateFromUpdate 流程分析
+#### 4、getStateFromUpdate 流程分析
 
 **参数**
 
@@ -125,19 +143,27 @@ workInProgress.memoizedState = newState;
 ```
 1、CaptureUpdate
 
-2、ReplaceState
+
+2、ForceUpdate
+return prevState;
+
+
+3、ReplaceState
 const nextState = payload.call(instance, prevState, nextProps);
 return nextState
 
-3、UpdateState
+
+4、UpdateState: 这里即为 setState 计算结果
+
+4.1 如果 payload 为对象
+return Object.assign({}, prevState, payload);
+
+4.2 如果 payload 为函数
 const nextState = payload.call(instance, prevState, nextProps);
 return Object.assign({}, prevState, partialState)
-
-4、ForceUpdate
-return prevState;
 ```
 
-#### getDerivedStateFromProps 流程分析
+#### 5、getDerivedStateFromProps 流程分析
 
 ```js
 const partialState = getDerivedStateFromProps(nextProps, prevState);
@@ -146,7 +172,7 @@ const partialState = getDerivedStateFromProps(nextProps, prevState);
 workInProgress.memoizedState = Object.assign({}, prevState, partialState);
 ```
 
-#### finishClassComponent 流程分析
+#### 6、finishClassComponent 流程分析
 
 ```
 1、执行实例的 render 方法返回 class 组件的 children
@@ -154,10 +180,13 @@ nextChildren = instance.render();
 
 2、reconcileChildren(current, workInProgress, nextChildren, renderLanes);
 通过 current.sibling 处理所有子节点
-reconcileChildren 流程参考这里: https://www.answera.top/frontend/react/source-code/beginWork
 
 3、返回下一个工作单元 workInProgress.child
 ```
+
+#### 7、reconcileChildren 流程分析
+
+参考这里: https://www.answera.top/frontend/react/source-code/beginWork
 
 ## setState 相关问题及分析
 
@@ -187,7 +216,7 @@ componentDidMount() {
 }
 ```
 
-#### setState 第一个参数是函数不会合并
+#### setState 第一个参数是函数每次都会更新
 
 ```js
 componentDidMount() { 
@@ -219,46 +248,59 @@ componentDidMount() {
 }
 ```
 
-#### 原因分析
+#### setState 流程分析
 
 ```
-由流程图可知: https://www.answera.top/frontend/react/source-code/beginWork/beginWork.png
+1、setState 会调用 enqueueSetState 函数，引发一次重新渲染。
 
-1、setState 会引发一次重新渲染，会依次调用
-enqueueSetState -> enqueueSetState
+2、由于重新渲染不再走 componentDidMount 函数，所以猜测
 
-2、如果是生命周期或者合成事件: 会先输出 this.state；然后执行 render；
-如果是异步代码或者原生事件: 会先执行 render；然后输出代码。
-
-3、重新渲染会经历的重要过程
+2、重新渲染会经历的重要过程
 enqueueUpdate: 处理多次 setState 调用，形成更新队列的链表
 processUpdateQueue: 内部会循环更新队列的链表，每次循环都会调用 getStateFromUpdate 获取新的 state
 
-4、getStateFromUpdate 获取新的 state 
-4.1、如果 payload 是对象
-return Object.assign({}, prevState, payload);
-4.2、如果 payload 是函数
-partialState = payload.call(instance, prevState, nextProps)
-return Object.assign({}, prevState, partialState)
+3、getStateFromUpdate 获取新的 state 
 
-5、经历过上面 2 和 3 步会执行
-finishClassComponent -> nextChildren = instance.render(); -> reconcileChildren
+4、执行 finishClassComponent 阶段，主要通过 instance.render() 得到 class 组件的实际节点
 
-6、由上面 5 可知
-直到 render 函数被调用的时候，this.state 才会拿到最新计算出来值
+5、进入 reconcileChildren 阶段
+
+6、由第 4 步骤可知，直到 render 函数被调用的时候，this.state 才会拿到最新计算出来值
+```
+
+#### 原因分析
+
+```
+1、多次调用 setState 是如何将更新队列连接起来的？
+
+多次调用 setState 会通过 enqueueSetState 方法形成更新队列的链表；
+
+在 processUpdateQueue 函数中通过 getStateFromUpdate 函数循环合并。
+
+但是连续调用 2 次的话，为什么不会执行 2 次渲染，我在源码中还没有找到这部分的逻辑，待补充。
 ```
 
 ```
-所以
+2、多次调用 setState 状态是如何合并的？
 
-1、多次调用 setState 会通过 enqueueSetState 方法形成更新队列的链表；
-在 processUpdateQueue 函数中通过 getStateFromUpdate 函数循环合并
+如果 payload 是对象的话，合并一定是保留最后一个的结果。
 
-2、如果 payload 是对象的话，合并一定是保留最后一个的结果
+如果 payload 是函数的话，每个函数计算后都会得到一个新的 state 作为下一个 prevState 传入，所以不会被覆盖掉。
 
-3、如果 payload 是函数的话，每个函数计算后都会得到一个新的 state 作为下一个合并的 prevState 传入，所以不会被覆盖掉；
-其实如果一开始 setState 的 payload 为函数，只要遇到 payload 为对象的话，之前 payload 为函数所做的合并都无效了。
+如果一开始 setState 的 payload 为函数，只要遇到 payload 为对象的话，之前 payload 为函数所做的合并都无效了。
 ```
+
+```
+3、为什么异步或原生事件会同步拿到结果？
+
+直到 render 函数被调用的时候，this.state 才会拿到最新计算出来值。由此可知并实践得知:
+
+如果是生命周期或者合成事件，会先输出 this.state；然后执行 render；所以拿到的是旧的 state。
+如果是异步代码或者原生事件: 会先执行 render；然后输出 this.state；所以拿到的是新的 state。
+
+但是我在源码中还没有找到这部分的逻辑，待补充。
+```
+
 
 ## 生命周期介绍
 
