@@ -22,13 +22,14 @@
 #### 主要作用
 
 ```
-1、在这里根据 UpdateQueue 计算出最新的 workInProgress
+1、根据 UpdateQueue 计算出最新的 state，存入 workInProgress 的 memoizedState。
 
-2、然后在 reconcileChildren 阶段根据 current 与 workInProgress 对比
-找出差异，更新 workInProgress
+2、拿到不同组件类型的实际的 children 节点:
+如果是 class    组件  ->  nextChildren = instance.render()
+如果是 function 组件  ->  nextChildren = Component(props, secondArg)
 
-3、前期如果是类组件，则 new 出来；如果是函数组件，则执行此函数
-保证最终输出给 reconcileChildren 的都是一致的 children 
+3、保证不同组件传递给 reconcileChildren 函数的 nextChildren 是一致的节点
+reconcileChildren 阶段根据 current 与 nextChildren 对比找出差异，更新 workInProgress。
 ```
 
 ## reconcileChildren 流程分析
