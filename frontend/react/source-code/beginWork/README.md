@@ -11,13 +11,13 @@
 
 ## reconcileChildren 前处理
 
-#### 函数组件
+#### Class Component
 
-参考这里: https://www.answera.top/frontend/react/source-code/function-component
+地址: https://www.answera.top/frontend/react/source-code/class-component
 
-#### 类组件
+#### Function Component
 
-参考这里: https://www.answera.top/frontend/react/source-code/class-component
+地址: https://www.answera.top/frontend/react/source-code/function-component
 
 #### 主要作用
 
@@ -25,8 +25,8 @@
 1、根据 UpdateQueue 计算出最新的 state，存入 workInProgress 的 memoizedState。
 
 2、拿到不同组件类型的实际的 children 节点:
-如果是 class    组件  ->  nextChildren = instance.render()
-如果是 function 组件  ->  nextChildren = Component(props, secondArg)
+如果是 Class Component     ->  nextChildren = instance.render()
+如果是 Function Component  ->  nextChildren = Component(props, secondArg)
 
 3、保证不同组件传递给 reconcileChildren 函数的 nextChildren 是一致的节点
 reconcileChildren 阶段根据 current 与 nextChildren 对比找出差异，更新 workInProgress。

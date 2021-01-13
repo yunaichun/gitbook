@@ -186,7 +186,7 @@ nextChildren = instance.render();
 
 #### 7、reconcileChildren 流程分析
 
-参考这里: https://www.answera.top/frontend/react/source-code/beginWork
+地址: https://www.answera.top/frontend/react/source-code/beginWork
 
 ## setState 相关问题及分析
 

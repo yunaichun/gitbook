@@ -37,7 +37,7 @@ children = Component(props, secondArg)
 
 #### reconcileChildren 流程分析
 
-参考这里: https://www.answera.top/frontend/react/source-code/beginWork
+地址: https://www.answera.top/frontend/react/source-code/beginWork
 
 ## useState 等 Hooks
 
