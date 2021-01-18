@@ -7,13 +7,13 @@
 > shell 确认弹窗
 
 ```text
-项目地址: https://github.com/yunaichun/ync-sh-confim
+项目地址: https://github.com/yunaichun/ync-lerna-packages/tree/master/packages/ync-sh-confim
 ```
 
 > React 项目模版
 
 ```text
-项目地址: https://github.com/yunaichun/ync-react-cli
+项目地址: https://github.com/yunaichun/ync-lerna-packages/tree/master/packages/ync-react-cli
 ```
 
 ## 参考资料

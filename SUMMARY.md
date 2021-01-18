@@ -111,7 +111,7 @@
   * [nvm](./terminal/nvm/README.md)
   * [shell](./terminal/shell/README.md)
   * [linux](./terminal/linux/README.md)
-  * [命令行工具开发](./terminal/cli-achieve/README.md)
+  * [命令行开发](./terminal/cli-simple/README.md)
 * [浏览器简介]()
   * [V8简介](./browser/v8/README.md)
   * [浏览器渲染过程](./browser/render/README.md)
