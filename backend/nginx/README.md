@@ -30,9 +30,7 @@
 重启: sudo nginx -s reload
 ```
 
-## 跨域和均衡负载
-
-> 跨域
+## 跨域
 
 ```conf
 server {
@@ -52,7 +50,7 @@ server {
 }
 ```
 
-> 均衡负载
+## 均衡负载
 
 ```conf
 # 通过 upstream 配置均衡负载
@@ -69,6 +67,50 @@ server {
         proxy_pass        http://webUpStreaml;
     }
 }
+```
+
+## BrowserRouter 配置
+
+#### 开发环境-配置webpack
+
+```js
+// == 即将以 / 开头的路径都指向 index.html
+historyApiFallback: {
+  rewrites: [
+    { from: /^\//, to: '/index.html' },
+  ],
+}
+```
+
+#### 线上环境-配置nginx
+
+```conf
+server {
+    listen 80;
+    server_name www.answera.top;
+
+    charset utf-8;
+    set $home /var/www/test-static;
+
+    location / {
+        expires 10m;
+        default_type text/html;
+        root $home;
+        # 即将所有404页面指向到 index.html
+        try_files /index.html =404;
+    }
+}
+```
+
+#### 线上环境-koa2服务
+
+
+```text
+1、路径对应文件存在则返回
+
+2、不存在则返回 index.html
+
+3、手动实现的一个静态服务npm包: https://github.com/yunaichun/ync-lerna-packages/tree/master/packages/ync-react-browserrouter-server
 ```
 
 ## 参考资料
