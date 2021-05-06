@@ -4,16 +4,28 @@
 
 ## 练习项目
 
-> shell 确认弹窗
+> Eslint/Prettier 工具
 
 ```text
-项目地址: https://github.com/yunaichun/ync-lerna-packages/tree/master/packages/ync-sh-confim
+项目地址: https://github.com/yunaichun/ync-lerna-packages/tree/master/packages/ync-cli-eslint-config
 ```
 
-> React 项目模版
+> Commit msg Lint/Lin Staged 工具
 
 ```text
-项目地址: https://github.com/yunaichun/ync-lerna-packages/tree/master/packages/ync-react-cli
+项目地址: https://github.com/yunaichun/ync-lerna-packages/tree/master/packages/ync-cli-commit-check
+```
+
+> React 脚手架
+
+```text
+项目地址: https://github.com/yunaichun/ync-lerna-packages/tree/master/packages/ync-cli-react-create
+```
+
+> Shell 确认弹窗
+
+```text
+项目地址: https://github.com/yunaichun/ync-lerna-packages/tree/master/packages/ync-cli-sh-confim
 ```
 
 ## 参考资料
