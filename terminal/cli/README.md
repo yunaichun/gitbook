@@ -10,7 +10,7 @@
 项目地址: https://github.com/yunaichun/ync-lerna-packages/tree/master/packages/ync-cli-eslint-config
 ```
 
-> Commit msg Lint/Lin Staged 工具
+> Commit msg Lint/Lint Staged/Standard Version 工具
 
 ```text
 项目地址: https://github.com/yunaichun/ync-lerna-packages/tree/master/packages/ync-cli-commit-check
