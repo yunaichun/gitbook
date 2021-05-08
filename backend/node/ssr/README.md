@@ -74,6 +74,7 @@ module.exports = {
 
 ```javascript
 const Koa = require('koa');
+const serve = require("koa-static");
 const router = require('./router');
 
 const app = new Koa();
