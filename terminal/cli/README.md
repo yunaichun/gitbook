@@ -16,6 +16,12 @@
 项目地址: https://github.com/yunaichun/ync-lerna-packages/tree/master/packages/ync-cli-commit-check
 ```
 
+> puppeteer 网页性能检测工具
+
+```text
+项目地址: https://github.com/yunaichun/ync-lerna-packages/tree/master/packages/ync-cli-puppeteer-check
+```
+
 > React 脚手架
 
 ```text
