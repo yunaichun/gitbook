@@ -182,29 +182,31 @@ ev.addEventListener('click', function (e) {
 **Event**
 
 ```js
-var eve = new Event('test’);
-
+// == 定义事件
 var ev = document.getElementById('ev');
 ev.addEventListener('test', function () {
     console.log('test dispatch');
 });
 
+// == 触发事件
+var eve = new Event('test’);
 setTimeout(function () { ev.dispatchEvent(eve); }, 1000);
 ```
 
 **CustomEvent**
 
 ```js
-var eve2 = new CustomEvent('test2', {
-    detail: { username: “davidwalsh" }
-});
-
+// == 定义事件
 var ev = document.getElementById('ev');
 ev.addEventListener('test2', function (e) {
     console.log(111, e, e.detail);
     console.log('test dispatch');
 });
 
+// == 触发事件
+var eve2 = new CustomEvent('test2', {
+    detail: { username: “davidwalsh" }
+});
 setTimeout(function () { ev.dispatchEvent(eve2); }, 1000);
 ```
 
