@@ -2,10 +2,10 @@
 
 > 前端 CI/CD 学习笔记。
 
-* [Gitlab](./gitlab.md)
-* [Docker](./docker.md)
-* [Jenkins](./jenkins.md)
-* [Gerrit](./gerrit.md)
+* [Gitlab](./gitlab)
+* [Docker](./docker)
+* [Jenkins](./jenkins)
+* [Gerrit](./gerrit)
 
 ## 参考资料
 
