@@ -2,37 +2,27 @@
 
 > 命令行脚手架 cli 工具学习笔记。
 
-## 练习项目
+## 实践项目
 
-> Eslint/Prettier 工具
+> Eslint/Prettier 自动配置工具
 
-```text
-项目地址: https://github.com/yunaichun/ync-lerna-packages/tree/master/packages/ync-cli-eslint-config
-```
+[ync-cli-eslint-config](https://github.com/yunaichun/ync-lerna-packages/tree/master/packages/ync-cli-eslint-config)
 
-> Commit msg Lint/Lint Staged/Standard Version 工具
+> Commit msg Lint/Lint Staged/Standard Version 自动配置工具
 
-```text
-项目地址: https://github.com/yunaichun/ync-lerna-packages/tree/master/packages/ync-cli-commit-check
-```
+[ync-cli-commit-check](https://github.com/yunaichun/ync-lerna-packages/tree/master/packages/ync-cli-commit-check)
 
 > puppeteer 网页性能检测工具
 
-```text
-项目地址: https://github.com/yunaichun/ync-lerna-packages/tree/master/packages/ync-cli-puppeteer-check
-```
+[ync-cli-puppeteer-check](https://github.com/yunaichun/ync-lerna-packages/tree/master/packages/ync-cli-puppeteer-check)
 
-> React 脚手架
+> React 组件库脚手架创建工具
 
-```text
-项目地址: https://github.com/yunaichun/ync-lerna-packages/tree/master/packages/ync-cli-react-create
-```
+[ync-cli-react-create](https://github.com/yunaichun/ync-lerna-packages/tree/master/packages/ync-cli-react-create)
 
-> Shell 确认弹窗
+> Shell 命令行确认弹窗工具
 
-```text
-项目地址: https://github.com/yunaichun/ync-lerna-packages/tree/master/packages/ync-cli-sh-confim
-```
+[ync-cli-sh-confim](https://github.com/yunaichun/ync-lerna-packages/tree/master/packages/ync-cli-sh-confim)
 
 ## 参考资料
 
