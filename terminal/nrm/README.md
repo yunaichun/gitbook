@@ -1,26 +1,6 @@
 ## 简介
 
-> nrm + npm 学习笔记。
-
-## 如何搭建npm组件库
-
-```text
-安装
-npm i verdaccio -g --unsafe-perm
-
-启动服务
-verdaccio
-pm2 start verdaccio
-
-停止服务
-pm2 stop verdaccio
-
-配置文件路径
-~/.config/verdaccio/config.yaml
-
-访问地址
-http://localhost:4873
-```
+> nrm 学习笔记。
 
 ## 镜像源管理
 
@@ -88,8 +68,6 @@ npm publish --access=public
 
 ## 参考资料
 
-- [使用 verdaccio 搭建私有 npm 仓库](https://fe.rualc.com/note/npm-verdaccio.html#npm-install)
-- [使用 verdaccio 搭建 npm 私有仓库](https://juejin.cn/post/6844903776533364749)
 - [nrm安装与配置](https://juejin.cn/post/6844904008994275335)
 - [npm命令配置技巧](https://www.jianshu.com/p/0f8ba68a04ec)
 - [npm常用命令](https://www.jianshu.com/p/087d839e1d0c)
