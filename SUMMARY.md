@@ -112,6 +112,7 @@
   * [zsh](./terminal/zsh/README.md)
   * [shell](./terminal/shell/README.md)
   * [linux](./terminal/linux/README.md)
+  * [nexus](./terminal/nexus/README.md)
   * [命令行工具开发](./terminal/cli/README.md)
 * [浏览器简介]()
   * [V8简介](./browser/v8/README.md)

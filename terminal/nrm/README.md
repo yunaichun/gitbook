@@ -37,38 +37,6 @@ npm config delete <key>
 npm config edit
 ```
 
-## 测试包
-
-```text
-组件库本地目录测试
-npm link 
-
-项目中其他项目测试
-npm link package-name
-```
-
-## 发布包
-
-```text
-升级补丁版本号
-npm version patch
-
-升级小版本号
-npm version minor
-
-升级大版本号
-npm version major
-
-登录
-npm login
-
-发布
-npm publish --access=public
-```
-
 ## 参考资料
 
-- [nrm安装与配置](https://juejin.cn/post/6844904008994275335)
-- [npm命令配置技巧](https://www.jianshu.com/p/0f8ba68a04ec)
-- [npm常用命令](https://www.jianshu.com/p/087d839e1d0c)
-- [如何发布自己的NPM包（模块）？](https://juejin.cn/post/6844903673684836365)
+- [nrm 安装与配置](https://juejin.cn/post/6844904008994275335)

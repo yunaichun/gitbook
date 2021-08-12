@@ -1,8 +1,8 @@
 ## 简介
 
-> npm + nexus 学习笔记。
+> npm 学习笔记。
 
-## 如何搭建npm服务
+## 如何搭建 npm 服务
 
 ```text
 安装
@@ -22,42 +22,39 @@ pm2 stop verdaccio
 http://localhost:4873
 ```
 
-## 如何搭建nexus服务
+## 测试 npm 包
 
 ```text
-启动服务
-/opt/nexus/nexus-3.28.1-01/bin/nexus stop
+组件库本地目录测试
+npm link 
 
-停止服务
-/opt/nexus/nexus-3.28.1-01/bin/nexus start
-
-配置文件路径
-/opt/nexus/nexus-3.28.1-01/etc/nexus-default.properties
-
-访问地址
-http://localhost:8081
+项目中其他项目测试
+npm link package-name
 ```
 
-## 忘记nexus密码操作
+## 发布 npm 包
 
-```
-1、停止服务
+```text
+升级补丁版本号
+npm version patch
 
-2、进入OrientDB控制台
-java -jar /opt/nexus/nexus-3.28.1-01/lib/support/nexus-orient-console.jar
+升级小版本号
+npm version minor
 
-3、在控制台执行
-connect plocal:/opt/nexus/sonatype-work/nexus3/db/security admin admin
+升级大版本号
+npm version major
 
-4、重置admin账号密码为xxx
-update user SET password="xxx" UPSERT WHERE id="admin"
+登录
+npm login
 
-5、重启服务
+发布
+npm publish --access=public
 ```
 
 ## 参考资料
 
 - [使用 verdaccio 搭建私有 npm 仓库](https://fe.rualc.com/note/npm-verdaccio.html#npm-install)
 - [使用 verdaccio 搭建 npm 私有仓库](https://juejin.cn/post/6844903776533364749)
-- [npm 私服搭建与包发布](https://juejin.cn/post/6844903805805412366)
-- [使用 Nexus 搭建 Maven 私服](https://cloud.tencent.com/developer/article/1583875)
+- [npm 命令配置技巧](https://www.jianshu.com/p/0f8ba68a04ec)
+- [npm 常用命令](https://www.jianshu.com/p/087d839e1d0c)
+- [如何发布自己的 NPM 包（模块）？](https://juejin.cn/post/6844903673684836365)
