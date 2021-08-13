@@ -6,23 +6,23 @@
 
 > Eslint/Prettier 自动配置工具
 
-[ync-cli-eslint-config](https://github.com/yunaichun/ync-lerna-packages/tree/master/packages/ync-cli-eslint-config)
+- [ync-cli-eslint-config](https://github.com/yunaichun/ync-lerna-packages/tree/master/packages/ync-cli-eslint-config)
 
 > Commit msg Lint/Lint Staged/Standard Version 自动配置工具
 
-[ync-cli-commit-check](https://github.com/yunaichun/ync-lerna-packages/tree/master/packages/ync-cli-commit-check)
+- [ync-cli-commit-check](https://github.com/yunaichun/ync-lerna-packages/tree/master/packages/ync-cli-commit-check)
 
 > puppeteer 网页性能检测工具
 
-[ync-cli-puppeteer-check](https://github.com/yunaichun/ync-lerna-packages/tree/master/packages/ync-cli-puppeteer-check)
+- [ync-cli-puppeteer-check](https://github.com/yunaichun/ync-lerna-packages/tree/master/packages/ync-cli-puppeteer-check)
 
 > React 组件库脚手架创建工具
 
-[ync-cli-react-create](https://github.com/yunaichun/ync-lerna-packages/tree/master/packages/ync-cli-react-create)
+- [ync-cli-react-create](https://github.com/yunaichun/ync-lerna-packages/tree/master/packages/ync-cli-react-create)
 
 > Shell 命令行确认弹窗工具
 
-[ync-cli-sh-confim](https://github.com/yunaichun/ync-lerna-packages/tree/master/packages/ync-cli-sh-confim)
+- [ync-cli-sh-confim](https://github.com/yunaichun/ync-lerna-packages/tree/master/packages/ync-cli-sh-confim)
 
 ## 参考资料
 

@@ -2,10 +2,12 @@
 
 > 前端 CI/CD 学习笔记。
 
-* [Gitlab](./gitlab)
-* [Docker](./docker)
-* [Jenkins](./jenkins)
-* [Gerrit](./gerrit)
+## 学习路径
+
+- Docker
+- Gitlab
+- Gerrit
+- Jenkins
 
 ## 参考资料
 
