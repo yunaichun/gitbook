@@ -55,6 +55,9 @@ docker push ncyu10441736/test:latest
 # 查看容器列表
 docker ps -a
 
+# 根据容器名称查找容器
+docker ps -aq --filter name=oss_container_stg
+
 # 新建某个容器
 docker create -it --name CONTAINERNANE IMAGEID 
 
@@ -109,6 +112,7 @@ RUN yum install wget \
 #### 构建镜像
 
 ```sh
+# 如果已经存在则覆盖
 docker build -t nginx:v3 .
 ```
 

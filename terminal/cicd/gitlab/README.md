@@ -143,7 +143,7 @@ when             指定条件下（分支）才会运行 Job
 only/except      限定当前任务执行的条件
 ```
 
-#### 基础配置
+#### 部署到 oss
 
 ```yml
 image: node:alpine
@@ -205,6 +205,39 @@ job_deploy_prd:
     - dockercicd
   script:
     - npm run deploy
+  only:
+    - master
+  when: manual
+```
+
+#### 部署到 docker
+
+```yml
+job_deploy_stg:
+  stage: deploy
+  tags:
+    - dockercicd
+  # 使用 docker 镜像：在 docker (GitLab Runner) 中使用 docker
+  # 配置目录卷："/usr/bin/docker:/usr/bin/docker", "/var/run/docker.sock:/var/run/docker.sock"
+  image: docker
+  script:
+    - docker build -t oss_image_stg .
+    - if [ $(docker ps -aq --filter name=oss_container_stg) ]; then docker rm -f oss_container_stg; fi
+    - docker run -p 8002:80 --name=oss_container_stg oss_image_stg
+  only:
+    - staging
+
+job_deploy_prd:
+  stage: deploy
+  tags:
+    - dockercicd
+  # 使用 docker 镜像：在 docker (GitLab Runner) 中使用 docker
+  # 配置目录卷："/usr/bin/docker:/usr/bin/docker", "/var/run/docker.sock:/var/run/docker.sock"
+  image: docker
+  script:
+    - docker build -t oss_image_prd .
+    - if [ $(docker ps -aq --filter name=oss_container_prd) ]; then docker rm -f oss_container_prd; fi
+    - docker run -p 8002:80 --name=oss_container_prd oss_image_prd
   only:
     - master
   when: manual
