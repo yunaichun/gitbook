@@ -154,38 +154,45 @@ stages:
   - deploy
 
 cache:
-  key: test
+  key: npm_dist
   paths:
     - node_modules
+    - dist
+    - build
   
 job_install:
   stage: install
   tags:
     - dockercicd
   script:
-    - npm install
+    - npm ci
+  only:
+    - staging
+    - master
 
 job_build_stg:
   stage: build
   tags:
     - dockercicd
   script: 
-    - npm run build:stg
+    - CI= npm run build:stg
   only:
     - staging
+  allow_failure: true
 
 job_build:
   stage: build
   tags:
     - dockercicd
   script: 
-    - npm run build
+    - CI= npm run build
   only:
     - master
+  allow_failure: true
 
 job_deploy_stg:
   stage: deploy
-  tag:
+  tags:
     - dockercicd
   script:
     - npm run deploy:stg
@@ -194,7 +201,7 @@ job_deploy_stg:
 
 job_deploy_prd:
   stage: deploy
-  tag:
+  tags:
     - dockercicd
   script:
     - npm run deploy
