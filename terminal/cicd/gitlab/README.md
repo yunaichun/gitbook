@@ -13,7 +13,7 @@ docker pull gitlab/gitlab-ce:latest
 # 创建容器
 docker run --detach \
   --name gitlab \
-  --hostname 47.99.145.58 \
+  --hostname ip \
   --restart always \
   --publish 443:443 --publish 80:80 --publish 222:22 \
   --volume /opt/gitlab/config:/etc/gitlab \
@@ -34,7 +34,7 @@ docker run --detach \
 
 ```sh
 # 进入容器
-docker exec -it gitlab
+docker exec -it gitlab /bin/bash
 
 # 进入修改
 gitlab-rails console
@@ -58,24 +58,47 @@ quit
 ## 安装 gitlab runner
 
 ```sh
-sudo docker run -d --name gitlab-runner --restart always \
-  -v /srv/gitlab-runner/config:/etc/gitlab-runner \
-  -v /var/run/docker.sock:/var/run/docker.sock \
+# 拉取镜像
+docker pull gitlab/gitlab-runner:latest
+
+# 创建容器
+docker run -d \
+  --name gitlab-runner \
+  --restart always \
+  -v /opt/gitlab-runner/config:/etc/gitlab-runner \
+  -v /opt/gitlab-runner/run/docker.sock:/var/run/docker.sock \
   gitlab/gitlab-runner:latest
+
+# detach                       后台运行
+# name                         容器名称
+# restart                      重启方式
+# volume                       目录映射
+# gitlab/gitlab-runner:latest  镜像名称
 ```
 
-## 注册gitlab runner
+## 注册 gitlab runner
 
 ```sh
-docker run --rm -v /srv/gitlab-runner/config:/etc/gitlab-runner gitlab/gitlab-runner register \
+docker run \
+  --rm -v /opt/gitlab-runner/config:/etc/gitlab-runner gitlab/gitlab-runner:latest register \
   --non-interactive \
   --executor "docker" \
   --docker-image alpine:latest \
-  --url "http://ip/" \
-  --registration-token "vtizNrFzQKFacsSMxsJX" \
+  --url "http://ip" \
+  --registration-token "token" \
   --description "first-register-runner" \
-  --tag-list "test-cicd1,dockercicd1" \
+  --tag-list "test-cicd,dockercicd" \
   --run-untagged="true" \
   --locked="false" \
   --access-level="not_protected"
+
+# register               gitlab runner 与 gitlab 关联上，可以注册多个 runner。
+#                        通过 gitlab/gitlab-runner:latest 镜像注册，会在 config 目录生成 config.tom runner配置文件
+# --rm                   等价于在容器退出后，执行 docker rm -v。                      
+# --executor             runner 执行器
+# --docker-image         使用基础的 docker 镜像
+# --url                  Gitlab 地址
+# --registration-token   Runner 的 token
+# --description          runner 的描述，在 Gitlab 后台可以看到
+# --tag-list             指定在哪个 runner 下跑 pipeline
 ```
