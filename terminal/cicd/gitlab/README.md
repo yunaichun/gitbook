@@ -2,7 +2,7 @@
 
 > Gitlab 学习笔记。
 
-## gitlab
+## Gitlab
 
 #### 创建容器
 
@@ -55,7 +55,7 @@ user.save!
 quit
 ```
 
-## gitlab runner
+## Gitlab Runner
 
 #### 创建容器
 
@@ -171,8 +171,8 @@ job_build_stg:
     - dockercicd
   script: 
     - npm run build:stg
-  except:
-    - master
+  only:
+    - staging
 
 job_build:
   stage: build
@@ -189,6 +189,8 @@ job_deploy_stg:
     - dockercicd
   script:
     - npm run deploy:stg
+  only:
+    - staging
 
 job_deploy_prd:
   stage: deploy
@@ -196,5 +198,7 @@ job_deploy_prd:
     - dockercicd
   script:
     - npm run deploy
+  only:
+    - master
   when: manual
 ```
