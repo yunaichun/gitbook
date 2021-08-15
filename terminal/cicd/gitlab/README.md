@@ -143,6 +143,26 @@ when             指定条件下（分支）才会运行 Job
 only/except      限定当前任务执行的条件
 ```
 
+#### 预定义变量
+
+```yml
+# 1、在.gitlab-ci.yml中定义
+variables:
+  MY_VAR: 'test variables'
+job_log_var:
+  script:
+    - echo $MY_VAR
+
+# 2、pipeline中预定义的变量
+# https://docs.gitlab.com/ee/ci/variables/predefined_variables.html
+job_get_all:
+  script:
+    - export
+
+# 3、项目中定义的变量
+# Settings -> CI/CD -> Variables
+```
+
 #### 部署到 oss
 
 ```yml
