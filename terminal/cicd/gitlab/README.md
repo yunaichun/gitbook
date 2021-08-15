@@ -163,6 +163,34 @@ job_get_all:
 # Settings -> CI/CD -> Variables
 ```
 
+#### 流水线类型
+
+```
+1、基本流水线
+
+2、DAG流水线
+
+3、多项目流水线
+
+4、父子流水线
+
+5、合并请求流水线
+```
+
+#### 流水线触发
+
+```
+1、推送代码、合并分支
+
+2、手动触发
+
+3、定时触发
+
+4、url请求触发
+```
+
+## 部署简例
+
 #### 部署到 oss
 
 ```yml
@@ -244,6 +272,38 @@ job_deploy_prd:
 
 #### 部署到 docker
 
+> Dockerfile
+
+```Dockerfile
+FROM node:alpine
+
+ARG environment
+
+COPY ./package.json /app/
+
+COPY ./package-lock.json /app/
+
+WORKDIR /app
+
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories
+
+RUN apk add --no-cache ca-certificates
+
+RUN npm ci
+
+COPY . /app
+
+RUN echo $environment
+
+RUN npm run build:$environment
+
+CMD [ "node", "/app/dist/app.js" ]
+
+EXPOSE 4000
+```
+
+> .gitlab-ci.yml
+
 ```yml
 # 使用镜像
 image: node:alpine
@@ -283,6 +343,76 @@ job_deploy_prd:
     - if [ $(docker ps -aq --filter name=container_webapi_prd) ]; then docker rm -f container_webapi_prd; fi
     - docker run -d -p 4000:4000 --name=container_webapi_prd image_webapi_prd
     - echo 'deploy prd success port:4000'
+  only:
+    - master
+  when: manual
+```
+
+#### 部署到 ecs
+
+> ssh免密登陆
+
+```
+1、生成ssh key
+ssh-keygen -t rsa -C "email"
+
+2、免密登陆
+scp -r ～／.ssh/id_rsa.pub root@ip:/~/.ssh/authorized_keys
+```
+
+> .gitlab.yml
+
+```yml
+# 使用镜像
+image: node:latest
+
+# 定义阶段
+stages:
+  - deploy
+
+# 定义锚点
+.set-tags: &set-tags
+  tags:
+    - dockercicd
+
+# deploy
+job_deploy_stg:
+  stage: deploy
+  <<: *set-tags
+  before_script:
+    # 如果没有安装 `ssh-agent`,就安装，然后运行ssh-agent
+    - 'command -v ssh-agent >/dev/null || ( agt-get update -y && agt-get install openssh-client -y )'
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+ 
+    # 创建对应的目录并给相应的权限
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+
+    # 设置免密登陆
+    - ssh-keyscan $IP >> ~/.ssh/known_hosts
+  script:
+    - scp -r ./* root@$IP:~/ssh-stg
+  only:
+    - staging
+
+job_deploy_prd:
+  stage: deploy
+  <<: *set-tags
+  before_script:
+    # 如果没有安装 `ssh-agent`，然后运行ssh-agent
+    - 'command -v ssh-agent >/dev/null || ( agt-get update -y && agt-get install openssh-client -y )'
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+ 
+    # 创建对应的目录并给相应的权限
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+
+    # 设置免密登陆
+    - ssh-keyscan $IP >> ~/.ssh/known_hosts
+  script:
+    - scp -r ./* root@$IP:~/ssh-prd
   only:
     - master
   when: manual
