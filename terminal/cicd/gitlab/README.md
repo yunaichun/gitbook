@@ -113,7 +113,7 @@ docker run \
 1、配置文件位置
 /opt/gitlab-runner/config/config.toml
 
-2、volumes 字段添加【部署 docker 镜像会使用到】
+2、volumes 字段添加（可以在 docker 中使用 docker）
 ["/usr/bin/docker:/usr/bin/docker", "/var/run/docker.sock:/var/run/docker.sock"]
 
 3、禁止每次pipeline都会拉取docker镜像
@@ -321,7 +321,7 @@ stages:
 job_deploy_stg:
   stage: deploy
   <<: *set-tags
-  # 使用 docker 镜像：在 docker (GitLab Runner) 中使用 docker
+  # 使用 docker 镜像：在 docker (node:alpine) 中使用 docker
   # 配置目录卷："/usr/bin/docker:/usr/bin/docker", "/var/run/docker.sock:/var/run/docker.sock"
   image: docker
   script:
@@ -335,7 +335,7 @@ job_deploy_stg:
 job_deploy_prd:
   stage: deploy
   <<: *set-tags
-  # 使用 docker 镜像：在 docker (GitLab Runner) 中使用 docker
+  # 使用 docker 镜像：在 docker (node:alpine) 中使用 docker
   # 配置目录卷："/usr/bin/docker:/usr/bin/docker", "/var/run/docker.sock:/var/run/docker.sock"
   image: docker
   script:
