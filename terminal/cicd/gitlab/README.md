@@ -251,31 +251,34 @@ job_install:
   only:
     - staging
     - master
+  interruptible: true
 
 # build
 job_build_stg:
   stage: build
   <<: *set-tags
-  script: 
-    - npm run build:stg
+  script:
+    - CI= npm run build:stg
   only:
     - staging
-  allow_failure: true
   artifacts:
     paths:
       - build
+  allow_failure: true
+  interruptible: true
 
 job_build:
   stage: build
   <<: *set-tags
-  script: 
-    - npm run build
+  script:
+    - CI= npm run build
   only:
     - master
-  allow_failure: true
   artifacts:
     paths:
       - build
+  allow_failure: true
+  interruptible: true
 
 # deploy
 job_deploy_stg:
@@ -285,6 +288,10 @@ job_deploy_stg:
     - npm run deploy:stg
   only:
     - staging
+  interruptible: true
+  resource_group: stg
+  rules:
+    - if: $CI_DEPLOY_FREZE == null
 
 job_deploy_prd:
   stage: deploy
@@ -293,7 +300,11 @@ job_deploy_prd:
     - npm run deploy
   only:
     - master
+  interruptible: true
+  resource_group: prd
   when: manual
+  rules:
+    - if: $CI_DEPLOY_FREZE == null
 ```
 
 #### 部署到 docker
