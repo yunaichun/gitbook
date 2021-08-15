@@ -66,8 +66,8 @@ docker pull gitlab/gitlab-runner:latest
 # 创建容器
 docker run -d \
   --name gitlab-runner \
-  -p 8093:8093
   --restart always \
+  -p 8093:8093 \
   -v /opt/gitlab-runner/config:/etc/gitlab-runner \
   -v /var/run/docker.sock:/var/run/docker.sock \
   gitlab/gitlab-runner:latest
@@ -75,6 +75,7 @@ docker run -d \
 # detach                       后台运行
 # name                         容器名称
 # restart                      重启方式
+# publish                      端口映射
 # volume                       目录映射
 # gitlab/gitlab-runner:latest  镜像名称
 ```
@@ -89,10 +90,10 @@ docker run \
   --non-interactive \
   --executor "docker" \
   --docker-image alpine:latest \
-  --url "http://172.25.160.141" \
-  --registration-token "xBYmDZ33tyGbgHrxusBh" \
+  --url "http://ip" \
+  --registration-token "token" \
   --description "first-register-runner" \
-  --tag-list "test-cicd,dockercicd" \
+  --tag-list "osscicd,dockercicd" \
   --run-untagged="true" \
   --locked="false" \
   --access-level="not_protected"
