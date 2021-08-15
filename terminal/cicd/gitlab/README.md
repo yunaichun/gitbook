@@ -417,3 +417,10 @@ job_deploy_prd:
     - master
   when: manual
 ```
+
+> docker 运行 nginx
+
+```sh
+# 把当前的工作目录映射到 nginx 的工作目录
+docker run -p 8080:80 -d -v  /ssh-prd:/usr/share/nginx/html nginx
+```
