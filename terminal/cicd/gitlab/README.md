@@ -166,54 +166,67 @@ job_get_all:
 #### 部署到 oss
 
 ```yml
+# 使用镜像
 image: node:alpine
 
+# 定义阶段
 stages:
   - install
   - build
   - deploy
 
+# 定义缓存
 cache:
-  key: npm_dist
+  key:
+    files:
+      - package-lock.json
   paths:
     - node_modules
-    - dist
-    - build
-  
-job_install:
-  stage: install
+
+# 定义锚点
+.set-tags: &set-tags
   tags:
     - dockercicd
+
+# install
+job_install:
+  stage: install
+  <<: *set-tags
   script:
     - npm ci
   only:
     - staging
     - master
 
+# build
 job_build_stg:
   stage: build
-  tags:
-    - dockercicd
+  <<: *set-tags
   script: 
-    - CI= npm run build:stg
+    - npm run build:stg
   only:
     - staging
   allow_failure: true
+  artifacts:
+    paths:
+      - build
 
 job_build:
   stage: build
-  tags:
-    - dockercicd
+  <<: *set-tags
   script: 
-    - CI= npm run build
+    - npm run build
   only:
     - master
   allow_failure: true
+  artifacts:
+    paths:
+      - build
 
+# deploy
 job_deploy_stg:
   stage: deploy
-  tags:
-    - dockercicd
+  <<: *set-tags
   script:
     - npm run deploy:stg
   only:
@@ -221,8 +234,7 @@ job_deploy_stg:
 
 job_deploy_prd:
   stage: deploy
-  tags:
-    - dockercicd
+  <<: *set-tags
   script:
     - npm run deploy
   only:
@@ -233,31 +245,44 @@ job_deploy_prd:
 #### 部署到 docker
 
 ```yml
-job_deploy_stg:
-  stage: deploy
+# 使用镜像
+image: node:alpine
+
+# 定义阶段
+stages:
+  - deploy
+
+# 定义锚点
+.set-tags: &set-tags
   tags:
     - dockercicd
+
+# deploy
+job_deploy_stg:
+  stage: deploy
+  <<: *set-tags
   # 使用 docker 镜像：在 docker (GitLab Runner) 中使用 docker
   # 配置目录卷："/usr/bin/docker:/usr/bin/docker", "/var/run/docker.sock:/var/run/docker.sock"
   image: docker
   script:
-    - docker build -t oss_image_stg .
-    - if [ $(docker ps -aq --filter name=oss_container_stg) ]; then docker rm -f oss_container_stg; fi
-    - docker run -p 8002:80 --name=oss_container_stg oss_image_stg
+    - docker build --build-arg environment=stg -t image_webapi_stg .
+    - if [ $(docker ps -aq --filter name=container_webapi_stg) ]; then docker rm -f container_webapi_stg; fi
+    - docker run -d -p 4000:4000 --name=container_webapi_stg image_webapi_stg
+    - echo 'deploy stg success port:4000'
   only:
     - staging
 
 job_deploy_prd:
   stage: deploy
-  tags:
-    - dockercicd
+  <<: *set-tags
   # 使用 docker 镜像：在 docker (GitLab Runner) 中使用 docker
   # 配置目录卷："/usr/bin/docker:/usr/bin/docker", "/var/run/docker.sock:/var/run/docker.sock"
   image: docker
   script:
-    - docker build -t oss_image_prd .
-    - if [ $(docker ps -aq --filter name=oss_container_prd) ]; then docker rm -f oss_container_prd; fi
-    - docker run -p 8002:80 --name=oss_container_prd oss_image_prd
+    - docker build --build-arg environment=stg -t image_webapi_prd .
+    - if [ $(docker ps -aq --filter name=container_webapi_prd) ]; then docker rm -f container_webapi_prd; fi
+    - docker run -d -p 4000:4000 --name=container_webapi_prd image_webapi_prd
+    - echo 'deploy prd success port:4000'
   only:
     - master
   when: manual
