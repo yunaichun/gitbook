@@ -212,7 +212,7 @@ resource_group: prd
 
 # 5、设置部署冻结：Settings -> CI/CD -> Deploy freezes -> 分 时 日 月
 rules:
- - if: $CI_DEPLOY_FREZE == null
+  - if: '$CI_DEPLOY_FREEZE == null'
 ```
 
 ## 部署简例
