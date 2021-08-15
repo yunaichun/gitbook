@@ -1,13 +1,44 @@
 ## 简介
 
-> 前端 CI/CD 学习笔记。
+> CI/CD 学习笔记。
 
 ## 学习路径
 
 - Docker
 - Gitlab
+- Sonar
 - Gerrit
 - Jenkins
+
+## 完整工作流
+
+#### CI/CD前
+
+```
+eslint
+
+prettier
+
+commitlint
+
+standard version
+
+gerrit
+```
+
+#### CI/CD
+
+```
+install
+
+test: test、scan
+
+build
+
+pre: pre、pupptter
+
+prd: deploy、notice
+```
 
 ## 参考资料
 

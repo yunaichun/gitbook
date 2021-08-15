@@ -117,6 +117,7 @@
   * [cicd](./terminal/cicd/README.md)
     * [Docker](./terminal/cicd/docker/README.md)
     * [Gitlab](./terminal/cicd/gitlab/README.md)
+    * [Sonar](./terminal/cicd/sonar/README.md)
     * [Gerrit](./terminal/cicd/gerrit/README.md)
     * [Jenkins](./terminal/cicd/jenkins/README.md)
 * [浏览器简介]()
