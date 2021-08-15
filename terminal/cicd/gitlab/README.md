@@ -66,6 +66,7 @@ docker pull gitlab/gitlab-runner:latest
 # 创建容器
 docker run -d \
   --name gitlab-runner \
+  -p 8093:8093
   --restart always \
   -v /opt/gitlab-runner/config:/etc/gitlab-runner \
   -v /var/run/docker.sock:/var/run/docker.sock \
@@ -187,6 +188,30 @@ job_get_all:
 3、定时触发
 
 4、url请求触发
+```
+
+#### 流水线安全设置
+
+```yml
+# 1、自动取消旧的流水线：Settings -> CI/CD -> Auto-cancel redundant pipelines
+interruptible: true
+
+# 2、设置超时时间
+timeout: 3 hour 30 minutes
+timeout: 3h 30m
+
+# 3、限定并发任务：保证安全部署，一个分支只能有一个部署任务
+resource_group: prd
+
+# 4、流水线调试：创建GitLab Runner映射端口 8093，/opt/gitlab-runner/config／config.toml
+# [session_server]
+#   session_timeout = 1800
+#   listen_address = "[::]:8093"
+#   advertise_address = "ip:8093"
+
+# 5、设置部署冻结：Settings -> CI/CD -> Deploy freezes -> 分 时 日 月
+rules:
+ - if: $CI_DEPLOY_FREZE == null
 ```
 
 ## 部署简例
