@@ -221,7 +221,7 @@ rules:
 
 ```yml
 # use docker image
-image: node:14.17.5-slim
+image: registry.cn-hangzhou.aliyuncs.com/infra/node:14.17.5-slim-rush
 
 # definition stages
 stages:
@@ -287,7 +287,7 @@ cache:
       when: manual
 
 # all pipeline
-# definition the job of install stage
+# definition job of install stage
 install:
   stage: install
   <<: *runner
@@ -296,7 +296,7 @@ install:
     - echo $CI_MERGE_REQUEST_TARGET_BRANCH_NAME
     - rush install
 
-# definition the job of build stage
+# definition job of build stage
 test_lint:
   stage: test
   <<: *runner
@@ -311,11 +311,11 @@ test_unit:
   script:
     - rush test
 
-# definition the job of build stage
+# definition job of build stage
 build_stg:
   stage: build
   <<: *runner
-  <<: *merged_to_staging_or_master
+  <<: *merged_to_staging
   <<: *build_cache
   script:
     - rush build:stg
@@ -323,7 +323,7 @@ build_stg:
 build_prd:
   stage: build
   <<: *runner
-  <<: *merged_to_staging_or_master
+  <<: *merged_to_master
   <<: *build_cache
   script:
     - rush build:prd
