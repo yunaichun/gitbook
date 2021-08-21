@@ -220,91 +220,153 @@ rules:
 #### 部署到 oss
 
 ```yml
-# 使用镜像
-image: node:alpine
+# use docker image
+image: node:14.17.5-slim
 
-# 定义阶段
+# definition stages
 stages:
   - install
+  - test
   - build
+  - pre
   - deploy
+  - notice
 
-# 定义缓存
+# definition cache
 cache:
   key:
     files:
-      - package-lock.json
+      - common/config/rush/pnpm-lock.yaml
   paths:
-    - node_modules
+    - qt-*/*/node_modules
+    - common/*
+    - rush.json
 
-# 定义锚点
-.set-tags: &set-tags
+# definition anchor
+.scope: &scope
+  changes:
+    - qt-*/*/*
+    - common/*
+    - .gitlab-ci.yml
+    - rush.json
+
+.runner: &runner
   tags:
-    - dockercicd
+    - frontend
+  interruptible: true
 
-# install
-job_install:
+# .merge_to_staging_or_master: &merge_to_staging_or_master
+#   rules:
+#     - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master" || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "staging"
+#       <<: *scope
+
+.merged_to_staging_or_master: &merged_to_staging_or_master
+  rules:
+    - if: $CI_COMMIT_BRANCH == "master" || $CI_COMMIT_BRANCH == "staging"
+      <<: *scope
+
+.merged_to_staging: &merged_to_staging
+  rules:
+    - if: $CI_COMMIT_BRANCH == "staging"
+      <<: *scope
+
+.merged_to_master: &merged_to_master
+  rules:
+    - if: $CI_COMMIT_BRANCH == "master"
+      <<: *scope
+
+.build_cache: &build_cache
+  artifacts:
+    paths:
+      - qt-pages/*/build
+
+.safe_deploy: &safe_deploy
+  rules:
+    - if: $CI_COMMIT_BRANCH == "master"
+      <<: *scope
+      when: manual
+
+# all pipeline
+# definition the job of install stage
+install:
   stage: install
-  <<: *set-tags
+  <<: *runner
+  <<: *merged_to_staging_or_master
   script:
-    - npm ci
-  only:
-    - staging
-    - master
-  interruptible: true
+    - echo $CI_MERGE_REQUEST_TARGET_BRANCH_NAME
+    - rush install
 
-# build
-job_build_stg:
+# definition the job of build stage
+test_lint:
+  stage: test
+  <<: *runner
+  <<: *merged_to_staging_or_master
+  script:
+    - rush lint
+
+test_unit:
+  stage: test
+  <<: *runner
+  <<: *merged_to_staging_or_master
+  script:
+    - rush test
+
+# definition the job of build stage
+build_stg:
   stage: build
-  <<: *set-tags
+  <<: *runner
+  <<: *merged_to_staging_or_master
+  <<: *build_cache
   script:
-    - CI= npm run build:stg
-  only:
-    - staging
-  artifacts:
-    paths:
-      - build
-  allow_failure: true
-  interruptible: true
+    - rush build:stg
 
-job_build:
+build_prd:
   stage: build
-  <<: *set-tags
+  <<: *runner
+  <<: *merged_to_staging_or_master
+  <<: *build_cache
   script:
-    - CI= npm run build
-  only:
-    - master
-  artifacts:
-    paths:
-      - build
-  allow_failure: true
-  interruptible: true
+    - rush build:prd
 
-# deploy
-job_deploy_stg:
-  stage: deploy
-  <<: *set-tags
+# definition job of pre stage
+pre_upload:
+  stage: pre
+  <<: *runner
+  <<: *merged_to_master
   script:
-    - npm run deploy:stg
-  only:
-    - staging
-  interruptible: true
-  resource_group: stg
-  rules:
-    - if: $CI_DEPLOY_FREZE == null
+    - rush deploy:pre
 
-job_deploy_prd:
+# definition job of deploy stage
+deploy_stg:
   stage: deploy
-  <<: *set-tags
+  <<: *runner
+  <<: *merged_to_staging
   script:
-    - npm run deploy
-  only:
-    - master
-  interruptible: true
-  resource_group: prd
-  when: manual
-  rules:
-    - if: $CI_DEPLOY_FREZE == null
+    - rush deploy:stg
+
+deploy_h5:
+  stage: deploy
+  <<: *runner
+  <<: *safe_deploy
+  script:
+    - rush deploy:prd
+  resource_group: h5
+
+deploy_npm:
+  stage: deploy
+  <<: *runner
+  <<: *safe_deploy
+  script:
+    - rush change -v && rush publish -a -p -b master --add-commit-details --ignore-git-hooks
+  resource_group: npm
+
+# definition job of notice stage
+notice:
+  stage: notice
+  <<: *runner
+  <<: *merged_to_master
+  script:
+    - rush notice
 ```
 
 #### 部署到 docker
