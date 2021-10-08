@@ -4,109 +4,112 @@
 
 ## 配置用户
 
-```text
-1、配置
+```bash
+# 1、配置
 git config --global user.name "name" user.email "email"
 
-2、初始化目录
+# 2、初始化目录
 git init
 
-3、生成 ssh-key
+# 3、生成 ssh-key
 ssh-keygen -t rsa -C "email"
 
-4、本地目录关联远程项目
+# 4、本地目录关联远程项目
 git remote add origin git@github.com:git账号/项目名.git
 ```
 
 ## 版本创建流程
 
-```text
-1、工作区添加至缓存区
+```bash
+# 1、工作区添加至缓存区
 git add file
 
-2、缓存区至版本库  
+# 2、缓存区至版本库  
 git commit -m ""
 
-3、在git add 之前查看变化
+# 3、在git add 之前查看变化
 git diff file
 
-4、查看状态
+# 4、查看状态
 git status
 
-5、查看版本流水线
+# 5、查看版本流水线
 git log --pretty=oneline
 
-6、查看历史命令
+# 6、查看历史命令
 git reflog
 ```
 
 ## 撤销修改
 
-```text
-1、add 之前
+```bash
+# 1、add 之前
 git checkout -- fileName（可以恢复没有git add 但是rm file的操作）
 
-2、add 之后，commit 之前
+# 2、add 之后，commit 之前
 git reset HEAD fileName
 
-3、commit 之后
+# 3、commit 之后
 git reset --hard commitid
 ```
 
 ## 本地分支操作
 
-```text
-1、查看本地分支
+```bash
+# 1、查看本地分支
 git branch
 
-2、查看远程分支
+# 2、查看远程分支
 git branch -a
 
-3、创建本地分支
+# 3、创建本地分支
 git branch dev
 
-3、切换分支
+# 4、切换分支
 git checkout dev(上面两步等价于 git checkout -b dev)
 
-4、删除本地分支
+# 5、删除本地分支
 git branch -d dev
 
-5、合并本地分支至master分支（在master分支执行操作）
+# 6、合并本地分支至master分支（在master分支执行操作）
 git merge --no-ff -m ""  dev 
 
-6、合并其他分支指定 commit 至指定分支（在当前分支执行操作）
+# 7、合并其他分支指定 commit 至指定分支（在当前分支执行操作）
 git cherry-pick commitid
+
+# 8、合并提交记录（https://segmentfault.com/a/1190000007748862）
+git rebase -i HEAD~3
 ```
 
 ## 本地远程交互操作
 
-```text
-1、查看远程库信息
+```bash
+# 1、查看远程库信息
 git remote (-v -a)
 
-2、下载远程master分支
+# 2、下载远程master分支
 git clone git@github.com:git账号/项目名.git
 
-3、下载远程dev分支至本地dev分支
+# 3、下载远程dev分支至本地dev分支
 git checkout -b dev origin/dev
 
-4、推送本地分支至远程
+# 4、推送本地分支至远程
 git push origin (master dev)
 
-5、删除远程分支
+# 5、删除远程分支
 git push origin --delete 远程分支
 
-6、更新本地分支
+# 6、更新本地分支
 git pull
 ```
 
 ## 缓存工作区
 
-```text
-1、暂存
+```bash
+# 1、暂存
 git stash
 
-2、回到暂存前状态
+# 2、回到暂存前状态
 git stash pop
 ```
 
