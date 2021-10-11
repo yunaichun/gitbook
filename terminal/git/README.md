@@ -79,6 +79,9 @@ git cherry-pick commitid
 
 # 8、合并提交记录（https://segmentfault.com/a/1190000007748862）
 git rebase -i HEAD~3
+
+# 9、解决冲突（本地在dev分支执行命令）
+git pull origin staging
 ```
 
 ## 本地远程交互操作
