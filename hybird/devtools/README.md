@@ -37,8 +37,8 @@ chrome: https://developers.google.com/web/tools/chrome-devtools/remote-debugging
 1. 手机连接到 charles 代理，点击 allow
 
 2. 手机输入下面地址，下载并安装证书：
-https://chls.pro/ssl
-http://www.charlesproxy.com/getssl
+下载证书: https://chls.pro/ssl  http://www.charlesproxy.com/getssl
+信任证书: 设置 -> 通用 -> 关于本机 -> 证书信任设置
 
 3. 安卓手机
 安全人员选项开启，同时 usb 调试打开
