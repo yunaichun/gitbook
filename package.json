@@ -5,8 +5,8 @@
   "main": "app.js",
   "scripts": {
     "dev": "nodemon --harmony app.js --config nodemonrc.json",
-    "deploy:stag": "NODE_ENV=staging pm2 deploy ecosystem.config.js staging",
-    "deploy:prod": "NODE_ENV=production  pm2 deploy ecosystem.config.js production"
+    "deploy:stg": "NODE_ENV=staging pm2 deploy ecosystem.config.js staging",
+    "deploy:prd": "NODE_ENV=production  pm2 deploy ecosystem.config.js production"
   },
   "keywords": [
     "学习",
