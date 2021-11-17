@@ -9,13 +9,13 @@
 npm i nrm -g
 
 添加
-nrm add qingting 镜像源
+nrm add qingting http://ip:4873
 
 查看
 nrm ls
 
 切换
-nrm use 镜像源
+nrm use qingting
 ```
 
 ## 镜像配置

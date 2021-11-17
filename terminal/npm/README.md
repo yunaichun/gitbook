@@ -58,3 +58,4 @@ npm publish --access=public
 - [npm 命令配置技巧](https://www.jianshu.com/p/0f8ba68a04ec)
 - [npm 常用命令](https://www.jianshu.com/p/087d839e1d0c)
 - [如何发布自己的 NPM 包（模块）？](https://juejin.cn/post/6844903673684836365)
+- [前端工程化 - 剖析npm的包管理机制（完整版）](https://mp.weixin.qq.com/s/wZUQA5_Jj4spyb87gdhe2g)
