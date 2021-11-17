@@ -137,3 +137,8 @@ EXPOSE：仅仅只是声明端口。作用：
 1、帮助镜像使用者理解这个镜像服务的守护端口，以方便配置映射
 2、在运行时使用随机端口映射时，也就是 docker run -P 时，会自动随机映射 EXPOSE 的端口
 ```
+
+## 参考资料
+
+- [一张脑图整理Docker常用命令	](https://cloud.tencent.com/developer/article/1772136)
+

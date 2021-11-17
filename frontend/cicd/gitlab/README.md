@@ -214,3 +214,16 @@ resource_group: prd
 rules:
   - if: '$CI_DEPLOY_FREEZE == null'
 ```
+
+## 参考资料
+
+#### GitLab CI/CD 相关
+
+- [GitLab 官方文档](https://docs.gitlab.com/runner/register/)
+- [GitLab CI/CD 系列教程](https://www.bilibili.com/video/BV1iv41177zU/)
+- [CSDN 系列博客](https://blog.csdn.net/github_35631540)
+
+#### Jenkins CI/CD 相关
+
+- [从 0 到 1 实现一套 CI/CD 流程](https://juejin.cn/book/6897616008173846543/section/6897634827311251471)
+- [CI 持续集成和 CD 持续交付](http://www.pickstyle.cn/CI&CD/1.html)
