@@ -231,3 +231,4 @@ ReactDOM.hydrate(
 
 - [React + Koa 实现服务端渲染(SSR)](https://juejin.cn/post/6844903608501141512)
 - [React + Koa 实现服务端渲染(SSR) Part II](https://juejin.cn/post/6844903782787088392)
+- [Next.js 是怎么做预渲染的？](https://mp.weixin.qq.com/s/8Oni_OyB5OfHWIikI3-ygw)
