@@ -132,8 +132,8 @@ $ git push
 
 **2.5、git push 之后做了什么?**
 
-- NPN: 合并到 master 分支后自动发布到 [NPM 私有库](http://172.25.160.141:4873/)
-- H5: 合并到 staging 分支发布到测试环境 [Upyun](sss.staging.qingting.fm)/[AliOSS](sss.staging.qtfm.cn), 合并到 master 分支发布到正式环境 [Upyun](sss.qingting.fm)/[AliOSS](sss.qtfm.cn)
+- NPN: 合并到 master 分支后自动发布到 NPM 私有库
+- H5: 合并到 staging 分支发布到测试环境 Upyun/AliOSS, 合并到 master 分支发布到正式环境 Upyun/AliOSS
 - MP: 合并到 staging 分支生成微信小程序预览二维码, 合并到 master 分支上传到微信小程序后台，同时钉钉发送预览二维码
 
 ## 三、相关规范
@@ -149,7 +149,7 @@ $ git push
 - React 组件 qt-rc
 - H5 页面 qt-page
 - 微信小程序 qt-mp
-- BMS 物料 qt-material
+- 物料 qt-material
   - common (通用物料)
   - member (会员物料)
   - growth (增长物料)
@@ -252,7 +252,7 @@ $ git push
 #### 1、使用 CRA
 
 - 使用 CRA 创建子项目时，子项目根目录需要添加 .env 文件
-- 目的是为了避免我们自己的  eslint 跟 CRA的 eslint 冲突
+- 目的是为了避免我们自己的  eslint 跟 CRA 的 eslint 冲突
 
 ```
 /** .env */
