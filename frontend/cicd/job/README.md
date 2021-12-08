@@ -81,6 +81,10 @@
 
 ![notice-npm](../images/11.png)
 
-#### MP 效果图
+#### 微信小程序效果图
 
 ![notice-mp](../images/12.png)
+
+#### 物料效果图
+
+![notice-material](../images/13.png)
