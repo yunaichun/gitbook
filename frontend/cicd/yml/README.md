@@ -13,7 +13,7 @@
 
 ```yml
 # use docker image
-image: loca-registry/node:14.17.5-slim-rush-git-ts
+image: localregistry/infra/node:14.17.5-slim-rush-git-ts
 
 # define stages
 stages:
@@ -50,32 +50,32 @@ cache:
 
 .before_merged_to_staging_or_master: &before_merged_to_staging_or_master
   rules:
-    - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master" || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "staging"
+    - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /^(master|staging)$/ && $CI_PIPELINE_SOURCE != "schedule"
       <<: *scope
 
 .before_merged_to_staging: &before_merged_to_staging
   rules:
-    - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "staging"
+    - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "staging" && $CI_PIPELINE_SOURCE != "schedule"
       <<: *scope
 
 .before_merged_to_master: &before_merged_to_master
   rules:
-    - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"
+    - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master" && $CI_PIPELINE_SOURCE != "schedule"
       <<: *scope
 
 .after_merged_to_staging_or_master: &after_merged_to_staging_or_master
   rules:
-    - if: $CI_COMMIT_BRANCH == "master" || $CI_COMMIT_BRANCH == "staging"
+    - if: $CI_COMMIT_BRANCH =~ /^(master|staging)$/ && $CI_PIPELINE_SOURCE != "schedule"
       <<: *scope
 
 .after_merged_to_staging: &after_merged_to_staging
   rules:
-    - if: $CI_COMMIT_BRANCH == "staging"
+    - if: $CI_COMMIT_BRANCH == "staging" && $CI_PIPELINE_SOURCE != "schedule"
       <<: *scope
 
 .after_merged_to_master: &after_merged_to_master
   rules:
-    - if: $CI_COMMIT_BRANCH == "master"
+    - if: $CI_COMMIT_BRANCH == "master" && $CI_PIPELINE_SOURCE != "schedule"
       <<: *scope
 
 .build_cache: &build_cache
@@ -85,6 +85,35 @@ cache:
       - qt-*/*/dist
 
 # all pipelines
+
+### renovate auto update
+renovate_update:
+  stage: install
+  <<: *runner
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+  before_script:
+    - git remote set-url origin https://$CI_USERNAME:$CI_PUSH_TOKEN@git2.qingtingfm.com/web/$CI_PROJECT_NAME.git
+    - git config --global user.email $GITLAB_USER_EMAIL
+    - git config --global user.name $GITLAB_USER_ID
+    - git fetch origin
+    - npm i -g pnpm
+  script:
+    - pwd
+    - git checkout autoupdate && git checkout -b autoupdate_to_staging && git pull origin staging -X ours
+    - cd common/autoinstallers/rush-commit-check && pnpm install && cd ../../../
+    - rush update --full
+    - 'git add -A && git commit -m "fix(NoTicket): rush update to update lock file [skip ci]"'
+    - git push --set-upstream origin autoupdate_to_staging --no-verify -o merge_request.create -o merge_request.target=staging
+
+    - git checkout autoupdate && git checkout -b autoupdate_to_master && git pull origin master -X ours
+    - cd common/autoinstallers/rush-commit-check && pnpm install && cd ../../../
+    - rush update --full
+    - 'git add -A && git commit -m "fix(NoTicket): rush update to update lock file [skip ci]"'
+    - git push --set-upstream origin autoupdate_to_master --no-verify -o merge_request.create -o merge_request.target=master
+
+    - git checkout $CI_COMMIT_SHORT_SHA
+
 ### define job before merged to staging or master
 install_test_lint:
   stage: install
@@ -96,7 +125,7 @@ install_test_lint:
     - git config --global user.name $GITLAB_USER_ID
   script:
     # install
-    - rush install && rush build-prd
+    - rush install
     # unit test
     - rush test
     # lint test
@@ -172,9 +201,9 @@ deploy_notice:
     - ts-node qt-cli/readme-generator/src/start.ts readme
     - 'git add -A && git commit -m "docs(release): update README.md [skip ci]" --no-verify && git push origin HEAD:master --no-verify'
 
-    # sync mater branch to staging
-    - git fetch origin && git checkout staging && git pull origin master -X theirs --no-ff && git push origin HEAD:staging --no-verify
-    - git checkout master
+    # # sync mater branch to staging
+    # - git fetch origin && git checkout staging && git pull origin master -X theirs --no-ff && git push origin HEAD:staging --no-verify
+    # - git checkout master
 
     # notice
     - JOB=notice node qt-cli/cicd-job/src/h5.monorepo.js
