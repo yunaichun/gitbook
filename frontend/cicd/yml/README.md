@@ -50,32 +50,32 @@ cache:
 
 .before_merged_to_staging_or_master: &before_merged_to_staging_or_master
   rules:
-    - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /^(master|staging)$/ && $CI_PIPELINE_SOURCE != "schedule"
+    - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /^(master|staging)$/
       <<: *scope
 
 .before_merged_to_staging: &before_merged_to_staging
   rules:
-    - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "staging" && $CI_PIPELINE_SOURCE != "schedule"
+    - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "staging"
       <<: *scope
 
 .before_merged_to_master: &before_merged_to_master
   rules:
-    - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master" && $CI_PIPELINE_SOURCE != "schedule"
+    - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"
       <<: *scope
 
 .after_merged_to_staging_or_master: &after_merged_to_staging_or_master
   rules:
-    - if: $CI_COMMIT_BRANCH =~ /^(master|staging)$/ && $CI_PIPELINE_SOURCE != "schedule"
+    - if: $CI_COMMIT_BRANCH =~ /^(master|staging)$/
       <<: *scope
 
 .after_merged_to_staging: &after_merged_to_staging
   rules:
-    - if: $CI_COMMIT_BRANCH == "staging" && $CI_PIPELINE_SOURCE != "schedule"
+    - if: $CI_COMMIT_BRANCH == "staging"
       <<: *scope
 
 .after_merged_to_master: &after_merged_to_master
   rules:
-    - if: $CI_COMMIT_BRANCH == "master" && $CI_PIPELINE_SOURCE != "schedule"
+    - if: $CI_COMMIT_BRANCH == "master"
       <<: *scope
 
 .build_cache: &build_cache
@@ -85,34 +85,6 @@ cache:
       - qt-*/*/dist
 
 # all pipelines
-
-### renovate auto update
-renovate_update:
-  stage: install
-  <<: *runner
-  rules:
-    - if: $CI_PIPELINE_SOURCE == "schedule"
-  before_script:
-    - git remote set-url origin https://$CI_USERNAME:$CI_PUSH_TOKEN@git2.qingtingfm.com/web/$CI_PROJECT_NAME.git
-    - git config --global user.email $GITLAB_USER_EMAIL
-    - git config --global user.name $GITLAB_USER_ID
-    - git fetch origin
-    - npm i -g pnpm
-  script:
-    - pwd
-    - git checkout autoupdate && git checkout -b autoupdate_to_staging && git pull origin staging -X ours
-    - cd common/autoinstallers/rush-commit-check && pnpm install && cd ../../../
-    - rush update --full
-    - 'git add -A && git commit -m "fix(NoTicket): rush update to update lock file [skip ci]"'
-    - git push --set-upstream origin autoupdate_to_staging --no-verify -o merge_request.create -o merge_request.target=staging
-
-    - git checkout autoupdate && git checkout -b autoupdate_to_master && git pull origin master -X ours
-    - cd common/autoinstallers/rush-commit-check && pnpm install && cd ../../../
-    - rush update --full
-    - 'git add -A && git commit -m "fix(NoTicket): rush update to update lock file [skip ci]"'
-    - git push --set-upstream origin autoupdate_to_master --no-verify -o merge_request.create -o merge_request.target=master
-
-    - git checkout $CI_COMMIT_SHORT_SHA
 
 ### define job before merged to staging or master
 install_test_lint:
