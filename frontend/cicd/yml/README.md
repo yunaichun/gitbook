@@ -13,7 +13,7 @@
 
 ```yml
 # use docker image
-image: localregistry/infra/node:14.17.5-slim-rush-git-ts
+image: local/node-14.18.1-slim-h5-monorepo:0.0.1
 
 # define stages
 stages:
@@ -24,13 +24,12 @@ stages:
   - deploy
 
 # define cache
-cache:
+cache: &global_cache
   key:
     files:
       - common/config/rush/pnpm-lock.yaml
   paths:
     - qt-*/*/node_modules
-    - qt-*/*/dist
     - qt-*/*/.rush
     - common/*
     - rush.json
@@ -50,32 +49,32 @@ cache:
 
 .before_merged_to_staging_or_master: &before_merged_to_staging_or_master
   rules:
-    - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /^(master|staging)$/
+    - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /^(master|staging)$/ && $CI_PIPELINE_SOURCE != "schedule"
       <<: *scope
 
 .before_merged_to_staging: &before_merged_to_staging
   rules:
-    - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "staging"
+    - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "staging" && $CI_PIPELINE_SOURCE != "schedule"
       <<: *scope
 
 .before_merged_to_master: &before_merged_to_master
   rules:
-    - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"
+    - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master" && $CI_PIPELINE_SOURCE != "schedule"
       <<: *scope
 
 .after_merged_to_staging_or_master: &after_merged_to_staging_or_master
   rules:
-    - if: $CI_COMMIT_BRANCH =~ /^(master|staging)$/
+    - if: $CI_COMMIT_BRANCH =~ /^(master|staging)$/ && $CI_PIPELINE_SOURCE != "schedule"
       <<: *scope
 
 .after_merged_to_staging: &after_merged_to_staging
   rules:
-    - if: $CI_COMMIT_BRANCH == "staging"
+    - if: $CI_COMMIT_BRANCH == "staging" && $CI_PIPELINE_SOURCE != "schedule"
       <<: *scope
 
 .after_merged_to_master: &after_merged_to_master
   rules:
-    - if: $CI_COMMIT_BRANCH == "master"
+    - if: $CI_COMMIT_BRANCH == "master" && $CI_PIPELINE_SOURCE != "schedule"
       <<: *scope
 
 .build_cache: &build_cache
@@ -91,6 +90,10 @@ install_test_lint:
   stage: install
   <<: *runner
   <<: *before_merged_to_staging_or_master
+  <<: *build_cache
+  cache:
+    <<: *global_cache
+    policy: pull-push
   before_script:
     - git remote set-url origin https://$CI_USERNAME:$CI_PUSH_TOKEN@git2.qingtingfm.com/web/$CI_PROJECT_NAME.git
     - git config --global user.email $GITLAB_USER_EMAIL
@@ -112,6 +115,10 @@ install:
   stage: install
   <<: *runner
   <<: *after_merged_to_staging_or_master
+  <<: *build_cache
+  cache:
+    <<: *global_cache
+    policy: pull
   script:
     - rush install
 
@@ -121,6 +128,9 @@ build_stg:
   <<: *runner
   <<: *after_merged_to_staging
   <<: *build_cache
+  cache:
+    <<: *global_cache
+    policy: pull
   script:
     - rush build-stg --verbose
 
@@ -129,6 +139,9 @@ build_prd:
   <<: *runner
   <<: *after_merged_to_master
   <<: *build_cache
+  cache:
+    <<: *global_cache
+    policy: pull
   script:
     - rush build-prd
 
@@ -137,10 +150,13 @@ pre_performance:
   stage: pre
   <<: *runner
   <<: *after_merged_to_master
+  cache:
+    <<: *global_cache
+    policy: pull
   script:
     # deploy pre
     - JOB=pre node qt-cli/cicd-job/src/h5.monorepo.js
-    # h5 performance check
+    # notice
     - JOB=puppeteer node qt-cli/cicd-job/src/h5.monorepo.js
 
 # define job of deploy stage
@@ -148,6 +164,9 @@ deploy_stg:
   stage: deploy
   <<: *runner
   <<: *after_merged_to_staging
+  cache:
+    <<: *global_cache
+    policy: pull
   script:
     - JOB=stg node qt-cli/cicd-job/src/h5.monorepo.js
 
@@ -155,6 +174,9 @@ deploy_notice:
   stage: deploy
   <<: *runner
   <<: *after_merged_to_master
+  cache:
+    <<: *global_cache
+    policy: pull
   before_script:
     - git remote set-url origin https://$CI_USERNAME:$CI_PUSH_TOKEN@git2.qingtingfm.com/web/$CI_PROJECT_NAME.git
     - git config --global user.email $GITLAB_USER_EMAIL
@@ -166,18 +188,14 @@ deploy_notice:
     - rush install
     - rush change -v && rush publish -a -p -b master --add-commit-details --ignore-git-hooks
 
-    # deploy H5
+      # deploy h5、mp、material
     - JOB=prd node qt-cli/cicd-job/src/h5.monorepo.js
 
     # update readme
     - ts-node qt-cli/readme-generator/src/start.ts readme
     - 'git add -A && git commit -m "docs(release): update README.md [skip ci]" --no-verify && git push origin HEAD:master --no-verify'
 
-    # # sync mater branch to staging
-    # - git fetch origin && git checkout staging && git pull origin master -X theirs --no-ff && git push origin HEAD:staging --no-verify
-    # - git checkout master
-
-    # notice
+    # notice all
     - JOB=notice node qt-cli/cicd-job/src/h5.monorepo.js
   resource_group: h5_npm_mp_material
 ```
