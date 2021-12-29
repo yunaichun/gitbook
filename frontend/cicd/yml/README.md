@@ -13,7 +13,7 @@
 
 ```yml
 # use docker image
-image: local/node-14.18.1-slim-h5-monorepo:0.0.1
+image: local/infra/node-14.18.1-slim-h5-monorepo:0.0.1
 
 # define stages
 stages:
@@ -28,6 +28,7 @@ cache: &global_cache
   key:
     files:
       - common/config/rush/pnpm-lock.yaml
+    prefix: ${CI_MERGE_REQUEST_TARGET_BRANCH_NAME}$CI_COMMIT_BRANCH
   paths:
     - qt-*/*/node_modules
     - qt-*/*/.rush
