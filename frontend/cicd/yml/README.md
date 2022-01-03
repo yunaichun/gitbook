@@ -102,6 +102,8 @@ install_test_lint:
   script:
     # install
     - rush install
+    # cache for postinstall
+    - rush build-prd
     # unit test
     - rush test
     # lint test
