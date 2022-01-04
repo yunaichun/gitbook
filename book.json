@@ -23,7 +23,8 @@
         "back-to-top-button",
         "anchor-navigation-ex",
         "prism",
-        "click-reveal"
+        "click-reveal",
+        "icp"
     ],
     "pluginsConfig": {
         "search-pro": {
@@ -40,6 +41,10 @@
         "anchor-navigation-ex": {
             "showLevel": false,
             "showGoTop": false
+        },
+        "icp": {
+            "number": "浙ICP备2020041073号-1",
+            "link":"https://beian.miit.gov.cn/"
         }
     },
     "links": {
