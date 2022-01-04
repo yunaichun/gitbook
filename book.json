@@ -43,6 +43,7 @@
             "showGoTop": false
         },
         "icp": {
+            "label": "",
             "number": "浙ICP备2020041073号-1",
             "link":"https://beian.miit.gov.cn/"
         }
