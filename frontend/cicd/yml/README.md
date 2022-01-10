@@ -13,7 +13,7 @@
 
 ```yml
 # use docker image
-image: localhost/infra/node-14.18.1-slim-h5-monorepo:0.0.2-alpha
+image: loclhost/infra/node-14.18.1-slim-h5-monorepo:0.0.2-alpha
 
 # define stages
 stages:
@@ -25,11 +25,10 @@ stages:
 
 # define cache
 cache: &global_cache
-  # key:
-  #   files:
-  #     - common/config/rush/pnpm-lock.yaml
-  #   prefix: ${CI_MERGE_REQUEST_TARGET_BRANCH_NAME}$CI_COMMIT_BRANCH
-  key: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME$CI_COMMIT_BRANCH
+  key:
+    files:
+      - common/config/rush/pnpm-lock.yaml
+    prefix: ${CI_MERGE_REQUEST_TARGET_BRANCH_NAME}$CI_COMMIT_BRANCH
   paths:
     - qt-*/*/node_modules
     - qt-*/*/.rush
@@ -95,7 +94,7 @@ install_test_lint:
   <<: *build_cache
   cache:
     <<: *global_cache
-    policy: pull-push
+    policy: push
   before_script:
     - git remote set-url origin https://$CI_USERNAME:$CI_PUSH_TOKEN@git2.qingtingfm.com/web/$CI_PROJECT_NAME.git
     - git config --global user.email $GITLAB_USER_EMAIL
@@ -202,7 +201,6 @@ deploy_notice:
   resource_group: h5_npm_mp_material
 
 
-
 # manual trigger deploy to staging flow
 .manual_deploy_rules: &manual_deploy_rules
   rules:
@@ -216,6 +214,7 @@ prepare:
   <<: *build_cache
   cache:
     <<: *global_cache
+    policy: push
   before_script:
     - git remote set-url origin https://$CI_USERNAME:$CI_PUSH_TOKEN@git2.qingtingfm.com/web/$CI_PROJECT_NAME.git
     - git config --global user.email $GITLAB_USER_EMAIL
