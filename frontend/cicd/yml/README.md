@@ -13,7 +13,7 @@
 
 ```yml
 # use docker image
-image: loclhost/infra/node-14.18.1-slim-h5-monorepo:0.0.2-alpha
+image: localhost/infra/node-14.18.1-slim-h5-monorepo:0.0.2-alpha
 
 # define stages
 stages:
@@ -25,10 +25,12 @@ stages:
 
 # define cache
 cache: &global_cache
-  key:
-    files:
-      - common/config/rush/pnpm-lock.yaml
-    prefix: ${CI_MERGE_REQUEST_TARGET_BRANCH_NAME}$CI_COMMIT_BRANCH
+  key: ${CI_MERGE_REQUEST_TARGET_BRANCH_NAME}$CI_COMMIT_BRANCH
+  # because lock file will change between merge before and after. so cache key will change.
+  # key:
+  #   files:
+  #     - common/config/rush/pnpm-lock.yaml
+  #   prefix: ${CI_MERGE_REQUEST_TARGET_BRANCH_NAME}$CI_COMMIT_BRANCH
   paths:
     - qt-*/*/node_modules
     - qt-*/*/.rush
@@ -91,7 +93,8 @@ install_test_lint:
   stage: install
   <<: *runner
   <<: *before_merged_to_staging_or_master
-  <<: *build_cache
+  # because build artifacts can't cross pipeline share 
+  # <<: *build_cache
   cache:
     <<: *global_cache
     policy: push
@@ -102,7 +105,7 @@ install_test_lint:
   script:
     # install
     - rush install
-    # for postinstall
+    # for other projects eslint
     - rush compile
     # unit test
     - rush test
@@ -123,7 +126,10 @@ install:
     <<: *global_cache
     policy: pull
   script:
+    # install
     - rush install
+    # for other projects build
+    - rush compile
 
 # define job of build stage
 build_stg:
