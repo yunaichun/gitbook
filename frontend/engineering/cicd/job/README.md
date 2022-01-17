@@ -17,7 +17,7 @@
 
 #### 效果图
 
-![lint](../images/6.png)
+![lint](./images/6.png)
 
 ## performance
 
@@ -33,7 +33,7 @@
 
 #### 效果图
 
-![performance](../images/7.png)
+![performance](./images/7.png)
 
 ## upload
 
@@ -54,14 +54,14 @@
 - 每次上传均会检测是否上传成功，如果不成功，会重试5次；
 - 超过5次，中断后续上传
 
-![upload-h5](../images/8.png)
+![upload-h5](./images/8.png)
 
 #### 效果图 - npm包和微信小程序
 
 - npm 项目会输出 npm 包地址
 - 微信小程序会输出小程序预览二维码
 
-![upload-npm+mp](../images/9.png)
+![upload-npm+mp](./images/9.png)
 
 ## notice
 
@@ -75,16 +75,16 @@
 
 #### H5 效果图
 
-![notice-h5](../images/10.png)
+![notice-h5](./images/10.png)
 
 #### NPM 效果图
 
-![notice-npm](../images/11.png)
+![notice-npm](./images/11.png)
 
 #### 微信小程序效果图
 
-![notice-mp](../images/12.png)
+![notice-mp](./images/12.png)
 
 #### 物料效果图
 
-![notice-material](../images/13.png)
+![notice-material](./images/13.png)
