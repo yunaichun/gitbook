@@ -20,24 +20,24 @@ source ~/.zshrc
 
 ## 常见命令
 
-```text
-查看已经安装的node
+```sh
+# 查看已经安装的 node
 nvm ls
 
-查看可以安装的node
+# 查看可以安装的 node
 nvm ls-remote
 
-安装指定版本
+# 安装指定版本
 nvm install v10.15.0
 
-安装稳定版
+# 安装稳定版
 nvm install stable
 
-切换不同node版本
+# 切换不同 node 版本
 nvm use v10.15.0
 
-通过官网安装的node版本号查看
-nvm use system
+# 设定终端默认 node 版本
+nvm alias default <version>
 ```
 
 ## 参考资料
