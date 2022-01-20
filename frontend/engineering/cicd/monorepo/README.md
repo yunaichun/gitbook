@@ -297,3 +297,4 @@ Please commit your changes or stash them before you switch branches.
 - [Monorepo 的这些坑，我们帮你踩过了！ - 字节教育](https://juejin.cn/post/6972139870231724045)
 - [rush解决方案 - Microsoft](https://rushstack.io)
 - [pnpm: 最先进的包管理工具](https://mp.weixin.qq.com/s/TcHUoO-uUVU274gN3kx3og)
+- [turborepo解决方案](https://turborepo.org/)
