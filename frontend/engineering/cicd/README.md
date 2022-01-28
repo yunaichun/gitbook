@@ -16,12 +16,4 @@
 
 ## pipeline效果
 
-#### 1、合并到staging分支，点击 merge 前后
-
-![merge 前](./job/images/2.png)
-![merge 后](./job/images/3.png)
-
-#### 2、合并到master分支，点击 merge 前后
-
-![merge 前](./job/images/4.png)
-![merge 后](./job/images/5.png)
+![pipeline效果](./job/images/2.png)
