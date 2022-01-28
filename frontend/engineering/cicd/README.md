@@ -12,16 +12,16 @@
 
 ## 整体设计
 
-![整体设计](./images/1.png)
+![整体设计](./job/images/1.png)
 
 ## pipeline效果
 
 #### 1、合并到staging分支，点击 merge 前后
 
-![merge 前](./images/2.png)
-![merge 后](./images/3.png)
+![merge 前](./job/images/2.png)
+![merge 后](./job/images/3.png)
 
 #### 2、合并到master分支，点击 merge 前后
 
-![merge 前](./images/4.png)
-![merge 后](./images/5.png)
+![merge 前](./job/images/4.png)
+![merge 后](./job/images/5.png)
