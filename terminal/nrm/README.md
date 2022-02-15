@@ -4,36 +4,39 @@
 
 ## 镜像源管理
 
-```text
-安装
+```sh
+# 安装 nrm
 npm i nrm -g
 
-添加
-nrm add qingting http://ip:4873
+# 添加源
+nrm add [name] [registry]
 
-查看
+# 查看源
 nrm ls
 
-切换
-nrm use qingting
+# 切换源
+nrm use [name]
+
+# 测试源
+nrm test [name] 
 ```
 
 ## 镜像配置
 
-```text
-查看
+```sh
+# 查看
 npm config ls
 
-设置
+# 设置
 npm config set <key> <value> [-g|--global]
 
-获取
+# 获取
 npm config get <key>
 
-删除
+# 删除
 npm config delete <key>
 
-修改
+# 修改
 npm config edit
 ```
 
