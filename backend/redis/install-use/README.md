@@ -6,16 +6,18 @@
 
 > mac 安装
 
-```text
+```sh
 brew install redis
 ```
 
 > ubuntu 安装
 
-```text
-命令: apt install redis-server
+```sh
+# 命令
+apt install redis-server
 
-配置文件: /etc/redis/redis.conf
+# 配置文件
+/etc/redis/redis.conf
 ```
 
 > redis.conf 必要修改
@@ -38,64 +40,78 @@ tail -f /var/log/redis/redis-server.log
 
 > 版本
 
-```text
+```sh
 redis-server --version
 ```
 
 > 启动
 
-```text
-启动: service redis start
+```sh
+# 启动
+service redis start
 
-停止: service redis stop
+# 停止
+service redis stop
 
-重启: service redis restart
+# 重启
+service redis restart
 
-状态: service redis status
+# 状态
+service redis status
 
-版本: redis-server --version
+# 版本
+redis-server --version
 ```
 
 > 登录
 
-```text
-不写密码登录: redis-cli -p 9376
+```sh
+# 不写密码登录
+redis-cli -p 9376
 
-输入密码登录: redis-cli  -h 127.0.0.1 -p 9376 -a yourpassword
+# 输入密码登录:
+redis-cli  -h 127.0.0.1 -p 9376 -a yourpassword
 
-登录成功后查看帮助: help 命令
+# 登录成功后查看帮助:
+help 命令
 ```
 
 > 设置密码
 
-```text
-登录成功后可获取密码: config get requirepass
+```sh
+# 登录成功后可获取密码
+config get requirepass
 
-登录成功后可设置密码: config set requirepass yourpassword
+# 登录成功后可设置密码
+config set requirepass yourpassword
 
-auth密码是否正确: auth yourpassword
+# auth密码是否正确
+auth yourpassword
 ```
 
 ## 基本使用
 
-```text
-设置 key 的值
+```sh
+# 设置 key 的值
 set name test
 
-设置 key 的过期时间(30s)
+# 设置 key 的过期时间(30s)
 expire name 30
 
-获取 key 的值
+# 获取 key 的值
 get name
 
-获取 key 的过期时间
+# 获取 key 的过期时间
 ttl name 
 
-删除 key
+# 删除 key
 del name
 
-获取所有key值
+# 获取所有key值
 keys *
+
+# 查看key数量
+info keyspace
 ```
 
 ## 参考资料
