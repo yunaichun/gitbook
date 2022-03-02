@@ -13,7 +13,7 @@
 
 ```yml
 # use docker image
-image: localhost/infra/node-14.18.1-slim-h5-monorepo:0.0.2-alpha
+image: registry.cn-hangzhou.aliyuncs.com/infra/node-14.18.1-slim-h5-monorepo:0.0.2-alpha
 
 # define stages
 stages:
@@ -201,6 +201,9 @@ deploy_notice:
     # update readme
     - ts-node qt-cli/readme-generator/src/start.ts readme
     - 'git add -A && git commit -m "docs(release): update README.md [skip ci]" --no-verify && git push origin HEAD:master --no-verify'
+
+    # deploy npm to cdn
+    - JOB=npmtocdn node qt-cli/cicd-job/src/h5.monorepo.js
 
     # notice all
     - JOB=notice node qt-cli/cicd-job/src/h5.monorepo.js
