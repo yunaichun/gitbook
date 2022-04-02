@@ -25,7 +25,7 @@ stages:
 
 # define cache
 cache: &global_cache
-  key: ${CI_MERGE_REQUEST_TARGET_BRANCH_NAME}$CI_COMMIT_BRANCH
+  key: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME$CI_COMMIT_BRANCH-$GITLAB_USER_NAME
   # because lock file will change between merge before and after. so cache key will change.
   # key:
   #   files:
@@ -191,19 +191,14 @@ deploy_notice:
     - git config --global user.email $GITLAB_USER_EMAIL
     - git config --global user.name $GITLAB_USER_ID
   script:
-    # deploy npm
     - rush install
-    - rush change -v && rush publish -a -p -b master --add-commit-details --ignore-git-hooks
 
-    # deploy h5、mp、material
+    # deploy h5/mp/material/npm/cdn
     - JOB=prd node qt-cli/cicd-job/src/h5.monorepo.js
 
     # update readme
     - ts-node qt-cli/readme-generator/src/start.ts readme
     - 'git add -A && git commit -m "docs(release): update README.md [skip ci]" --no-verify && git push origin HEAD:master --no-verify'
-
-    # deploy npm to cdn
-    - JOB=npmtocdn node qt-cli/cicd-job/src/h5.monorepo.js
 
     # notice all
     - JOB=notice node qt-cli/cicd-job/src/h5.monorepo.js
