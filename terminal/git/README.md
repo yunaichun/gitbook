@@ -83,6 +83,9 @@ git rebase -i HEAD~3
 # 9、解决冲突（本地在dev分支执行命令）
 git pull origin staging
 git rebase origin/staging -X theirs
+
+# 10、删除新增的文件和文件夹
+git clean -xdf
 ```
 
 ## 本地远程交互操作
