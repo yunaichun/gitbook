@@ -2,6 +2,20 @@
 
 > k8s 学习笔记。
 
+## XaaS
+
+> 大类
+
+- SaaS: Software as a service-面向终端用户; "软件即服务": 淘宝、微博、Gmail等
+- PaaS: Platform as a service-面向开发者; "平台即服务": BaaS、CaaS、Serverless等
+- IaaS: Infrastructure as a service-面向运维人员; "基础设施即服务": ECS、EC2
+
+> PaaS 下分类
+
+- FaaS: function as a service
+- BaaS: backend as a service
+- CaaS: container as a service
+
 ## 参考资料
 
 - [kubernetes 官方文档](https://kubernetes.io/docs/home/)
