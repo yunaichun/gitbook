@@ -140,5 +140,5 @@ EXPOSE：仅仅只是声明端口。作用：
 
 ## 参考资料
 
-- [一张脑图整理Docker常用命令	](https://cloud.tencent.com/developer/article/1772136)
+- [一张脑图整理Docker常用命令](https://cloud.tencent.com/developer/article/1772136)
 

@@ -1,6 +1,6 @@
 ## 简介
 
-> Gitlab 学习笔记。
+> Gitlab CI/CD Runner 搭建学习笔记。
 
 ## Gitlab
 

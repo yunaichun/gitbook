@@ -1,6 +1,6 @@
 ## 简介
 
-> .gitlab.yml 学习笔记。
+> .gitlab.yml 学习笔记，主要作用是编排单一 job 流工具。
 
 ## 处理项目
 
@@ -13,7 +13,7 @@
 
 ```yml
 # use docker image
-image: registry.cn-hangzhou.aliyuncs.com/infra/node-14.18.1-slim-h5-monorepo:0.0.2-alpha
+image: xxx/node-14.18.1-slim-h5-monorepo:0.0.2-alpha
 
 # define stages
 stages:
@@ -25,7 +25,7 @@ stages:
 
 # define cache
 cache: &global_cache
-  key: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME$CI_COMMIT_BRANCH-$GITLAB_USER_NAME
+  key: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME$CI_COMMIT_BRANCH
   # because lock file will change between merge before and after. so cache key will change.
   # key:
   #   files:
@@ -102,6 +102,7 @@ install_test_lint:
     - git remote set-url origin https://$CI_USERNAME:$CI_PUSH_TOKEN@git2.qingtingfm.com/web/$CI_PROJECT_NAME.git
     - git config --global user.email $GITLAB_USER_EMAIL
     - git config --global user.name $GITLAB_USER_ID
+    - export
   script:
     # install
     - rush install
@@ -112,7 +113,7 @@ install_test_lint:
     # lint test
     - git fetch origin
     - git checkout -b $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME origin/$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME
-    - JOB=lint node qt-cli/cicd-job/src/h5.monorepo.js
+    - JOB=lint node qt-cli/cicd-job/dist/src/h5.monorepo.js
     - git checkout $CI_COMMIT_SHORT_SHA
 
 ### define job after merged to staging or master
@@ -126,6 +127,7 @@ install:
     <<: *global_cache
     policy: pull
   script:
+    - export
     # install
     - rush install
     # for other projects build
@@ -155,7 +157,7 @@ build_prd:
     - rush build-prd
 
 # define job of pre stage
-pre_performance:
+h5-pre-check:
   stage: pre
   <<: *runner
   <<: *after_merged_to_master
@@ -163,10 +165,8 @@ pre_performance:
     <<: *global_cache
     policy: pull
   script:
-    # deploy pre
-    - JOB=pre node qt-cli/cicd-job/src/h5.monorepo.js
-    # notice
-    - JOB=puppeteer node qt-cli/cicd-job/src/h5.monorepo.js
+    # deploy pre and check
+    - JOB=pre node qt-cli/cicd-job/dist/src/h5.monorepo.js
 
 # define job of deploy stage
 deploy_stg:
@@ -177,7 +177,7 @@ deploy_stg:
     <<: *global_cache
     policy: pull
   script:
-    - JOB=stg node qt-cli/cicd-job/src/h5.monorepo.js
+    - JOB=stg node qt-cli/cicd-job/dist/src/h5.monorepo.js
 
 deploy_notice:
   stage: deploy
@@ -194,14 +194,14 @@ deploy_notice:
     - rush install
 
     # deploy h5/mp/material/npm/cdn
-    - JOB=prd node qt-cli/cicd-job/src/h5.monorepo.js
+    - JOB=prd node qt-cli/cicd-job/dist/src/h5.monorepo.js
 
     # update readme
     - ts-node qt-cli/readme-generator/src/start.ts readme
     - 'git add -A && git commit -m "docs(release): update README.md [skip ci]" --no-verify && git push origin HEAD:master --no-verify'
 
     # notice all
-    - JOB=notice node qt-cli/cicd-job/src/h5.monorepo.js
+    - JOB=notice node qt-cli/cicd-job/dist/src/h5.monorepo.js
   resource_group: h5_npm_mp_material
 
 
@@ -245,8 +245,8 @@ deploy_stg:
   <<: *runner
   <<: *manual_deploy_rules
   variables:
-    CI_COMMIT_BEFORE_SHA: $CI_COMMIT_SHORT_SHA
-    CI_COMMIT_SHA: origin/$CI_DEFAULT_BRANCH
+    CI_COMMIT_BEFORE_SHA: origin/$CI_DEFAULT_BRANCH
+    CI_COMMIT_SHA: $CI_COMMIT_SHORT_SHA
   cache:
     <<: *global_cache
     policy: pull
@@ -256,7 +256,7 @@ deploy_stg:
     - git config --global user.name $GITLAB_USER_ID
     - git fetch origin
   script:
-    - JOB=stg node qt-cli/cicd-job/src/h5.monorepo.js
+    - JOB=stg node qt-cli/cicd-job/dist/src/h5.monorepo.js
 ```
 
 ## 参考资料
