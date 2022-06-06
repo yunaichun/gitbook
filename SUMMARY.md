@@ -91,7 +91,7 @@
     * [kubernetes]()
       * [Docker 简介](./frontend/engineering/kubernetes/docker/README.md)
       * [kubernetes 简介](./frontend/engineering/kubernetes/introduction/README.md)
-      * [kubernetes 搭建](./frontend/engineering/kubernetes/kubernetes/README.md)
+      * [kubernetes 搭建](./frontend/engineering/kubernetes/install/README.md)
     * [low code]()
       * [浏览器沙箱](./frontend/engineering/builder/sandbox/README.md)
       * [代码解析合并](./frontend/engineering/builder/parsing/README.md)
