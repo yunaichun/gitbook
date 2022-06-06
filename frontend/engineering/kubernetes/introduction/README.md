@@ -1,6 +1,6 @@
 ## 简介
 
-> k8s 学习笔记。
+> Kubernetes 学习笔记。
 
 ## XaaS
 
