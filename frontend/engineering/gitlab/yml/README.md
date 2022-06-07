@@ -97,7 +97,7 @@ install_test_lint:
   # <<: *build_cache
   cache:
     <<: *global_cache
-    policy: push
+    policy: pull
   before_script:
     - git remote set-url origin https://$CI_USERNAME:$CI_PUSH_TOKEN@git2.qingtingfm.com/web/$CI_PROJECT_NAME.git
     - git config --global user.email $GITLAB_USER_EMAIL
@@ -125,7 +125,7 @@ install:
   <<: *build_cache
   cache:
     <<: *global_cache
-    policy: pull
+    policy: push
   script:
     - export
     # install
