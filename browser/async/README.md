@@ -65,7 +65,7 @@ requestIdleCallback 还为我们提供了截止日期参数。我们可以使用
 ```text
 async: 脚本一旦加载完成立即执行。
 
-defer: 脚本在 DOMContentLoaded 事件之前执行。
+defer: 脚本在 DOMContentLoaded 事件之前执行。顺序加载。
 ```
 
 ## 资源预加载
