@@ -13,7 +13,7 @@
 
 ```yml
 # use docker image
-image: xxx/node-14.18.1-slim-h5-monorepo:0.0.2-alpha
+image: localhost/node-14.18.1-slim-h5-monorepo:0.0.2-alpha
 
 # define stages
 stages:
@@ -93,10 +93,11 @@ install_test_lint:
   stage: install
   <<: *runner
   <<: *before_merged_to_staging_or_master
-  # because build artifacts can't cross pipeline share 
+  # because build artifacts can't cross pipeline share
   # <<: *build_cache
+  # 缓存必须要有，但是此job不需要缓存，所以随便写一个
   cache:
-    <<: *global_cache
+    key: $CI_PROJECT_NAME
     policy: pull
   before_script:
     - git remote set-url origin https://$CI_USERNAME:$CI_PUSH_TOKEN@git2.qingtingfm.com/web/$CI_PROJECT_NAME.git
@@ -143,7 +144,8 @@ build_stg:
     <<: *global_cache
     policy: pull
   script:
-    - rush build-stg --verbose
+    # - rush build-stg
+    - JOB=build-stg node qt-cli/cicd-job/dist/src/h5.monorepo.js
 
 build_prd:
   stage: build
@@ -154,7 +156,8 @@ build_prd:
     <<: *global_cache
     policy: pull
   script:
-    - rush build-prd
+    # - rush build-prd
+    - JOB=build-prd node qt-cli/cicd-job/dist/src/h5.monorepo.js
 
 # define job of pre stage
 h5-pre-check:
@@ -166,7 +169,7 @@ h5-pre-check:
     policy: pull
   script:
     # deploy pre and check
-    - JOB=pre node qt-cli/cicd-job/dist/src/h5.monorepo.js
+    - JOB=deploy-pre node qt-cli/cicd-job/dist/src/h5.monorepo.js
 
 # define job of deploy stage
 deploy_stg:
@@ -177,7 +180,7 @@ deploy_stg:
     <<: *global_cache
     policy: pull
   script:
-    - JOB=stg node qt-cli/cicd-job/dist/src/h5.monorepo.js
+    - JOB=deploy-stg node qt-cli/cicd-job/dist/src/h5.monorepo.js
 
 deploy_notice:
   stage: deploy
@@ -194,7 +197,7 @@ deploy_notice:
     - rush install
 
     # deploy h5/mp/material/npm/cdn
-    - JOB=prd node qt-cli/cicd-job/dist/src/h5.monorepo.js
+    - JOB=deploy-prd node qt-cli/cicd-job/dist/src/h5.monorepo.js
 
     # update readme
     - ts-node qt-cli/readme-generator/src/start.ts readme
@@ -234,11 +237,20 @@ build_stg:
   <<: *runner
   <<: *manual_deploy_rules
   <<: *build_cache
+  variables:
+    CI_COMMIT_BEFORE_SHA: origin/$CI_DEFAULT_BRANCH
+    CI_COMMIT_SHA: $CI_COMMIT_SHORT_SHA
   cache:
     <<: *global_cache
     policy: pull
+  before_script:
+    - git remote set-url origin https://$CI_USERNAME:$CI_PUSH_TOKEN@git2.qingtingfm.com/web/$CI_PROJECT_NAME.git
+    - git config --global user.email $GITLAB_USER_EMAIL
+    - git config --global user.name $GITLAB_USER_ID
+    - git fetch origin
   script:
-    - rush build-stg
+    # - rush build-stg
+    - JOB=build-stg node qt-cli/cicd-job/dist/src/h5.monorepo.js
 
 deploy_stg:
   stage: deploy
@@ -256,7 +268,7 @@ deploy_stg:
     - git config --global user.name $GITLAB_USER_ID
     - git fetch origin
   script:
-    - JOB=stg node qt-cli/cicd-job/dist/src/h5.monorepo.js
+    - JOB=deploy-stg node qt-cli/cicd-job/dist/src/h5.monorepo.js
 ```
 
 ## 参考资料
