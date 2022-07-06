@@ -126,7 +126,6 @@
   * [nvm](./terminal/nvm/README.md)
   * [tmux](./terminal/tmux/README.md)
   * [zsh](./terminal/zsh/README.md)
-  * [nexus](./terminal/nexus/README.md)
   * [shell](./terminal/shell/README.md)
   * [linux](./terminal/linux/README.md)
   * [cli](./terminal/cli/README.md)
