@@ -37,7 +37,6 @@ chsh -s /bin/zsh
 
 ## 参考资料
 
-- [Homebrew 官网](https://brew.sh/)
 - [在 ubuntu 中安装与配置 zsh 与 oh-my-zsh](https://www.jianshu.com/p/546effd99c35)
 - [mac 配置彩色 shell(oh my zsh)](https://www.jianshu.com/p/522c8b464ed8)
 - [install zsh on windows](https://www.youtube.com/watch?v=CrWB9zg4fLg)
