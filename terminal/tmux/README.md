@@ -60,4 +60,5 @@ tmux set -g mouse on
 
 - [Homebrew 官网](https://brew.sh/)
 - [mac 下镜像飞速安装 Homebrew 教程](https://zhuanlan.zhihu.com/p/90508170)
-- [tmux：打造精致与实用并存的终端](https://segmentfault.com/a/1190000008188987)
+- [tmux: 打造精致与实用并存的终端](https://segmentfault.com/a/1190000008188987)
+- [绕过公证安装 mac app](https://macwk.com/article/macos-file-damage)
