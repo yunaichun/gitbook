@@ -100,7 +100,7 @@ console.log(obj2.__proto__.__proto__ === bar.prototype);
 let arr = [' ab', ' c d'];
 console.log(arr.map(Function.prototype.call, String.prototype.trim));
 
-// 1、map 方法: 第二个参数相当于 obj 对象调用第一个函数
+// 1、map 方法第二个参数作用是用来定义执行 callback 时的 this 指向
 var arr = [' ab', ' c d'];
 var obj = { 'test': 'test' }
 arr.map(function(item) {
