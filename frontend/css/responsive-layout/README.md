@@ -82,7 +82,7 @@
 则 device-width = 设备物理分辨率 = document.documentElement.clientWidth;
 
 在 iPhone6 尺寸时, device-width / 7.5 = 100, 代表 1rem = 100px.
-在 iPhone5 尺寸时, 640 / 7.5 = 42.67px, 代表 1rem = 85.34px.
+在 iPhone5 尺寸时, 640 / 7.5 = 85.34px, 代表 1rem = 85.34px.
 ```
 
 ## 响应式方案-flex
