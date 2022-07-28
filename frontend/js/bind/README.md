@@ -144,8 +144,13 @@ func = y.bind(obj1).bind(obj2).bind(obj3);
 func();
 // 等价于
 (y.bind(obj1).bind(obj2)).apply(obj3);
-// 等价于
-((y.bind(obj1)).apply(obj2)).apply(obj3);
-// 等价于
-((y.apply(obj1)).apply(obj2)).apply(obj3);
+
+// 等价于 obj3 执行下面函数
+y.bind(obj1).bind(obj2)
+
+// 等价于 obj2 执行下面函数 
+y.bind(obj1)
+
+// 等价于 obj1 执行下面函数 
+y
 ```
