@@ -23,20 +23,13 @@ function debounce(fn, delay = 200){
 
 ```js
 // == 节流: 密集事件间隔时间小于 interval，间隔 interval 响应一次
-function throttle(fn, interval = 200) {
-    const [timer, last] = [];
-    return function(...args) {
-        const _this = this;
-        const now = +new Date();
-        if (last && now - last < interval) {
-            clearTimeout(timer);
-            timer = setTimeout(function() {
-                last = now;
-                fn.apply(_this, args);
-            }, interval);
-        } else {
+function throttle(callback, interval = 200) {
+    let last = null;
+    return function (...args) {
+        let now = new Date();
+        if (!last || now - last >= interval) {
             last = now;
-            fn.apply(th, args);
+            callback.apply(this, args);
         }
     }
 }
