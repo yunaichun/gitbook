@@ -6,22 +6,21 @@
 
 ```js
 // == reduce 的思想是归并的思想
-Array.prototype.fakeReduce = function(fn, initialValue) {
-    if (typeof fn !== 'function') { 
-        throw new Error('argument[0] must be a function');
-    }
+Array.prototype.fakeReduce = function (fn, initItem) {
+    if (typeof fn !== 'function') throw new Error('argument[0] must be a function');
 
-    let initialArr = this;
-
-    let arr = this.slice();
-    if (initialValue) arr.unshift(initialValue);
+    const arr = this;
+    const mergedArr = [...arr];
+    if (initItem) mergedArr.unshift(initItem)
 
     let next;
-    while (arr.length > 1) {
-        let [prev, curr] = [arr[0], arr[1]];
-        let index = initialArr.length - arr.length + 1;
-        next = fn.call(null, prev, curr, index, initialArr);
-        arr.splice(0, 2, next);
+    let index = 0;
+    while(mergedArr.length > 1) {
+        const prev = mergedArr[0];
+        next = mergedArr[1];
+        next = fn(prev, next, index, arr);
+        index += 1;
+        mergedArr.splice(0, 2, next);
     }
 
     return next;
