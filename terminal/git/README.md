@@ -124,3 +124,4 @@ git stash pop
 
 - [Git教程](https://www.liaoxuefeng.com/wiki/896043488029600/)
 - [git commit 规范指南](https://www.jianshu.com/p/201bd81e7dc9?utm_source=oschina-app)
+- [Gitbook 集成 Gittalk ](https://juejin.cn/post/6844903939091988494)

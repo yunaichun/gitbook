@@ -24,7 +24,8 @@
         "anchor-navigation-ex",
         "prism",
         "click-reveal",
-        "icp"
+        "icp",
+        "gittalk"
     ],
     "pluginsConfig": {
         "search-pro": {
@@ -46,6 +47,14 @@
             "label": "",
             "number": "浙ICP备2020041073号-1",
             "link":"https://beian.miit.gov.cn/"
+        },
+        "gittalk": {
+            "clientID": "4e476c8e017eb4c17abf",
+            "clientSecret": "83397abbbc751377fa4ea4f18be6e3e0f7c2c1e7",
+            "repo": "gitbook",
+            "owner": "yunaichun",
+            "admin": ["yunaichun"],
+            "distractionFreeMode": false
         }
     },
     "links": {
