@@ -25,7 +25,7 @@
         "prism",
         "click-reveal",
         "icp",
-        "pageview-count",
+        "cmb-pageview",
         "gittalk"
     ],
     "pluginsConfig": {
