@@ -5,31 +5,28 @@
 ## 递归实现深拷贝
 
 ```js
-function extendDeep(parent, child) {
-    if (!child) child = Array.isArray(parent) ? [] : {};
-    for (let key in parent) {
-        if (parent.hasOwnProperty(key)) {
-            if (typeof parent[key] === 'object') {
-                child[key] = extendDeep(parent[key], Array.isArray(parent[key]) ? [] : {});
-            } else {
-                child[key] = parent[key];
-            }
-        }
+function extendDeep(parent) {
+  if (typeof parent !== 'object') return parent;
+  let child = Array.isArray(parent) ? [] : {};
+  for (const key in parent) {
+    const value = parent[key];
+    if (typeof value === 'object') {
+      child[key] = extendDeep(value);
+    } else {
+      child[key] = value;
     }
-    
-    return child;
+  }
+  return child;
 }
-
-let parent = {
-    counts: [1, 2, 3],
-    reads: { paper: true }
+const parent = {
+  a: 1,
+  b: {
+    c: 2
+  },
+  d: [3, 4]
 };
-let child = extendDeep(parent, {counts: [], c: 1});
-child.counts.push(4);
-console.log(child.counts, parent.counts);
-
-child.reads.english = true;
-console.log(child.reads, parent.reads); 
+const child = extendDeep(parent);
+console.log(child, parent);
 ```
 
 ## Object.assign和扩展运算符

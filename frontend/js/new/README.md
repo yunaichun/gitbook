@@ -34,8 +34,10 @@ console.log(obj instanceof M);
 ```js
 const a = { x: 1 };
 const b = new Object(a);
-const c = Object.create(a);
 console.log(b.__proto__ === Object.prototype);
+
+const a = { x: 1 };
+const c = Object.create(a);
 console.log(c.__proto__ === a);
 ```
 
