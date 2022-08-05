@@ -36,20 +36,24 @@ tail -f /etc/log/mysql/query.log
 
 #### 版本
 
-```text
+```sh
 mysql --version
 ```
 
 #### 启动
 
-```text
-启动: service mysql start
+```sh
+# 启动
+service mysql start
 
-停止: service mysql stop
+# 停止
+service mysql stop
 
-重启: service mysql restart
+# 重启
+service mysql restart
 
-状态: service mysql status
+# 状态
+service mysql status
 ```
 
 #### 登录

@@ -35,20 +35,24 @@ tail -f /var/log/mongodb/mongodb.log
 
 #### 版本
 
-```text
+```sh
 mongo --version
 ```
 
 #### 启动
 
-```text
-启动: systemctl start mysql
+```sh
+# 启动
+systemctl start mongodb
 
-停止: systemctl stop mysql
+# 停止 
+systemctl stop mongodb
 
-重启: systemctl restart mysql
+# 重启 
+systemctl restart mongodb
 
-状态: systemctl status mysql
+# 状态 
+systemctl status mongodb
 ```
 
 #### 登录
