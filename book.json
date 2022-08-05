@@ -24,7 +24,7 @@
         "anchor-navigation-ex",
         "click-reveal",
         "icp",
-        "ync-pageview",
+        "site-count",
         "gittalk"
     ],
     "pluginsConfig": {
@@ -48,7 +48,7 @@
             "number": "浙ICP备2020041073号-1",
             "link":"https://beian.miit.gov.cn/"
         },
-        "ync-pageview": {
+        "site-count": {
             "host": "https://www.answera.top"
         },
         "gittalk": {
