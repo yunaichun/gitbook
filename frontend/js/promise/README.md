@@ -5,237 +5,165 @@
 ## 构造函数
 
 ```js
-constructor(executor) {
-    this.status = 'pending';
-    this.data = undefined;
-    this.onResolvedCallback = [];
-    this.onRejectedCallback = [];
-    try {
-        executor(this.resolve.bind(this), this.reject.bind(this))
-    } catch(e) {
-        throw(e);
-    }
-}
-```
-
-## resolve 方法
-
-```js
-resolve(value) {
-    setTimeout(function() {
-        let self = this;
-        if (self.status === 'pending') {
-            self.status = 'resolved';
-            self.data = value; 
-            for(let i = 0; i < self.onResolvedCallback.length; i++) {
-                self.onResolvedCallback[i](value)
-            }
-        }
-    }.bind(this));
-}
-```
-
-## reject 方法
-
-```js
-reject(value) {
-    setTimeout(function() {
-        let self = this;
-        if (self.status === 'pending') {
-            self.status = ‘rejected';
-            self.data = value; 
-            for(let i = 0; i < self.onRejectedCallback.length; i++) {
-                self.onRejectedCallback[i](value)
-            }
-        }
-    }.bind(this));
-}
-```
-
-## catch 方法
-
-```js
-catch(onRejected) {
-    return this.then(null, onRejected);
-}
-```
-
-## finally 方法
-
-```js
-finally(fn) {
-    return this.then(function(value) {
-        setTimeout(fn);
-        return value;
-    }, function(reason) {
-        setTimeout(fn);
-        return reason;
-    });
-}
-```
-
-## deferred 方法
-
-```js
-deferred() {
-    let dfd = {}
-    dfd.promise = new PromiseNew(function(resolve, reject) {   
-        dfd.resolve = resolve;
-        dfd.reject = reject;
-    });
-    return dfd;
-}
-stop() {
-    return new PromiseNew(function() {});
+/**
+ * 1、先收集 then 回调，再执行构造函数
+ * 2、then 返回的还是 Promise 实例
+ * @param {Function} executor 
+ */
+function FakePromise(executor) {
+  this.status = 'pending';
+  this.data = undefined;
+  this.onResolvedCallbacks = [];
+  this.onRejectedCallbacks = [];
+  try {
+    executor(this.resolve.bind(this), this.reject.bind(this));
+  } catch (error) {
+    throw error;
+  }
 }
 ```
 
 ## then 方法
 
 ```js
-then(onResolved, onRejected) {
-    let self = this;
-    let promise2;
+/** then 不返回 this 返回 FakePromise 实例: 取决于后一个 promise 返回的值
+ *  例: 如若 promise1 返回 resolved, then 还返回 this 的话，则整体返回 resolved，实际是 rejected
+ *  promise2 = promise1.then(function foo(value) {
+ *   return Promise.reject(3)
+ *  })
+ */
+FakePromise.prototype.then = function (onResolvedCallback, onRejectedCallback) {
+  onResolvedCallback = typeof onResolvedCallback === 'function' ? onResolvedCallback : function(value) { return value; };
+  onRejectedCallback = typeof onRejectedCallback === 'function' ? onRejectedCallback : function(reason) { throw reason; };
 
-    // == 根据标准，如果then的参数不是function，则我们需要忽略它，此处以如下方式处理
-    onResolved = typeof onResolved === 'function' ? onResolved : function(value) { return value; };
-    onRejected = typeof onRejected === 'function' ? onRejected : function(reason) { throw reason; };
-
-    if (self.status === 'resolved') {
-        return promise2 = new PromiseNew(function(resolve, reject) {
-            setTimeout(function() {
-                try {
-                    let x = onResolved(self.data);
-                    if (x instanceof PromiseNew) {
-                        x.then(resolve, reject);
-                   } else {
-                        resolve(x);
-                   }
-               } catch (e) {
-                   reject(e);
-               }
-           }.bind(self));
-       });
+  const _this = this;
+  const collectResolve = function(resolve, reject) {
+    try {
+      const onResolvedCallbackRes = onResolvedCallback(_this.data);
+      if (onResolvedCallbackRes instanceof FakePromise) {
+        onResolvedCallbackRes.then(resolve, reject)
+      } else {
+        resolve(onResolvedCallbackRes);
+      }
+    } catch (error) {
+      reject(error);
     }
-
-    if (self.status === 'rejected') {
-        return promise2 = new PromiseNew(function(resolve, reject) {
-            setTimeout(function() {
-                try {
-                    let x = onRejected(self.data);
-                    if (x instanceof PromiseNew) {
-                        x.then(resolve, reject);
-                    } else {
-                        resolve(x);
-                    }
-                } catch (e) {
-                    reject(e);
-                }
-            }.bind(self));
-        });
+  }
+  const collectReject = function(resolve, reject) {
+    try {
+      const onRejectedCallbackRes = onRejectedCallback(_this.data);
+      if (onRejectedCallbackRes instanceof FakePromise) {
+        onRejectedCallbackRes.then(resolve, reject)
+      } else {
+        resolve(onResolvedCallbackRes);
+      }
+    } catch (error) {
+      reject(error);
     }
-
-    if (self.status === 'pending') {  
-        return promise2 = new PromiseNew(function(resolve, reject) {
-            self.onResolvedCallback.push(function(value) {
-                try {
-                    let x = onResolved(self.data);
-                    if (x instanceof PromiseNew) {
-                        x.then(resolve, reject);
-                    } else {
-                        resolve(x);
-                    }
-                } catch (e) {
-                    reject(e);   
-                }
-           });
-           self.onRejectedCallback.push(function(reason) {
-               try {
-                   let x = onRejected(self.data);
-                   if (x instanceof PromiseNew) {
-                       x.then(resolve, reject);
-                   } else {            
-                       resolve(x);
-                   }
-               } catch (e) {
-                   reject(e);
-               }
-           });
-       });
+  }
+  return new FakePromise(function(resolve, reject) {
+    if (_this.status === 'pending') {
+      _this.onResolvedCallbacks.push(() => collectResolve(resolve, reject));
+      _this.onRejectedCallbacks.push(() => collectReject(resolve, reject));
     }
+    if (_this.status === 'resolved')  collectResolve(resolve, reject);
+    if (_this.status === 'rejected') collectReject(resolve, reject);
+  });
 }
 ```
 
-## PromiseNew.resolve 方法
+## resolve 方法
 
 ```js
-PromiseNew.resolve = function(value) {
-    return new PromiseNew(function(resolve, reject) {
-        if (value instanceof PromiseNew) {
-            value.then(resolve, reject);
-        } else {
-            resolve(value);
-        }
-    })
+FakePromise.prototype.resolve = function (value) {
+  /** setTimeout 的目的是为了先执行 then 收集回调函数*/
+  setTimeout(function () {
+    if (this.status === 'pending') {
+      this.data = value;
+      this.status = 'resolved';
+      for (let i = 0, len = this.onResolvedCallbacks.length; i < len; i++) {
+        this.onResolvedCallbacks[i](value);
+      }
+    }
+  }.bind(this), 0);
+}                                                                                     
+```
+
+## reject 方法
+
+```js
+FakePromise.prototype.reject = function (value) {
+  /** setTimeout 的目的是为了先执行 then 收集回调函数 */
+  setTimeout(function () {
+    if (this.status === 'pending') {
+      this.data = value;
+      this.status = 'rejected';
+      for (let i = 0, len = this.onRejectedCallbacks.length; i < len; i++) {
+        this.onRejectedCallbacks[i](value);
+      }
+    }
+  }.bind(this), 0);
 }
 ```
 
-## PromiseNew.reject 方法
+## catch 方法
 
 ```js
-PromiseNew.reject = function(value) {
-    return new PromiseNew(function(resolve, reject) {
-        reject(reason);
-    })
+FakePromise.prototype.catch = function (onRejectedCallback) {
+  return this.then(null, onRejectedCallback);
 }
 ```
 
-## PromiseNew.all 方法
+## finally 方法
 
 ```js
-PromiseNew.all = function(promises) {
-    return new PromiseNew(function(resolve, reject) {
-        if (Object.prototype.toString.call(promises) === '[object Array]') {
-            let resolvedCounter = 0;
-            let promiseNum = promises.length;
-            let resolvedValues = new Array(promiseNum);
-            for (let i = 0; i < promiseNum; i++) {
-                promises[i].then(function(value) {
-                    resolvedCounter++;
-                    resolvedValues[i] = value;
-                    if (resolvedCounter == promiseNum) {
-                        return resolve(resolvedValues);
-                     }
-               }, function(reason) {
-                   return reject(reason);
-               });
-           }
-        } else {
-           reject('Uncaught (in promise) TypeError: 
-           #<PromiseNew> is not iterable');
-        }
-    })
+FakePromise.prototype.finally = function (fn) {
+  return this.then(function(value) {
+    fn(value);
+    return value;
+  }, function(reason) {
+    fn(value);
+    return reason;
+  });
 }
 ```
 
-## PromiseNew.race 方法
+## FakePromise 静态方法
 
 ```js
-PromiseNew.race = function(promises) {
-    return new PromiseNew(function(resolve, reject) {
-        if (Object.prototype.toString.call(promises) === '[object Array]') {
-            for (var i = 0; i < promises.length; i++) {
-                promises[i].then(function(value) {
-                    return resolve(value);
-                }, function(reason) {
-                    return reject(reason);
-                });
-            }
-        } else {
-            reject('Uncaught (in promise) TypeError: 
-            #<PromiseNew> is not iterable');
-        }
-    })
+FakePromise.resolve = function(value) {
+  return new FakePromise(function(resolve) {
+    resolve(value);
+  });
+}
+FakePromise.reject = function(value) {
+  return new FakePromise(function(resolve, reject) {
+    reject(value);
+  });
+}
+FakePromise.all = function(promises) {
+  return new FakePromise(function(resolve, reject) {
+    for (var i = 0; i < promises.length; i++) {
+      promises[i].then(function(value) {
+        return resolve(value);
+      }, function(error) {
+        return reject(error);
+      });
+    }
+  });
+}
+FakePromise.all = function(promises) {
+  return new FakePromise(function(resolve, reject) {
+    let [count, resolvedValues] = [0, []];
+    for (var i = 0; i < promises.length - 1; i++) {
+      promises[i].then(function(value) {
+        resolvedValues[i] = value;
+        if (++count === promises.length) return resolve(resolvedValues);
+      }, function(error) {
+        return reject(error);
+      });
+    }
+  });
 }
 ```
 
