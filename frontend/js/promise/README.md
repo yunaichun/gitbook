@@ -128,7 +128,7 @@ FakePromise.prototype.finally = function (fn) {
 }
 ```
 
-## FakePromise 静态方法
+## 静态方法
 
 ```js
 FakePromise.resolve = function(value) {
