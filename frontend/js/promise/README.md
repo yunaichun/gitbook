@@ -66,7 +66,7 @@ FakePromise.prototype.then = function (onResolvedCallback, onRejectedCallback) {
       _this.onResolvedCallbacks.push(() => collectResolve(resolve, reject));
       _this.onRejectedCallbacks.push(() => collectReject(resolve, reject));
     }
-    if (_this.status === 'resolved')  collectResolve(resolve, reject);
+    if (_this.status === 'resolved') collectResolve(resolve, reject);
     if (_this.status === 'rejected') collectReject(resolve, reject);
   });
 }
