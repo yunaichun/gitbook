@@ -91,11 +91,6 @@ $ rushx start
       "packageName": "@qt-cli/cicd-job",
       "projectFolder": "qt-cli/cicd-job",
       "shouldPublish": true
-    },
-    {
-      "packageName": "@qt-pages/test-deploy",
-      "projectFolder": "qt-pages/test-deploy",
-      "shouldPublish": false
     }
   ]
 }
@@ -160,92 +155,6 @@ $ git push
 - **每新增一个子项目，则需要在 rush.json 文件中配置 packageName 和 projectFolder**
 - projectFolder 为当前子项目所在目录，如: **qt-common/commit-check**
 - packageName 命名规范为 @<workspace目录名称>/<文件夹名称>，如: **@qt-common/commit-check**
-
-#### 4、H5 项目结构规范
-
-```
-├── build
-├── config
-│   └── rush-project.tsx
-├── src
-│   ├── components
-│   │   └── App
-│   │       ├── index.tsx
-│   │       └── index.css
-│   ├── assets
-│   │   ├── imgs
-│   │   └── fonts
-│   └── index.tsx
-├── .env
-├── .eslintrc.js
-├── package.json
-├── tsconfig.json
-├── CHANGELOG.md
-└── README.md
-```
-
-#### 5、NPM 项目结构规范
-
-```
-├── bin
-├── dist
-├── config
-│   └── rush-project.tsx
-├── src
-│   ├── test
-│   │   └── scripts
-│   │       └── xxx.test.ts
-│   ├── scripts
-│   │   └── xxx.ts
-│   └── index.tsx
-├── .env
-├── .eslintrc.js
-├── .npmignore
-├── package.json
-├── tsconfig.json
-├── jest.config.js
-├── CHANGELOG.md
-└── README.md
-```
-
-#### 6、小程序项目结构规范
-
-```
-├── dist
-├── config
-│   └── rush-project.tsx
-├── src
-│   ├── app.ts
-│   ├── app.scss
-│   ├── index.html
-│   ├── app.config.ts
-│   └── common.scss
-├── .env
-├── .eslintrc.js
-├── package.json
-├── tsconfig.json
-├── babel.config.js
-├── project.config.json
-├── project.private.config.json
-├── CHANGELOG.md
-└── README.md
-```
-
-#### 7、物料目录结构规范
-
-```
-├── src
-│   └── image (物料名称)
-│     ├── index.js (物料代码)
-│     ├── config.json (物料配置)
-│     └── README.md (物料使用说明)
-├── index.js
-├── .env
-├── .eslintrc.js
-├── package.json
-├── CHANGELOG.md
-└── README.md
-```
 
 ## 四、注意事项
 
