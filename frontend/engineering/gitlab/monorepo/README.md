@@ -121,9 +121,11 @@ $ git push
 
 **2.5、git push 之后做了什么?**
 
-- NPN: 合并到 master 分支后自动发布到 [NPM 私有库](http://172.25.160.141:4873/)
-- H5: 合并到 staging 分支发布到测试环境 [Upyun](sss.staging.qingting.fm)/[AliOSS](sss.staging.qtfm.cn), 合并到 master 分支发布到正式环境 [Upyun](sss.qingting.fm)/[AliOSS](sss.qtfm.cn)
+- NPN: 合并到 master 分支后自动发布到 **NPM 私有库**
+- H5: 合并到 staging 分支发布到测试环境 **Upyun/AliOSS**, 合并到 master 分支发布到正式环境 **Upyun/AliOSS**
 - MP: 合并到 staging 分支生成微信小程序预览二维码, 合并到 master 分支上传到微信小程序后台，同时钉钉发送预览二维码
+- 物料: 根据配置项自动上传到物料后台
+- 其他: 发布之后钉钉通知、自动更新 CHANGELOG 和 README
 
 ## 三、相关规范
 
