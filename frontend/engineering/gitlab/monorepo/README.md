@@ -30,11 +30,8 @@
 #### 1、项目初始化
 
 ```sh
-# 下载 h5.monorepo 项目
+# 下载项目
 $ git clone xxx
-
-# 进入 h5.monorepo 项目
-$ cd h5.monorepo
 
 # 为某一个项目安装依赖
 $ rush install -t packageName
@@ -49,15 +46,12 @@ $ npm install -g @microsoft/rush@5.58.0 && rush install && rush update
 
 ```sh
 # 为所有项目安装依赖
-$ cd h5.monorepo
 $ rush install
 
 # 为所有项目更新依赖
-$ cd h5.monorepo
 $ rush update --full
 
 # 检查项目的依赖是否一致，是否有缺失
-$ cd h5.monorepo
 $ rush check
 ```
 
@@ -67,11 +61,11 @@ $ rush check
 # 以下以 qt-pages/test-deploy 子项目为例
 
 # 子项目安装依赖包
-$ cd qt-pages/test-deploy
+$ cd xxx
 $ rush add -p axios
 
 # 子项目执行 scripts 脚本
-$ cd qt-pages/test-deploy
+$ cd xxx
 $ rushx start
 ```
 
@@ -139,16 +133,13 @@ $ git push
 
 #### 2、workspace 目录命名规范
 
-- 基建 qt-base
+- 基础包 qt-base
 - 脚手架 qt-cli
 - React 组件 qt-rc
-- H5 页面 qt-page
-- 微信小程序 qt-mp
-- 物料 qt-material
-  - common (通用物料)
-  - member (会员物料)
-  - growth (增长物料)
-  - activity (活动物料)
+- H5 页面 qt-pages
+- MP 小程序 qt-mp
+- BMS 物料配置 qt-material
+- AMS 容器服务 qt-servers
 
 #### 3、packageName 命名规范
 
