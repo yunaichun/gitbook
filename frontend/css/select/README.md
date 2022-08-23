@@ -55,7 +55,7 @@
 :last-child
 
 :nth-child        div p:nth-child(1) 指的是div第一个元素，还必须是p元素(括号中也可以写成表达式，如选择偶数2n，也可以写单词偶数even、奇数odd)
-:nth-of-type      div p:nth-child(1) 指的是div下p子元素中的第1个p元素
+:nth-of-type      div p:nth-of-type(1) 指的是div下p子元素中的第1个p元素
 :nth-last-child
 :nth-last-of-type
 
