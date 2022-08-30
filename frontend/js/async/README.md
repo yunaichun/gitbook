@@ -15,44 +15,37 @@
 ```
 
 ```js 
-// == async 函数的实现原理，就是将 Generator 函数和自动执行器，包装在一个函数里。
-// == 所有的 async 函数都可以写成上面的第二种形式，其中的 spawn 函数就是自动执行器。
-async function fn(args) {
-// ...
+/** async 函数的实现原理: 返回一个函数, 此函数将 Generator 函数作为参数，内置自动执行器 */
+async function fn(args) { 
+  //... 
 }
 
-// == 等价于
+/** 其中的 spawn 函数就是自动执行器。等价于 */
 function fn(args) {
-    return spawn(function* () {
-        // ...
-    });
+  return autoExecuter(
+    function* genFuc() {
+      //...
+    }
+  );
 }
 ```
 
 ## spawn 函数实现
 
 ```js
-function spawn(genFuc) {
-    return new Promise(function(resolve, reject) {
-        function run(genFuc) {
-            let gen = genFuc();
-            function resolve(data) {
-                let result = gen.next(data);
-                
-                if (result.done) return result.value;
-                
-                // == 递归调用
-                Promise.resolve(result.value)
-                .then(function(value) {
-                    resolve(value);
-                }, function(reason) {
-                    gen.throw(reason);
-                });
-            }
-            resolve();
-        }
-        run(genFuc);
-    });
+const autoExecuter = function(genFuc) {
+  return new Promise(function(resolve, reject) {
+    const run = function () {
+      let gen = genFuc();
+      const cycle = function (data) {
+        const r = gen.next(data);
+        if (r.done) resolve(r.value);
+        else Promise.resolve(r.value).then(data => cycle(data), error => gen.throw(error)); 
+      }
+      cycle();
+    }
+    run();
+  });
 }
 ```
 
