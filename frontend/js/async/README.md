@@ -20,7 +20,7 @@ async function fn(args) {
   //... 
 }
 
-/** 其中的 spawn 函数就是自动执行器。等价于 */
+/** 其中的 autoExecuter 函数就是自动执行器。等价于 */
 function fn(args) {
   return autoExecuter(
     function* genFuc() {
