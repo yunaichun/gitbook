@@ -5,7 +5,7 @@
 ## Generator 使用
 
 ```text
-1、执行 g.next(): 得到的是 yield 后面语句的执行结果为 undefined, 此时执行器状态为 { value, done }
+1、执行 g.next(): 会将上一步 yield 后面语句的执行结果设置为 undefined, 此时执行器状态为 { value, done }
 
 2、执行g.next(value): 会将上一步 yield 后面语句的执行结果设置为 value, 此时执行器状态为 { value, done }
 
