@@ -5,9 +5,9 @@
 ## Generator 使用
 
 ```text
-1、执行 g.next(): 会将上一步 yield 后面语句的执行结果设置为 undefined, 此时执行器状态为 { value, done }
+1、执行 g.next(): 会将上一步 yield 后面语句的执行结果设置为 undefined, 此时执行器状态为 { value: '当前 yiled 结果', done }
 
-2、执行g.next(value): 会将上一步 yield 后面语句的执行结果设置为 value, 此时执行器状态为 { value, done }
+2、执行g.next(value): 会将上一步 yield 后面语句的执行结果设置为 value, 此时执行器状态为 { value: '当前 yiled 结果', done }
 
 3、执行g.return(value): 会忽略所有的 yield 语句, 直接设置执行器状态为 { value, done: true }
 
