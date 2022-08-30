@@ -5,7 +5,7 @@
 ## 防抖
 
 ```js
-// == 防抖: 密集事件间隔时间小于 interval，只响应最后一次
+/** 防抖: interval 间隔内重复执行, 取消后重新计时, 只响应最后一次 */
 function debounce(fn, delay = 200){
     let timer;
     return function(...args) {
@@ -22,7 +22,7 @@ function debounce(fn, delay = 200){
 ## 节流
 
 ```js
-// == 节流: 密集事件间隔时间小于 interval，间隔 interval 响应一次
+/** 节流: 每个 interval 间隔内执行 1 次 */
 function throttle(callback, interval = 200) {
     let last = null;
     return function (...args) {
