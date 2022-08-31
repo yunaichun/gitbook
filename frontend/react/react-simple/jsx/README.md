@@ -104,7 +104,14 @@ ReactDOM.render(element1, container);
 
 2、根据 dom 树结构传入 type、props、children 属性
 
-3、返回 js 对象: { type, props: [{ type, props }] }
+3、返回 js 对象:
+{
+  type,
+  props: {
+    xxx,
+    children: [{xxx}]
+  }
+}
 ```
 
 ## 项目地址

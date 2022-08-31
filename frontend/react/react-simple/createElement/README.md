@@ -9,7 +9,14 @@
 
 1、参数: type、props、children 属性
 
-2、返回: js 对象 - { type, props: [{ type, props }] }
+2、返回: js 对象
+{
+  type,
+  props: {
+    xxx,
+    children: [{xxx}]
+  }
+}
 ```
 
 ```js
