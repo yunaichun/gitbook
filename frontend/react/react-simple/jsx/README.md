@@ -16,26 +16,26 @@ JSX 实质会被 react 的 createElement 方法解析；返回一个数据对象
 
 ```js
 module.exports = {
-    module: {
-        rules: [
-            {
-                test: /\.js$/,
-                use: [
-                    {
-                        loader: 'babel-loader',
-                        options: {
-                            presets: ['@babel/preset-env'],
-                            // == 解析 jsx 语法的函数名称自定义为 createElementSimple
-                            plugins: [[
-                                '@babel/plugin-transform-react-jsx', 
-                                {pragma: 'createElementSimple'}
-                            ]]
-                        },
-                    },
-                ]
-            }
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        use: [
+          {
+            loader: 'babel-loader',
+            options: {
+              presets: ['@babel/preset-env'],
+              // == 解析 jsx 语法的函数名称自定义为 createElementSimple
+              plugins: [[
+                '@babel/plugin-transform-react-jsx', 
+                {pragma: 'createElementSimple'}
+              ]]
+            },
+          },
         ]
-    },
+      }
+    ]
+  },
 };
 ```
 
@@ -45,7 +45,7 @@ module.exports = {
 import React, { createElement as createElementSimple } from 'react';
 import ReactDOM from 'react-dom';
 
-// == jsx 语法会被 createElementSimple 函数解析成一个对象
+/** jsx 语法会被 createElementSimple 函数解析成一个对象*/
 const element1 = <h1 title="foo">Hello</h1>;
 // console.log(11111, element1);
 
@@ -71,7 +71,7 @@ ReactDOM.render(element1, container);
 import React, { createElement as createElementSimple } from 'react';
 import ReactDOM from 'react-dom';
 
-// == 执行 createElementSimple 函数，传入 type、props、children 之后，返回一个对象
+/** 执行 createElementSimple 函数，传入 type、props、children 之后，返回一个对象 */
 const element2 = createElementSimple(
   'h1',
   { title: 'foo' },

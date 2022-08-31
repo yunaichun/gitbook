@@ -25,11 +25,10 @@ export default function createElementSimple(type, props, ...children) {
     type,
     props: {
       ...props,
-      children: children.map(child =>
-        typeof child === 'object'
-          ? child
-          : createTextElement(child)
-      ),
+      children: children.map(child => {
+        if (typeof child !== 'string') return child;
+        return createTextElement(child);
+      }),
     },
   }
 }
@@ -66,14 +65,14 @@ const element = (
     <b />
   </div>
 );
-// == 等价于
+/** 等价于 */
 // const element = createElementSimple(
 //   "div",
 //   { id: "foo" },
 //   createElementSimple("a", null, "bar"),
 //   createElementSimple("b")
 // );
-console.log(1111, element);
+console.log(2, element);
 ```
 
 #### 执行结果
