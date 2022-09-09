@@ -17,11 +17,11 @@
 
 3、如何添加 effectTag 属性标记是增加、修改、删除节点呢？
 
-3.1、我们通过 currentRoot 全局变量保存上一次渲染时的根 Fiber 节点，同时将其存入根 Fiber 节点的 alternate 属性上，在 commitRoot 阶段被存储上
+  3.1、我们通过 currentRoot 全局变量保存上一次渲染时的根 Fiber 节点，同时将其存入根 Fiber 节点的 alternate 属性上，在 commitRoot 阶段被存储上
 
-3.2、在 performUnitOfWork 阶段如果页面是重新渲染，且 dom 是修改或者不变，则用 alternate 属性备份当前 Fiber 节点
+  3.2、在 performUnitOfWork 阶段如果页面是重新渲染，且 dom 是修改或者不变，则用 alternate 属性备份当前 Fiber 节点
 
-3.3、我们在更新阶段（下一次 render 被调用）再进入 performUnitOfWork 时候就可以比较了
+  3.3、我们在更新阶段（下一次 render 被调用）再进入 performUnitOfWork 时候就可以比较了
 ```
 
 ## 解决方案
@@ -54,10 +54,7 @@ export default function render(jsxRes, container) {
 }
 ```
 
-#### 开始工作循环
-
-- 设置子 Fiber 节点的 alternate 和 effectTag 属性
-- commitRoot 阶段根据 effectTag 判断 DOM 操作
+#### 设置子 Fiber 节点的 alternate 和 effectTag 属性
 
 ```js
 /** 2. 开始工作循环 */
@@ -76,69 +73,6 @@ function workLoop(deadline) {
 }
 /** 浏览器将在主线程空闲时运行 workLoop 回调, 其次在未来的帧中继续执行 */
 requestIdleCallback(workLoop);
-
-/** 最终会遍历到根节点, 此时 nextUnitOfWork 为 null */
-function commitRoot() {
-  /** 删除 dom 操作单独执行 */
-  deletions.forEach(commitWork);
-  /** wipRoot.child 代表 Fiber 树的第一个子节点 */
-  commitWork(wipRoot.child);
-  /** 保存上一次构建的 Fiber 树数据结构, 在下一次重新渲染时候会用到 */
-  currentRoot = wipRoot;
-  /** 添加到 DOM 节点之后将 wipRoot 重置为空，为下一次更新初始化变量 */
-  wipRoot = null;
-}
-
-function commitWork(fiber) {
-  if (!fiber) return;
-  /** 1. 将子节点添加到 container */
-  if (fiber.dom !== null) {
-    const domParent = fiber.parent.dom;
-    if (fiber.effectTag === 'PLACEMENT') domParent.appendChild(fiber.dom);
-    else if (fiber.effectTag === 'UPDATE') updateDomPropps(fiber.dom, fiber.alternate.props, fiber.props);
-    else if (fiber.effectTag === 'DELETION') domParent.removeChild(fiber.dom);
-  }
-  /** 2. 递归执行子节点 */
-  commitWork(fiber.child);
-  /** 3. 递归执行右兄弟节点 */
-  commitWork(fiber.sibling);
-}
-
-function updateDomPropps(dom, prevProps, nextProps) {
-  const isEvent = key => key.startsWith('on');
-  const isProperty = key => key !== "children" && !isEvent(key);
-
-  // Remove old or changed event listeners
-  const prevPropKeys = Object.keys(prevProps);
-  for (let i = 0, len = prevPropKeys.length; i < len; i += 1) {
-    const key = prevPropKeys[i];
-    const removed = !(key in nextProps);
-    const changed = prevProps[key] !== nextProps[key];
-    if (removed || changed) {
-      if (isEvent(key)) {
-        const eventType = key.toLowerCase().substring(2);
-        dom.removeEventListener(eventType, prevProps[key]);
-      } else if (isProperty(key)) {
-        dom[key] = '';
-      }
-    }
-  }
-  // Add new properties
-  const nextPropKeys = Object.keys(nextProps);
-  for (let i = 0, len = nextPropKeys.length; i < len; i += 1) {
-    const key = nextPropKeys[i];
-    const added = !(key in prevProps);
-    const changed = prevProps[key] !== nextProps[key];
-    if (added || changed) {
-      if (isEvent(key)) {
-        const eventType = key.toLowerCase().substring(2);
-        dom.addEventListener(eventType, nextProps[key]);
-      } else if (isProperty(key)) {
-        dom[key] = nextProps[key];
-      }
-    }
-  }
-}
 
 /** 3. 每个工作单元任务 */
 function performUnitOfWork(fiber) {
@@ -215,6 +149,73 @@ function getNextFiber (fiber) {
     if (nextFiber.sibling) return nextFiber.sibling;
     /** 3、父节点 */
     nextFiber = nextFiber.parent;
+  }
+}
+```
+
+#### commitRoot 阶段根据 effectTag 判断 DOM 操作
+
+```js
+/** 最终会遍历到根节点, 此时 nextUnitOfWork 为 null */
+function commitRoot() {
+  /** 删除 dom 操作单独执行 */
+  deletions.forEach(commitWork);
+  /** wipRoot.child 代表 Fiber 树的第一个子节点 */
+  commitWork(wipRoot.child);
+  /** 保存上一次构建的 Fiber 树数据结构, 在下一次重新渲染时候会用到 */
+  currentRoot = wipRoot;
+  /** 添加到 DOM 节点之后将 wipRoot 重置为空，为下一次更新初始化变量 */
+  wipRoot = null;
+}
+
+function commitWork(fiber) {
+  if (!fiber) return;
+  /** 1. 将子节点添加到 container */
+  if (fiber.dom !== null) {
+    const domParent = fiber.parent.dom;
+    if (fiber.effectTag === 'PLACEMENT') domParent.appendChild(fiber.dom);
+    else if (fiber.effectTag === 'UPDATE') updateDomPropps(fiber.dom, fiber.alternate.props, fiber.props);
+    else if (fiber.effectTag === 'DELETION') domParent.removeChild(fiber.dom);
+  }
+  /** 2. 递归执行子节点 */
+  commitWork(fiber.child);
+  /** 3. 递归执行右兄弟节点 */
+  commitWork(fiber.sibling);
+}
+
+function updateDomPropps(dom, prevProps, nextProps) {
+  const isEvent = key => key.startsWith('on');
+  const isProperty = key => key !== "children" && !isEvent(key);
+
+  // Remove old or changed event listeners
+  const prevPropKeys = Object.keys(prevProps);
+  for (let i = 0, len = prevPropKeys.length; i < len; i += 1) {
+    const key = prevPropKeys[i];
+    const removed = !(key in nextProps);
+    const changed = prevProps[key] !== nextProps[key];
+    if (removed || changed) {
+      if (isEvent(key)) {
+        const eventType = key.toLowerCase().substring(2);
+        dom.removeEventListener(eventType, prevProps[key]);
+      } else if (isProperty(key)) {
+        dom[key] = '';
+      }
+    }
+  }
+  // Add new properties
+  const nextPropKeys = Object.keys(nextProps);
+  for (let i = 0, len = nextPropKeys.length; i < len; i += 1) {
+    const key = nextPropKeys[i];
+    const added = !(key in prevProps);
+    const changed = prevProps[key] !== nextProps[key];
+    if (added || changed) {
+      if (isEvent(key)) {
+        const eventType = key.toLowerCase().substring(2);
+        dom.addEventListener(eventType, nextProps[key]);
+      } else if (isProperty(key)) {
+        dom[key] = nextProps[key];
+      }
+    }
   }
 }
 ```
