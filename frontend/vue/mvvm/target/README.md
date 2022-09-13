@@ -6,15 +6,15 @@
 
 ```js
 var data = {
-    a: 200,
-    level1: {
-        b: 'str',
-        c: [{ w: 90 }, { x: [1] }, 3],
-        level2: {
-            w: 90,
-            x: [1]
-        }
+  a: 200,
+  level1: {
+    b: 'str',
+    c: [{ w: 90 }, { x: [1] }, 3],
+    level2: {
+      w: 90,
+      x: [1]
     }
+  }
 };
 ```
 
@@ -28,7 +28,8 @@ observer(data);
 
 ```js
 new Watcher(data, 'a', function(newVal, oldVal) {
-    console.log('新值: ' + newVal + '----' + '旧值: ' + oldVal);
+  console.log('新值: ', newVal);
+  console.log('旧值: ', oldVal);
 });
 data.a = 300;
 console.log('data', data);
