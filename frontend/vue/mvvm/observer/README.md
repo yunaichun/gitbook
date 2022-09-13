@@ -5,9 +5,9 @@
 ## observer 函数
 
 ```text
-observer 函数主要是返回 Observer 实例
+1、observer 函数主要是返回 Observer 实例
 
-同时可知数组或对象均有 __ob__ 属性；而基本类型数据没有  __ob__ 属性
+2、同时可知数组或对象均有 __ob__ 属性
 ```
 
 ```js
@@ -90,7 +90,7 @@ function protoAugment(target, src) {
 #### 重写数组方法
 
 ```text
-1、此处我们可以看到重写数组的 7 个方法，实际还是调用数组的那 7 个方法
+1、此处可以看到重写数组的 7 个方法，实际还是调用数组的那 7 个方法
 
 2、只不过在调用之后，通过 val.__ob__.dep.notify(this) 方法触发了收集的依赖
 ```
