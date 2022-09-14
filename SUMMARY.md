@@ -83,6 +83,7 @@
       * [自定义loader](./frontend/engineering/webpack/webpack-loader/README.md)
       * [自定义plugin](./frontend/engineering/webpack/webpack-plugin/README.md)
       * [webpack简易实现](./frontend/engineering/webpack/webpack-simple/README.md)
+      * [babel简介](./frontend/engineering/webpack/babel/README.md)
     * [Gitlab CI/CD](./frontend/engineering/gitlab/README.md)
       * [monorepo](./frontend/engineering/gitlab/monorepo/README.md)
       * [Gitlab Runner](./frontend/engineering/gitlab/runner/README.md)
