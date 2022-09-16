@@ -1,7 +1,6 @@
 ## 简介
 
-- @qt-cli/cicd-job 目的是完成 Gitlab monorepo 中 h5、npm、mp、material 项目类型的发布，单一 job 流工具
-- @qt-cli/cicd-job 工具目前在私有库中，后续会发布到 npm 中
+- @qt-cli/cicd-job 目的是完成 Gitlab monorepo 中 h5、npm、mp、material 项目类型的发布等，单一 job 流工具
 
 ## lint
 

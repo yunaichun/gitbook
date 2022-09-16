@@ -1,6 +1,6 @@
 ## 简介
 
-> 前端 Monorepo Gitlab CI/CD 学习笔记。
+> 前端 Monorepo Gitlab CI/CD 总结笔记。
 
 ## 整体设计
 
