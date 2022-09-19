@@ -11,7 +11,7 @@ leetcode: https://leetcode.cn/problems/climbing-stairs
  * @param {number} n
  * @return {number}
  */
- var climbStairs = function(n) {
+var climbStairs = function(n) {
   /** a[i]: 代表爬第 i 层楼所需要的步数 */
   /** a[i] = a[i - 1] + a[i - 2] */
   const a = [];
@@ -56,23 +56,20 @@ var coinChange = function(coins, amount) {
 leetcode: https://leetcode.cn/problems/maximum-subarray
 
 ```js
-class Solution {
-    constructor() {
-    }
-    // == 第一步：定义状态：a[i] 代表以第 i 个元素结尾且和最大的连续子数组
-    // == 第二步：状态转移方程：a[i] = Math.max(a[i - 1] + nums[i], nums[i]);
-    // == 初始状态：MAX = a[0] = nums[0]
-    // == 求 MAX
-    maxSubArray(nums) {
-        let a = [];
-        let MAX = a[0] = nums[0];
-        for (let i = 1, len = nums.length; i < len; i++) {
-            a[i] = Math.max(a[i - 1] + nums[i], nums[i]);
-            MAX = Math.max(a[i], MAX);
-        }
-        return MAX;
-    }
-}
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var maxSubArray = function(nums) {
+  /** a[i]: 代表数组第 i 序号最大和的连续子数组 */
+  /** a[i] = Math.max(a[i - 1] + nums[i], a[i - 1]) */
+  const a = [];
+  a[0] = nums[0];
+  for (let i = 1, len = nums.length; i < len; i += 1) {
+    a[i] = Math.max(a[i - 1] + nums[i], nums[i]);
+  }
+  return Math.max.apply(null, a);
+};
 ```
 
 ## 积最大连续子序列值
@@ -80,33 +77,25 @@ class Solution {
 leetcode: https://leetcode.cn/problems/maximum-product-subarray
 
 ```js
-class Solution {
-    constructor() {
-    }
-    // == 第一步：定义状态：a[i][0] 代表以第 i 个元素结尾且乘积最大的连续子数组、
-    // ==                a[i][1] 代表以第 i 个元素结尾且乘积最小的连续子数组
-    // == 第二步：状态转移方程：if (nums[i] > 0) a[i][0] = a[i - 1][0] * nums[i]
-    // ==                    else            a[i][1] = a[i - 1][1] * nums[i]
-    // ==                    MAX = Math.max(a[i][0], a[i][1])
-    // == 初始状态：MAX = a[0][0] = a[0][1] = nums[0]
-    // == 求 MAX
-    maxProduct(nums) {
-        let a = [[nums[0], nums[0]]];
-        let MAX = nums[0];
-        for (let i = 1, len = nums.length; i < len; i++) {
-            a[i] = [];
-            if (nums[i] > 0) {
-                a[i][0] = a[i - 1][0] * nums[i];
-                a[i][1] = a[i - 1][1] * nums[i];
-            } else {
-                a[i][0] = a[i - 1][1] * nums[i];
-                a[i][1] = a[i - 1][0] * nums[i];
-            }
-            MAX = Math.max(a[i][0], MAX);
-        }
-        return MAX;
-    }
-}
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var maxProduct = function(nums) {
+  /** a[i]: 代表数组第 i 序号最大积的连续子数组最小和最大 */
+  /** a[i][0] = Math.min(a[i - 1][0] * nums[i], a[i - 1][1] * nums[i], nums[i]); */
+  /** a[i][1] = Math.max(a[i - 1][0] * nums[i], a[i - 1][1] * nums[i], nums[i]); */
+  const a = [];
+  a[0] = [];
+  a[0][0] = nums[0];
+  a[0][1] = nums[0];
+  for (let i = 1, len = nums.length; i < len; i += 1) {
+    a[i] = [];
+    a[i][0] = Math.min(a[i - 1][0] * nums[i], a[i - 1][1] * nums[i], nums[i]);
+    a[i][1] = Math.max(a[i - 1][0] * nums[i], a[i - 1][1] * nums[i], nums[i]);
+  }
+  return Math.max.apply(null, a.reduce((a, b) => a.concat(b)));
+};
 ```
 
 ## 最长上升子序列长度
@@ -114,31 +103,23 @@ class Solution {
 leetcode: https://leetcode.cn/problems/longest-increasing-subsequence
 
 ```js
-class Solution {
-    constructor() {
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var lengthOfLIS = function(nums) {
+  /** a[i]: 代表数组第 i 序列时最长上升子序列长度 */
+  /** a[i] = 如下判断 */
+  const a = [];
+  a[0] = 1;
+  for (let i = 1, len = nums.length; i < len; i += 1) {
+    a[i] = a[0];
+    for (j = 0; j < i; j += 1) {
+      if (nums[i] > nums[j]) a[i] = Math.max(a[j] + 1, a[i]);
     }
-    // == 第一步：定义状态：a[i] 代表以第 i 个元素结尾最长上升子序列的长度
-    // == 第二步：状态转移方程：if (nums[j] < nums[i]) a[i] = Math.max(a[i], a[j] + 1)
-    // == 初始状态：MAX = a[0] = 1
-    // == 求 MAX
-    lengthOfLIS(nums) {
-        let a = [];
-        let MAX = a[0] = 1;
-        for (let i = 1, len = nums.length; i < len; i++) {
-            // == 因为是不连续，所以要全部比较【类似零钱兑换】
-            for (j = 0; j < i; j++) {
-                if (a[i]) {
-                    if (nums[j] < nums[i]) a[i] = Math.max(a[i], a[j] + 1);
-                } else {
-                    // == 相当于初始化，在下一步会被对比的
-                    a[i] = a[j];
-                }
-            }
-            MAX = Math.max(a[i], MAX);
-        }
-        return MAX;
-    }
-}
+  }
+  return Math.max.apply(null, a)
+};
 ```
 
 ## 三角形从顶到低最小路径和
@@ -146,29 +127,24 @@ class Solution {
 leetcode: https://leetcode.cn/problems/triangle
 
 ```js
-class Solution {
-    constructor() {
+/**
+ * @param {number[][]} triangle
+ * @return {number}
+ */
+var minimumTotal = function(triangle) {
+  /** a[i][j]: 代表某个位置从底部到当前位置最小路径和 */
+  /** a[i - 1][j] = Math.min(a[i][j], a[i][j + 1]) + triangle[i - 1][j]; */
+  const a = [];
+  const len = triangle.length - 1;
+  a[len] = triangle[len];
+  for (let i = len; i > 0; i -= 1) {
+    a[i - 1] = [];
+    for (j = 0, len2 = triangle[i].length; j < len2; j += 1) {
+      a[i - 1][j] = Math.min(a[i][j], a[i][j + 1]) + triangle[i - 1][j];
     }
-    // == 第一步：定义状态：a[i][j] 代表走到第 i 层 第 j 列所需要的最短路径（从最底部走到最顶部）
-    // == 第二步：状态转移方程：a[i][j] = Math.min(a[i -1][j], a[i - 1][j + 1]) + triangle[i][j] 
-    // == 初始状态：a[m - 1] = triangle[triangle.length - 1]
-    // == 求 a[0][0]
-    minimumTotal(triangle) {
-        let a = [];
-        const level = triangle.length;
-        // == 第 level 层
-        a[level - 1] = triangle[level - 1];
-        // == 根据第 level 层推导出第 level - 1 层
-        for (let i = level - 2; i > -1; i--) {
-            const currentLevel = triangle[i];
-            if(!a[i]) a[i] = [];
-            for (let j = 0, len = currentLevel.length; j < len; j++) {
-                a[i][j] = Math.min(a[i + 1][j] , a[i + 1][j + 1]) + currentLevel[j];
-            }
-        }
-        return a[0][0];
-    }
-}
+  }
+  return a[0][0];
+};
 ```
 
 ## 最短编辑距离
