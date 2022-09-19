@@ -4,7 +4,7 @@
 
 ## 二叉树最大深度
 
-leetcode: https://leetcode.com/problems/maximum-depth-of-binary-tree
+leetcode: https://leetcode.cn/problems/maximum-depth-of-binary-tree
 
 #### 深度优先
 
@@ -64,7 +64,7 @@ class Solution {
 
 ## 二叉树最小深度
 
-leetcode: https://leetcode.com/problems/minimum-depth-of-binary-tree
+leetcode: https://leetcode.cn/problems/minimum-depth-of-binary-tree
 
 #### 深度优先
 
@@ -129,7 +129,7 @@ class Solution {
 
 ## 二叉树按照level输出
 
-leetcode: https://leetcode.com/problems/binary-tree-level-order-traversal
+leetcode: https://leetcode.cn/problems/binary-tree-level-order-traversal
 
 #### 深度优先
 

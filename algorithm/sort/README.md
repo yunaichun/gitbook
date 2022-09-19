@@ -89,7 +89,7 @@ console.log(qSort(arr5));
 
 ## 快排求数组最大前k个数
 
-leetcode: https://leetcode.com/problems/kth-largest-element-in-a-stream
+leetcode: https://leetcode.cn/problems/kth-largest-element-in-a-stream
 
 ```js
 function qSort(list, k) {

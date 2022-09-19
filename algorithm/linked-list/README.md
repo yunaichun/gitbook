@@ -53,7 +53,7 @@ console.log(list)
 
 ## 反转链表
 
-leetcode: https://leetcode.com/problems/reverse-linked-list
+leetcode: https://leetcode.cn/problems/reverse-linked-list
 
 ```js
 class Solution {
@@ -78,7 +78,7 @@ class Solution {
 
 ## 链表是否存在环
 
-leetcode: https://leetcode.com/problems/linked-list-cycle
+leetcode: https://leetcode.cn/problems/linked-list-cycle
 
 ```js
 class Solution {

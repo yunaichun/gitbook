@@ -4,7 +4,7 @@
 
 ## LRU 实现
 
-leetcode: https://leetcode.com/problems/lru-cache
+leetcode: https://leetcode.cn/problems/lru-cache
 
 ```js
 class LRUCache {

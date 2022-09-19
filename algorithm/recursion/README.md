@@ -4,7 +4,7 @@
 
 ## 有效括号组合
 
-leetcode: https://leetcode.com/problems/generate-parentheses
+leetcode: https://leetcode.cn/problems/generate-parentheses
 
 ```js
 class Solution {
@@ -32,8 +32,8 @@ class Solution {
 
 ## 单词搜索
 
-leetcode-79: https://leetcode.com/problems/word-search
-leetcode-212: https://leetcode.com/problems/word-search-ii
+leetcode-79: https://leetcode.cn/problems/word-search
+leetcode-212: https://leetcode.cn/problems/word-search-ii
 
 ```js
 class Solution {
@@ -115,8 +115,8 @@ console.log(a.findWords(board, words));
 
 ## 岛屿个数
 
-- leetcode: https://leetcode.com/problems/number-of-islands/
-- leetcode: https://leetcode.com/problems/friend-circles/
+- leetcode: https://leetcode.cn/problems/number-of-islands/
+- leetcode: https://leetcode.cn/problems/friend-circles/
 
 ```js
 class Solution {
@@ -211,7 +211,7 @@ console.log(a.numIslands(grid))
 
 ## n次幂
 
-leetcode: https://leetcode.com/problems/powx-n
+leetcode: https://leetcode.cn/problems/powx-n
 
 ```js
 class Solution {
@@ -241,7 +241,7 @@ class Solution2 {
 
 ## 众数
 
-leetcode: https://leetcode.com/problems/majority-element
+leetcode: https://leetcode.cn/problems/majority-element
 
 ```js
 // == 递归实现参考: https://github.com/yunaichun/javascript-note/blob/master/数据结构与算法/极客时间/递归/众数/javascript.js

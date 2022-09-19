@@ -31,7 +31,7 @@
 
 ## 二进制位1的个数
 
-leetcode: https://leetcode.com/problems/number-of-1-bits
+leetcode: https://leetcode.cn/problems/number-of-1-bits
 
 ```js
 class Solution {
@@ -51,7 +51,7 @@ class Solution {
 
 ## 是否是2的n次幂
 
-leetcode: https://leetcode.com/problems/power-of-two
+leetcode: https://leetcode.cn/problems/power-of-two
 
 ```js
 class Solution {
@@ -67,7 +67,7 @@ class Solution {
 
 ## n个数分别每个1的个数
 
-leetcode: https://leetcode.com/problems/counting-bits
+leetcode: https://leetcode.cn/problems/counting-bits
 
 ```js
 class Solution {

@@ -4,7 +4,7 @@
 
 ## 两数之和
 
-leetcode: https://leetcode.com/problems/two-sum
+leetcode: https://leetcode.cn/problems/two-sum
 
 ```js
 class Solution {
@@ -24,7 +24,7 @@ class Solution {
 
 ## 三数之和为0
 
-leetcode: https://leetcode.com/problems/three-sum
+leetcode: https://leetcode.cn/problems/three-sum
 
 ```js
 class Solution {
@@ -62,7 +62,7 @@ test.threeSum(nums)
 
 ## 有效字母异同位
 
-leetcode: https://leetcode.com/problems/valid-anagram
+leetcode: https://leetcode.cn/problems/valid-anagram
 
 ```js
 class Solution2 {

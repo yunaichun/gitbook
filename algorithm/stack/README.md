@@ -26,7 +26,7 @@ class Stack {
 
 ## 对称字符合法性
 
-leetcode: https://leetcode.com/problems/valid-parentheses
+leetcode: https://leetcode.cn/problems/valid-parentheses
 
 ```js
 class Solution {
