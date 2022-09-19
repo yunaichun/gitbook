@@ -141,7 +141,7 @@
   * [浏览器安全简介](./browser/security/README.md)
 * [网络协议]()
   * [HTTP简介](./network/http/README.md)
-* [算法]()
+<!-- * [算法]()
   * [栈](./algorithm/stack/README.md)
   * [队列](./algorithm/queue/README.md)
   * [链表](./algorithm/linked-list/README.md)
@@ -155,4 +155,4 @@
   * [剪枝](./algorithm/pruning/README.md)
   * [位运算](./algorithm/bitwise/README.md)
   * [动态规划](./algorithm/dynamic/README.md)
-  * [LRU Cache](./algorithm/lru/README.md)
+  * [LRU Cache](./algorithm/lru/README.md) -->

@@ -2,28 +2,26 @@
 
 > 算法-动态规划学习笔记。
 
-## 爬楼梯最短步数
+## 多少种不同方法可以爬到楼顶
 
 leetcode: https://leetcode.com/problems/climbing-stairs
 
 ```js
-class Solution {
-    constructor() {
-    }
-    // == 第一步：定义状态：a[i] 代表爬到 i 层楼梯的走法的总数
-    // == 第二步：状态转移方程：a[i] = a[i -1 ] + a[i - 2]
-    // == 初始状态：a[0] = 1, a[1] = 2
-    // == 求 a[n-1]
-    climbStairs(n) {
-        let a = [];
-        a[0] = 1;
-        a[1] = 2;
-        for (let i = 2; i < n; i++) {
-            a[i] = a[i - 1] + a[i - 2]
-        }
-        return a[n - 1];
-    }
-}
+/**
+ * @param {number} n
+ * @return {number}
+ */
+ var climbStairs = function(n) {
+  /** a[i]: 代表爬第 i 层楼所需要的步数 */
+  /** a[i] = a[i - 1] + a[i - 2] */
+  const a = [];
+  a[0] = 1;
+  a[1] = 2;
+  for (let i = 2; i < n; i += 1) {
+    a[i] = a[i-1] + a[i - 2];
+  }
+  return a[n - 1];
+};
 ```
 
 ## 零钱兑换最少数量
