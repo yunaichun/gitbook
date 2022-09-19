@@ -88,7 +88,7 @@ var maxProduct = function(nums) {
   const a = [];
   a[0] = [[nums[0], nums[0]]];
   for (let i = 1, len = nums.length; i < len; i += 1) {
-    a[i] = [];
+    if (!a[i]) a[i] = [];
     a[i][0] = Math.min(a[i - 1][0] * nums[i], a[i - 1][1] * nums[i], nums[i]);
     a[i][1] = Math.max(a[i - 1][0] * nums[i], a[i - 1][1] * nums[i], nums[i]);
   }
@@ -111,7 +111,7 @@ var lengthOfLIS = function(nums) {
   const a = [];
   a[0] = 1;
   for (let i = 1, len = nums.length; i < len; i += 1) {
-    a[i] = a[0];
+    if (!a[i]) a[i] = a[0];
     for (j = 0; j < i; j += 1) {
       if (nums[i] > nums[j]) a[i] = Math.max(a[j] + 1, a[i]);
     }
@@ -136,7 +136,7 @@ var minimumTotal = function(triangle) {
   const len = triangle.length - 1;
   a[len] = triangle[len];
   for (let i = len; i > 0; i -= 1) {
-    a[i - 1] = [];
+    if (!a[i - 1]) a[i - 1] = [];
     for (j = 0, len2 = triangle[i].length; j < len2; j += 1) {
       a[i - 1][j] = Math.min(a[i][j], a[i][j + 1]) + triangle[i - 1][j];
     }
