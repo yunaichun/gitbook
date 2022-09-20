@@ -142,7 +142,7 @@ var isValidBST = function(root) {
       root = root.left;
     }
     root = stack.pop();
-    if (root <= inOrder) return false;
+    if (root.val <= inOrder) return false;
     inOrder = root.val;
     root = root.right;
   }
