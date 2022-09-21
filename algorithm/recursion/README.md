@@ -2,6 +2,26 @@
 
 > 算法-递归分治学习笔记。
 
+## 验证是否是BST
+
+leetcode: https://leetcode.cn/problems/validate-binary-search-tree
+
+```js
+/**
+ * @param {TreeNode} root
+ * @return {boolean}
+ */
+var isValidBST = function(root) {
+  return _helper(root, -Infinity, Infinity);
+};
+
+function _helper(root, lower, higher) {
+  if (!root) return true;
+  if (root.val >= higher || root.val <= lower) return false;
+  return _helper(root.left, lower, root.val) && _helper(root.right, root.val, higher);
+}
+```
+
 ## 有效括号组合
 
 leetcode: https://leetcode.cn/problems/generate-parentheses

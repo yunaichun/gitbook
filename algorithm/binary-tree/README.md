@@ -113,21 +113,6 @@ console.log(list.preOrder(list.head));
 leetcode: https://leetcode.cn/problems/validate-binary-search-tree
 
 ```js
-/** 递归
- * @param {TreeNode} root
- * @return {boolean}
- */
-var isValidBST = function(root) {
-  return _helper(root, -Infinity, Infinity);
-};
-
-function _helper(root, lower, higher) {
-  if (!root) return true;
-  if (root.val >= higher || root.val <= lower) return false;
-  return _helper(root.left, lower, root.val) && _helper(root.right, root.val, higher);
-}
-```
-```js
 /** 中序
  * @param {TreeNode} root
  * @return {boolean}
