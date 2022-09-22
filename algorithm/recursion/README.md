@@ -50,6 +50,30 @@ function _helper(leftUsed, rightUsed, n, current, result) {
 }
 ```
 
+## n次幂
+
+leetcode: https://leetcode.cn/problems/powx-n
+
+```js
+/**
+ * @param {number} x
+ * @param {number} n
+ * @return {number}
+ */
+var myPow = function(x, n) {
+  if (n < 0) return 1 / myPow(x, -n);
+  if (n === 0) return  1;
+  if (n === 1) return x;
+  const a = Math.floor(n / 2);
+  const b = n % 2;
+  if (b === 0) {
+    return myPow(x*x, a);
+  } else {
+    return myPow(x*x, a) * x;
+  }
+};
+```
+
 ## 单词搜索
 
 leetcode-79: https://leetcode.cn/problems/word-search
@@ -227,36 +251,6 @@ var grid = [
 // [0,0,1]]
 var a = new Solution();
 console.log(a.numIslands(grid))
-```
-
-## n次幂
-
-leetcode: https://leetcode.cn/problems/powx-n
-
-```js
-class Solution {
-    // == 递归: o(log(2, n))
-    myPow(x, n) {
-        if (n === 0) return 1;
-        if (n < 0) return 1 / this.myPow(x, -n);
-        if (n % 2 === 0) {
-            return this.myPow(x*x, n/2);
-        } else {
-            return x * this.myPow(x, n - 1);
-        }
-    }
-}
-
-class Solution2 {
-    // == 动态规划: o(log(n))
-    myPow(x, n) {
-        let arr = [1]
-        for (let i = 1; i < n + 1; i++) {
-            arr[i] = arr[i - 1] * x
-        }
-        return arr[n];
-    }
-}
 ```
 
 ## 众数
