@@ -253,38 +253,6 @@ var a = new Solution();
 console.log(a.numIslands(grid))
 ```
 
-## 众数
-
-leetcode: https://leetcode.cn/problems/majority-element
-
-```js
-// == 递归实现参考: https://github.com/yunaichun/javascript-note/blob/master/数据结构与算法/极客时间/递归/众数/javascript.js
-class Solution2 {
-    constructor() {
-    }
-    // == 摩尔投票法 o(n)
-    majorityElement(nums) {
-        let candidate = nums[0];
-        let iTimes = 1;
-        for (let i = 1, len = nums.length; i < len; i++) {
-            if (iTimes === 0) {
-                candidate = nums[i];
-                iTimes = 1;
-            } else {
-                // == 相同则加1，不同则抵消掉1个
-                if (nums[i] === candidate) {
-                    iTimes++;
-                } else {
-                    iTimes--;
-                }
-            }
-            
-        }
-        return candidate;
-    }
-}
-```
-
 ## 参考资料
 
 - [数据结构与算法JavaScript描述](https://book.douban.com/subject/25945449/)
