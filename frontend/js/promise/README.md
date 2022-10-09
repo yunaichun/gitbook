@@ -141,7 +141,7 @@ FakePromise.reject = function(value) {
     reject(value);
   });
 }
-FakePromise.all = function(promises) {
+FakePromise.race = function(promises) {
   return new FakePromise(function(resolve, reject) {
     for (var i = 0; i < promises.length; i++) {
       promises[i].then(function(value) {

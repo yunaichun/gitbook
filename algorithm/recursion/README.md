@@ -76,8 +76,8 @@ var myPow = function(x, n) {
 
 ## 单词搜索
 
-leetcode-79: https://leetcode.cn/problems/word-search
-leetcode-212: https://leetcode.cn/problems/word-search-ii
+- leetcode: https://leetcode.cn/problems/word-search
+- leetcode: https://leetcode.cn/problems/word-search-ii
 
 ```js
 class Solution {
