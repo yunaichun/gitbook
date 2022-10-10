@@ -80,81 +80,63 @@ var myPow = function(x, n) {
 - leetcode: https://leetcode.cn/problems/word-search-ii
 
 ```js
-class Solution {
-    constructor() {
-        this.result = [];
-        this.END_OF_WORD = '#';
-        // == 横坐标：左、右、上、下
-        this.dx = [-1, 1, 0, 0];
-        // == 纵坐标：左、右、上、下
-        this.dy = [0, 0, -1, 1];
+/** 上下左右 */
+const dx = [-1, 1, 0, 0];
+const dy = [0, 0, -1, 1];
+
+/**
+ * @param {character[][]} board
+ * @param {string} word
+ * @return {boolean}
+ */
+var exist = function(board, word) {
+  const results = findWords(board, word);
+  return results;
+};
+
+/**
+ * @param {character[][]} board
+ * @param {string[]} words
+ * @return {string[]}
+ */
+function findWords(board, words) {
+  const results = [];
+
+  if (!board.length || !board[0].length) return [];
+  const maxLength = board.length * board[0].length;
+  words = words.filter(word => word.length <= maxLength);
+  if (!words.length) return [];
+
+  for (let i = 0, len = board.length; i < len; i += 1) {
+    for (let j = 0, len2 = board[i].length; j < len2; j += 1) {
+      _helper(board, words, i, j, [{ x: i, y : j }], '', results);
     }
-    exist(board, word) {
-        let result = this.findWords(board, [word]);
-        return result.length;
-    }
-    findWords(board, words) {
-        if (!board.length || !board[0].length) return [];
-        if (!words) return [];
-        // == 构建 Trie 树
-        let root = {};
-        for (let i = 0, len = words.length; i < len; i++) {
-            let node = root;
-            for (let j = 0, len = words[i].length; j < len; j++) {
-                if (!node[words[i][j]]) node[words[i][j]] = {}
-                node = node[words[i][j]]
-            }
-            node[this.END_OF_WORD] = this.END_OF_WORD;
-        }
-        // == 深度递归
-        for (let row = 0, len = board.length; row < len; row++) {
-            for (let col = 0, len = board[row].length; col < len; col++) {
-                if (board[row][col] in root) {
-                    this._dfs(board, row, col, "", root);
-                }
-            }
-        }
-        return this.result;             
-    }
-    // == 深度优先 o(n)
-    _dfs(board, row, col, cur_word, cur_dict) {
-        cur_word += board[row][col];
-        cur_dict = cur_dict[board[row][col]];
-        if (this.END_OF_WORD in cur_dict) {
-            this.result.push(cur_word);
-        }
-        let temp = board[row][col];
-        // == 避免下一次再回来
-        board[row][col] = '@';
-        let m = board.length;
-        let n = board[0].length;
-        // == 横坐标与纵坐标进行左右上下变换
-        for (let i = 0; i < 4; i++) {
-            let x = row + this.dx[i];
-            let y = col + this.dy[i];
-            if (
-                x >= 0 && x < m &&
-                y >=0 && y < n &&
-                board[x][y] !== '@' &&
-                (board[x][y] in cur_dict)
-            ) {
-                this._dfs(board, x, y, cur_word, cur_dict); 
-            }
-        }
-        // == 再复原
-        board[row][col] = temp;
-    }
+  }
+
+  return results;
 }
 
-let board = [
-    ["o","a","a","n"],
-    ["e","t","a","e"],
-    ["i","h","k","r"],
-    ["i","f","l","v"]
-]
-let words = ["oath","pea","eat","rain"]
-let a = new Solution()
-console.log(a.findWords(board, words));
+function _helper(board, words, row, column, usedGrids, current, results) {
+  current += board[row][column];
+
+  const more = words.filter(word => word.indexOf(current) >= 0);
+  if (more.length === 0) return;
+  if (words.indexOf(current) >= 0 && results.indexOf(current) < 0) {
+    results.push(current);
+    if (more.length === 1) return;
+  }
+
+  let m = board.length;
+  let n = board[0].length;
+  for (let i = 0; i < 4; i += 1) {
+    let x = row + dx[i];
+    let y = column + dy[i];
+    const inUsedGrids = usedGrids.find(i => i.x === x && i.y === y);
+    if (inUsedGrids) continue;
+    const inBoard = x >= 0 && x < m && y >= 0 && y < n;
+    if (inBoard) _helper(board, words, x, y, usedGrids.concat({ x, y }), current, results); 
+  }
+}
 ```
 
 ## 岛屿个数
