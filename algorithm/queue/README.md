@@ -5,22 +5,20 @@
 ## js实现队列
 
 ```js
-class Queue {
-    constructor(val = null) {
-        this.val = []
-    }
-    // == 入队   
-    enqueue(item){
-        this.val.push(item);
-    }
-    // == 出队
-    dequeue(){
-        return this.val.shift();
-    }
-    // == 队首元素
-    front(){
-        return this.val[0];
-    }
+/**
+ * 先进先出
+ */
+function Queue() {
+  this.queue = [];
+}
+Queue.prototype.enqueue = function (item) {
+  this.queue.push(item);
+}
+Queue.prototype.dequeue = function () {
+  return this.queue.shift();
+}
+Queue.prototype.front = function (item) {
+  return this.queue[0];
 }
 ```
 

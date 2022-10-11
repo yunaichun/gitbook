@@ -5,63 +5,48 @@
 ## js实现栈
 
 ```js
-class Stack {
-    constructor(val = null) {
-        this.val = []
-    }
-    // == 入栈   
-    push(item){
-        this.val.push(item);
-    }
-    // == 出栈
-    pop(){
-        return this.val.pop();
-    }
-    // == 栈顶元素
-    peek(){
-        return this.val[this.val.length - 1];
-    }
+/**
+ * 先进后出
+ */
+function Stack() {
+  this.stack = [];
+}
+Stack.prototype.push = function (item) {
+  this.stack.push(item);
+}
+Stack.prototype.pop = function () {
+  return this.stack.pop();
+}
+Stack.prototype.peek = function () {
+  return this.stack[this.stack.length - 1];
 }
 ```
 
 ## 对称字符合法性
 
-leetcode: https://leetcode.cn/problems/valid-parentheses
+- leetcode: https://leetcode.cn/problems/valid-parentheses
 
 ```js
-class Solution {
-    constructor() {
+var isValid = function (s) {
+  const stack = [];
+  const map = new Map([
+    ['(', ')'],
+    ['{', '}'],
+    ['[', ']']
+  ]);
+  for (let i = 0, len = s.length; i < len; i += 1) {
+    const isLeft = map.has(s[i]);
+    if (isLeft) {
+      stack.push(s[i]);
+    } else {
+      if (!stack.length) return false;
+      const last = stack[stack.length - 1];
+      if (map.get(last) !== s[i]) return false;
+      else stack.pop();
     }
-    // o(1) * n
-    isValid(s) {
-        let stack = []
-        const paren_map = { ')': '(', ']': '[', '}': '{' }
-        let keys = Object.keys(paren_map)
-        for (let i = 0, len = s.length; i < len; i++) {
-            if (keys.indexOf(s[i]) < 0) {
-                // == 左括号 push
-                stack.push(s[i])
-            } else if (paren_map[s[i]] != stack.pop()) {
-                return false
-            }
-        }
-        return !stack.length
-    }
-}
-
-class Solution2 {
-    constructor(props) {
-        super(props)
-    }
-    isValid(s) {
-        let length
-        while (length !== s.length) {
-            length = s.length
-            s = s.replace('()', '').replace('{}', '').replace('[]', '')
-        }
-        return !s.length
-    }
-}
+  }
+  return !stack.length;
+};
 ```
 
 ## 参考资料
