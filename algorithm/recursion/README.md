@@ -4,7 +4,7 @@
 
 ## 验证是否是BST
 
-leetcode: https://leetcode.cn/problems/validate-binary-search-tree
+- leetcode: https://leetcode.cn/problems/validate-binary-search-tree
 
 ```js
 /**
@@ -24,7 +24,7 @@ function _helper(root, lower, higher) {
 
 ## 有效括号组合
 
-leetcode: https://leetcode.cn/problems/generate-parentheses
+- leetcode: https://leetcode.cn/problems/generate-parentheses
 
 ```js
 /**
@@ -52,7 +52,7 @@ function _helper(leftUsed, rightUsed, n, current, result) {
 
 ## n次幂
 
-leetcode: https://leetcode.cn/problems/powx-n
+- leetcode: https://leetcode.cn/problems/powx-n
 
 ```js
 /**

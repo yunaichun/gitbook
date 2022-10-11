@@ -24,64 +24,63 @@
 >>: 右移。
 
 5、常用技巧
-判断奇偶: x&1 === 1
-得到最低位1: x&-x
-清除最低位1: x&(x - 1)
+判断奇偶: x & 1 === 1
+清除最低位 1: x & (x - 1)
+
+得到最低位 1: x & -x
 ```
 
 ## 二进制位1的个数
 
-leetcode: https://leetcode.cn/problems/number-of-1-bits
+- leetcode: https://leetcode.cn/problems/number-of-1-bits
 
 ```js
-class Solution {
-    constructor() {
-    }
-    // == 清除最低位1: x&(x - 1)
-    hammingWeight(n) {
-        let count = 0;
-        while(n) {
-            n = n & (n - 1);
-            count++;
-        }
-        return count;
-    }
-}
+/**
+ * @param {number} n - a positive integer
+ * @return {number}
+ */
+var hammingWeight = function (n) {
+  let count = 0;
+  while (n) {
+    n = n & (n - 1);
+    count++;
+  }
+  return count;
+};
+
 ```
 
 ## 是否是2的n次幂
 
-leetcode: https://leetcode.cn/problems/power-of-two
+- leetcode: https://leetcode.cn/problems/power-of-two
 
 ```js
-class Solution {
-    constructor() {
-    }
-    // == 清除最低位1: x&(x - 1)
-    // == 仅有 1 个 1
-    isPowerOfTwo(n) {
-        return n > 0 && !(n & (n - 1));
-    }
-}
+/**
+ * @param {number} n
+ * @return {boolean}
+ */
+var isPowerOfTwo = function(n) {
+  /** 仅有1个1: 清除最低位的1为0即可 */
+  return n > 0 && !(n & (n - 1));
+};
 ```
 
 ## n个数分别每个1的个数
 
-leetcode: https://leetcode.cn/problems/counting-bits
+- leetcode: https://leetcode.cn/problems/counting-bits
 
 ```js
-class Solution {
-    constructor() {
+/**
+ * @param {number} n
+ * @return {number[]}
+ */
+var countBits = function(n) {
+    const a = [0];
+    for (let i = 1; i <= n; i += 1) {
+      a[i] = a[i & (i - 1)] + 1;
     }
-    // == 动态规划思想
-    countBits(num) {
-        let bits = [0];
-        for (let i = 1; i < num + 1; i++) {
-            bits[i] = bits[i & (i - 1)] + 1;
-        }
-        return bits;
-    }
-}
+    return a;
+};
 ```
 
 ## 参考资料
