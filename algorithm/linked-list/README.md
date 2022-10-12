@@ -5,39 +5,35 @@
 ## js实现链表
 
 ```js
-class Node {
-    constructor(val = null, next = null) {
-        this.val = val
-        this.next = next
-    }
+function Node(data = null, next = null) {
+  this.data = data;
+  this.next = next;
 }
 
-class ListNode {
-    constructor() {
-        this.head = new Node();
+function ListNode() {
+  this.head = new Node();
+}
+ListNode.prototype.insert = function (sourceNode, targetNode) {
+  const first = this.head;
+  if (first.data === null && first.next === null) {
+    this.head = sourceNode;
+  } else {
+    sourceNode.next = targetNode.next;
+    targetNode.next = sourceNode;
+  }
+  return first;
+}
+ListNode.prototype.removeNode = function (node) {
+  const first = this.head;
+  /** 找到 node 节点的父节点 */
+  while (first.next) {
+    if (first.next === node) {
+      first.next = first.next.next;
+      break;
     }
-
-    insertAfter(sourceNode, targetNode) {
-        if (this.head.val === null && this.head.next === null) {
-            this.head = sourceNode
-        } else {
-            sourceNode.next = targetNode.next
-            targetNode.next = sourceNode
-        }
-        return this.head
-    }
-    
-    removeNode(node) {
-        let first = this.head;
-        while(first.next) {
-            if (first.next === node) {
-                first.next = first.next.next
-                break
-            }
-            first = first.next
-        }
-        return this.head
-    }
+    first = first.next;
+  }
+  return first;
 }
 
 let a = new Node(1)
