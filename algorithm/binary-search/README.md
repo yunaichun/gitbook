@@ -4,7 +4,7 @@
 
 ## 二分查找
 
-leetcode: https://leetcode.cn/problems/sqrtx/
+- leetcode: https://leetcode.cn/problems/sqrtx/
 
 ```js
 class Solution {

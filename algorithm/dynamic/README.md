@@ -4,7 +4,7 @@
 
 ## 多少种不同方法可以爬到楼顶
 
-leetcode: https://leetcode.cn/problems/climbing-stairs
+- leetcode: https://leetcode.cn/problems/climbing-stairs
 
 ```js
 /**
@@ -26,7 +26,7 @@ var climbStairs = function (n) {
 
 ## 零钱兑换最少数量
 
-leetcode: https://leetcode.cn/problems/coin-change
+- leetcode: https://leetcode.cn/problems/coin-change
 
 ```js
 /**
@@ -53,7 +53,7 @@ var coinChange = function (coins, amount) {
 
 ## 和最大连续子序列值
 
-leetcode: https://leetcode.cn/problems/maximum-subarray
+- leetcode: https://leetcode.cn/problems/maximum-subarray
 
 ```js
 /**
@@ -74,7 +74,7 @@ var maxSubArray = function (nums) {
 
 ## 积最大连续子序列值
 
-leetcode: https://leetcode.cn/problems/maximum-product-subarray
+- leetcode: https://leetcode.cn/problems/maximum-product-subarray
 
 ```js
 /**
@@ -101,7 +101,7 @@ var maxProduct = function (nums) {
 
 ## 最长上升子序列长度
 
-leetcode: https://leetcode.cn/problems/longest-increasing-subsequence
+- leetcode: https://leetcode.cn/problems/longest-increasing-subsequence
 
 ```js
 /**
@@ -125,7 +125,7 @@ var lengthOfLIS = function (nums) {
 
 ## 三角形从顶到低最小路径和
 
-leetcode: https://leetcode.cn/problems/triangle
+- leetcode: https://leetcode.cn/problems/triangle
 
 ```js
 /**
@@ -150,7 +150,7 @@ var minimumTotal = function (triangle) {
 
 ## 最短编辑距离
 
-leetcode: https://leetcode.cn/problems/edit-distance
+- leetcode: https://leetcode.cn/problems/edit-distance
 
 ```js
 /**

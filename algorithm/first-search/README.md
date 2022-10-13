@@ -4,7 +4,7 @@
 
 ## 二叉树最大深度
 
-leetcode: https://leetcode.cn/problems/maximum-depth-of-binary-tree
+- leetcode: https://leetcode.cn/problems/maximum-depth-of-binary-tree
 
 ```js
 /**
@@ -44,7 +44,7 @@ function _bfs(root) {
 
 ## 二叉树最小深度
 
-leetcode: https://leetcode.cn/problems/minimum-depth-of-binary-tree
+- leetcode: https://leetcode.cn/problems/minimum-depth-of-binary-tree
 
 ```js
 /**
@@ -87,7 +87,7 @@ function _bfs(root) {
 
 ## 二叉树按照 level 输出
 
-leetcode: https://leetcode.cn/problems/binary-tree-level-order-traversal
+- leetcode: https://leetcode.cn/problems/binary-tree-level-order-traversal
 
 ```js
 /**

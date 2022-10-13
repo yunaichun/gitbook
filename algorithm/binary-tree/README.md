@@ -110,7 +110,7 @@ console.log(list.preOrder(list.head));
 
 ## 验证是否是 BST
 
-leetcode: https://leetcode.cn/problems/validate-binary-search-tree
+- leetcode: https://leetcode.cn/problems/validate-binary-search-tree
 
 ```js
 /** 中序
@@ -137,7 +137,7 @@ var isValidBST = function (root) {
 
 ## BST 最近公共祖先
 
-leetcode: https://leetcode.cn/problems/lowest-common-ancestor-of-a-binary-search-tree
+- leetcode: https://leetcode.cn/problems/lowest-common-ancestor-of-a-binary-search-tree
 
 ```js
 /**
@@ -158,7 +158,7 @@ var lowestCommonAncestor = function (root, p, q) {
 
 ## 普通树最近公共祖先
 
-leetcode: https://leetcode.cn/problems/lowest-common-ancestor-of-a-binary-tree
+- leetcode: https://leetcode.cn/problems/lowest-common-ancestor-of-a-binary-tree
 
 ```js
 /**
