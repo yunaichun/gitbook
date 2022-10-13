@@ -56,13 +56,14 @@ var threeSum = function (nums) {
 - leetcode: https://leetcode.cn/problems/valid-anagram
 
 ```js
-class Solution2 {
-  constructor() {}
-  // o(nlogn)
-  isAnagram(s, t) {
-    s.split("").sort().join("") === t.split("").sort().join("");
-  }
-}
+/**
+ * @param {string} s
+ * @param {string} t
+ * @return {boolean}
+ */
+var isAnagram = function (s, t) {
+  return s.split("").sort().join() === t.split("").sort().join();
+};
 ```
 
 ## 参考资料
