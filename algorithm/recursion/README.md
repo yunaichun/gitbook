@@ -2,7 +2,7 @@
 
 > 算法-递归分治学习笔记。
 
-## 验证是否是BST
+## 验证是否是 BST
 
 - leetcode: https://leetcode.cn/problems/validate-binary-search-tree
 
@@ -11,14 +11,16 @@
  * @param {TreeNode} root
  * @return {boolean}
  */
-var isValidBST = function(root) {
+var isValidBST = function (root) {
   return _helper(root, -Infinity, Infinity);
 };
 
 function _helper(root, lower, higher) {
   if (!root) return true;
   if (root.val >= higher || root.val <= lower) return false;
-  return _helper(root.left, lower, root.val) && _helper(root.right, root.val, higher);
+  return (
+    _helper(root.left, lower, root.val) && _helper(root.right, root.val, higher)
+  );
 }
 ```
 
@@ -31,8 +33,8 @@ function _helper(root, lower, higher) {
  * @param {number} n
  * @return {string[]}
  */
-var generateParenthesis = function(n) {
-  return _helper(0, 0, n, '', []);
+var generateParenthesis = function (n) {
+  return _helper(0, 0, n, "", []);
 };
 
 function _helper(leftUsed, rightUsed, n, current, result) {
@@ -41,16 +43,16 @@ function _helper(leftUsed, rightUsed, n, current, result) {
     return;
   }
   if (leftUsed < n) {
-    _helper(leftUsed + 1, rightUsed, n, current + '(', result);
+    _helper(leftUsed + 1, rightUsed, n, current + "(", result);
   }
   if (rightUsed < n && rightUsed < leftUsed) {
-    _helper(leftUsed, rightUsed + 1, n, current + ')', result);
+    _helper(leftUsed, rightUsed + 1, n, current + ")", result);
   }
   return result;
 }
 ```
 
-## n次幂
+## n 次幂
 
 - leetcode: https://leetcode.cn/problems/powx-n
 
@@ -60,16 +62,16 @@ function _helper(leftUsed, rightUsed, n, current, result) {
  * @param {number} n
  * @return {number}
  */
-var myPow = function(x, n) {
+var myPow = function (x, n) {
   if (n < 0) return 1 / myPow(x, -n);
-  if (n === 0) return  1;
+  if (n === 0) return 1;
   if (n === 1) return x;
   const a = Math.floor(n / 2);
   const b = n % 2;
   if (b === 0) {
-    return myPow(x*x, a);
+    return myPow(x * x, a);
   } else {
-    return myPow(x*x, a) * x;
+    return myPow(x * x, a) * x;
   }
 };
 ```
@@ -89,7 +91,7 @@ const dy = [0, 0, -1, 1];
  * @param {string} word
  * @return {boolean}
  */
-var exist = function(board, word) {
+var exist = function (board, word) {
   const results = findWords(board, [word]);
   return results.length;
 };
@@ -104,12 +106,12 @@ function findWords(board, words) {
 
   if (!board.length || !board[0].length) return [];
   const maxLength = board.length * board[0].length;
-  words = words.filter(word => word.length <= maxLength);
+  words = words.filter((word) => word.length <= maxLength);
   if (!words.length) return [];
 
   for (let i = 0, len = board.length; i < len; i += 1) {
     for (let j = 0, len2 = board[i].length; j < len2; j += 1) {
-      _helper(board, words, i, j, [{ x: i, y : j }], '', results);
+      _helper(board, words, i, j, [{ x: i, y: j }], "", results);
     }
   }
 
@@ -119,7 +121,7 @@ function findWords(board, words) {
 function _helper(board, words, row, column, visited, current, results) {
   current += board[row][column];
 
-  const more = words.filter(word => word.indexOf(current) >= 0);
+  const more = words.filter((word) => word.indexOf(current) >= 0);
   if (more.length === 0) return;
   if (words.indexOf(current) >= 0 && results.indexOf(current) < 0) {
     results.push(current);
@@ -131,9 +133,10 @@ function _helper(board, words, row, column, visited, current, results) {
   for (let i = 0; i < 4; i += 1) {
     let x = row + dx[i];
     let y = column + dy[i];
-    const inVisited = visited.find(i => i.x === x && i.y === y);
+    const inVisited = visited.find((i) => i.x === x && i.y === y);
     const inBoard = x >= 0 && x < m && y >= 0 && y < n;
-    if (!inVisited && inBoard) _helper(board, words, x, y, visited.concat({ x, y }), current, results); 
+    if (!inVisited && inBoard)
+      _helper(board, words, x, y, visited.concat({ x, y }), current, results);
   }
 }
 ```
@@ -151,7 +154,7 @@ const dy = [0, 0, -1, 1];
  * @param {character[][]} grid
  * @return {number}
  */
-var numIslands = function(grid) {
+var numIslands = function (grid) {
   let sum = 0;
   for (let i = 0, row = grid.length; i < row; i += 1) {
     for (let j = 0, column = grid[i].length; j < column; j += 1) {
@@ -165,13 +168,13 @@ var numIslands = function(grid) {
   return sum;
 };
 
-var _helper = function(grid, row, column, visited) {
+var _helper = function (grid, row, column, visited) {
   let m = grid.length;
   let n = grid[0].length;
   for (let i = 0; i < 4; i++) {
     let x = row + dx[i];
     let y = column + dy[i];
-    const inVisited = visited.find(i => i.x === x && i.y === y);
+    const inVisited = visited.find((i) => i.x === x && i.y === y);
     const inBoard = x >= 0 && x < m && y >= 0 && y < n;
     if (!inVisited && inBoard) {
       if (Number(grid[x][y]) === 1) {
@@ -181,10 +184,10 @@ var _helper = function(grid, row, column, visited) {
       }
     }
   }
-}
+};
 ```
 
 ## 参考资料
 
-- [数据结构与算法JavaScript描述](https://book.douban.com/subject/25945449/)
+- [数据结构与算法 JavaScript 描述](https://book.douban.com/subject/25945449/)
 - [极客时间算法课程](https://time.geekbang.org/course/intro/100019701)

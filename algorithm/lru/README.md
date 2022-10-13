@@ -1,6 +1,6 @@
 ## 简介
 
-> 算法-LRU学习笔记。
+> 算法-LRU 学习笔记。
 
 ## LRU 实现
 
@@ -15,7 +15,7 @@ var LRUCache = function (capacity) {
   this.map = new Map();
 };
 
-/** 
+/**
  * @param {number} key
  * @return {number}
  */
@@ -28,8 +28,8 @@ LRUCache.prototype.get = function (key) {
   return value;
 };
 
-/** 
- * @param {number} key 
+/**
+ * @param {number} key
  * @param {number} value
  * @return {void}
  */
@@ -48,22 +48,28 @@ LRUCache.prototype.put = function (key, value) {
 ## Map 用法
 
 ```js
-var m = new Map([['a', 1], ['b', 2], ['c', 3]]);
+var m = new Map([
+  ["a", 1],
+  ["b", 2],
+  ["c", 3],
+]);
 
-m.has('a'); // true
+m.has("a"); // true
 
-m.set('d', 4);
+m.set("d", 4);
 
-m.get('d'); // 4
+m.get("d"); // 4
 
-m.delete('d');
+m.delete("d");
 
-m.size // 3
+m.size; // 3
 
 m.keys().next(); // { value: 'a', done: false }
 m.values().next(); // { value: 1, done: false }
 m.entries().next(); // { value: ['a', 1], done: false }
-m.forEach(function(value, key, map){ console.log(value, key, map)}) // 3 'c' Map(3) {'a' => 1, 'b' => 2, 'c' => 3}
+m.forEach(function (value, key, map) {
+  console.log(value, key, map);
+}); // 3 'c' Map(3) {'a' => 1, 'b' => 2, 'c' => 3}
 
 /** Map 转换成 Object */
 var obj = Object.fromEntries(m.entries()); // {a: 1, b: 2, c: 3}
@@ -82,12 +88,14 @@ s.add(4);
 
 s.delete(4);
 
-s.size // 3
+s.size; // 3
 
 s.keys().next(); // {value: 1, done: false}
 s.values().next(); // {value: 1, done: false}
 s.entries().next(); // { value: [1, 1], done: false }
-s.forEach(function(value, key, set){ console.log(value, key, set)}) // 3 3 Set(3) {1, 2, 3}
+s.forEach(function (value, key, set) {
+  console.log(value, key, set);
+}); // 3 3 Set(3) {1, 2, 3}
 
 /** Map 转换成 Array */
 var arr = Array.from(s); // [1, 2, 3]
@@ -95,8 +103,33 @@ var arr = Array.from(s); // [1, 2, 3]
 var set = new Set(arr); // Set(3) {1, 2, 3}
 ```
 
+## 众数
+
+- https://leetcode.com/problems/majority-element
+
+```js
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var majorityElement = function (nums) {
+  const map = new Map();
+  let [maxCount, maxNum] = [0, null];
+  for (let i = 0, len = nums.length; i < len; i++) {
+    if (map.has(nums[i])) map.set(nums[i], map.get(nums[i]) + 1);
+    else map.set(nums[i], 1);
+    const currentCount = map.get(nums[i]);
+    if (currentCount > maxCount) {
+      maxCount = currentCount;
+      maxNum = nums[i];
+    }
+  }
+  return maxNum;
+};
+```
+
 ## 参考资料
 
-- [数据结构与算法JavaScript描述](https://book.douban.com/subject/25945449/)
+- [数据结构与算法 JavaScript 描述](https://book.douban.com/subject/25945449/)
 - [极客时间算法课程](https://time.geekbang.org/course/intro/100019701)
-- [Map和Set](https://www.liaoxuefeng.com/wiki/1022910821149312/1023024181109440)
+- [Map 和 Set](https://www.liaoxuefeng.com/wiki/1022910821149312/1023024181109440)

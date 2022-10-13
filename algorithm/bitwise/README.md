@@ -30,7 +30,7 @@
 得到最低位 1: x & -x
 ```
 
-## 二进制位1的个数
+## 二进制位 1 的个数
 
 - leetcode: https://leetcode.cn/problems/number-of-1-bits
 
@@ -47,10 +47,9 @@ var hammingWeight = function (n) {
   }
   return count;
 };
-
 ```
 
-## 是否是2的n次幂
+## 是否是 2 的 n 次幂
 
 - leetcode: https://leetcode.cn/problems/power-of-two
 
@@ -59,13 +58,13 @@ var hammingWeight = function (n) {
  * @param {number} n
  * @return {boolean}
  */
-var isPowerOfTwo = function(n) {
+var isPowerOfTwo = function (n) {
   /** 仅有1个1: 清除最低位的1为0即可 */
   return n > 0 && !(n & (n - 1));
 };
 ```
 
-## n个数分别每个1的个数
+## n 个数分别每个 1 的个数
 
 - leetcode: https://leetcode.cn/problems/counting-bits
 
@@ -74,16 +73,16 @@ var isPowerOfTwo = function(n) {
  * @param {number} n
  * @return {number[]}
  */
-var countBits = function(n) {
-    const a = [0];
-    for (let i = 1; i <= n; i += 1) {
-      a[i] = a[i & (i - 1)] + 1;
-    }
-    return a;
+var countBits = function (n) {
+  const a = [0];
+  for (let i = 1; i <= n; i += 1) {
+    a[i] = a[i & (i - 1)] + 1;
+  }
+  return a;
 };
 ```
 
 ## 参考资料
 
-- [数据结构与算法JavaScript描述](https://book.douban.com/subject/25945449/)
+- [数据结构与算法 JavaScript 描述](https://book.douban.com/subject/25945449/)
 - [极客时间算法课程](https://time.geekbang.org/course/intro/100019701)

@@ -11,7 +11,7 @@ leetcode: https://leetcode.cn/problems/maximum-depth-of-binary-tree
  * @param {TreeNode} root
  * @return {number}
  */
-var maxDepth = function(root) {
+var maxDepth = function (root) {
   return _dfs(root);
 };
 
@@ -28,7 +28,7 @@ function _bfs(root) {
   let level = 0;
   const queue = [];
   if (root) queue.push(root);
-  while(queue.length) {
+  while (queue.length) {
     level++;
     const len = queue.length;
     for (let i = 0; i < len; i += 1) {
@@ -51,7 +51,7 @@ leetcode: https://leetcode.cn/problems/minimum-depth-of-binary-tree
  * @param {TreeNode} root
  * @return {number}
  */
-var minDepth = function(root) {
+var minDepth = function (root) {
   return _bfs(root);
 };
 /** 深度优先 */
@@ -70,7 +70,7 @@ function _bfs(root) {
   let level = 0;
   const queue = [];
   if (root) queue.push(root);
-  while(queue.length) {
+  while (queue.length) {
     level++;
     const len = queue.length;
     for (let i = 0; i < len; i += 1) {
@@ -85,7 +85,7 @@ function _bfs(root) {
 }
 ```
 
-## 二叉树按照level输出
+## 二叉树按照 level 输出
 
 leetcode: https://leetcode.cn/problems/binary-tree-level-order-traversal
 
@@ -94,7 +94,7 @@ leetcode: https://leetcode.cn/problems/binary-tree-level-order-traversal
  * @param {TreeNode} root
  * @return {number[][]}
  */
-var levelOrder = function(root) {
+var levelOrder = function (root) {
   if (!root) return [];
   const result = _dfs(root, [], 0);
   return result;
@@ -103,8 +103,8 @@ function _dfs(root, result = [], level = 0) {
   if (!root) return;
   if (!result[level]) result[level] = [];
   result[level].push(root.val);
-  _dfs(root.left, result, level + 1)
-  _dfs(root.right, result, level + 1)
+  _dfs(root.left, result, level + 1);
+  _dfs(root.right, result, level + 1);
   return result;
 }
 
@@ -130,5 +130,5 @@ function _bfs(root) {
 
 ## 参考资料
 
-- [数据结构与算法JavaScript描述](https://book.douban.com/subject/25945449/)
+- [数据结构与算法 JavaScript 描述](https://book.douban.com/subject/25945449/)
 - [极客时间算法课程](https://time.geekbang.org/course/intro/100019701)

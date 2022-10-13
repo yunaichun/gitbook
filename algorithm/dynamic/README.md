@@ -11,14 +11,14 @@ leetcode: https://leetcode.cn/problems/climbing-stairs
  * @param {number} n
  * @return {number}
  */
-var climbStairs = function(n) {
+var climbStairs = function (n) {
   /** a[i]: 代表爬第 i 层楼所需要的步数 */
   /** a[i] = a[i - 1] + a[i - 2] */
   const a = [];
   a[0] = 1;
   a[1] = 2;
   for (let i = 2; i < n; i += 1) {
-    a[i] = a[i-1] + a[i - 2];
+    a[i] = a[i - 1] + a[i - 2];
   }
   return a[n - 1];
 };
@@ -34,7 +34,7 @@ leetcode: https://leetcode.cn/problems/coin-change
  * @param {number} amount
  * @return {number}
  */
-var coinChange = function(coins, amount) {
+var coinChange = function (coins, amount) {
   /** a[i]: 代表爬凑 i 钱所需要的最少的硬币个数 */
   /** a[i] = Math.min(a[i], a[i - coins[j]] + 1) */
   const a = [];
@@ -60,7 +60,7 @@ leetcode: https://leetcode.cn/problems/maximum-subarray
  * @param {number[]} nums
  * @return {number}
  */
-var maxSubArray = function(nums) {
+var maxSubArray = function (nums) {
   /** a[i]: 代表数组第 i 序号最大和的连续子数组 */
   /** a[i] = Math.max(a[i - 1] + nums[i], a[i - 1]) */
   const a = [];
@@ -81,7 +81,7 @@ leetcode: https://leetcode.cn/problems/maximum-product-subarray
  * @param {number[]} nums
  * @return {number}
  */
-var maxProduct = function(nums) {
+var maxProduct = function (nums) {
   /** a[i]: 代表数组第 i 序号最大积的连续子数组最小和最大 */
   /** a[i][0] = Math.min(a[i - 1][0] * nums[i], a[i - 1][1] * nums[i], nums[i]); */
   /** a[i][1] = Math.max(a[i - 1][0] * nums[i], a[i - 1][1] * nums[i], nums[i]); */
@@ -92,7 +92,10 @@ var maxProduct = function(nums) {
     a[i][0] = Math.min(a[i - 1][0] * nums[i], a[i - 1][1] * nums[i], nums[i]);
     a[i][1] = Math.max(a[i - 1][0] * nums[i], a[i - 1][1] * nums[i], nums[i]);
   }
-  return Math.max.apply(null, a.reduce((a, b) => a.concat(b)));
+  return Math.max.apply(
+    null,
+    a.reduce((a, b) => a.concat(b))
+  );
 };
 ```
 
@@ -105,7 +108,7 @@ leetcode: https://leetcode.cn/problems/longest-increasing-subsequence
  * @param {number[]} nums
  * @return {number}
  */
-var lengthOfLIS = function(nums) {
+var lengthOfLIS = function (nums) {
   /** a[i]: 代表数组第 i 序列时最长上升子序列长度 */
   /** a[i] = 如下判断 */
   const a = [];
@@ -116,7 +119,7 @@ var lengthOfLIS = function(nums) {
       if (nums[i] > nums[j]) a[i] = Math.max(a[j] + 1, a[i]);
     }
   }
-  return Math.max.apply(null, a)
+  return Math.max.apply(null, a);
 };
 ```
 
@@ -129,7 +132,7 @@ leetcode: https://leetcode.cn/problems/triangle
  * @param {number[][]} triangle
  * @return {number}
  */
-var minimumTotal = function(triangle) {
+var minimumTotal = function (triangle) {
   /** a[i][j]: 代表某个位置从底部到当前位置最小路径和 */
   /** a[i - 1][j] = Math.min(a[i][j], a[i][j + 1]) + triangle[i - 1][j]; */
   const a = [];
@@ -160,7 +163,7 @@ var minDistance = function (word1, word2) {
   /** a[i][j] = Math.min(a[i - 1][j], a[i][j - 1], a[i - 1][j - 1]) + 1 */
   const a = [];
   for (let i = 0, len = word1.length + 1; i < len; i += 1) {
-    if(!a[i]) a[i] = [];
+    if (!a[i]) a[i] = [];
     for (let j = 0, len2 = word2.length + 1; j < len2; j += 1) {
       if (i === 0) {
         /** j 步添加操作 */
@@ -185,5 +188,5 @@ var minDistance = function (word1, word2) {
 
 ## 参考资料
 
-- [数据结构与算法JavaScript描述](https://book.douban.com/subject/25945449/)
+- [数据结构与算法 JavaScript 描述](https://book.douban.com/subject/25945449/)
 - [极客时间算法课程](https://time.geekbang.org/course/intro/100019701)
