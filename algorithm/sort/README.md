@@ -5,114 +5,87 @@
 ## 冒泡排序
 
 ```js
-for (var i = 0; i < arr.length - 1; i++) {
-  for (var j = i + 1; j < arr.length; j++) {
-    if (arr[i] > arr[j]) {
-      var tmp = arr[i];
-      arr[i] = arr[j];
-      arr[j] = tmp;
+function bubbleSort(arr) {
+  for (let i = 0, len = arr.length - 1; i < len; i += 1) {
+    for (let j = i + 1; j < len; j += 1) {
+      if (arr[i] > arr[j]) {
+        const temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+      }
     }
   }
+  return arr;
 }
 ```
 
 ## 选择排序
 
 ```js
-for (var i = 0; i < arr.length - 1; i++) {
-  var min = i;
-  for (var j = i + 1; j < arr.length; j++) {
-    if (arr[i] > arr[j]) {
-      min = j;
+function selectionSort(arr) {
+  for (let i = 0, len = arr.length; i < len - 1; i += 1) {
+    let min = i;
+    for (let j = i + 1; j < len; j += 1) {
+      if (arr[min] > arr[j]) min = j;
     }
+    const temp = arr[i];
+    arr[i] = arr[min];
+    arr[min] = temp;
   }
-  var tmp = arr[i];
-  arr[i] = arr[j];
-  arr[j] = tmp;
 }
 ```
 
 ## 插入排序
 
 ```js
-for (var i = 1; i < arr.length; i++) {
-  var min = arr[i];
-  // == 整体往前移
-  for (var j = i; arr[j - 1] > min && j > 0; j--) {
-    arr[j] = arr[j - 1];
+function insertSort(arr) {
+  for (let i = 1, len = arr.length; i < len; i += 1) {
+    const min = arr[i];
+    let j = i;
+    for (; j - 1 >= 0 && arr[j - 1] > min; j -= 1) {
+      arr[j] = arr[j - 1];
+    }
+    arr[j] = min;
   }
-  // == 最后的位置放入最小的
-  arr[j] = min;
 }
 ```
 
 ## 希尔排序
 
 ```js
-arr4 = [6, 5, 2, 3, 1, 4, 7];
-var g = [5, 3, 1];
-for (var k = 0; k < g.length; k++) {
-  for (var i = g[k]; i < arr4.length; i++) {
-    var min = arr4[i];
-    for (var j = i; arr4[j - g[k]] > min && j >= g[k]; j = j - g[k]) {
-      arr4[j] = arr4[j - g[k]];
+function shellSort(arr) {
+  for (
+    let gap = Math.floor(arr.length / 2);
+    gap > 0;
+    gap = Math.floor(gap / 2)
+  ) {
+    for (let i = gap, len = arr.length; i < len; i += gap) {
+      const min = arr[i];
+      let j = i;
+      for (; j - gap >= 0 && arr[j - gap] > min; j -= gap) {
+        arr[j] = arr[j - gap];
+      }
+      arr[j] = min;
     }
-    arr4[j] = min;
   }
+  return arr;
 }
-console.log(arr4);
 ```
 
 ## 快速排序
 
 ```js
-function qSort(list) {
-  if (list.length <= 1) {
-    return list;
+function qSort(arr) {
+  const basic = arr[0];
+  const lesser = [];
+  const greater = [];
+  for (let i = 0, len = arr.length; i < len; i += 1) {
+    if (arr[i] < basic) lesser.push(arr[i]);
+    else if (arr[i] > basic) greater.push(arr[i]);
   }
-  var lesser = [];
-  var greater = [];
-  // == 基准值
-  var pivot = list[0];
-  for (var i = 1; i < list.length; i++) {
-    if (list[i] < pivot) {
-      lesser.push(list[i]);
-    } else {
-      greater.push(list[i]);
-    }
-  }
-  return qSort(lesser).concat(pivot, qSort(greater));
+  if (!lesser.length) return arr;
+  return qSort(lesser.concat(basic, greater));
 }
-var arr5 = [6, 5, 2, 3, 1, 4, 7];
-console.log(qSort(arr5));
-```
-
-## 快排求数组最大前 k 个数
-
-- leetcode: https://leetcode.cn/problems/kth-largest-element-in-a-stream
-
-```js
-function qSort(list, k) {
-  if (list.length <= 1) return list;
-  let p = list[0];
-  let lesser = [];
-  let greater = [];
-  for (let i = 1, len = list.length; i < len; i++) {
-    if (list[i] < p) {
-      lesser.push(list[i]);
-    } else {
-      greater.push(list[i]);
-    }
-  }
-  if (greater.length === k) {
-    return greater;
-  } else if (greater.length > k) {
-    return qSort(greater, k);
-  } else {
-    return qSort(greater, k).concat(p, qSort(lesser, k));
-  }
-}
-console.log(qSort([1, 2, 3, 4, 5, 6, 7], 3));
 ```
 
 ## 参考资料
