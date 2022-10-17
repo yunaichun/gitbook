@@ -12,15 +12,12 @@
  * @return {number}
  */
 var climbStairs = function (n) {
-  /** a[i]: 代表爬第 i 层楼所需要的步数 */
-  /** a[i] = a[i - 1] + a[i - 2] */
-  const a = [];
-  a[0] = 1;
-  a[1] = 2;
+  /** dp[i] 代表爬第 i + 1 层楼所需要的步数 */
+  const dp = [1, 2];
   for (let i = 2; i < n; i += 1) {
-    a[i] = a[i - 1] + a[i - 2];
+    dp[i] = dp[i - 1] + dp[i - 2];
   }
-  return a[n - 1];
+  return dp[n - 1];
 };
 ```
 
@@ -35,19 +32,17 @@ var climbStairs = function (n) {
  * @return {number}
  */
 var coinChange = function (coins, amount) {
-  /** a[i]: 代表爬凑 i 钱所需要的最少的硬币个数 */
-  /** a[i] = Math.min(a[i], a[i - coins[j]] + 1) */
-  const a = [];
-  a[0] = 0;
-  for (let i = 1; i < amount + 1; i++) {
-    for (let j = 0; j < coins.length; j++) {
-      if (!a[i]) a[i] = Infinity;
-      if (i >= coins[j]) {
-        a[i] = Math.min(a[i], a[i - coins[j]] + 1);
+  /** a[i] 代表兑换 i 数量需要的最少的硬币个数 */
+  const dp = [0];
+  for (let i = 1; i <= amount; i += 1) {
+    if (!dp[i]) dp[i] = Infinity;
+    for (let j = 0, len = coins.length; j < len; j += 1) {
+      if (i - coins[j] >= 0) {
+        dp[i] = Math.min(dp[i - coins[j]] + 1, dp[i]);
       }
     }
   }
-  return a[amount] === Infinity ? -1 : a[amount];
+  return dp[amount] === Infinity ? -1 : dp[amount];
 };
 ```
 
@@ -61,14 +56,12 @@ var coinChange = function (coins, amount) {
  * @return {number}
  */
 var maxSubArray = function (nums) {
-  /** a[i]: 代表数组第 i 序号最大和的连续子数组 */
-  /** a[i] = Math.max(a[i - 1] + nums[i], a[i - 1]) */
-  const a = [];
-  a[0] = nums[0];
+  /** dp[i] 代表【以数组第 i + 1 个数结尾的最大连续子数组】的最大和 */
+  const dp = [nums[0]];
   for (let i = 1, len = nums.length; i < len; i += 1) {
-    a[i] = Math.max(a[i - 1] + nums[i], nums[i]);
+    dp[i] = Math.max(dp[i - 1] + nums[i], nums[i]);
   }
-  return Math.max.apply(null, a);
+  return Math.max.apply(null, dp);
 };
 ```
 
@@ -82,19 +75,18 @@ var maxSubArray = function (nums) {
  * @return {number}
  */
 var maxProduct = function (nums) {
-  /** a[i]: 代表数组第 i 序号最大积的连续子数组最小和最大 */
-  /** a[i][0] = Math.min(a[i - 1][0] * nums[i], a[i - 1][1] * nums[i], nums[i]); */
-  /** a[i][1] = Math.max(a[i - 1][0] * nums[i], a[i - 1][1] * nums[i], nums[i]); */
-  const a = [];
-  a[0] = [[nums[0], nums[0]]];
+  /** dp[i][0] 代表【以数组第 i + 1 个数结尾的最大连续子数组】乘积最大值 */
+  /** dp[i][1] 代表【以数组第 i + 1 个数结尾的最大连续子数组】乘积最小值 */
+  const dp = [[nums[0], nums[0]]];
   for (let i = 1, len = nums.length; i < len; i += 1) {
-    if (!a[i]) a[i] = [];
-    a[i][0] = Math.min(a[i - 1][0] * nums[i], a[i - 1][1] * nums[i], nums[i]);
-    a[i][1] = Math.max(a[i - 1][0] * nums[i], a[i - 1][1] * nums[i], nums[i]);
+    dp[i] = [
+      Math.max(dp[i - 1][0] * nums[i], dp[i - 1][1] * nums[i], nums[i]),
+      Math.min(dp[i - 1][0] * nums[i], dp[i - 1][1] * nums[i], nums[i]),
+    ];
   }
   return Math.max.apply(
     null,
-    a.reduce((a, b) => a.concat(b))
+    dp.map((product) => product[0])
   );
 };
 ```
@@ -109,17 +101,15 @@ var maxProduct = function (nums) {
  * @return {number}
  */
 var lengthOfLIS = function (nums) {
-  /** a[i]: 代表数组第 i 序列时最长上升子序列长度 */
-  /** a[i] = 如下判断 */
-  const a = [];
-  a[0] = 1;
-  for (let i = 1, len = nums.length; i < len; i += 1) {
-    if (!a[i]) a[i] = a[0];
-    for (j = 0; j < i; j += 1) {
-      if (nums[i] > nums[j]) a[i] = Math.max(a[j] + 1, a[i]);
+  /** dp[i] 代表【以数组第 i + 1 个数结尾的最长严格递增子序列】的长度 */
+  const dp = [1];
+  for (let i = 0, len = nums.length; i < len; i += 1) {
+    if (!dp[i]) dp[i] = 1;
+    for (let j = 0; j < i; j += 1) {
+      if (nums[i] > nums[j]) dp[i] = Math.max(dp[j] + 1, dp[i]);
     }
   }
-  return Math.max.apply(null, a);
+  return Math.max.apply(null, dp);
 };
 ```
 
@@ -133,18 +123,17 @@ var lengthOfLIS = function (nums) {
  * @return {number}
  */
 var minimumTotal = function (triangle) {
-  /** a[i][j]: 代表某个位置从底部到当前位置最小路径和 */
-  /** a[i - 1][j] = Math.min(a[i][j], a[i][j + 1]) + triangle[i - 1][j]; */
-  const a = [];
-  const len = triangle.length - 1;
-  a[len] = triangle[len];
-  for (let i = len; i > 0; i -= 1) {
-    if (!a[i - 1]) a[i - 1] = [];
-    for (j = 0, len2 = triangle[i].length; j < len2; j += 1) {
-      a[i - 1][j] = Math.min(a[i][j], a[i][j + 1]) + triangle[i - 1][j];
+  /** dp[i][j] 代表从底部到坐标 (i, j) 最小路径和 */
+  const dp = [];
+  dp[triangle.length - 1] = triangle[triangle.length - 1];
+  for (i = triangle.length - 2; i >= 0; i -= 1) {
+    if (!dp[i]) dp[i] = [];
+    for (let j = 0, len = triangle[i].length; j < len; j += 1) {
+      console.log(i, j);
+      dp[i][j] = Math.min(dp[i + 1][j], dp[i + 1][j + 1]) + triangle[i][j];
     }
   }
-  return a[0][0];
+  return dp[0][0];
 };
 ```
 
@@ -159,30 +148,28 @@ var minimumTotal = function (triangle) {
  * @return {number}
  */
 var minDistance = function (word1, word2) {
-  /** a[i][j]: 代表 word1 的第 i 个单词到 word2 的第 j 个单词所使用的最少操作数 */
-  /** a[i][j] = Math.min(a[i - 1][j], a[i][j - 1], a[i - 1][j - 1]) + 1 */
-  const a = [];
-  for (let i = 0, len = word1.length + 1; i < len; i += 1) {
-    if (!a[i]) a[i] = [];
-    for (let j = 0, len2 = word2.length + 1; j < len2; j += 1) {
+  /** dp[i][j] 代表 word1 第 i 个单词到 word2 第 j 个单词 变换所使用的最少操作数 */
+  const dp = [];
+  for (let i = 0, len1 = word1.length; i <= len1; i += 1) {
+    if (!dp[i]) dp[i] = [];
+    for (let j = 0, len2 = word2.length; j <= len2; j += 1) {
       if (i === 0) {
-        /** j 步添加操作 */
-        a[i][j] = j;
+        dp[i][j] = j;
       } else if (j === 0) {
-        /** i 步删除操作 */
-        a[i][j] = i;
+        dp[i][j] = i;
       } else {
-        /** 最后 1 个单词一样的话 */
         if (word1[i - 1] === word2[j - 1]) {
-          a[i][j] = a[i - 1][j - 1];
+          dp[i][j] = dp[i - 1][j - 1];
         } else {
-          a[i][j] = Math.min(a[i - 1][j], a[i][j - 1], a[i - 1][j - 1]) + 1;
+          /** dp[i - 1][j]: 增加 1 个单词到 word1 */
+          /** dp[i][j - 1]: 增加 1 个单词到 word2 (等价于删除 word1 的一个单词) */
+          /** dp[i - 1][j - 1]: 修改 word1 的第 i 个字符和 word2 的第 j 个字符一样 */
+          dp[i][j] = Math.min(dp[i - 1][j], dp[i][j - 1], dp[i - 1][j - 1]) + 1;
         }
       }
     }
   }
-
-  return a[word1.length][word2.length];
+  return dp[word1.length][word2.length];
 };
 ```
 
@@ -276,12 +263,12 @@ var maxProfit = function (k, prices) {
   /** dp[i][j][1]: 第 i + 1 天 买卖 j 次, 持有股票的最大收益 */
   const dp = [];
   for (let i = 0, len = prices.length; i < len; i += 1) {
-    dp[i] = [];
+    if (!dp[i]) dp[i] = [];
     for (let j = 0; j <= k; j += 1) {
       if (i === 0) {
         dp[i][j] = [0, -prices[i]];
       } else if (j === 0) {
-        dp[i][j] = [0, Math.max(dp[i - 1][0][1], dp[i - 1][0][0] - prices[i])];
+        dp[i][j] = [0, Math.max(dp[i - 1][j][1], dp[i - 1][j][0] - prices[i])];
       } else {
         dp[i][j] = [
           Math.max(dp[i - 1][j][0], dp[i - 1][j - 1][1] + prices[i]),
