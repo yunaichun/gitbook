@@ -76,6 +76,7 @@ function shellSort(arr) {
 
 ```js
 function qSort(arr) {
+  if (arr.length <= 1) return arr;
   const basic = arr[0];
   const lesser = [];
   const greater = [];
@@ -83,8 +84,7 @@ function qSort(arr) {
     if (arr[i] < basic) lesser.push(arr[i]);
     else if (arr[i] > basic) greater.push(arr[i]);
   }
-  if (!lesser.length) return arr;
-  return qSort(lesser.concat(basic, greater));
+  return qSort(lesser).concat(basic, qSort(greater));
 }
 ```
 
