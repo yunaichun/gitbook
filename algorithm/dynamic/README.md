@@ -186,6 +186,167 @@ var minDistance = function (word1, word2) {
 };
 ```
 
+## 股票系列
+
+#### 买卖 1 次
+
+- leetcode: https://leetcode.cn/problems/best-time-to-buy-and-sell-stock/
+
+```js
+/**
+ * @param {number[]} prices
+ * @return {number}
+ */
+var maxProfit = function (prices) {
+  let max = 0;
+  /** dp 代表第 i + 1 天前的最低点 */
+  const dp = [prices[0]];
+  for (let i = 1, len = prices.length; i < len; i += 1) {
+    dp[i] = Math.min(dp[i - 1], prices[i]);
+    max = prices[i] - dp[i];
+  }
+  return max;
+};
+```
+
+#### 买卖无数次
+
+- leetcode: https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-ii/
+
+```js
+/**
+ * @param {number[]} prices
+ * @return {number}
+ */
+var maxProfit = function (prices) {
+  const dp = [[0, -prices[0]]];
+  /** dp[i][0] 代表第 i + 1 天 【不持有股票】 最大收益 */
+  /** dp[i][1] 代表第 i + 1 天 【持有股票】 最大收益 */
+  for (let i = 1, len = prices.length; i < len; i += 1) {
+    dp[i] = [
+      Math.max(dp[i - 1][0], dp[i - 1][1] + prices[i]),
+      Math.max(dp[i - 1][1], dp[i - 1][0] - prices[i]),
+    ];
+  }
+  return dp[prices.length - 1][0];
+};
+```
+
+#### 买卖 2 次
+
+- leetcode: https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-iii/
+
+```js
+/**
+ * @param {number[]} prices
+ * @return {number}
+ */
+var maxProfit = function (prices) {
+  const dp = [[0, -prices[0], 0, -prices[0], 0]];
+  /** dp[i][0] 代表第 i + 1 天 【不做任何操作】 最大收益 */
+  /** dp[i][1] 代表第 i + 1 天状态为 【第一次买入】 最大收益 */
+  /** dp[i][2] 代表第 i + 1 天状态为 【第一次卖出】 最大收益 */
+  /** dp[i][3] 代表第 i + 1 天状态为 【第二次买入】 最大收益 */
+  /** dp[i][4] 代表第 i + 1 天状态为 【第二次卖出】 最大收益 */
+  for (let i = 1, len = prices.length; i < len; i += 1) {
+    dp[i] = [
+      dp[i - 1][0],
+      Math.max(dp[i - 1][0] - prices[i], dp[i - 1][1]),
+      Math.max(dp[i - 1][1] + prices[i], dp[i - 1][2]),
+      Math.max(dp[i - 1][2] - prices[i], dp[i - 1][3]),
+      Math.max(dp[i - 1][3] + prices[i], dp[i - 1][4]),
+    ];
+  }
+  return dp[prices.length - 1][4];
+};
+```
+
+#### 买卖 k 次
+
+- leetcode: https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-iv/
+
+```js
+/**
+ * @param {number} k
+ * @param {number[]} prices
+ * @return {number}
+ */
+var maxProfit = function (k, prices) {
+  /** dp[i][j][0]: 第 i + 1 天 买卖 j 次, 不持有股票的最大收益 */
+  /** dp[i][j][1]: 第 i + 1 天 买卖 j 次, 持有股票的最大收益 */
+  const dp = [];
+  for (let i = 0, len = prices.length; i < len; i += 1) {
+    dp[i] = [];
+    for (let j = 0; j <= k; j += 1) {
+      if (i === 0) {
+        dp[i][j] = [0, -prices[i]];
+      } else if (j === 0) {
+        dp[i][j] = [0, Math.max(dp[i - 1][0][1], dp[i - 1][0][0] - prices[i])];
+      } else {
+        dp[i][j] = [
+          Math.max(dp[i - 1][j][0], dp[i - 1][j - 1][1] + prices[i]),
+          Math.max(dp[i - 1][j][1], dp[i - 1][j][0] - prices[i]),
+        ];
+      }
+    }
+  }
+
+  return Math.max.apply(
+    null,
+    dp[prices.length - 1].map((kProfit) => kProfit[0])
+  );
+};
+```
+
+#### 冷冻 1 天
+
+- leetcode: https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-with-cooldown/
+
+```js
+/**
+ * @param {number[]} prices
+ * @return {number}
+ */
+var maxProfit = function (prices) {
+  const dp = [[0, -prices[0]]];
+  /** dp[i][0] 代表第 i 天 【不持有股票】 最大收益 */
+  /** dp[i][1] 代表第 i 天 【持有股票】 最大收益 */
+  for (let i = 1, len = prices.length; i < len; i += 1) {
+    dp[i] = [
+      Math.max(dp[i - 1][0], dp[i - 1][1] + prices[i]),
+      /** 今天持有股票 = 昨天持有股票 + (昨天不持有股票 - prices[i]) */
+      /** 昨天不持有股票 = 前天不持有股票 + 前天持有股票&昨天卖出=>今天无法买入(忽略掉) */
+      Math.max(dp[i - 1][1], (i - 2 > 0 ? dp[i - 2][0] : 0) - prices[i]),
+    ];
+  }
+  return dp[prices.length - 1][0];
+};
+```
+
+#### 含有手续费
+
+- leetcode: https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/
+
+```js
+/**
+ * @param {number[]} prices
+ * @param {number} fee
+ * @return {number}
+ */
+var maxProfit = function (prices, fee) {
+  const dp = [[0, -prices[0]]];
+  /** dp[i][0] 代表第 i + 1 天 【不持有股票】 最大收益 */
+  /** dp[i][1] 代表第 i + 1 天 【持有股票】 最大收益 */
+  for (let i = 1, len = prices.length; i < len; i += 1) {
+    dp[i] = [
+      Math.max(dp[i - 1][0], dp[i - 1][1] + prices[i] - fee),
+      Math.max(dp[i - 1][1], dp[i - 1][0] - prices[i]),
+    ];
+  }
+  return dp[prices.length - 1][0];
+};
+```
+
 ## 参考资料
 
 - [数据结构与算法 JavaScript 描述](https://book.douban.com/subject/25945449/)
