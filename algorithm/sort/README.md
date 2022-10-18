@@ -75,7 +75,7 @@ function shellSort(arr) {
 ## 快速排序
 
 ```js
-function qSort(arr) {
+function quickSort(arr) {
   if (arr.length <= 1) return arr;
   const basic = arr[0];
   const lesser = [];
