@@ -85,7 +85,7 @@ function quickSort(arr) {
     if (arr[i] < basic) lesser.push(arr[i]);
     else if (arr[i] > basic) greater.push(arr[i]);
   }
-  return qSort(lesser).concat(basic, qSort(greater));
+  return quickSort(lesser).concat(basic, quickSort(greater));
 }
 ```
 
