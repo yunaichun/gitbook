@@ -6,7 +6,7 @@
 
 ```js
 function bubbleSort(arr) {
-  for (let i = 0, len = arr.length - 1; i < len; i += 1) {
+  for (let i = 0, len = arr.length; i < len - 1; i += 1) {
     for (let j = i + 1; j < len; j += 1) {
       if (arr[i] > arr[j]) {
         const temp = arr[i];
@@ -26,12 +26,13 @@ function selectionSort(arr) {
   for (let i = 0, len = arr.length; i < len - 1; i += 1) {
     let min = i;
     for (let j = i + 1; j < len; j += 1) {
-      if (arr[min] > arr[j]) min = j;
+      if (arr[j] < arr[min]) min = j;
     }
     const temp = arr[i];
     arr[i] = arr[min];
     arr[min] = temp;
   }
+  return arr;
 }
 ```
 
@@ -41,12 +42,14 @@ function selectionSort(arr) {
 function insertSort(arr) {
   for (let i = 1, len = arr.length; i < len; i += 1) {
     const min = arr[i];
+    /** 确保从 i 位置开始往后移 */
     let j = i;
     for (; j - 1 >= 0 && arr[j - 1] > min; j -= 1) {
       arr[j] = arr[j - 1];
     }
     arr[j] = min;
   }
+  return arr;
 }
 ```
 
@@ -54,13 +57,11 @@ function insertSort(arr) {
 
 ```js
 function shellSort(arr) {
-  for (
-    let gap = Math.floor(arr.length / 2);
-    gap > 0;
-    gap = Math.floor(gap / 2)
-  ) {
-    for (let i = gap, len = arr.length; i < len; i += gap) {
+  let gap = Math.floor(arr.length / 2);
+  for (; gap > 0; gap = Math.floor(gap / 2)) {
+    for (let i = gap, len = arr.length; i < len; i += 1) {
       const min = arr[i];
+      /** 确保从 i 位置开始往后移 */
       let j = i;
       for (; j - gap >= 0 && arr[j - gap] > min; j -= gap) {
         arr[j] = arr[j - gap];
