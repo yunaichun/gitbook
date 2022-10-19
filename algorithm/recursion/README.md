@@ -71,71 +71,6 @@ var myPow = function (x, n) {
 };
 ```
 
-## 单词搜索
-
-- leetcode: https://leetcode.cn/problems/word-search
-- leetcode: https://leetcode.cn/problems/word-search-ii
-
-```js
-/** 上下左右 */
-const dx = [-1, 1, 0, 0];
-const dy = [0, 0, -1, 1];
-
-/**
- * @param {character[][]} board
- * @param {string} word
- * @return {boolean}
- */
-var exist = function (board, word) {
-  const results = findWords(board, [word]);
-  return results.length;
-};
-
-/**
- * @param {character[][]} board
- * @param {string[]} words
- * @return {string[]}
- */
-function findWords(board, words) {
-  const results = [];
-
-  if (!board.length || !board[0].length) return [];
-  const maxLength = board.length * board[0].length;
-  words = words.filter((word) => word.length <= maxLength);
-  if (!words.length) return [];
-
-  for (let i = 0, len = board.length; i < len; i += 1) {
-    for (let j = 0, len2 = board[i].length; j < len2; j += 1) {
-      _helper(board, words, i, j, [{ x: i, y: j }], "", results);
-    }
-  }
-
-  return results;
-}
-
-function _helper(board, words, row, column, visited, current, results) {
-  current += board[row][column];
-
-  const more = words.filter((word) => word.indexOf(current) >= 0);
-  if (more.length === 0) return;
-  if (words.indexOf(current) >= 0 && results.indexOf(current) < 0) {
-    results.push(current);
-    if (more.length === 1) return;
-  }
-
-  let m = board.length;
-  let n = board[0].length;
-  for (let i = 0; i < 4; i += 1) {
-    let x = row + dx[i];
-    let y = column + dy[i];
-    const inVisited = visited.find((i) => i.x === x && i.y === y);
-    const inBoard = x >= 0 && x < m && y >= 0 && y < n;
-    if (!inVisited && inBoard)
-      _helper(board, words, x, y, visited.concat({ x, y }), current, results);
-  }
-}
-```
-
 ## 岛屿个数
 
 - leetcode: https://leetcode.cn/problems/number-of-islands/
@@ -159,7 +94,6 @@ var numIslands = function (grid) {
       }
     }
   }
-  console.log(grid);
   return sum;
 };
 
@@ -169,14 +103,81 @@ var _helper = function (grid, row, column, visited) {
   for (let i = 0; i < 4; i++) {
     let x = row + dx[i];
     let y = column + dy[i];
-    const inVisited = visited.find((i) => i.x === x && i.y === y);
-    const inBoard = x >= 0 && x < m && y >= 0 && y < n;
-    if (!inVisited && inBoard) {
+    const inGrid = x >= 0 && x < m && y >= 0 && y < n;
+    const isVisited = visited.find((d) => d.x === x && d.y === y);
+    if (inGrid && !isVisited) {
       if (Number(grid[x][y]) === 1) {
-        /** 开始消 1 附近（上下左右）的 1 */
         grid[x][y] = 0;
         _helper(grid, x, y, visited.concat({ x, y }));
       }
+    }
+  }
+};
+```
+
+## 单词搜索
+
+- leetcode: https://leetcode.cn/problems/word-search
+- leetcode: https://leetcode.cn/problems/word-search-ii
+
+```js
+/** 上下左右 */
+const dx = [-1, 1, 0, 0];
+const dy = [0, 0, -1, 1];
+
+/**
+ * @param {character[][]} board
+ * @param {string[]} words
+ * @return {string[]}
+ */
+function findWords(board, words) {
+  const results = [];
+  for (let i = 0, len = words.length; i < len; i += 1) {
+    const isExist = exist(board, words[i]);
+    if (isExist) results.push(words[i]);
+  }
+  return results;
+}
+/**
+ * @param {character[][]} board
+ * @param {string} word
+ * @return {boolean}
+ */
+var exist = function (board, word) {
+  const results = [];
+  for (let i = 0, row = board.length; i < row; i += 1) {
+    for (let j = 0, column = board[i].length; j < column; j += 1) {
+      _helper(board, word, i, j, board[i][j], results, [{ x: i, y: j }]);
+    }
+  }
+  return results.length;
+};
+
+var _helper = function (board, word, row, column, cur, results, visited) {
+  if (word.indexOf(cur) !== 0) return;
+  if (cur === word) {
+    results.push(cur);
+    return;
+  }
+
+  let m = board.length;
+  let n = board[0].length;
+
+  for (let i = 0; i < 4; i += 1) {
+    let x = row + dx[i];
+    let y = column + dy[i];
+    const isVisited = visited.find((d) => d.x === x && d.y === y);
+    const inBoard = x >= 0 && x < m && y >= 0 && y < n;
+    if (inBoard && !isVisited) {
+      _helper(
+        board,
+        word,
+        x,
+        y,
+        cur + board[x][y],
+        results,
+        visited.concat({ x, y })
+      );
     }
   }
 };
