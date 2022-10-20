@@ -153,7 +153,6 @@
   - [二叉树](./algorithm/binary-tree/README.md)
   - [广度优先和深度优先](./algorithm/first-search/README.md)
   - [递归分治](./algorithm/recursion/README.md)
-  - [剪枝](./algorithm/pruning/README.md)
   - [位运算](./algorithm/bitwise/README.md)
   - [动态规划](./algorithm/dynamic/README.md)
   - [LRU Cache](./algorithm/lru/README.md)
