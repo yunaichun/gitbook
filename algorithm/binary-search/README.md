@@ -42,6 +42,8 @@ var search = function (nums, target) {
     else if (target > nums[mid]) min = mid + 1;
   }
 };
+// nums = [1, 3] target = 3 => min = mid + 1; => min = max = 1
+// nums = [1, 3] target = 1 => max = mid; => min = max = 0
 ```
 
 ## 参考资料
