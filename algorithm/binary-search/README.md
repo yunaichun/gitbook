@@ -23,6 +23,27 @@ var mySqrt = function (x) {
 };
 ```
 
+- https://leetcode.cn/problems/binary-search/submissions/
+
+```js
+/**
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number}
+ */
+var search = function (nums, target) {
+  const len = nums.length;
+  let [min, max] = [0, len - 1];
+  while (true) {
+    if (max === min && nums[min] !== target) return -1;
+    const mid = Math.floor((min + max) / 2);
+    if (target === nums[mid]) return mid;
+    else if (target < nums[mid]) max = mid;
+    else if (target > nums[mid]) min = mid + 1;
+  }
+};
+```
+
 ## 参考资料
 
 - [数据结构与算法 JavaScript 描述](https://book.douban.com/subject/25945449/)
