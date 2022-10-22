@@ -109,9 +109,9 @@ var swapPairs = function (head) {
   // 1 -> 2 -> 3 -> 4
   // 1、0(cur) -> 2 -> 1
   // 2、0 -> 2 -> 1(cur) -> 4 -> 3
-  const dummyHead = new ListNode(0);
-  dummyHead.next = head;
-  let cur = dummyHead;
+  const dynamicHead = new ListNode(0);
+  dynamicHead.next = head;
+  let cur = dynamicHead;
   while (cur.next && cur.next.next) {
     /** 控制循环: 下一个节点 */
     const node1 = cur.next; // 1
@@ -124,7 +124,7 @@ var swapPairs = function (head) {
     /** 控制循环: 下一个节点 */
     cur = node1;
   }
-  return dummyHead.next;
+  return dynamicHead.next;
 };
 ```
 
