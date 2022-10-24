@@ -35,10 +35,6 @@
 - leetcode: https://leetcode.cn/problems/number-of-1-bits
 
 ```js
-/**
- * @param {number} n - a positive integer
- * @return {number}
- */
 var hammingWeight = function (n) {
   let count = 0;
   while (n) {
@@ -54,10 +50,6 @@ var hammingWeight = function (n) {
 - leetcode: https://leetcode.cn/problems/power-of-two
 
 ```js
-/**
- * @param {number} n
- * @return {boolean}
- */
 var isPowerOfTwo = function (n) {
   /** 仅有1个1: 清除最低位的1为0即可 */
   return n > 0 && !(n & (n - 1));
@@ -69,10 +61,6 @@ var isPowerOfTwo = function (n) {
 - leetcode: https://leetcode.cn/problems/counting-bits
 
 ```js
-/**
- * @param {number} n
- * @return {number[]}
- */
 var countBits = function (n) {
   const a = [0];
   for (let i = 1; i <= n; i += 1) {

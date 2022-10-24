@@ -7,10 +7,6 @@
 - leetcode: https://leetcode.cn/problems/validate-binary-search-tree
 
 ```js
-/**
- * @param {TreeNode} root
- * @return {boolean}
- */
 var isValidBST = function (root) {
   return _helper(root, -Infinity, Infinity);
 };
@@ -29,10 +25,6 @@ function _helper(root, lower, higher) {
 - leetcode: https://leetcode.cn/problems/generate-parentheses
 
 ```js
-/**
- * @param {number} n
- * @return {string[]}
- */
 var generateParenthesis = function (n) {
   return _helper(0, 0, n, "", []);
 };
@@ -57,11 +49,6 @@ function _helper(leftUsed, rightUsed, n, current, result) {
 - leetcode: https://leetcode.cn/problems/powx-n
 
 ```js
-/**
- * @param {number} x
- * @param {number} n
- * @return {number}
- */
 var myPow = function (x, n) {
   if (n < 0) return 1 / myPow(x, -n);
   if (n === 0) return 1;
@@ -80,10 +67,6 @@ var myPow = function (x, n) {
 const dx = [-1, 1, 0, 0];
 const dy = [0, 0, -1, 1];
 
-/**
- * @param {character[][]} grid
- * @return {number}
- */
 var numIslands = function (grid) {
   let sum = 0;
   for (let i = 0, row = grid.length; i < row; i += 1) {
@@ -125,11 +108,6 @@ var _helper = function (grid, row, column, visited) {
 const dx = [-1, 1, 0, 0];
 const dy = [0, 0, -1, 1];
 
-/**
- * @param {character[][]} board
- * @param {string[]} words
- * @return {string[]}
- */
 function findWords(board, words) {
   const results = [];
   for (let i = 0, len = words.length; i < len; i += 1) {
@@ -138,11 +116,7 @@ function findWords(board, words) {
   }
   return results;
 }
-/**
- * @param {character[][]} board
- * @param {string} word
- * @return {boolean}
- */
+
 var exist = function (board, word) {
   const results = [];
   for (let i = 0, row = board.length; i < row; i += 1) {
@@ -189,10 +163,6 @@ var _helper = function (board, word, row, column, cur, results, visited) {
 - leetcode-37: https://leetcode.cn/problems/sudoku-solver
 
 ```js
-/**
- * @param {character[][]} board
- * @return {boolean}
- */
 var isValidSudoku = function (board) {
   let res = _helper(board);
   return res;

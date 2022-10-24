@@ -7,10 +7,6 @@
 - leetcode: https://leetcode.cn/problems/maximum-depth-of-binary-tree
 
 ```js
-/**
- * @param {TreeNode} root
- * @return {number}
- */
 var maxDepth = function (root) {
   return _dfs(root);
 };
@@ -47,10 +43,6 @@ function _bfs(root) {
 - leetcode: https://leetcode.cn/problems/minimum-depth-of-binary-tree
 
 ```js
-/**
- * @param {TreeNode} root
- * @return {number}
- */
 var minDepth = function (root) {
   return _bfs(root);
 };
@@ -90,10 +82,6 @@ function _bfs(root) {
 - leetcode: https://leetcode.cn/problems/binary-tree-level-order-traversal
 
 ```js
-/**
- * @param {TreeNode} root
- * @return {number[][]}
- */
 var levelOrder = function (root) {
   if (!root) return [];
   const result = _dfs(root, [], 0);

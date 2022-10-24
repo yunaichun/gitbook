@@ -7,10 +7,6 @@
 - leetcode: https://leetcode.cn/problems/sqrtx/
 
 ```js
-/**
- * @param {number} x
- * @return {number}
- */
 var mySqrt = function (x) {
   let [min, max] = [0, x];
   while (true) {
@@ -26,11 +22,6 @@ var mySqrt = function (x) {
 - https://leetcode.cn/problems/binary-search/submissions/
 
 ```js
-/**
- * @param {number[]} nums
- * @param {number} target
- * @return {number}
- */
 var search = function (nums, target) {
   const len = nums.length;
   let [min, max] = [0, len - 1];

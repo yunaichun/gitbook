@@ -7,9 +7,6 @@
 - leetcode: https://leetcode.cn/problems/lru-cache
 
 ```js
-/**
- * @param {number} capacity
- */
 var LRUCache = function (capacity) {
   this.capacity = capacity;
   this.map = new Map();
@@ -108,10 +105,6 @@ var set = new Set(arr); // Set(3) {1, 2, 3}
 - https://leetcode.com/problems/majority-element
 
 ```js
-/**
- * @param {number[]} nums
- * @return {number}
- */
 var majorityElement = function (nums) {
   const map = new Map();
   let [maxCount, maxNum] = [0, null];

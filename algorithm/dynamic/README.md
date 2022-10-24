@@ -179,10 +179,6 @@ var minDistance = function (word1, word2) {
 - leetcode: https://leetcode.cn/problems/best-time-to-buy-and-sell-stock/
 
 ```js
-/**
- * @param {number[]} prices
- * @return {number}
- */
 var maxProfit = function (prices) {
   let max = 0;
   /** dp 代表第 i + 1 天前的最低点 */
@@ -200,10 +196,6 @@ var maxProfit = function (prices) {
 - leetcode: https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-ii/
 
 ```js
-/**
- * @param {number[]} prices
- * @return {number}
- */
 var maxProfit = function (prices) {
   const dp = [[0, -prices[0]]];
   /** dp[i][0] 代表第 i + 1 天 【不持有股票】 最大收益 */
@@ -223,10 +215,6 @@ var maxProfit = function (prices) {
 - leetcode: https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-iii/
 
 ```js
-/**
- * @param {number[]} prices
- * @return {number}
- */
 var maxProfit = function (prices) {
   const dp = [[0, -prices[0], 0, -prices[0], 0]];
   /** dp[i][0] 代表第 i + 1 天 【不做任何操作】 最大收益 */
@@ -252,11 +240,6 @@ var maxProfit = function (prices) {
 - leetcode: https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-iv/
 
 ```js
-/**
- * @param {number} k
- * @param {number[]} prices
- * @return {number}
- */
 var maxProfit = function (k, prices) {
   /** dp[i][j][0]: 第 i + 1 天 买卖 j 次, 不持有股票的最大收益 */
   /** dp[i][j][1]: 第 i + 1 天 买卖 j 次, 持有股票的最大收益 */
@@ -289,10 +272,6 @@ var maxProfit = function (k, prices) {
 - leetcode: https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-with-cooldown/
 
 ```js
-/**
- * @param {number[]} prices
- * @return {number}
- */
 var maxProfit = function (prices) {
   const dp = [[0, -prices[0]]];
   /** dp[i][0] 代表第 i 天 【不持有股票】 最大收益 */
@@ -314,11 +293,6 @@ var maxProfit = function (prices) {
 - leetcode: https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/
 
 ```js
-/**
- * @param {number[]} prices
- * @param {number} fee
- * @return {number}
- */
 var maxProfit = function (prices, fee) {
   const dp = [[0, -prices[0]]];
   /** dp[i][0] 代表第 i + 1 天 【不持有股票】 最大收益 */

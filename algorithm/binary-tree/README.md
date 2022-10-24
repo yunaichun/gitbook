@@ -113,10 +113,6 @@ console.log(list.preOrder(list.head));
 - leetcode: https://leetcode.cn/problems/validate-binary-search-tree
 
 ```js
-/** 中序
- * @param {TreeNode} root
- * @return {boolean}
- */
 var isValidBST = function (root) {
   const stack = [];
   const inOrder = -Infinity;
@@ -140,12 +136,6 @@ var isValidBST = function (root) {
 - leetcode: https://leetcode.cn/problems/lowest-common-ancestor-of-a-binary-search-tree
 
 ```js
-/**
- * @param {TreeNode} root
- * @param {TreeNode} p
- * @param {TreeNode} q
- * @return {TreeNode}
- */
 var lowestCommonAncestor = function (root, p, q) {
   if (!root) return null;
   if (p.val > root.val && q.val > root.val)
@@ -161,12 +151,6 @@ var lowestCommonAncestor = function (root, p, q) {
 - leetcode: https://leetcode.cn/problems/lowest-common-ancestor-of-a-binary-tree
 
 ```js
-/**
- * @param {TreeNode} root
- * @param {TreeNode} p
- * @param {TreeNode} q
- * @return {TreeNode}
- */
 var lowestCommonAncestor = function (root, p, q) {
   if (!root) return null;
   /** root 为 q 或为 p，代表找到了 */

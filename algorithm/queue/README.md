@@ -5,9 +5,6 @@
 ## js 实现队列
 
 ```js
-/**
- * 先进先出
- */
 function Queue() {
   this.queue = [];
 }
@@ -27,10 +24,6 @@ Queue.prototype.front = function (item) {
 - https://leetcode.cn/problems/kth-largest-element-in-a-stream
 
 ```js
-/**
- * @param {number} k
- * @param {number[]} nums
- */
 var KthLargest = function (k, nums) {
   this.minHeap = nums.sort((a, b) => b - a);
   this.k = k;

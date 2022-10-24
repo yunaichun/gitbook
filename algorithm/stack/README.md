@@ -5,9 +5,6 @@
 ## js 实现栈
 
 ```js
-/**
- * 先进后出
- */
 function Stack() {
   this.stack = [];
 }

@@ -47,40 +47,7 @@ list.removeNode(b);
 console.log(list);
 ```
 
-## 反转链表
-
-- leetcode: https://leetcode.cn/problems/reverse-linked-list
-
-```js
-/**
- * @param {ListNode} head
- * @return {ListNode}
- */
-var reverseList = function (head) {
-  // 1 -> 2 -> 3 -> 4
-  // 1、1(prev) -> null
-  // 2、2(prev) -> 1
-  // 3、3(prev) -> 2 -> 1
-  // 4、4(prev) -> 3 -> 2 -> 1
-  /** 存储的是循环中上一个节点 */
-  let prev = null;
-  let cur = head;
-  while (cur) {
-    /** 控制循环: 下一个节点 */
-    const temp = cur.next;
-
-    cur.next = prev;
-    prev = cur;
-
-    /** 控制循环: 下一个节点 */
-    cur = temp;
-  }
-
-  return prev;
-};
-```
-
-## 链表是否存在环
+## 环形链表
 
 - leetcode: https://leetcode.cn/problems/linked-list-cycle
 
@@ -96,56 +63,237 @@ var hasCycle = function (head) {
 };
 ```
 
-## 链表交换相邻节点
+## 环形链表 II
+
+- https://leetcode.cn/problems/intersection-of-two-linked-lists/
+
+```js
+var getIntersectionNode = function (headA, headB) {
+  const set = new Set();
+  while (headA) {
+    set.add(headA);
+    headA = headA.next;
+  }
+  while (headB) {
+    if (set.has(headB)) return headB;
+    headB = headB.next;
+  }
+  return null;
+};
+```
+
+## 反转链表
+
+- leetcode: https://leetcode.cn/problems/reverse-linked-list
+
+```js
+var reverseList = function (head) {
+  const list = [];
+  while (head) {
+    list.push(head);
+    head = head.next;
+  }
+  const dynamicHead = new ListNode();
+  const n = list.length;
+  let prev = dynamicHead;
+  for (let i = n - 1; i >= 0; i -= 1) {
+    const node = list[i];
+    if (i === n - 1) dynamicHead.next = node;
+    prev.next = node;
+    node.next = null;
+    prev = node;
+  }
+  return dynamicHead.next;
+};
+```
+
+## 反转链表 II
+
+- https://leetcode.cn/problems/reverse-linked-list-ii/
+
+```js
+var reverseBetween = function (head, left, right) {
+  const list = [];
+  while (head) {
+    list.push(head);
+    head = head.next;
+  }
+  /** 中间从 dynamicHead.next 开始 */
+  const dynamicHead = new ListNode();
+  let prev = dynamicHead;
+  for (let i = right - 1; i >= left - 1; i -= 1) {
+    if (i === right - 1) dynamicHead.next = list[i];
+    const node = list[i];
+    prev.next = node;
+    node.next = null;
+    prev = node;
+  }
+
+  /** [list[0], list[left - 2]] [dynamicHead.next, prev] [list[right], list[len - 1]] */
+  if (left >= 2) list[left - 2].next = dynamicHead.next;
+  else list[0] = dynamicHead.next;
+  if (list.length > right) prev.next = list[right];
+
+  return list[0];
+};
+```
+
+## 交换相邻节点
 
 - leetcode: https://leetcode.cn/problems/swap-nodes-in-pairs/
 
 ```js
-/**
- * @param {ListNode} head
- * @return {ListNode}
- */
 var swapPairs = function (head) {
-  const dynamicHead = new ListNode(0);
-  dynamicHead.next = head;
-
-  let headPre = dynamicHead;
+  const list = [];
   while (head) {
-    let tail = headPre;
-    /** 1、判断是否包含 2 个元素 */
-    for (let i = 0; i < 2; i += 1) {
-      tail = tail.next;
-      if (!tail) return dynamicHead.next;
-    }
-
-    /** 2、交换 2 个节点 */
-    const temp = tail.next;
-    [head, tail] = reverse(head, tail);
-
-    /** 3、拼接 */
-    headPre.next = head;
-    tail.next = temp;
-
-    /** 下一个循环 */
-    headPre = tail;
-    head = temp;
+    list.push(head);
+    head = head.next;
   }
+  const n = list.length;
+  const dynamicHead = new ListNode();
+  let prev = dynamicHead;
+  for (let i = 0; i < n && i + 1 < n; i += 2) {
+    const node1 = list[i];
+    const node2 = list[i + 1];
+    if (i === 0) dynamicHead.next = node2;
+
+    prev.next = node2;
+    node2.next = node1;
+    node1.next = null;
+
+    prev = node1;
+  }
+  if (n % 2 === 1) prev.next = list[n - 1];
 
   return dynamicHead.next;
 };
+```
 
-var reverse = function (head, tail) {
-  let prev = null;
-  let cur = head;
-  while (cur && prev !== tail) {
-    const temp = cur.next;
+## 交换相邻节点 II
 
-    cur.next = prev;
-    prev = cur;
+- https://leetcode.cn/problems/reverse-nodes-in-k-group/
 
-    cur = temp;
+```js
+var reverseKGroup = function (head, k) {
+  const list = [];
+  while (head) {
+    list.push(head);
+    head = head.next;
   }
-  return [tail, head];
+
+  const n = Math.floor(list.length / k);
+  if (n === 0) return head;
+
+  const dynamicHead = new ListNode();
+  let prev = dynamicHead;
+  for (let i = 0; i < n; i += 1) {
+    if (i === 0) dynamicHead.next = list[0];
+    prev.next = list[i];
+
+    /** 一组 k 个翻转: [i * k, (i + 1) * k - 1] */
+    for (let j = (i + 1) * k - 1; j >= i * k; j -= 1) {
+      const node = list[j];
+      prev.next = node;
+      node.next = null;
+      prev = node;
+    }
+  }
+
+  if (list.length > n * k) prev.next = list[n * k];
+
+  return dynamicHead.next;
+};
+```
+
+## 交换对称节点
+
+- https://leetcode.cn/problems/reorder-list/
+
+```js
+var reorderList = function (head) {
+  const list = [];
+  while (head) {
+    list.push(head);
+    head = head.next;
+  }
+  const dynamicHead = new ListNode();
+  let prev = dynamicHead;
+  const n = list.length;
+  for (let i = 0; i < Math.floor(n / 2); i += 1) {
+    const node1 = list[i];
+    const node2 = list[n - 1 - i];
+
+    if (i === 0) dynamicHead.next = node1;
+    prev.next = node1;
+    node1.next = node2;
+    node2.next = null;
+
+    prev = node2;
+  }
+  if ((n + 1) % 2 === 0) {
+    prev.next = list[(n - 1) / 2];
+    prev.next.next = null;
+  }
+  return dynamicHead.next;
+};
+```
+
+## 合并链表
+
+- https://leetcode.cn/problems/merge-two-sorted-lists/
+
+```js
+var mergeTwoLists = function (list1, list2) {
+  let list = [];
+  while (list1) {
+    list.push(list1);
+    list1 = list1.next;
+  }
+  while (list2) {
+    list.push(list2);
+    list2 = list2.next;
+  }
+  list = list.sort((a, b) => a.val - b.val);
+  const dynamicHead = new ListNode();
+  let prev = dynamicHead;
+  for (let i = 0, len = list.length; i < len; i += 1) {
+    const node = list[i];
+    if (i === 0) dynamicHead.next = node;
+    prev.next = node;
+    node.next = null;
+    prev = node;
+  }
+  return dynamicHead.next;
+};
+```
+
+## 合并链表 II
+
+```js
+/**
+ * @param {ListNode[]} lists
+ * @return {ListNode}
+ */
+var mergeKLists = function (lists) {
+  let list = [];
+  for (let i = 0, len = lists.length; i < len; i += 1) {
+    let current = lists[i];
+    while (current) {
+      list.push(current);
+      current = current.next;
+    }
+  }
+  list = list.sort((a, b) => a.val - b.val);
+  const dynamicHead = new ListNode();
+  let prev = dynamicHead;
+  for (let i = 0, len = list.length; i < len; i += 1) {
+    const node = list[i];
+    if (i === 0) dynamicHead.next = node;
+    prev.next = node;
+    node.next = null;
+    prev = node;
+  }
+  return dynamicHead.next;
 };
 ```
 

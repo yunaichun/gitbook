@@ -7,11 +7,6 @@
 - leetcode: https://leetcode.cn/problems/two-sum
 
 ```js
-/*
- * @param {number[]} nums
- * @param {number} target
- * @return {number[]}
- */
 var twoSum = function (nums, target) {
   for (let i = 0, len = nums.length; i < len; i += 1) {
     const j = nums.indexOf(target - nums[i]);
@@ -25,10 +20,6 @@ var twoSum = function (nums, target) {
 - leetcode: https://leetcode.cn/problems/3sum
 
 ```js
-/**
- * @param {number[]} nums
- * @return {number[][]}
- */
 var threeSum = function (nums) {
   if (nums.length < 3) return [];
   nums.sort();
@@ -56,11 +47,6 @@ var threeSum = function (nums) {
 - leetcode: https://leetcode.cn/problems/valid-anagram
 
 ```js
-/**
- * @param {string} s
- * @param {string} t
- * @return {boolean}
- */
 var isAnagram = function (s, t) {
   return s.split("").sort().join() === t.split("").sort().join();
 };
