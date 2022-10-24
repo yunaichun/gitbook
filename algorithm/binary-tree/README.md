@@ -114,39 +114,36 @@ console.log(list.preOrder(list.head));
 
 ```js
 var isValidBST = function (root) {
-  const stack = [];
-  const inOrder = -Infinity;
+  return _helper(root, -Infinity, Infinity);
+};
 
-  while (stack.length || root !== null) {
-    while (root !== null) {
-      stack.push(root);
-      root = root.left;
-    }
-    root = stack.pop();
-    if (root.val <= inOrder) return false;
-    inOrder = root.val;
-    root = root.right;
-  }
-  return true;
+var _helper = function (root, lower, higher) {
+  if (!root) return true;
+  if (root.val <= lower || root.val >= higher) return false;
+  return (
+    _helper(root.left, lower, root.val) && _helper(root.right, root.val, higher)
+  );
 };
 ```
 
-## BST 最近公共祖先
+## 最近公共祖先
 
 - leetcode: https://leetcode.cn/problems/lowest-common-ancestor-of-a-binary-search-tree
 
 ```js
 var lowestCommonAncestor = function (root, p, q) {
   if (!root) return null;
-  if (p.val > root.val && q.val > root.val)
-    return lowestCommonAncestor(root.right, p, q);
-  if (p.val < root.val && q.val < root.val)
+  if (p.val < root.val && q.val < root.val) {
     return lowestCommonAncestor(root.left, p, q);
+  }
+  if (p.val > root.val && q.val > root.val) {
+    return lowestCommonAncestor(root.right, p, q);
+  }
   return root;
 };
 ```
 
-## 普通树最近公共祖先
+## 最近公共祖先 II
 
 - leetcode: https://leetcode.cn/problems/lowest-common-ancestor-of-a-binary-tree
 
@@ -165,28 +162,20 @@ var lowestCommonAncestor = function (root, p, q) {
 };
 ```
 
-## 二叉树最大深度
+## 深度最大
 
 - leetcode: https://leetcode.cn/problems/maximum-depth-of-binary-tree
 
 ```js
 var maxDepth = function (root) {
-  return _dfs(root);
+  return _bfs(root);
 };
-
-/** 深度优先 */
-function _dfs(root) {
-  if (!root) return 0;
-  let left = _dfs(root.left);
-  let right = _dfs(root.right);
-  return Math.max(left, right) + 1;
-}
 
 /** 广度优先 */
 function _bfs(root) {
-  let level = 0;
   const queue = [];
   if (root) queue.push(root);
+  let level = 0;
   while (queue.length) {
     level++;
     const len = queue.length;
@@ -199,9 +188,17 @@ function _bfs(root) {
   }
   return level;
 }
+
+/** 深度优先 */
+function _dfs(root) {
+  if (!root) return 0;
+  let left = _dfs(root.left);
+  let right = _dfs(root.right);
+  return Math.max(left, right) + 1;
+}
 ```
 
-## 二叉树最小深度
+## 深度最小
 
 - leetcode: https://leetcode.cn/problems/minimum-depth-of-binary-tree
 
@@ -209,22 +206,12 @@ function _bfs(root) {
 var minDepth = function (root) {
   return _bfs(root);
 };
-/** 深度优先 */
-function _dfs(root) {
-  if (!root) return 0;
-  let left = _dfs(root.left);
-  let right = _dfs(root.right);
-  /** 左节点没有，但是右节点还有，树还没断 */
-  if (!root.left) return right + 1;
-  /** 右节点没有，但是左节点还有，树还没断 */
-  if (!root.right) return left + 1;
-  return Math.min(left, right) + 1;
-}
+
 /** 广度优先 */
 function _bfs(root) {
-  let level = 0;
   const queue = [];
   if (root) queue.push(root);
+  let level = 0;
   while (queue.length) {
     level++;
     const len = queue.length;
@@ -238,18 +225,51 @@ function _bfs(root) {
   }
   return level;
 }
+
+/** 深度优先 */
+function _dfs(root) {
+  if (!root) return 0;
+  let left = _dfs(root.left);
+  let right = _dfs(root.right);
+  /** 左节点没有，但是右节点还有，树还没断 */
+  if (!root.left) return right + 1;
+  /** 右节点没有，但是左节点还有，树还没断 */
+  if (!root.right) return left + 1;
+  return Math.min(left, right) + 1;
+}
 ```
 
-## 二叉树按照 level 输出
+## 遍历-层序
 
 - leetcode: https://leetcode.cn/problems/binary-tree-level-order-traversal
 
 ```js
 var levelOrder = function (root) {
   if (!root) return [];
-  const result = _dfs(root, [], 0);
-  return result;
+  return _bfs(root);
 };
+
+/** 广度优先 */
+function _bfs(root) {
+  const queue = [];
+  if (root) queue.push(root);
+  const results = [];
+  while (queue.length) {
+    const current = [];
+    const len = queue.length;
+    for (let i = 0; i < len; i += 1) {
+      const node = queue[i];
+      current.push(node.val);
+      if (node.left) queue.push(node.left);
+      if (node.right) queue.push(node.right);
+    }
+    results.push(current);
+    queue.splice(0, len);
+  }
+  return results;
+}
+
+/** 深度优先 */
 function _dfs(root, result = [], level = 0) {
   if (!root) return;
   if (!result[level]) result[level] = [];
@@ -258,11 +278,24 @@ function _dfs(root, result = [], level = 0) {
   _dfs(root.right, result, level + 1);
   return result;
 }
+```
 
+## 遍历-锯齿
+
+- leetcode: https://leetcode.cn/problems/binary-tree-zigzag-level-order-traversal/
+
+```js
+var zigzagLevelOrder = function (root) {
+  if (!root) return [];
+  return _bfs(root);
+};
+
+/** 广度优先 */
 function _bfs(root) {
-  let levelRes = [];
   const queue = [];
   if (root) queue.push(root);
+  const results = [];
+  let isLeftToRight = true;
   while (queue.length) {
     const len = queue.length;
     const current = [];
@@ -272,10 +305,11 @@ function _bfs(root) {
       if (node.left) queue.push(node.left);
       if (node.right) queue.push(node.right);
     }
+    results.push(isLeftToRight ? current : current.reverse());
+    isLeftToRight = !isLeftToRight;
     queue.splice(0, len);
-    levelRes.push(current);
   }
-  return levelRes;
+  return results;
 }
 ```
 
