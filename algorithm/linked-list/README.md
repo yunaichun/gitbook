@@ -270,10 +270,6 @@ var mergeTwoLists = function (list1, list2) {
 ## 合并链表 II
 
 ```js
-/**
- * @param {ListNode[]} lists
- * @return {ListNode}
- */
 var mergeKLists = function (lists) {
   let list = [];
   for (let i = 0, len = lists.length; i < len; i += 1) {
@@ -294,6 +290,148 @@ var mergeKLists = function (lists) {
     prev = node;
   }
   return dynamicHead.next;
+};
+```
+
+## 删除重复节点
+
+- https://leetcode.cn/problems/remove-duplicates-from-sorted-list/
+
+```js
+var deleteDuplicates = function (head) {
+  const list = [];
+  while (head) {
+    const find = list.find((i) => i.val === head.val);
+    if (!find) list.push(head);
+    head = head.next;
+  }
+
+  const dynamicHead = new ListNode(0);
+  let prev = dynamicHead;
+  for (let i = 0, len = list.length; i < len; i += 1) {
+    const node = list[i];
+    if (i === 0) dynamicHead.next = node;
+    prev.next = node;
+    node.next = null;
+    prev = node;
+  }
+  return dynamicHead.next;
+};
+```
+
+## 删除重复节点 II
+
+- https://leetcode.cn/problems/remove-duplicates-from-sorted-list-ii/
+
+```js
+var deleteDuplicates = function (head) {
+  let list = [];
+  while (head) {
+    list.push(head);
+    head = head.next;
+  }
+
+  list = list.filter((i) => {
+    const iCount = list.filter((j) => j.val === i.val);
+    if (iCount.length > 1) return false;
+    return true;
+  });
+
+  const dynamicHead = new ListNode(0);
+  let prev = dynamicHead;
+  for (let i = 0, len = list.length; i < len; i += 1) {
+    const node = list[i];
+    if (i === 0) dynamicHead.next = node;
+    prev.next = node;
+    node.next = null;
+    prev = node;
+  }
+  return dynamicHead.next;
+};
+```
+
+## 倒数 K 节点删除
+
+- https://leetcode.cn/problems/remove-nth-node-from-end-of-list/
+
+```js
+var removeNthFromEnd = function (head, n) {
+  const list = [];
+  while (head) {
+    list.push(head);
+    head = head.next;
+  }
+  /** 删除链表的节点 index 为 len - n */
+  const len = list.length;
+  if (len - n >= 1) list[len - n - 1].next = list[len - n].next;
+  else return list[0].next;
+  return list[0];
+};
+```
+
+## 倒数 K 节点返回
+
+- https://leetcode.cn/problems/lian-biao-zhong-dao-shu-di-kge-jie-dian-lcof/
+
+```js
+var getKthFromEnd = function (head, k) {
+  const list = [];
+  while (head) {
+    list.push(head);
+    head = head.next;
+  }
+  /** 返回链表的节点 index 为 len - n */
+  const len = list.length;
+  return list[len - k];
+};
+```
+
+## 排序链表
+
+- https://leetcode.cn/problems/sort-list/submissions/
+
+```js
+var sortList = function (head) {
+  let list = [];
+  while (head) {
+    list.push(head);
+    head = head.next;
+  }
+  list = list.sort((a, b) => a.val - b.val);
+
+  const dynamicHead = new ListNode(0);
+  let prev = dynamicHead;
+  for (let i = 0, len = list.length; i < len; i += 1) {
+    const node = list[i];
+    if (i === 0) dynamicHead.next = node;
+    prev.next = node;
+    node.next = null;
+    prev = node;
+  }
+  return dynamicHead.next;
+};
+```
+
+## 回文链表
+
+- https://leetcode.cn/problems/palindrome-linked-list/
+
+```js
+var isPalindrome = function (head) {
+  let list = [];
+  while (head) {
+    list.push(head);
+    head = head.next;
+  }
+
+  let len = list.length;
+  for (let i = 0; i < Math.floor(len / 2); i += 1) {
+    if (list[i].val !== list[len - i - 1].val) {
+      return false;
+    }
+  }
+
+  return true;
 };
 ```
 
