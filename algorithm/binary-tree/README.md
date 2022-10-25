@@ -291,6 +291,7 @@ var diameterOfBinaryTree = function (root) {
 ## 遍历-层序
 
 - leetcode: https://leetcode.cn/problems/binary-tree-level-order-traversal
+- leetcode: https://leetcode.cn/problems/binary-tree-level-order-traversal-ii/
 
 ```js
 var levelOrder = function (root) {
@@ -422,6 +423,7 @@ var _helper = function (root, results) {
 ## 前序 + 中序 => BST
 
 - leetcode: https://leetcode.cn/problems/construct-binary-tree-from-preorder-and-inorder-traversal/
+- leetcode: https://leetcode.cn/problems/zhong-jian-er-cha-shu-lcof/
 
 ```js
 var buildTree = function (preorder, inorder) {
@@ -501,19 +503,20 @@ var isSymmetric = function (root) {
 ## 完全二叉树
 
 - leetcode: https://leetcode.cn/problems/check-completeness-of-a-binary-tree/
+- leetcode: https://leetcode.cn/problems/count-complete-tree-nodes/submissions/
 
 ```js
 var isCompleteTree = function (root) {
   const queue = [];
   if (root) queue.push([root, 1]);
-  const results = [];
+  let results = [];
   /** 包含 index 的遍历 */
   while (queue.length) {
     const current = [];
     let len = queue.length;
     for (let i = 0; i < len; i += 1) {
       const [node, index] = queue[i];
-      current.push([node, index]);
+      current.push(index);
       if (node.left)
         queue.push([node.left, (2 * index) % Number.MAX_SAFE_INTEGER]);
       if (node.right)
@@ -522,7 +525,7 @@ var isCompleteTree = function (root) {
     results = results.concat(current);
     queue.splice(0, len);
   }
-  return results.length === results[results.length - 1][1];
+  return results.length === results[results.length - 1];
 };
 ```
 
