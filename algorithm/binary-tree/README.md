@@ -576,6 +576,60 @@ var _helper = function (root, results) {
 };
 ```
 
+## 路径为 K
+
+- leetcode: https://leetcode.cn/problems/er-cha-shu-zhong-he-wei-mou-yi-zhi-de-lu-jing-lcof/
+
+```js
+var pathSum = function (root, target) {
+  return _bfs(root, target);
+};
+
+var _bfs = function (root, target) {
+  const results = [];
+  const queue = [];
+  if (root) queue.push([root, [root.val]]);
+  while (queue.length) {
+    let len = queue.length;
+    for (let i = 0; i < len; i += 1) {
+      const [node, path] = queue[i];
+      if (node.left) queue.push([node.left, path.concat(node.left.val)]);
+      if (node.right) queue.push([node.right, path.concat(node.right.val)]);
+      if (!node.left && !node.right) {
+        const sum = path.reduce((a, b) => a + b);
+        if (sum === target) results.push(path);
+      }
+    }
+    queue.splice(0, len);
+  }
+  return results;
+};
+```
+
+## 路径最大
+
+- leetcode: https://leetcode.cn/problems/binary-tree-maximum-path-sum/
+
+```js
+var maxPathSum = function (root) {
+  let maxSum = -Infinity;
+  var maxGain = function (node) {
+    if (!node) return 0;
+    /** 递归计算左右子节点的最大贡献值: 只有在最大贡献值大于 0 时，才会选取对应子节点 */
+    const leftGain = Math.max(maxGain(node.left), 0);
+    const rightGain = Math.max(maxGain(node.right), 0);
+    /** 节点的最大路径和 = 该节点的值 + 左子节点最大贡献值 + 右子节点最大贡献值 */
+    const priceNewpath = node.val + leftGain + rightGain;
+    /** 更新答案 */
+    maxSum = Math.max(maxSum, priceNewpath);
+    /** 节点最大贡献值 = 该节点的值 + 左右贡献最大值 */
+    return node.val + Math.max(leftGain, rightGain);
+  };
+  maxGain(root);
+  return maxSum;
+};
+```
+
 ## 参考资料
 
 - [数据结构与算法 JavaScript 描述](https://book.douban.com/subject/25945449/)
