@@ -385,6 +385,7 @@ var _helper = function (root, results) {
 ## 遍历-中序
 
 - leetcode: https://leetcode.cn/problems/binary-tree-inorder-traversal/
+- leetcode: https://leetcode.cn/problems/er-cha-sou-suo-shu-de-di-kda-jie-dian-lcof/
 
 ```js
 var inorderTraversal = function (root) {
@@ -571,25 +572,6 @@ var _helper = function (root, results) {
   if (!root) return;
   results.push(root);
   _helper(root.left, results);
-  _helper(root.right, results);
-};
-```
-
-## 第 K 大元素
-
-- leetcode: https://leetcode.cn/problems/er-cha-sou-suo-shu-de-di-kda-jie-dian-lcof/
-
-```js
-var kthLargest = function (root, k) {
-  let results = [];
-  _helper(root, results);
-  return results[results.length - k];
-};
-
-var _helper = function (root, results) {
-  if (!root) return;
-  _helper(root.left, results);
-  results.push(root.val);
   _helper(root.right, results);
 };
 ```
