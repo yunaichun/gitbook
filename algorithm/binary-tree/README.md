@@ -248,6 +248,7 @@ var widthOfBinaryTree = function (root) {
   const queue = [];
   if (root) queue.push([root, 1]);
   let max = -Infinity;
+  /** 包含 index 的遍历 */
   while (queue.length) {
     const len = queue.length;
     let current = [];
@@ -277,8 +278,8 @@ var diameterOfBinaryTree = function (root) {
     if (!node) return 0;
     let left = _helper(node.left);
     let right = _helper(node.right);
+    /** 左右子树和最大为当前节点的路径长度 */
     height = Math.max(left + right, height);
-    /** 左右子树最大深度 */
     return Math.max(left, right) + 1;
   };
   let height = 0;
@@ -382,7 +383,7 @@ var _helper = function (root, results) {
 
 ## 遍历-中序
 
-- leetcode: https://leetcode.cn/problems/binary-tree-preorder-traversal/
+- leetcode: https://leetcode.cn/problems/binary-tree-inorder-traversal/
 
 ```js
 var inorderTraversal = function (root) {
@@ -396,6 +397,25 @@ var _helper = function (root, results) {
   _helper(root.left, results);
   results.push(root.val);
   _helper(root.right, results);
+};
+```
+
+## 遍历-后序
+
+- leetcode: https://leetcode.cn/problems/binary-tree-postorder-traversal/
+
+```js
+var postorderTraversal = function (root) {
+  let results = [];
+  _helper(root, results);
+  return results;
+};
+
+var _helper = function (root, results) {
+  if (!root) return;
+  _helper(root.left, results);
+  _helper(root.right, results);
+  results.push(root.val);
 };
 ```
 
@@ -420,7 +440,7 @@ var buildTree = function (preorder, inorder) {
 };
 ```
 
-## 二叉树-平衡
+## 平衡二叉树
 
 - leetcode: https://leetcode.cn/problems/balanced-binary-tree/
 
@@ -441,7 +461,7 @@ var _helper = function (root) {
 };
 ```
 
-## 二叉树-对称
+## 对称二叉树
 
 - leetcode: https://leetcode.cn/problems/symmetric-tree/
 
@@ -449,6 +469,7 @@ var _helper = function (root) {
 var isSymmetric = function (root) {
   const queue = [];
   if (root) queue.push(root);
+  /** 包含 null 的遍历 */
   while (queue.find((i) => i)) {
     const len = queue.length;
     let current = [];
@@ -477,9 +498,38 @@ var isSymmetric = function (root) {
 };
 ```
 
-## 二叉树-翻转
+## 完全二叉树
+
+- leetcode: https://leetcode.cn/problems/check-completeness-of-a-binary-tree/
+
+```js
+var isCompleteTree = function (root) {
+  const queue = [];
+  if (root) queue.push([root, 1]);
+  const results = [];
+  /** 包含 index 的遍历 */
+  while (queue.length) {
+    const current = [];
+    let len = queue.length;
+    for (let i = 0; i < len; i += 1) {
+      const [node, index] = queue[i];
+      current.push([node, index]);
+      if (node.left)
+        queue.push([node.left, (2 * index) % Number.MAX_SAFE_INTEGER]);
+      if (node.right)
+        queue.push([node.right, (2 * index + 1) % Number.MAX_SAFE_INTEGER]);
+    }
+    results = results.concat(current);
+    queue.splice(0, len);
+  }
+  return results.length === results[results.length - 1][1];
+};
+```
+
+## 翻转二叉树
 
 - leetcode: https://leetcode.cn/problems/invert-binary-tree/
+- leetcode: https://leetcode.cn/problems/er-cha-shu-de-jing-xiang-lcof/
 
 ```js
 var invertTree = function (root) {
@@ -494,6 +544,50 @@ var swap = function (root) {
   swap(root.left);
   swap(root.right);
   return root;
+};
+```
+
+## 二叉树改为链表
+
+- leetcode: https://leetcode.cn/problems/flatten-binary-tree-to-linked-list/
+
+```js
+var flatten = function (root) {
+  let results = [];
+  _helper(root, results);
+  if (!results.length) return null;
+  for (let i = 0, len = results.length; i < len - 1; i += 1) {
+    const current = results[i];
+    current.left = null;
+    current.right = results[i + 1];
+  }
+  return results[0];
+};
+
+var _helper = function (root, results) {
+  if (!root) return;
+  results.push(root);
+  _helper(root.left, results);
+  _helper(root.right, results);
+};
+```
+
+## 第 K 大元素
+
+- leetcode: https://leetcode.cn/problems/er-cha-sou-suo-shu-de-di-kda-jie-dian-lcof/
+
+```js
+var kthLargest = function (root, k) {
+  let results = [];
+  _helper(root, results);
+  return results[results.length - k];
+};
+
+var _helper = function (root, results) {
+  if (!root) return;
+  _helper(root.left, results);
+  results.push(root.val);
+  _helper(root.right, results);
 };
 ```
 
