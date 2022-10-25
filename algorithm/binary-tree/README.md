@@ -313,6 +313,44 @@ function _bfs(root) {
 }
 ```
 
+## 遍历-前序
+
+- leetcode: https://leetcode.cn/problems/binary-tree-preorder-traversal/
+
+```js
+var preorderTraversal = function (root) {
+  let results = [];
+  _helper(root, results);
+  return results;
+};
+
+var _helper = function (root, results) {
+  if (!root) return;
+  results.push(root.val);
+  _helper(root.left, results);
+  _helper(root.right, results);
+};
+```
+
+## 遍历-中序
+
+- leetcode: https://leetcode.cn/problems/binary-tree-preorder-traversal/
+
+```js
+var inorderTraversal = function (root) {
+  const results = [];
+  _helper(root, results);
+  return results;
+};
+
+var _helper = function (root, results) {
+  if (!root) return;
+  _helper(root.left, results);
+  results.push(root.val);
+  _helper(root.right, results);
+};
+```
+
 ## 参考资料
 
 - [数据结构与算法 JavaScript 描述](https://book.douban.com/subject/25945449/)
