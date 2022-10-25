@@ -239,6 +239,38 @@ function _dfs(root) {
 }
 ```
 
+## 宽度最大
+
+- leetcode: https://leetcode.cn/problems/maximum-width-of-binary-tree/
+
+```js
+/**
+ * @param {TreeNode} root
+ * @return {number}
+ */
+var widthOfBinaryTree = function (root) {
+  const queue = [];
+  if (root) queue.push([root, 1]);
+  let max = -Infinity;
+  while (queue.length) {
+    const len = queue.length;
+    let current = [];
+    for (let i = 0; i < len; i += 1) {
+      const [node, index] = queue[i];
+      current.push(index);
+      /** 在JS中最大安全整数是2的53次方减1. */
+      if (node.left)
+        queue.push([node.left, (index * 2) % Number.MAX_SAFE_INTEGER]);
+      if (node.right)
+        queue.push([node.right, (index * 2 + 1) % Number.MAX_SAFE_INTEGER]);
+    }
+    max = Math.max(current[current.length - 1] - current[0] + 1, max);
+    queue.splice(0, len);
+  }
+  return max;
+};
+```
+
 ## 遍历-层序
 
 - leetcode: https://leetcode.cn/problems/binary-tree-level-order-traversal
@@ -348,6 +380,27 @@ var _helper = function (root, results) {
   _helper(root.left, results);
   results.push(root.val);
   _helper(root.right, results);
+};
+```
+
+## 前序 + 中序 => BST
+
+- leetcode: https://leetcode.cn/problems/construct-binary-tree-from-preorder-and-inorder-traversal/
+
+```js
+var buildTree = function (preorder, inorder) {
+  if (!preorder.length && !inorder.length) return null;
+  const root = new TreeNode(preorder[0]);
+  const midIndex = inorder.indexOf(preorder[0]);
+  root.left = buildTree(
+    preorder.slice(1, midIndex + 1),
+    inorder.slice(0, midIndex)
+  );
+  root.right = buildTree(
+    preorder.slice(midIndex + 1),
+    inorder.slice(midIndex + 1)
+  );
+  return root;
 };
 ```
 
