@@ -435,6 +435,51 @@ var isPalindrome = function (head) {
 };
 ```
 
+## 两数相加
+
+- https://leetcode.cn/problems/add-two-numbers/
+- https://leetcode.cn/problems/add-strings/
+
+```js
+var addTwoNumbers = function (l1, l2) {
+  /** 拿到节点值 */
+  const list1 = [];
+  while (l1) {
+    list1.push(l1.val);
+    l1 = l1.next;
+  }
+  const list2 = [];
+  while (l2) {
+    list2.push(l2.val);
+    l2 = l2.next;
+  }
+  /** 数字相加 */
+  const results = [];
+  let i = 0;
+  let j = 0;
+  let addOne = 0;
+  while (i < list1.length || j < list2.length || addOne !== 0) {
+    const a = list1[i] || 0;
+    const b = list2[j] || 0;
+    results.push((a + b + addOne) % 10);
+    if ((a + b + addOne) / 10 >= 1) addOne = 1;
+    else addOne = 0;
+    i += 1;
+    j += 1;
+  }
+  /** 构建新链表 */
+  const dynamicHead = new ListNode();
+  let prev = dynamicHead;
+  for (let i = 0, len = results.length; i < len; i += 1) {
+    const current = new ListNode(results[i]);
+    if (i === 0) dynamicHead.next = current;
+    prev.next = current;
+    prev = current;
+  }
+  return dynamicHead.next;
+};
+```
+
 ## 参考资料
 
 - [数据结构与算法 JavaScript 描述](https://book.douban.com/subject/25945449/)
