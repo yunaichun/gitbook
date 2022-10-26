@@ -2,39 +2,41 @@
 
 > 算法-二分查找学习笔记。
 
-## 二分查找
+## 平方根
 
 - leetcode: https://leetcode.cn/problems/sqrtx/
 
 ```js
 var mySqrt = function (x) {
+  if (x === 1) return 1;
   let [min, max] = [0, x];
   while (true) {
-    const mid = (min + max) / 2;
+    if (max - min === 1) return min;
+    const mid = Math.floor((min + max) / 2);
     const midPow = mid * mid;
-    if (Math.floor(midPow) === x) return Math.floor(mid);
-    else if (midPow > x) max = mid;
+    if (midPow === x) return mid;
     else if (midPow < x) min = mid;
+    else if (midPow > x) max = mid;
   }
 };
 ```
 
-- https://leetcode.cn/problems/binary-search/submissions/
+## 二分查找
+
+- leetcode: https://leetcode.cn/problems/binary-search/
 
 ```js
 var search = function (nums, target) {
-  const len = nums.length;
-  let [min, max] = [0, len - 1];
+  let [min, max] = [0, nums.length];
   while (true) {
-    if (max === min && nums[min] !== target) return -1;
+    if (max - min === 1 && nums[min] !== target && nums[max] !== target)
+      return -1;
     const mid = Math.floor((min + max) / 2);
-    if (target === nums[mid]) return mid;
-    else if (target < nums[mid]) max = mid;
-    else if (target > nums[mid]) min = mid + 1;
+    if (nums[mid] === target) return mid;
+    else if (nums[mid] < target) min = mid;
+    else if (nums[mid] > target) max = mid;
   }
 };
-// nums = [1, 3] target = 3 => min = mid + 1; => min = max = 1
-// nums = [1, 3] target = 1 => max = mid; => min = max = 0
 ```
 
 ## 参考资料
