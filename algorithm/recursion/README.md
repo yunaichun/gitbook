@@ -8,22 +8,51 @@
 
 ```js
 var generateParenthesis = function (n) {
-  return _helper(0, 0, n, "", []);
+  let results = [];
+  _helper(n, 0, 0, "", results);
+  return results;
 };
 
-function _helper(leftUsed, rightUsed, n, current, result) {
+var _helper = function (n, leftUsed, rightUsed, cur, results) {
   if (leftUsed === n && rightUsed === n) {
-    result.push(current);
+    results.push(cur);
     return;
   }
   if (leftUsed < n) {
-    _helper(leftUsed + 1, rightUsed, n, current + "(", result);
+    _helper(n, leftUsed + 1, rightUsed, cur + "(", results);
   }
   if (rightUsed < n && rightUsed < leftUsed) {
-    _helper(leftUsed, rightUsed + 1, n, current + ")", result);
+    _helper(n, leftUsed, rightUsed + 1, cur + ")", results);
   }
-  return result;
-}
+};
+```
+
+## 全排列
+
+- leetcode: https://leetcode.cn/problems/permutations/
+
+```js
+var permute = function (nums) {
+  let results = [];
+  const len = nums.length;
+  for (let i = 0; i < len; i += 1) {
+    _helper(nums, [nums[i]], results);
+  }
+  return results;
+};
+
+var _helper = function (nums, vistied, results) {
+  const len = nums.length;
+  if (vistied.length === len) {
+    results.push(vistied);
+    return;
+  }
+  for (let i = 0; i < len; i += 1) {
+    if (vistied.indexOf(nums[i]) < 0) {
+      _helper(nums, vistied.concat(nums[i]), results);
+    }
+  }
+};
 ```
 
 ## n 次幂
