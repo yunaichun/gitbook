@@ -158,6 +158,7 @@ var minDistance = function (word1, word2) {
         dp[i][j] = i;
       } else {
         if (word1[i - 1] === word2[j - 1]) {
+          /** word1 第 i 个单词和 word2 第 j 个单词一样, 编辑距离和前个序列相同 */
           dp[i][j] = dp[i - 1][j - 1];
         } else {
           /** dp[i - 1][j]: 增加 1 个单词到 word1 */
@@ -169,6 +170,34 @@ var minDistance = function (word1, word2) {
     }
   }
   return dp[word1.length][word2.length];
+};
+```
+
+## 最长公共子串长度
+
+- leetcode: https://leetcode.cn/problems/longest-common-subsequence/
+
+```js
+var longestCommonSubsequence = function (text1, text2) {
+  /** dp[i][j] 代表 text1 第 i 个单词到 text2 第 j 个单词 变换所使用的最少操作数 */
+  const dp = [];
+  for (let i = 0, len1 = text1.length; i <= len1; i += 1) {
+    if (!dp[i]) dp[i] = [];
+    for (let j = 0, len2 = text2.length; j <= len2; j += 1) {
+      if (i === 0) {
+        dp[i][j] = 0;
+      } else if (j === 0) {
+        dp[i][j] = 0;
+      } else {
+        if (text1[i - 1] === text2[j - 1]) {
+          dp[i][j] = dp[i - 1][j - 1] + 1;
+        } else {
+          dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
+        }
+      }
+    }
+  }
+  return dp[text1.length][text2.length];
 };
 ```
 
@@ -221,6 +250,27 @@ var lengthOfLongestSubstring = function (s) {
   }
   const dpLen = dp.map((i) => i.length);
   return Math.max.apply(null, dpLen);
+};
+```
+
+## 打家劫舍
+
+- leetcode: https://leetcode.cn/problems/house-robber/
+
+```js
+var rob = function (nums) {
+  const len = nums.length;
+  if (!len) return 0;
+  if (len === 1) return nums[0];
+
+  /** 代表第 i 天偷窃的话最大收益 */
+  const dp = [nums[0], Math.max(nums[0], nums[1])];
+
+  for (let i = 2; i < len; i += 1) {
+    dp[i] = Math.max(dp[i - 2] + nums[i], dp[i - 1]);
+  }
+
+  return dp[len - 1];
 };
 ```
 
