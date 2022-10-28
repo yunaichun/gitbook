@@ -299,9 +299,9 @@ var maxProfit = function (prices) {
 
 ```js
 var maxProfit = function (prices) {
-  const dp = [[0, -prices[0]]];
   /** dp[i][0] 代表第 i + 1 天 【不持有股票】 最大收益 */
   /** dp[i][1] 代表第 i + 1 天 【持有股票】 最大收益 */
+  const dp = [[0, -prices[0]]];
   for (let i = 1, len = prices.length; i < len; i += 1) {
     dp[i] = [
       Math.max(dp[i - 1][0], dp[i - 1][1] + prices[i]),
@@ -318,12 +318,12 @@ var maxProfit = function (prices) {
 
 ```js
 var maxProfit = function (prices) {
-  const dp = [[0, -prices[0], 0, -prices[0], 0]];
   /** dp[i][0] 代表第 i + 1 天 【不做任何操作】 最大收益 */
   /** dp[i][1] 代表第 i + 1 天状态为 【第一次买入】 最大收益 */
   /** dp[i][2] 代表第 i + 1 天状态为 【第一次卖出】 最大收益 */
   /** dp[i][3] 代表第 i + 1 天状态为 【第二次买入】 最大收益 */
   /** dp[i][4] 代表第 i + 1 天状态为 【第二次卖出】 最大收益 */
+  const dp = [[0, -prices[0], 0, -prices[0], 0]];
   for (let i = 1, len = prices.length; i < len; i += 1) {
     dp[i] = [
       dp[i - 1][0],
@@ -375,9 +375,9 @@ var maxProfit = function (k, prices) {
 
 ```js
 var maxProfit = function (prices) {
+  /** dp[i][0] 代表第 i + 1 天 【不持有股票】 最大收益 */
+  /** dp[i][1] 代表第 i + 1 天 【持有股票】 最大收益 */
   const dp = [[0, -prices[0]]];
-  /** dp[i][0] 代表第 i 天 【不持有股票】 最大收益 */
-  /** dp[i][1] 代表第 i 天 【持有股票】 最大收益 */
   for (let i = 1, len = prices.length; i < len; i += 1) {
     dp[i] = [
       Math.max(dp[i - 1][0], dp[i - 1][1] + prices[i]),
@@ -396,9 +396,9 @@ var maxProfit = function (prices) {
 
 ```js
 var maxProfit = function (prices, fee) {
-  const dp = [[0, -prices[0]]];
   /** dp[i][0] 代表第 i + 1 天 【不持有股票】 最大收益 */
   /** dp[i][1] 代表第 i + 1 天 【持有股票】 最大收益 */
+  const dp = [[0, -prices[0]]];
   for (let i = 1, len = prices.length; i < len; i += 1) {
     dp[i] = [
       Math.max(dp[i - 1][0], dp[i - 1][1] + prices[i] - fee),
