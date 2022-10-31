@@ -579,6 +579,9 @@ var _helper = function (root, results) {
 ## 路径为 K
 
 - leetcode: https://leetcode.cn/problems/er-cha-shu-zhong-he-wei-mou-yi-zhi-de-lu-jing-lcof/
+- leetcode: https://leetcode.cn/problems/sum-root-to-leaf-numbers/
+- leetcode: https://leetcode.cn/problems/path-sum/
+- leetcode: https://leetcode.cn/problems/path-sum-ii/
 
 ```js
 var pathSum = function (root, target) {
@@ -601,29 +604,6 @@ var _bfs = function (root, target) {
       }
     }
     queue.splice(0, len);
-  }
-  return results;
-};
-```
-
-## 路径和
-
-- leetcode: https://leetcode.cn/problems/sum-root-to-leaf-numbers/
-
-```js
-var sumNumbers = function (root) {
-  const queue = [];
-  if (root) queue.push([root, [root.val]]);
-  let results = 0;
-  while (queue.length) {
-    const length = queue.length;
-    for (let i = 0; i < length; i += 1) {
-      const [node, path] = queue[i];
-      if (node.left) queue.push([node.left, path.concat(node.left.val)]);
-      if (node.right) queue.push([node.right, path.concat(node.right.val)]);
-      if (!node.left && !node.right) results += Number(path.join(""));
-    }
-    queue.splice(0, length);
   }
   return results;
 };
