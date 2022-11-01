@@ -4,9 +4,12 @@
 
 ## 递归
 
+- DFS 是一个劲的往某一个方向搜索
+- 而回溯算法建立在 DFS 基础之上的，但不同的是在搜索过程中，达到结束条件后，恢复状态，回溯上一层，再次搜索。因此回溯算法与 DFS 的区别就是有无状态重置
+
 #### n 次幂
 
-- leetcode: https://leetcode.cn/problems/powx-n
+- https://leetcode.cn/problems/powx-n
 
 ```js
 var myPow = function (x, n) {
@@ -20,7 +23,7 @@ var myPow = function (x, n) {
 
 #### 有效括号组合
 
-- leetcode: https://leetcode.cn/problems/generate-parentheses
+- https://leetcode.cn/problems/generate-parentheses
 
 ```js
 var generateParenthesis = function (n) {
@@ -45,7 +48,7 @@ var _helper = function (n, leftUsed, rightUsed, cur, results) {
 
 #### 岛屿个数
 
-- leetcode: https://leetcode.cn/problems/number-of-islands/
+- https://leetcode.cn/problems/number-of-islands/
 
 ```js
 /** 上下左右 */
@@ -85,8 +88,8 @@ var _helper = function (grid, row, column, visited) {
 
 #### 单词搜索
 
-- leetcode: https://leetcode.cn/problems/word-search
-- leetcode: https://leetcode.cn/problems/word-search-ii
+- https://leetcode.cn/problems/word-search
+- https://leetcode.cn/problems/word-search-ii
 
 ```js
 /** 上下左右 */
@@ -144,37 +147,112 @@ var _helper = function (board, word, row, column, cur, results, visited) {
 
 ## 回溯
 
-#### 全排列
+- 当问题需要 "回头"，以此来查找出所有的解的时候，使用回溯算法
+- 即满足结束条件或者发现不是正确路径的时候(走不通)，要撤销选择，回退到上一个状态，继续尝试，直到找出所有解为止
 
-- leetcode: https://leetcode.cn/problems/permutations/
+#### 子集
+
+- https://leetcode.cn/problems/subsets/
+- https://leetcode.cn/problems/subsets-ii/
 
 ```js
-var permute = function (nums) {
-  let results = [];
-  const len = nums.length;
-  for (let i = 0; i < len; i += 1) {
-    _helper(nums, [nums[i]], results);
-  }
+var subsetsWithDup = function (nums) {
+  nums.sort();
+  const results = [];
+  /** 1、递归树 */
+  /** [] */
+  /** [1] => [1, 2] [1, 2](需跳过) => [1, 2, 2]*/
+  /** [2] => [2, 2] */
+  /** [2](需跳过) */
+  _helper(nums, 0, [], results);
   return results;
 };
 
-var _helper = function (nums, vistied, results) {
-  const len = nums.length;
-  if (vistied.length === len) {
-    results.push(vistied);
+var _helper = function (nums, start, path, results) {
+  /** 2、把每一条路径加入结果集: 判断是否有结束条件 */
+  results.push(path);
+  for (let i = start; i < nums.length; i += 1) {
+    /** 3、做出选择 + 递归下一层 + 撤销选择: 剪枝去重 */
+    if (i > start && nums[i] === nums[i - 1]) continue;
+    path.push(nums[i]);
+    _helper(nums, i + 1, [...path], results);
+    path.pop();
+  }
+};
+```
+
+#### 全排列
+
+- https://leetcode.cn/problems/permutations/
+- https://leetcode.cn/problems/permutations-ii/
+- https://leetcode.cn/problems/zi-fu-chuan-de-pai-lie-lcof/
+
+```js
+var permuteUnique = function (nums) {
+  nums.sort();
+  const results = [];
+  /** 1、递归树 */
+  /** [1](重置) => [1, 1] [1, 2] => [1, 1, 2] [1, 2, 1] */
+  /** [2](重置) => [2, 1] [2, 1](跳过) => [2, 1, 1] */
+  /** [2](跳过) => [1, 1] [1, 2] => [1, 1, 2] [1, 2, 1] */
+  _helper(nums, [], [], results);
+  return results;
+};
+
+var _helper = function (nums, visited, path, results) {
+  /** 2、把每一条路径加入结果集: 判断是否有结束条件 */
+  if (path.length === nums.length) {
+    results.push(path);
     return;
   }
-  for (let i = 0; i < len; i += 1) {
-    if (vistied.indexOf(nums[i]) < 0) {
-      _helper(nums, vistied.concat(nums[i]), results);
-    }
+  for (let i = 0; i < nums.length; i += 1) {
+    /** 3、做出选择 + 递归下一层 + 撤销选择: 剪枝去重 */
+    if (visited[i]) continue;
+    if (i > 0 && nums[i] === nums[i - 1] && visited[i - 1]) break;
+    path.push(nums[i]);
+    visited[i] = true;
+    _helper(nums, visited, [...path], results);
+    visited[i] = false;
+    path.pop();
+  }
+};
+```
+
+#### 组合
+
+- https://leetcode.cn/problems/combinations/
+- https://leetcode.cn/problems/combination-sum/
+- https://leetcode.cn/problems/combination-sum-ii/
+
+```js
+var combine = function (n, k) {
+  const results = [];
+  /** 1、递归树 */
+  /** 1 => [1, 2] [1, 3] [1, 4] */
+  /** 2 => [2, 3] [2, 4] */
+  /** 3 => [3, 4] */
+  _helper(n, k, 1, [], results);
+  return results;
+};
+
+var _helper = function (n, k, start, path, results) {
+  /** 2、把每一条路径加入结果集: 判断是否有结束条件 */
+  if (path.length === k) {
+    results.push(path);
+    return;
+  }
+  /** 3、做出选择 + 递归下一层 + 撤销选择: 剪枝去重 */
+  for (let i = start; i <= n; i += 1) {
+    path.push(i);
+    _helper(n, k, i + 1, [...path], results);
+    path.pop();
   }
 };
 ```
 
 #### 复原 IP 地址
 
-- leetcode: https://leetcode.cn/problems/restore-ip-addresses/
+- https://leetcode.cn/problems/restore-ip-addresses/
 
 ```js
 var restoreIpAddresses = function (s) {
