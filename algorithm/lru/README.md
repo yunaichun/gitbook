@@ -100,27 +100,6 @@ var arr = Array.from(s); // [1, 2, 3]
 var set = new Set(arr); // Set(3) {1, 2, 3}
 ```
 
-## 众数
-
-- https://leetcode.com/problems/majority-element
-
-```js
-var majorityElement = function (nums) {
-  const map = new Map();
-  let [maxCount, maxNum] = [0, null];
-  for (let i = 0, len = nums.length; i < len; i++) {
-    if (map.has(nums[i])) map.set(nums[i], map.get(nums[i]) + 1);
-    else map.set(nums[i], 1);
-    const currentCount = map.get(nums[i]);
-    if (currentCount > maxCount) {
-      maxCount = currentCount;
-      maxNum = nums[i];
-    }
-  }
-  return maxNum;
-};
-```
-
 ## 参考资料
 
 - [数据结构与算法 JavaScript 描述](https://book.douban.com/subject/25945449/)

@@ -1,8 +1,24 @@
 ## 简介
 
-> 算法-递归分治学习笔记。
+> 算法-递归回溯学习笔记。
 
-## 有效括号组合
+## 递归
+
+#### n 次幂
+
+- leetcode: https://leetcode.cn/problems/powx-n
+
+```js
+var myPow = function (x, n) {
+  if (n < 0) return 1 / myPow(x, -n);
+  if (n === 0) return 1;
+  if (n === 1) return x;
+  if (n % 2) return myPow(x * x, (n - 1) / 2) * x;
+  return myPow(x * x, n / 2);
+};
+```
+
+#### 有效括号组合
 
 - leetcode: https://leetcode.cn/problems/generate-parentheses
 
@@ -27,79 +43,7 @@ var _helper = function (n, leftUsed, rightUsed, cur, results) {
 };
 ```
 
-## 全排列
-
-- leetcode: https://leetcode.cn/problems/permutations/
-
-```js
-var permute = function (nums) {
-  let results = [];
-  const len = nums.length;
-  for (let i = 0; i < len; i += 1) {
-    _helper(nums, [nums[i]], results);
-  }
-  return results;
-};
-
-var _helper = function (nums, vistied, results) {
-  const len = nums.length;
-  if (vistied.length === len) {
-    results.push(vistied);
-    return;
-  }
-  for (let i = 0; i < len; i += 1) {
-    if (vistied.indexOf(nums[i]) < 0) {
-      _helper(nums, vistied.concat(nums[i]), results);
-    }
-  }
-};
-```
-
-## 复原 IP 地址
-
-- leetcode: https://leetcode.cn/problems/restore-ip-addresses/
-
-```js
-var restoreIpAddresses = function (s) {
-  let results = [];
-  _helper(s, 0, [], results);
-  return results;
-};
-
-var _helper = function (s, pos, path, results) {
-  if (path.length === 4) {
-    if (pos === s.length) {
-      const exist = results.find((i) => i === path.join("."));
-      if (!exist) results.push(path.join("."));
-    }
-    return;
-  }
-  for (let i = 1; i < 4; i += 1) {
-    const char = s.slice(pos, pos + i);
-    if (char.length > 1 && char[0] === "0") break;
-    const isValid = char.length && Number(char) >= 0 && Number(char) <= 255;
-    if (isValid) {
-      _helper(s, pos + char.length, path.concat(char), results);
-    }
-  }
-};
-```
-
-## n 次幂
-
-- leetcode: https://leetcode.cn/problems/powx-n
-
-```js
-var myPow = function (x, n) {
-  if (n < 0) return 1 / myPow(x, -n);
-  if (n === 0) return 1;
-  if (n === 1) return x;
-  if (n % 2) return myPow(x * x, (n - 1) / 2) * x;
-  return myPow(x * x, n / 2);
-};
-```
-
-## 岛屿个数
+#### 岛屿个数
 
 - leetcode: https://leetcode.cn/problems/number-of-islands/
 
@@ -139,7 +83,7 @@ var _helper = function (grid, row, column, visited) {
 };
 ```
 
-## 单词搜索
+#### 单词搜索
 
 - leetcode: https://leetcode.cn/problems/word-search
 - leetcode: https://leetcode.cn/problems/word-search-ii
@@ -193,6 +137,66 @@ var _helper = function (board, word, row, column, cur, results, visited) {
         results,
         visited.concat({ x, y })
       );
+    }
+  }
+};
+```
+
+## 回溯
+
+#### 全排列
+
+- leetcode: https://leetcode.cn/problems/permutations/
+
+```js
+var permute = function (nums) {
+  let results = [];
+  const len = nums.length;
+  for (let i = 0; i < len; i += 1) {
+    _helper(nums, [nums[i]], results);
+  }
+  return results;
+};
+
+var _helper = function (nums, vistied, results) {
+  const len = nums.length;
+  if (vistied.length === len) {
+    results.push(vistied);
+    return;
+  }
+  for (let i = 0; i < len; i += 1) {
+    if (vistied.indexOf(nums[i]) < 0) {
+      _helper(nums, vistied.concat(nums[i]), results);
+    }
+  }
+};
+```
+
+#### 复原 IP 地址
+
+- leetcode: https://leetcode.cn/problems/restore-ip-addresses/
+
+```js
+var restoreIpAddresses = function (s) {
+  let results = [];
+  _helper(s, 0, [], results);
+  return results;
+};
+
+var _helper = function (s, pos, path, results) {
+  if (path.length === 4) {
+    if (pos === s.length) {
+      const exist = results.find((i) => i === path.join("."));
+      if (!exist) results.push(path.join("."));
+    }
+    return;
+  }
+  for (let i = 1; i < 4; i += 1) {
+    const char = s.slice(pos, pos + i);
+    if (char.length > 1 && char[0] === "0") break;
+    const isValid = char.length && Number(char) >= 0 && Number(char) <= 255;
+    if (isValid) {
+      _helper(s, pos + char.length, path.concat(char), results);
     }
   }
 };

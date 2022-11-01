@@ -55,6 +55,27 @@ var isAnagram = function (s, t) {
 };
 ```
 
+## 众数
+
+- https://leetcode.com/problems/majority-element
+
+```js
+var majorityElement = function (nums) {
+  const map = new Map();
+  let [maxCount, maxNum] = [0, null];
+  for (let i = 0, len = nums.length; i < len; i++) {
+    if (map.has(nums[i])) map.set(nums[i], map.get(nums[i]) + 1);
+    else map.set(nums[i], 1);
+    const currentCount = map.get(nums[i]);
+    if (currentCount > maxCount) {
+      maxCount = currentCount;
+      maxNum = nums[i];
+    }
+  }
+  return maxNum;
+};
+```
+
 ## 缺失的第一个正数
 
 - leetcode: https://leetcode.cn/problems/first-missing-positive/
