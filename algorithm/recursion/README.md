@@ -48,6 +48,8 @@ var _helper = function (n, leftUsed, rightUsed, cur, results) {
 
 #### 岛屿个数
 
+**会修改原始数据**
+
 - https://leetcode.cn/problems/number-of-islands/
 
 ```js
@@ -74,72 +76,12 @@ var _helper = function (grid, row, column, visited) {
   for (let i = 0; i < 4; i += 1) {
     const x = dx[i] + row;
     const y = dy[i] + column;
-    const inGrid = x >= 0 && x < m && y >= 0 && y < n;
-    const inVisited = visited.find((i) => i.x === x && i.y === y);
-    if (inGrid && !inVisited) {
-      if (grid[x][y] === "1") {
-        grid[x][y] = 0;
-        _helper(grid, x, y, visited.concat({ x, y }));
-      }
-    }
-  }
-};
-```
-
-#### 单词搜索
-
-- https://leetcode.cn/problems/word-search
-- https://leetcode.cn/problems/word-search-ii
-
-```js
-/** 上下左右 */
-const dx = [-1, 1, 0, 0];
-const dy = [0, 0, -1, 1];
-
-function findWords(board, words) {
-  const results = [];
-  for (let i = 0, len = words.length; i < len; i += 1) {
-    const isExist = exist(board, words[i]);
-    if (isExist) results.push(words[i]);
-  }
-  return results;
-}
-
-var exist = function (board, word) {
-  const results = [];
-  for (let i = 0, row = board.length; i < row; i += 1) {
-    for (let j = 0, column = board[i].length; j < column; j += 1) {
-      _helper(board, word, i, j, board[i][j], results, [{ x: i, y: j }]);
-    }
-  }
-  return results.length;
-};
-
-var _helper = function (board, word, row, column, cur, results, visited) {
-  if (word.indexOf(cur) !== 0) return;
-  if (cur === word) {
-    results.push(cur);
-    return;
-  }
-
-  let m = board.length;
-  let n = board[0].length;
-
-  for (let i = 0; i < 4; i += 1) {
-    let x = row + dx[i];
-    let y = column + dy[i];
-    const isVisited = visited.find((d) => d.x === x && d.y === y);
-    const inBoard = x >= 0 && x < m && y >= 0 && y < n;
-    if (inBoard && !isVisited) {
-      _helper(
-        board,
-        word,
-        x,
-        y,
-        cur + board[x][y],
-        results,
-        visited.concat({ x, y })
-      );
+    const isValid = x >= 0 && x < m && y >= 0 && y < n;
+    const isVisited = visited.find((i) => i.x === x && i.y === y);
+    if (!isValid || isVisited) continue;
+    if (grid[x][y] === "1") {
+      grid[x][y] = 0;
+      _helper(grid, x, y, visited.concat({ x, y }));
     }
   }
 };
@@ -362,41 +304,104 @@ var _isValidChar = function (char) {
 };
 ```
 
+#### 单词搜索
+
+- https://leetcode.cn/problems/word-search
+- https://leetcode.cn/problems/word-search-ii
+
+```js
+/** 上下左右 */
+const dx = [-1, 1, 0, 0];
+const dy = [0, 0, -1, 1];
+
+var findWords = function (board, words) {
+  const results = [];
+  for (let i = 0, len = words.length; i < len; i += 1) {
+    const isExist = exist(board, words[i]);
+    if (isExist) results.push(words[i]);
+  }
+  return results;
+};
+
+var exist = function (board, word) {
+  if (!board.length) return false;
+  /** 1、递归树 */
+  /** A -> B */
+  /** A -> S */
+  const results = [];
+  for (let i = 0, len1 = board.length; i < len1; i += 1) {
+    for (let j = 0, len2 = board[i].length; j < len2; j += 1) {
+      const char = board[i][j];
+      if (word.indexOf(char) === 0) {
+        _helper(board, word, i, j, [char], [{ x: i, y: j }], results);
+      }
+    }
+  }
+  return results.length;
+};
+
+var _helper = function (board, word, row, column, path, visited, results) {
+  const m = board.length;
+  const n = board[0].length;
+  if (word.indexOf(path.join("")) !== 0) return;
+  /** 2、保存结果: 结束条件 */
+  if (path.join("") === word) {
+    results.push(path.join(""));
+    return;
+  }
+  /** 3、选择+递归+重置: 剪枝 */
+  for (let i = 0; i < 4; i += 1) {
+    const x = row + dx[i];
+    const y = column + dy[i];
+    const isValid = x >= 0 && x < m && y >= 0 && y < n;
+    const isVisited = visited.find((i) => i.x === x && i.y === y);
+    if (!isValid || isVisited) continue;
+    const char = board[x][y];
+    path.push(char);
+    visited.push({ x, y });
+    _helper(board, word, x, y, [...path], [...visited], results);
+    path.pop();
+    visited.pop();
+  }
+};
+```
+
 ## 数独
+
+**不同于以上之处是会修改原始数据，再不断递归修改后的原始数据**
 
 - leetcode-36: https://leetcode.cn/problems/valid-sudoku
 - leetcode-37: https://leetcode.cn/problems/sudoku-solver
 
 ```js
-var isValidSudoku = function (board) {
-  let res = _helper(board);
-  return res;
-};
-
-/**
- * @param {character[][]} board
- * @return {void} Do not return anything, modify board in-place instead.
- */
 var solveSudoku = function (board) {
   _helper(board);
   return board;
 };
 
+var isValidSudoku = function (board) {
+  /** 1、递归树 */
+  /** . -> 1 */
+  /** . -> 2 */
+  const results = _helper(board);
+  return results;
+};
+
 var _helper = function (board) {
-  for (let i = 0, row = board.length; i < row; i += 1) {
-    for (let j = 0, column = board[i].length; j < column; j += 1) {
+  for (let i = 0, len1 = board.length; i < len1; i += 1) {
+    for (let j = 0, len2 = board[0].length; j < len2; j += 1) {
+      /** 3、选择+递归+重置: 剪枝 */
       if (board[i][j] === ".") {
         for (let char = 1; char < 10; char += 1) {
-          const isValid = _isVaild(board, i, j, char.toString());
-          if (isValid) {
+          const isValidChar = _isValid(board, i, j, char.toString());
+          if (isValidChar) {
             board[i][j] = char.toString();
-            if (_helper(board)) {
-              return true;
-            } else {
-              board[i][j] = ".";
-            }
+            /** 再次递归寻找下一个 . 此步骤是关键 */
+            if (_helper(board)) return true;
+            else board[i][j] = ".";
           }
         }
+        /** 能走到这里说明 1 - 9 所有数字都试了，不管用 */
         return false;
       }
     }
@@ -404,18 +409,16 @@ var _helper = function (board) {
   return true;
 };
 
-var _isVaild = function (board, row, column, char) {
-  // /** 行列正确 */
+var _isValid = function (board, row, column, char) {
   for (let i = 0; i < 9; i += 1) {
-    if (char === board[row][i]) return false;
-    if (char === board[i][column]) return false;
+    if (board[row][i] === char) return false;
+    if (board[i][column] === char) return false;
   }
-  /** 3*3宫格正确 */
-  let m = Math.floor(row / 3);
-  let n = Math.floor(column / 3);
-  for (let i = m * 3; i < m * 3 + 3; i++) {
-    for (let j = n * 3; j < n * 3 + 3; j++) {
-      if (char === board[i][j]) return false;
+  const m = Math.floor(row / 3);
+  const n = Math.floor(column / 3);
+  for (let i = m * 3; i < m * 3 + 3; i += 1) {
+    for (let j = n * 3; j < n * 3 + 3; j += 1) {
+      if (board[i][j] === char) return false;
     }
   }
   return true;
