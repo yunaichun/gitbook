@@ -181,6 +181,38 @@ var _helper = function (nums, start, path, results) {
 };
 ```
 
+#### 组合
+
+- https://leetcode.cn/problems/combinations/
+- https://leetcode.cn/problems/combination-sum/
+- https://leetcode.cn/problems/combination-sum-ii/
+
+```js
+var combine = function (n, k) {
+  const results = [];
+  /** 1、递归树 */
+  /** 1 => [1, 2] [1, 3] [1, 4] */
+  /** 2 => [2, 3] [2, 4] */
+  /** 3 => [3, 4] */
+  _helper(n, k, 1, [], results);
+  return results;
+};
+
+var _helper = function (n, k, start, path, results) {
+  /** 2、把每一条路径加入结果集: 判断是否有结束条件 */
+  if (path.length === k) {
+    results.push(path);
+    return;
+  }
+  /** 3、做出选择 + 递归下一层 + 撤销选择: 剪枝去重 */
+  for (let i = start; i <= n; i += 1) {
+    path.push(i);
+    _helper(n, k, i + 1, [...path], results);
+    path.pop();
+  }
+};
+```
+
 #### 全排列
 
 - https://leetcode.cn/problems/permutations/
@@ -218,33 +250,41 @@ var _helper = function (nums, visited, path, results) {
 };
 ```
 
-#### 组合
+#### 字母大小写全排列
 
-- https://leetcode.cn/problems/combinations/
-- https://leetcode.cn/problems/combination-sum/
-- https://leetcode.cn/problems/combination-sum-ii/
+- https://leetcode.cn/problems/letter-case-permutation/
 
 ```js
-var combine = function (n, k) {
+var letterCasePermutation = function (s) {
   const results = [];
   /** 1、递归树 */
-  /** 1 => [1, 2] [1, 3] [1, 4] */
-  /** 2 => [2, 3] [2, 4] */
-  /** 3 => [3, 4] */
-  _helper(n, k, 1, [], results);
+  /** a => a1 -> a1b a1B */
+  /** A => A1 -> A1b A1B */
+  _helper(s, 0, [], results);
   return results;
 };
 
-var _helper = function (n, k, start, path, results) {
-  /** 2、把每一条路径加入结果集: 判断是否有结束条件 */
-  if (path.length === k) {
-    results.push(path);
+var _helper = function (s, start, path, results) {
+  /** 2、保存结果: 终止条件 */
+  if (path.length === s.length) {
+    results.push(path.join(""));
     return;
   }
-  /** 3、做出选择 + 递归下一层 + 撤销选择: 剪枝去重 */
-  for (let i = start; i <= n; i += 1) {
-    path.push(i);
-    _helper(n, k, i + 1, [...path], results);
+  if (start > s.length - 1) return;
+
+  const char = s[start];
+  if (isNaN(Number(char))) {
+    /** 字母 */
+    path.push(char.toUpperCase());
+    _helper(s, start + 1, [...path], results);
+    path.pop();
+    path.push(char.toLowerCase());
+    _helper(s, start + 1, [...path], results);
+    path.pop();
+  } else {
+    /** 数字 */
+    path.push(char);
+    _helper(s, start + 1, [...path], results);
     path.pop();
   }
 };
@@ -274,8 +314,8 @@ var _helper = function (s, start, path, results) {
   for (let i = start; i < s.length; i += 1) {
     /** 3、选择+递归+重置: 剪枝 */
     const char = s.slice(start, i + 1);
-    if (!char || Number(char) < 0 || Number(char) > 255) break;
-    if (char.length > 1 && char[0] === "0") break;
+    if (Number(char) < 0 || Number(char) > 255) continue;
+    if (char.length > 1 && char[0] === "0") continue;
     path.push(char);
     _helper(s, start + char.length, [...path], results);
     path.pop();
@@ -306,7 +346,6 @@ var _helper = function (s, start, path, results) {
   for (let i = start; i < s.length; i += 1) {
     /** 3、选择+递归+重置: 剪枝 */
     const char = s.slice(start, i + 1);
-    if (!char) break;
     if (!_isValidChar(char)) continue;
     path.push(char);
     _helper(s, start + char.length, [...path], results);
