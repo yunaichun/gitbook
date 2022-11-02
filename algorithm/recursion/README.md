@@ -366,7 +366,7 @@ var _helper = function (board, word, row, column, visited, path, results) {
 };
 ```
 
-## 数独
+## N 皇后
 
 - https://leetcode.cn/problems/n-queens/
 - https://leetcode.cn/problems/n-queens-ii/
