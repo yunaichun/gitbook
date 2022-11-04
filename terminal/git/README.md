@@ -24,7 +24,7 @@ git remote add origin git@github.com:git账号/项目名.git
 # 1、工作区添加至缓存区
 git add file
 
-# 2、缓存区至版本库  
+# 2、缓存区至版本库
 git commit -m ""
 
 # 3、在git add 之前查看变化
@@ -72,7 +72,7 @@ git checkout dev(上面两步等价于 git checkout -b dev)
 git branch -d dev
 
 # 6、合并本地分支至master分支（在master分支执行操作）
-git merge --no-ff -m ""  dev 
+git merge --no-ff -m ""  dev
 
 # 7、合并其他分支指定 commit 至指定分支（在当前分支执行操作）
 git cherry-pick commitid
@@ -93,6 +93,11 @@ git clean -xdf
 ```bash
 # 1、查看远程库信息
 git remote (-v -a)
+
+# 修改 remote
+git remote set-url origin git@github.com:${CI_PROJECT_NAME}.git
+git remote set-url origin https://github.com/${CI_PROJECT_NAME}.git
+git remote set-url origin https://${token_name}:${token_value}@github.com/${CI_PROJECT_NAME}.git
 
 # 2、下载远程master分支
 git clone git@github.com:git账号/项目名.git
@@ -122,7 +127,7 @@ git stash pop
 
 ## 参考资料
 
-- [Git教程](https://www.liaoxuefeng.com/wiki/896043488029600/)
+- [Git 教程](https://www.liaoxuefeng.com/wiki/896043488029600/)
 - [git commit 规范指南](https://www.jianshu.com/p/201bd81e7dc9?utm_source=oschina-app)
 - [Gitbook 集成 Gittalk ](https://juejin.cn/post/6844903939091988494)
 - [Gitbook 文章阅读量统计插件](https://juejin.cn/post/6970933389247381541)
