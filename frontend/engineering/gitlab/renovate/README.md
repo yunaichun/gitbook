@@ -1,6 +1,8 @@
-## 安装
+## 简介
 
 > Renovate 自动升级依赖学习笔记。
+
+## 安装
 
 - 官方提供 cli、docker、安装应用(Github)、克隆项目(Gitlab)等方法注册服务
 - 此文章介绍通过克隆项目 [renovate-runner](https://gitlab.com/renovate-bot/renovate-runner) 注册 Gitlab 私有库依赖自动升级服务
@@ -47,6 +49,14 @@ autodiscover: 有 renovate.json 文件的项目会自动升级
 autodiscover-filter: 有 renovate.json 文件的项目，但是指定了具体的项目文件名 (多个用空格分割)
 
 onboarding: 每次 mr 提交面板都有详细的信息
+```
+
+#### RENOVATE_BINARY_SOURCE
+
+```
+1、设置为 global: 为 docker 安装指定的工具
+
+2、否则会流水线会报错: https://docs.renovatebot.com/self-hosted-configuration/#binarysource
 ```
 
 ## 配置 GitLab yml 文件
