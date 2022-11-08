@@ -132,7 +132,6 @@
   - [zsh](./terminal/zsh/README.md)
   - [shell](./terminal/shell/README.md)
   - [linux](./terminal/linux/README.md)
-  - [cli](./terminal/cli/README.md)
 - [浏览器简介]()
   - [V8 简介](./browser/v8/README.md)
   - [浏览器渲染过程](./browser/render/README.md)
