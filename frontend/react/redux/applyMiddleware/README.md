@@ -56,15 +56,7 @@ export default function applyMiddleware(...middlewares) {
 
 ## compose 源码
 
-```text
-compose 接收中间件数组。由 applyMiddleware 源码可知，此数组的每一项中间件均执行了一次，传入了第一个参数 store。
-
-compose 返回一个函数，此函数从后向前执行传进来的中间件数组的每一项，每次的执行结果传入到中间件数组的前一项。
-
-reduce 假如处理到第三个中间件，则结果为: (...arg1) => ((...args) => a(b(...args)))(c(...args1))
-
-reduce 最终处理的结果是返回一个函数，由 applyMiddleware 方法可知传入第一个值为 store.dispatch
-```
+- 源码
 
 ```js
 export default function compose(...funcs) {
@@ -83,8 +75,19 @@ export default function compose(...funcs) {
   // == 此处的 reduce 最终处理的结果是返回一个函数，由 applyMiddleware 方法可知传入第一个值为 store.dispatch
   return funcs.reduce((a, b) => (...args) => a(b(...args)))
 }
+```
 
+- 分析
 
+```text
+funcs.reduce((a, b) => (...args) => a(b(...args)))
+var res1 = (...args) => a(...args)
+var res2 = (...args) => b(...args)
+var res3 = (...args) => c(...args)
+
+1、结合 applyMiddleware 代码首先传入 store.dispatch 给 res3
+2、res3 执行结果传给 res2
+3、res2 执行结果传给 res1
 ```
 
 ## 中间件形式
@@ -92,11 +95,11 @@ export default function compose(...funcs) {
 ```text
 1、由源码可以看出，一个最简单的中间件的格式: store => next => action => {}
 
-2、中间件的第一个参数 { getState, dispatch }
+2、中间件的第一个参数 middlewareAPI 即为 store
 getState 可以获取 store 应用的状态
-dispatch 参数对应的是 actionCreators 返回函数的形参 dispatch。（拿 redux-thunk 举例）
+dispatch 参数对应的是 actionCreators 返回函数的形参 dispatch (拿 redux-thunk 举例)
 
-3、通过调用中间件的第二个参数 next，实际是直接调用 store.dispatch。可以在中间内部做额外的逻辑
+3、中间件的第二个参数 next, 实际是直接调用 store.dispatch
 ```
 
 ## 日志中间件
