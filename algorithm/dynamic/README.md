@@ -203,6 +203,77 @@ var findLength = function (nums1, nums2) {
 };
 ```
 
+## 矩阵最小路径和
+
+- leetcode: https://leetcode.cn/problems/minimum-path-sum/
+
+```js
+var minPathSum = function (grid) {
+  /** dp[i][j] 代表从左上角 [0, 0] 到 [i, j] 位置最短路径和 */
+  const dp = [];
+  for (let i = 0; i < grid.length; i += 1) {
+    if (!dp[i]) dp[i] = [];
+    for (let j = 0; j < grid[i].length; j += 1) {
+      if (i === 0 && j === 0) {
+        dp[i][j] = grid[i][j];
+      } else if (i === 0) {
+        /** 只能从左面来 */
+        dp[i][j] = dp[i][j - 1] + grid[i][j];
+      } else if (j === 0) {
+        /** 只能从上面来 */
+        dp[i][j] = dp[i - 1][j] + grid[i][j]
+      } else {
+        dp[i][j] = Math.min(dp[i - 1][j], dp[i][j - 1]) + grid[i][j];
+      }
+    }
+  }
+  return dp[grid.length - 1][grid[0].length - 1];
+};
+```
+
+## 最长无重复子串长度
+
+- leetcode: https://leetcode.cn/problems/longest-substring-without-repeating-characters/
+
+```js
+var lengthOfLongestSubstring = function (s) {
+  if (!s.length) return 0;
+  /** dp[i] 代表包含 s 第 i 位字符的最长字串 */
+  const dp = [s[0]];
+  for (let i = 1; i < s.length; i += 1) {
+    const index = dp[i - 1].indexOf(s[i]);
+    if (index < 0) {
+      dp[i] = dp[i - 1] + s[i];
+    } else {
+      dp[i] = dp[i - 1].slice(index + 1) + s[i];
+    }
+  }
+  return  Math.max.apply(null, dp.map(i => i.length));
+};
+```
+
+## 打家劫舍
+
+- leetcode: https://leetcode.cn/problems/house-robber/
+
+```js
+var rob = function (nums) {
+  if (!nums.length) return 0;
+  /** dp[i][0] dp[i][1] 代表偷盗或不偷盗 nums 数组第 i 家时累计可以打劫的最大数 */
+  const dp = [[nums[0], 0]];
+  for (let i = 1; i < nums.length; i += 1) {
+    /** 偷盗 */
+    const robs = dp.map(i => i[0]);
+    /** 不偷盗 */
+    const unrobs = dp.map(i => i[1]);
+    if (!dp[i]) dp[i] = [];
+    dp[i][0] = Math.max.apply(null, robs.slice(0, robs.length - 1).concat(unrobs)) + nums[i];
+    dp[i][1] =  Math.max.apply(null, robs.concat(unrobs));
+  }
+  return Math.max.apply(null, dp.reduce((a, b) => a.concat(b)));
+};
+```
+
 ## 接雨水
 
 - leetcode: https://leetcode.cn/problems/trapping-rain-water/
@@ -229,83 +300,6 @@ var trap = function (height) {
     dp[i] = Math.min(leftMax[i], rightMax[i]) - height[i];
   }
   return dp.reduce((a, b) => a + b);
-};
-```
-
-## 最长无重复子串
-
-- leetcode: https://leetcode.cn/problems/longest-substring-without-repeating-characters/
-
-```js
-var lengthOfLongestSubstring = function (s) {
-  let len = s.length;
-  if (!len) return 0;
-  /** dp[i] 指以第 i + 1 结尾的字符串最长无重复子串 */
-  const dp = [s[0]];
-  for (let i = 1; i < len; i += 1) {
-    const index = dp[i - 1].indexOf(s[i]);
-    if (index < 0) {
-      dp[i] = dp[i - 1] + s[i];
-    } else {
-      dp[i] = dp[i - 1].slice(index + 1) + s[i];
-    }
-  }
-  const dpLen = dp.map((i) => i.length);
-  return Math.max.apply(null, dpLen);
-};
-```
-
-## 打家劫舍
-
-- leetcode: https://leetcode.cn/problems/house-robber/
-
-```js
-var rob = function (nums) {
-  const len = nums.length;
-  if (!len) return 0;
-  if (len === 1) return nums[0];
-
-  /** 代表第 i 天偷窃的话最大收益 */
-  const dp = [nums[0], Math.max(nums[0], nums[1])];
-
-  for (let i = 2; i < len; i += 1) {
-    dp[i] = Math.max(dp[i - 2] + nums[i], dp[i - 1]);
-  }
-
-  return dp[len - 1];
-};
-```
-
-## 最小路径和
-
-- leetcode: https://leetcode.cn/problems/minimum-path-sum/
-
-```js
-var minPathSum = function (grid) {
-  const m = grid.length;
-  const n = grid[0].length;
-  /** dp[i][j] 代表从位置 (0, 0) 到位置 (i, j) 最小路径和 */
-  const dp = [];
-  for (let i = 0; i < m; i += 1) {
-    if (!dp[i]) dp[i] = [];
-    for (let j = 0; j < n; j += 1) {
-      if (i === 0 && j === 0) {
-        /** 起点 */
-        dp[i][j] = grid[i][j];
-      } else if (i === 0) {
-        /** 只能从左边过来 */
-        dp[i][j] = dp[i][j - 1] + grid[i][j];
-      } else if (j === 0) {
-        /** 只能从上边过来 */
-        dp[i][j] = dp[i - 1][j] + grid[i][j];
-      } else {
-        /** 从上边或左边过来 */
-        dp[i][j] = Math.min(dp[i - 1][j], dp[i][j - 1]) + grid[i][j];
-      }
-    }
-  }
-
-  return dp[m - 1][n - 1];
 };
 ```
 
