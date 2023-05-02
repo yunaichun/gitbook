@@ -7,12 +7,8 @@
 - leetcode: https://leetcode.cn/problems/climbing-stairs
 
 ```js
-/**
- * @param {number} n
- * @return {number}
- */
 var climbStairs = function (n) {
-  /** dp[i] 代表爬第 i + 1 层楼所需要的步数 */
+  /** dp[i] 代表爬到第 i - 1 层的方法数量 */
   const dp = [1, 2];
   for (let i = 2; i < n; i += 1) {
     dp[i] = dp[i - 1] + dp[i - 2];
@@ -26,17 +22,12 @@ var climbStairs = function (n) {
 - leetcode: https://leetcode.cn/problems/coin-change
 
 ```js
-/**
- * @param {number[]} coins
- * @param {number} amount
- * @return {number}
- */
 var coinChange = function (coins, amount) {
-  /** a[i] 代表兑换 i 数量需要的最少的硬币个数 */
+  /** dp[i] 代表兑换 i 数量的钱需要的最少的硬币个数 */
   const dp = [0];
   for (let i = 1; i <= amount; i += 1) {
     if (!dp[i]) dp[i] = Infinity;
-    for (let j = 0, len = coins.length; j < len; j += 1) {
+    for (let j = 0; j < coins.length; j += 1) {
       if (i - coins[j] >= 0) {
         dp[i] = Math.min(dp[i - coins[j]] + 1, dp[i]);
       }
@@ -51,14 +42,10 @@ var coinChange = function (coins, amount) {
 - leetcode: https://leetcode.cn/problems/maximum-subarray
 
 ```js
-/**
- * @param {number[]} nums
- * @return {number}
- */
 var maxSubArray = function (nums) {
-  /** dp[i] 代表【以数组第 i + 1 个数结尾的最大连续子数组】的最大和 */
+ /** dp[i] 代表以 nums 第 i 个数结尾最大子数组 */
   const dp = [nums[0]];
-  for (let i = 1, len = nums.length; i < len; i += 1) {
+  for (let i = 1; i < nums.length; i += 1) {
     dp[i] = Math.max(dp[i - 1] + nums[i], nums[i]);
   }
   return Math.max.apply(null, dp);
@@ -70,24 +57,15 @@ var maxSubArray = function (nums) {
 - leetcode: https://leetcode.cn/problems/maximum-product-subarray
 
 ```js
-/**
- * @param {number[]} nums
- * @return {number}
- */
 var maxProduct = function (nums) {
-  /** dp[i][0] 代表【以数组第 i + 1 个数结尾的最大连续子数组】乘积最大值 */
-  /** dp[i][1] 代表【以数组第 i + 1 个数结尾的最大连续子数组】乘积最小值 */
+  /** dp[i][0] dp[i][1] 分别代表以 nums 第 i 个数结尾最大和最小数 */
   const dp = [[nums[0], nums[0]]];
-  for (let i = 1, len = nums.length; i < len; i += 1) {
-    dp[i] = [
-      Math.max(dp[i - 1][0] * nums[i], dp[i - 1][1] * nums[i], nums[i]),
-      Math.min(dp[i - 1][0] * nums[i], dp[i - 1][1] * nums[i], nums[i]),
-    ];
+  for (let i = 1; i < nums.length; i += 1) {
+    const a = dp[i - 1][0] * nums[i];
+    const b = dp[i - 1][1] * nums[i];
+    dp[i] = [Math.max(a, b, nums[i]), Math.min(a, b, nums[i])];
   }
-  return Math.max.apply(
-    null,
-    dp.map((product) => product[0])
-  );
+  return Math.max.apply(null, dp.map(i => i[0]));
 };
 ```
 
@@ -96,17 +74,17 @@ var maxProduct = function (nums) {
 - leetcode: https://leetcode.cn/problems/longest-increasing-subsequence
 
 ```js
-/**
- * @param {number[]} nums
- * @return {number}
- */
 var lengthOfLIS = function (nums) {
-  /** dp[i] 代表【以数组第 i + 1 个数结尾的最长严格递增子序列】的长度 */
+  /** dp[i] 代表数组 nums 第 i 位时最长严格递增子序列的长度 */
   const dp = [1];
-  for (let i = 1, len = nums.length; i < len; i += 1) {
-    if (!dp[i]) dp[i] = 1;
+  for (let i = 1; i < nums.length; i += 1) {
+    if (!dp[i]) dp[i] = -Infinity;
     for (let j = 0; j < i; j += 1) {
-      if (nums[i] > nums[j]) dp[i] = Math.max(dp[j] + 1, dp[i]);
+      if (nums[i] > nums[j]) {
+        dp[i] = Math.max(dp[i], dp[j] + 1);
+      } else {
+        dp[i] = Math.max(dp[i], 1);
+      }
     }
   }
   return Math.max.apply(null, dp);
@@ -118,19 +96,18 @@ var lengthOfLIS = function (nums) {
 - leetcode: https://leetcode.cn/problems/triangle
 
 ```js
-/**
- * @param {number[][]} triangle
- * @return {number}
- */
 var minimumTotal = function (triangle) {
-  /** dp[i][j] 代表从底部到坐标 (i, j) 最小路径和 */
-  const dp = [];
-  dp[triangle.length - 1] = triangle[triangle.length - 1];
-  for (i = triangle.length - 2; i >= 0; i -= 1) {
-    if (!dp[i]) dp[i] = [];
-    for (let j = 0, len = triangle[i].length; j < len; j += 1) {
-      dp[i][j] = Math.min(dp[i + 1][j], dp[i + 1][j + 1]) + triangle[i][j];
-    }
+  /** dp[i][j] 代表从底部到顶部位置 [i,j] 时和最小值 */
+  const dp = []
+  for (let i = triangle.length - 1; i >= 0; i -= 1) {
+      if (!dp[i]) dp[i] = [];
+      if (i === triangle.length - 1) {
+        dp[i] = triangle[i];
+      } else {
+        for (let j = triangle[i].length - 1; j >= 0; j -= 1) {
+          dp[i][j] = Math.min(dp[i + 1][j], dp[i + 1][j + 1]) + triangle[i][j];
+        }
+      }
   }
   return dp[0][0];
 };
@@ -141,11 +118,6 @@ var minimumTotal = function (triangle) {
 - leetcode: https://leetcode.cn/problems/edit-distance
 
 ```js
-/**
- * @param {string} word1
- * @param {string} word2
- * @return {number}
- */
 var minDistance = function (word1, word2) {
   /** dp[i][j] 代表 word1 第 i 个单词到 word2 第 j 个单词 变换所使用的最少操作数 */
   const dp = [];
@@ -173,17 +145,17 @@ var minDistance = function (word1, word2) {
 };
 ```
 
-## 最长公共子串长度
+## 最长公共子串长度(非连续)
 
 - leetcode: https://leetcode.cn/problems/longest-common-subsequence/
 
 ```js
 var longestCommonSubsequence = function (text1, text2) {
-  /** dp[i][j] 代表 text1 第 i 个单词到 text2 第 j 个单词 变换所使用的最少操作数 */
+  /** dp[i][j] 代表单词 text1 第 i 位和单词 text2 第 j 位最长公共子串长度 */
   const dp = [];
-  for (let i = 0, len1 = text1.length; i <= len1; i += 1) {
+  for (let i = 0; i <= text1.length; i += 1) {
     if (!dp[i]) dp[i] = [];
-    for (let j = 0, len2 = text2.length; j <= len2; j += 1) {
+    for (let j = 0; j <= text2.length; j += 1) {
       if (i === 0) {
         dp[i][j] = 0;
       } else if (j === 0) {
@@ -201,30 +173,26 @@ var longestCommonSubsequence = function (text1, text2) {
 };
 ```
 
-## 最长重复子数组
+## 最长重复子数组长度 (连续)
 
 - leetcode: https://leetcode.cn/problems/maximum-length-of-repeated-subarray/
 
 ```js
 var findLength = function (nums1, nums2) {
-  /** dp[i][j] 代表 nums1[0:i] 和 nums2[0:j] 的最大"公共后缀"子数组长度 */
-  /** 此题 dp 的定义保证了所求得的 dp 值反映了连续的子数组匹配，即 nums1[0:i] 和nums2[0:j] 的末尾部分是匹配的 */
-  const dp = [];
+  /** dp[i][j] 代表数组 nums1 包含第 i 位和数组 nums2 包含第 j 位最长子数组长度 */
   let res = 0;
-  for (let i = 0; i <= nums1.length; i++) {
+  const dp = [];
+  for (let i = 0; i <= nums1.length; i += 1) {
     if (!dp[i]) dp[i] = [];
-    for (let j = 0; j <= nums2.length; j++) {
+    for (let j = 0; j <= nums2.length; j += 1) {
       if (i === 0) {
-        /** 空数组和任何数组的最最长公共子串长度的长度都是 0 */
         dp[i][j] = 0;
       } else if (j === 0) {
         dp[i][j] = 0;
       } else {
         if (nums1[i - 1] === nums2[j - 1]) {
-          /** nums1 第 i 个元素和 nums2 第 j 个元素一样, 公共子串长度比前个序列加 1 */
           dp[i][j] = dp[i - 1][j - 1] + 1;
         } else {
-          /** 如果尾部不相等，表明没有公共后缀 */
           dp[i][j] = 0;
         }
         res = Math.max(res, dp[i][j]);
