@@ -281,25 +281,25 @@ var rob = function (nums) {
 ```js
 var trap = function (height) {
   if (!height.length) return 0;
-  const len = height.length;
-  /** leftMax[i] 代表第 i + 1 位置及其左边最大的值 */
+
+  /** leftMax[i] 代表第 i 位置极其左边最大高度 */
   const leftMax = [height[0]];
-  for (let i = 1; i < len; i += 1) {
+  for (let i = 1; i < height.length; i += 1) {
     leftMax[i] = Math.max(leftMax[i - 1], height[i]);
   }
-  /** rightMax[i] 代表第 i + 1 位置及其右边最大的值 */
+  /** rightMax[i] 代表第 i 位置极其右边最大高度 */
   const rightMax = [];
-  rightMax[len - 1] = height[len - 1];
-  for (let i = len - 2; i >= 0; i -= 1) {
-    rightMax[i] = Math.max(rightMax[i + 1], height[i]);
+  for (let i = height.length - 1; i >= 0; i -= 1) {
+    if (i === height.length - 1) rightMax[i] = height[i];
+    else rightMax[i] = Math.max(rightMax[i + 1], height[i]);
   }
-
-  /** dp[i] 代表第 i + 1 位置能接的雨水数量 */
-  const dp = [];
-  for (let i = 0; i < len; i += 1) {
+  /** dp[i] 代表第 i 位置可以接的雨水 */
+  const dp = [0];
+  for (let i = 1; i < height.length - 1; i += 1) {
     dp[i] = Math.min(leftMax[i], rightMax[i]) - height[i];
   }
-  return dp.reduce((a, b) => a + b);
+
+  return dp.reduce((a,b) => a + b);
 };
 ```
 
@@ -311,12 +311,12 @@ var trap = function (height) {
 
 ```js
 var maxProfit = function (prices) {
-  /** 代表股票在某天之前的最低值 */
-  let min = prices[0];
   let max = 0;
-  for (let i = 1, len = prices.length; i < len; i += 1) {
-    min = Math.min(min, prices[i]);
-    max = Math.max(max, prices[i] - min);
+  /** dp[i] 代表第 i 天及之前最小值 */
+  const dp = [prices[0]];
+  for (let i = 1; i < prices.length; i += 1) {
+    dp[i] = Math.min(dp[i - 1], prices[i]);
+    max = Math.max(prices[i] - dp[i], max);
   }
   return max;
 };
@@ -328,16 +328,51 @@ var maxProfit = function (prices) {
 
 ```js
 var maxProfit = function (prices) {
-  /** dp[i][0] 代表第 i + 1 天 【不持有股票】 最大收益 */
-  /** dp[i][1] 代表第 i + 1 天 【持有股票】 最大收益 */
-  const dp = [[0, -prices[0]]];
-  for (let i = 1, len = prices.length; i < len; i += 1) {
-    dp[i] = [
-      Math.max(dp[i - 1][0], dp[i - 1][1] + prices[i]),
-      Math.max(dp[i - 1][1], dp[i - 1][0] - prices[i]),
-    ];
+  /** dp[i][0] 代表第 i 天, 当前持有股票, 最大收益 */
+  /** dp[i][1] 代表第 i 天, 当前不持有股票, 最大收益 */
+  const dp = [[-prices[0], 0]];
+  for (let i = 1; i < prices.length; i += 1) {
+    if (!dp[i]) dp[i] = [];
+    dp[i][0] = Math.max(dp[i - 1][0], dp[i - 1][1] - prices[i]);
+    dp[i][1] = Math.max(dp[i - 1][0] + prices[i], dp[i - 1][1]);
   }
-  return dp[prices.length - 1][0];
+  return dp[prices.length - 1][1];
+};
+```
+
+#### 冷冻 1 天
+
+- leetcode: https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-with-cooldown/
+
+```js
+var maxProfit = function (prices) {
+  /** dp[i][0] 代表 第 i 天, 当前持有股票，最大收益 */
+  /** dp[i][0] 代表 第 i 天, 当前不持有股票，最大收益 */
+  const dp = [[-prices[0], 0]];
+  for (let i = 1; i < prices.length; i += 1) {
+    if (!dp[i]) dp[i] = [];
+    dp[i][0] = Math.max(dp[i - 1][0], dp[i - 2] ? dp[i - 2][1] - prices[i] : -prices[i]);
+    dp[i][1] = Math.max(dp[i - 1][0] + prices[i], dp[i - 1][1]);
+  }
+  return dp[prices.length - 1][1];
+};
+```
+
+#### 含有手续费
+
+- leetcode: https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/
+
+```js
+var maxProfit = function (prices, fee) {
+  /** dp[i][0] 代表第 i 天, 当前持有股票, 最大收益 */
+  /** dp[i][1] 代表第 i 天, 当前不持有股票, 最大收益 */
+  const dp = [[-prices[0], 0]];
+  for (let i = 1; i < prices.length; i += 1) {
+    if (!dp[i]) dp[i] = [];
+    dp[i][0] = Math.max(dp[i - 1][0], dp[i - 1][1] - prices[i]);
+    dp[i][1] = Math.max(dp[i - 1][0] + prices[i] - fee, dp[i - 1][1]);
+  }
+  return dp[prices.length - 1][1];
 };
 ```
 
@@ -347,20 +382,19 @@ var maxProfit = function (prices) {
 
 ```js
 var maxProfit = function (prices) {
-  /** dp[i][0] 代表第 i + 1 天 【不做任何操作】 最大收益 */
-  /** dp[i][1] 代表第 i + 1 天状态为 【第一次买入】 最大收益 */
-  /** dp[i][2] 代表第 i + 1 天状态为 【第一次卖出】 最大收益 */
-  /** dp[i][3] 代表第 i + 1 天状态为 【第二次买入】 最大收益 */
-  /** dp[i][4] 代表第 i + 1 天状态为 【第二次卖出】 最大收益 */
+  /** dp[i][0] 代表第 i 天, 没做过任何操作, 最大收益 */
+  /** dp[i][1] 代表第 i 天, 总共第一次买入, 最大收益 */
+  /** dp[i][2] 代表第 i 天, 总共第一次卖出, 最大收益 */
+  /** dp[i][3] 代表第 i 天, 总共第二次买入, 最大收益 */
+  /** dp[i][4] 代表第 i 天, 总共第二次卖出, 最大收益 */
   const dp = [[0, -prices[0], 0, -prices[0], 0]];
-  for (let i = 1, len = prices.length; i < len; i += 1) {
-    dp[i] = [
-      dp[i - 1][0],
-      Math.max(dp[i - 1][0] - prices[i], dp[i - 1][1]),
-      Math.max(dp[i - 1][1] + prices[i], dp[i - 1][2]),
-      Math.max(dp[i - 1][2] - prices[i], dp[i - 1][3]),
-      Math.max(dp[i - 1][3] + prices[i], dp[i - 1][4]),
-    ];
+  for (let i = 1; i < prices.length; i += 1) {
+    if (!dp[i]) dp[i] = [];
+    dp[i][0] = dp[i - 1][0];
+    dp[i][1] = Math.max(dp[i - 1][0] - prices[i], dp[i - 1][1]);
+    dp[i][2] = Math.max(dp[i - 1][1] + prices[i], dp[i - 1][2]);
+    dp[i][3] = Math.max(dp[i - 1][2] - prices[i], dp[i - 1][3]);
+    dp[i][4] = Math.max(dp[i - 1][3] + prices[i], dp[i - 1][4]);
   }
   return dp[prices.length - 1][4];
 };
@@ -372,69 +406,24 @@ var maxProfit = function (prices) {
 
 ```js
 var maxProfit = function (k, prices) {
-  /** dp[i][j][0]: 第 i + 1 天 买卖 j 次, 不持有股票的最大收益 */
-  /** dp[i][j][1]: 第 i + 1 天 买卖 j 次, 持有股票的最大收益 */
+  /** dp[i][j][0] 代表 第 i 天, 买卖了 j 次(卖出才算加1), 当前持有股票, 最大收益 */
+  /** dp[i][j][1] 代表 第 i 天, 买卖了 j 次(卖出才算加1), 当前不持有股票, 最大收益 */
   const dp = [];
-  for (let i = 0, len = prices.length; i < len; i += 1) {
+  for (let i = 0; i < prices.length; i += 1) {
     if (!dp[i]) dp[i] = [];
     for (let j = 0; j <= k; j += 1) {
       if (i === 0) {
-        dp[i][j] = [0, -prices[i]];
+        dp[i][j] = [-prices[i], 0]
       } else if (j === 0) {
-        dp[i][j] = [0, Math.max(dp[i - 1][j][1], dp[i - 1][j][0] - prices[i])];
+        dp[i][j] = [-Math.min.apply(null, prices.slice(0, i + 1)), 0];
       } else {
-        dp[i][j] = [
-          Math.max(dp[i - 1][j][0], dp[i - 1][j - 1][1] + prices[i]),
-          Math.max(dp[i - 1][j][1], dp[i - 1][j][0] - prices[i]),
-        ];
+        if (!dp[i][j]) dp[i][j] = [];
+        dp[i][j][0] = Math.max(dp[i - 1][j][0], dp[i - 1][j][1] - prices[i]);
+        dp[i][j][1] = Math.max(dp[i - 1][j - 1][0] + prices[i], dp[i - 1][j][1]);
       }
     }
   }
-
-  return Math.max.apply(
-    null,
-    dp[prices.length - 1].map((kProfit) => kProfit[0])
-  );
-};
-```
-
-#### 冷冻 1 天
-
-- leetcode: https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-with-cooldown/
-
-```js
-var maxProfit = function (prices) {
-  /** dp[i][0] 代表第 i + 1 天 【不持有股票】 最大收益 */
-  /** dp[i][1] 代表第 i + 1 天 【持有股票】 最大收益 */
-  const dp = [[0, -prices[0]]];
-  for (let i = 1, len = prices.length; i < len; i += 1) {
-    dp[i] = [
-      Math.max(dp[i - 1][0], dp[i - 1][1] + prices[i]),
-      /** 今天持有股票 = 昨天持有股票 + (昨天不持有股票 - prices[i]) */
-      /** 昨天不持有股票 = 前天不持有股票 + 前天持有股票&昨天卖出=>今天无法买入(忽略掉) */
-      Math.max(dp[i - 1][1], (i - 2 > 0 ? dp[i - 2][0] : 0) - prices[i]),
-    ];
-  }
-  return dp[prices.length - 1][0];
-};
-```
-
-#### 含有手续费
-
-- leetcode: https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/
-
-```js
-var maxProfit = function (prices, fee) {
-  /** dp[i][0] 代表第 i + 1 天 【不持有股票】 最大收益 */
-  /** dp[i][1] 代表第 i + 1 天 【持有股票】 最大收益 */
-  const dp = [[0, -prices[0]]];
-  for (let i = 1, len = prices.length; i < len; i += 1) {
-    dp[i] = [
-      Math.max(dp[i - 1][0], dp[i - 1][1] + prices[i] - fee),
-      Math.max(dp[i - 1][1], dp[i - 1][0] - prices[i]),
-    ];
-  }
-  return dp[prices.length - 1][0];
+  return dp[prices.length - 1][k][1];
 };
 ```
 
