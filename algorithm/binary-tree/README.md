@@ -265,7 +265,7 @@ var widthOfBinaryTree = function(root) {
 ```js
 var diameterOfBinaryTree = function(root) {
   var height = 0;
-  var _dfs = function (node) {
+  var _dfs = function(node) {
     if (!node) return 0;
     let left = _dfs(node.left);
     let right = _dfs(node.right);
@@ -457,18 +457,20 @@ var swap = function(node) {
 ```js
 var isBalanced = function (root) {
   if (!root) return true;
-  const currentIsRight =
-    Math.abs(_helper(root.left) - _helper(root.right)) <= 1;
-  const childIsRight = isBalanced(root.left) && isBalanced(right);
-  return currentIsRight && childIsRight;
+  const left = _dfs(root.left);
+  const right = _dfs(root.right);
+  const isValid = Math.abs(left - right) <= 1;
+  if (!isValid) return false;
+  if (!isBalanced(root.left) || !isBalanced(root.right)) return false;
+  return true;
 };
 
-var _helper = function (root) {
-  if (!root) return 0;
-  const left = _helper(root.left);
-  const right = _helper(root.right);
+var _dfs = function(node) {
+  if (!node) return 0;
+  const left = _dfs(node.left);
+  const right = _dfs(node.right);
   return Math.max(left, right) + 1;
-};
+}
 ```
 
 ## 对称二叉树
@@ -476,36 +478,37 @@ var _helper = function (root) {
 - leetcode: https://leetcode.cn/problems/symmetric-tree/
 
 ```js
-var isSymmetric = function (root) {
-  const queue = [];
-  if (root) queue.push(root);
-  /** 包含 null 的遍历 */
+var isSymmetric = function(root) {
+  if (!root) return false
+  const queue = [root];
   while (queue.find((i) => i)) {
     const len = queue.length;
     let current = [];
     for (let i = 0; i < len; i += 1) {
       const node = queue[i];
-      current.push(node?.val);
-      if (node === null) {
-        queue.push(null);
-        queue.push(null);
-      } else {
-        if (node.left) queue.push(node.left);
-        else queue.push(null);
-        if (node.right) queue.push(node.right);
-        else queue.push(null);
-      }
+      if (node && node.left) queue.push(node.left);
+      else queue.push(null);
+      if (node && node.right) queue.push(node.right);
+      else queue.push(null);
+      current.push(node ? node.val : null);
     }
-    const n = Math.floor(current.length / 2);
-    for (let i = 0; i < n; i += 1) {
-      const a = current[i];
-      const b = current[2 * n - i - 1];
-      if (a !== b) return false;
-    }
+    const valid = isSymmetricArr(current);
+    if (!valid) return false;
     queue.splice(0, len);
   }
   return true;
 };
+
+var isSymmetricArr = function(arr) {
+  const length = arr.length;
+  const midLength = Math.floor(length / 2);
+  for (let i = 0; i < midLength; i += 1) {
+    const first = arr[i];
+    const last = arr[length - i - 1];
+    if (first !== last) return false;
+  }
+  return true;
+}
 ```
 
 ## 完全二叉树
