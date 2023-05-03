@@ -130,6 +130,7 @@ var rightIsValid = (val, node) => {
 
 ```js
 var lowestCommonAncestor = function(root, p, q) {
+  if (!root) return null;
   if (root.val > p.val && root.val < q.val) return root;
   if (root.val < p.val && root.val < q.val) return lowestCommonAncestor(root.right, p, q);
   if (root.val > p.val && root.val > q.val) return lowestCommonAncestor(root.left, p, q);
@@ -166,18 +167,18 @@ var maxDepth = function (root) {
 
 /** 广度优先 */
 function _bfs(root) {
-  const queue = [];
-  if (root) queue.push(root);
+  if (!root) return 0;
+  const queue = [root];
   let level = 0;
   while (queue.length) {
-    level++;
-    const len = queue.length;
-    for (let i = 0; i < len; i += 1) {
+    level += 1;
+    const length = queue.length;
+    for (let i = 0; i < length; i += 1) {
       const node = queue[i];
       if (node.left) queue.push(node.left);
       if (node.right) queue.push(node.right);
     }
-    queue.splice(0, len);
+    queue.splice(0, length);
   }
   return level;
 }
@@ -202,19 +203,19 @@ var minDepth = function (root) {
 
 /** 广度优先 */
 function _bfs(root) {
-  const queue = [];
-  if (root) queue.push(root);
+  if (!root) return 0;
+  const queue = [root];
   let level = 0;
-  while (queue.length) {
-    level++;
-    const len = queue.length;
-    for (let i = 0; i < len; i += 1) {
+  while(queue.length) {
+    level += 1;
+    const length = queue.length;
+    for (let i = 0; i < length; i += 1) {
       const node = queue[i];
       if (node.left) queue.push(node.left);
       if (node.right) queue.push(node.right);
       if (!node.left && !node.right) return level;
     }
-    queue.splice(0, len);
+    queue.splice(0, length);
   }
   return level;
 }
@@ -238,26 +239,22 @@ function _dfs(root) {
 
 ```js
 var widthOfBinaryTree = function (root) {
-  const queue = [];
-  if (root) queue.push([root, 1]);
-  let max = -Infinity;
-  /** 包含 index 的遍历 */
-  while (queue.length) {
-    const len = queue.length;
-    let current = [];
-    for (let i = 0; i < len; i += 1) {
+  if (!root) return 0;
+  let maxWidth = 1;
+  const queue = [[root, 1]];
+  while(queue.length) {
+    const current = [];
+    const length = queue.length;
+    for (let i = 0; i < length; i += 1) {
       const [node, index] = queue[i];
+      if (node.left) queue.push([node.left, (index * 2) % Number.MAX_SAFE_INTEGER]);
+      if (node.right) queue.push([node.right, (index * 2 + 1) % Number.MAX_SAFE_INTEGER]);
       current.push(index);
-      /** 在JS中最大安全整数是2的53次方减1. */
-      if (node.left)
-        queue.push([node.left, (index * 2) % Number.MAX_SAFE_INTEGER]);
-      if (node.right)
-        queue.push([node.right, (index * 2 + 1) % Number.MAX_SAFE_INTEGER]);
     }
-    max = Math.max(current[current.length - 1] - current[0] + 1, max);
-    queue.splice(0, len);
+    maxWidth = Math.max(current[current.length - 1] - current[0] + 1, maxWidth);
+    queue.splice(0, length)
   }
-  return max;
+  return maxWidth;
 };
 ```
 
@@ -267,16 +264,16 @@ var widthOfBinaryTree = function (root) {
 
 ```js
 var diameterOfBinaryTree = function (root) {
-  var _helper = function (node) {
+  var height = 0;
+  var _dfs = function (node) {
     if (!node) return 0;
-    let left = _helper(node.left);
-    let right = _helper(node.right);
+    let left = _dfs(node.left);
+    let right = _dfs(node.right);
     /** 左右子树和最大为当前节点的路径长度 */
     height = Math.max(left + right, height);
     return Math.max(left, right) + 1;
   };
-  let height = 0;
-  _helper(root);
+  _dfs(root);
   return height;
 };
 ```
