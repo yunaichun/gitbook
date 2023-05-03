@@ -166,7 +166,7 @@ var maxDepth = function (root) {
 };
 
 /** 广度优先 */
-function _bfs(root) {
+var _bfs = function(root) {
   if (!root) return 0;
   const queue = [root];
   let level = 0;
@@ -184,7 +184,7 @@ function _bfs(root) {
 }
 
 /** 深度优先 */
-function _dfs(root) {
+var _dfs = function(root) {
   if (!root) return 0;
   let left = _dfs(root.left);
   let right = _dfs(root.right);
@@ -197,12 +197,12 @@ function _dfs(root) {
 - leetcode: https://leetcode.cn/problems/minimum-depth-of-binary-tree
 
 ```js
-var minDepth = function (root) {
+var minDepth = function(root) {
   return _bfs(root);
 };
 
 /** 广度优先 */
-function _bfs(root) {
+var _bfs = function(root) {
   if (!root) return 0;
   const queue = [root];
   let level = 0;
@@ -238,7 +238,7 @@ function _dfs(root) {
 - leetcode: https://leetcode.cn/problems/maximum-width-of-binary-tree/
 
 ```js
-var widthOfBinaryTree = function (root) {
+var widthOfBinaryTree = function(root) {
   if (!root) return 0;
   let maxWidth = 1;
   const queue = [[root, 1]];
@@ -263,7 +263,7 @@ var widthOfBinaryTree = function (root) {
 - leetcode: https://leetcode.cn/problems/diameter-of-binary-tree/
 
 ```js
-var diameterOfBinaryTree = function (root) {
+var diameterOfBinaryTree = function(root) {
   var height = 0;
   var _dfs = function (node) {
     if (!node) return 0;
@@ -284,33 +284,32 @@ var diameterOfBinaryTree = function (root) {
 - leetcode: https://leetcode.cn/problems/binary-tree-level-order-traversal-ii/
 
 ```js
-var levelOrder = function (root) {
+var levelOrder = function(root) {
   if (!root) return [];
   return _bfs(root);
 };
 
 /** 广度优先 */
-function _bfs(root) {
-  const queue = [];
-  if (root) queue.push(root);
+var _bfs = function(root) {
   const results = [];
-  while (queue.length) {
+  const queue = [root];
+  while(queue.length) {
     const current = [];
-    const len = queue.length;
-    for (let i = 0; i < len; i += 1) {
+    const length = queue.length;
+    for (let i = 0; i < length; i += 1) {
       const node = queue[i];
-      current.push(node.val);
       if (node.left) queue.push(node.left);
       if (node.right) queue.push(node.right);
+      current.push(node.val);
     }
     results.push(current);
-    queue.splice(0, len);
+    queue.splice(0, length);
   }
   return results;
 }
 
 /** 深度优先 */
-function _dfs(root, result = [], level = 0) {
+var _dfs = function(root, result = [], level = 0) {
   if (!root) return;
   if (!result[level]) result[level] = [];
   result[level].push(root.val);
@@ -325,29 +324,28 @@ function _dfs(root, result = [], level = 0) {
 - leetcode: https://leetcode.cn/problems/binary-tree-zigzag-level-order-traversal/
 
 ```js
-var zigzagLevelOrder = function (root) {
+var zigzagLevelOrder = function(root) {
   if (!root) return [];
   return _bfs(root);
 };
 
 /** 广度优先 */
-function _bfs(root) {
-  const queue = [];
-  if (root) queue.push(root);
+var _bfs = function(root) {
+  let order = true;
   const results = [];
-  let isLeftToRight = true;
-  while (queue.length) {
-    const len = queue.length;
+  const queue = [root];
+  while(queue.length) {
     const current = [];
-    for (let i = 0; i < len; i += 1) {
+    const length = queue.length;
+    for (let i = 0; i < length; i += 1) {
       const node = queue[i];
-      current.push(node.val);
       if (node.left) queue.push(node.left);
       if (node.right) queue.push(node.right);
+      current.push(node.val);
     }
-    results.push(isLeftToRight ? current : current.reverse());
-    isLeftToRight = !isLeftToRight;
-    queue.splice(0, len);
+    results.push(order ? current : current.reverse());
+    queue.splice(0, length);
+    order = !order;
   }
   return results;
 }
@@ -358,18 +356,18 @@ function _bfs(root) {
 - leetcode: https://leetcode.cn/problems/binary-tree-preorder-traversal/
 
 ```js
-var preorderTraversal = function (root) {
-  let results = [];
+var preorderTraversal = function(root) {
+  const results = [];
   _helper(root, results);
   return results;
 };
 
-var _helper = function (root, results) {
-  if (!root) return;
-  results.push(root.val);
-  _helper(root.left, results);
-  _helper(root.right, results);
-};
+var _helper = function(node, results) {
+  if (!node) return;
+  results.push(node.val);
+  _helper(node.left, results);
+  _helper(node.right, results);
+}
 ```
 
 ## 遍历-中序
@@ -378,17 +376,17 @@ var _helper = function (root, results) {
 - leetcode: https://leetcode.cn/problems/er-cha-sou-suo-shu-de-di-kda-jie-dian-lcof/
 
 ```js
-var inorderTraversal = function (root) {
+var inorderTraversal = function(root) {
   const results = [];
   _helper(root, results);
   return results;
 };
 
-var _helper = function (root, results) {
-  if (!root) return;
-  _helper(root.left, results);
-  results.push(root.val);
-  _helper(root.right, results);
+var _helper = function(node, results) {
+  if (!node) return;
+  _helper(node.left, results);
+  results.push(node.val);
+  _helper(node.right, results);
 };
 ```
 
@@ -397,17 +395,17 @@ var _helper = function (root, results) {
 - leetcode: https://leetcode.cn/problems/binary-tree-postorder-traversal/
 
 ```js
-var postorderTraversal = function (root) {
+var postorderTraversal = function(root) {
   let results = [];
   _helper(root, results);
   return results;
 };
 
-var _helper = function (root, results) {
-  if (!root) return;
-  _helper(root.left, results);
-  _helper(root.right, results);
-  results.push(root.val);
+var _helper = function(node, results) {
+  if (!node) return;
+  _helper(node.left, results);
+  _helper(node.right, results);
+  results.push(node.val);
 };
 ```
 
@@ -421,16 +419,35 @@ var buildTree = function (preorder, inorder) {
   if (!preorder.length && !inorder.length) return null;
   const root = new TreeNode(preorder[0]);
   const midIndex = inorder.indexOf(preorder[0]);
-  root.left = buildTree(
-    preorder.slice(1, midIndex + 1),
-    inorder.slice(0, midIndex)
-  );
-  root.right = buildTree(
-    preorder.slice(midIndex + 1),
-    inorder.slice(midIndex + 1)
-  );
+  const leftPreorder = preorder.slice(1, midIndex + 1);
+  const rightPreorder = preorder.slice(midIndex + 1);
+  const leftInorder = inorder.slice(0, midIndex);
+  const rightInorder = inorder.slice(midIndex + 1);
+  root.left = buildTree(leftPreorder, leftInorder);
+  root.right = buildTree(rightPreorder, rightInorder);
   return root;
 };
+```
+
+## 翻转二叉树
+
+- leetcode: https://leetcode.cn/problems/invert-binary-tree/
+- leetcode: https://leetcode.cn/problems/er-cha-shu-de-jing-xiang-lcof/
+
+```js
+var invertTree = function (root) {
+  return swap(root);
+};
+
+var swap = function(node) {
+  if (!node) return null;
+  const temp = node.left;
+  node.left = node.right;
+  node.right = temp;
+  swap(node.left);
+  swap(node.right);
+  return node;
+}
 ```
 
 ## 平衡二叉树
@@ -517,27 +534,6 @@ var isCompleteTree = function (root) {
     queue.splice(0, len);
   }
   return results.length === results[results.length - 1];
-};
-```
-
-## 翻转二叉树
-
-- leetcode: https://leetcode.cn/problems/invert-binary-tree/
-- leetcode: https://leetcode.cn/problems/er-cha-shu-de-jing-xiang-lcof/
-
-```js
-var invertTree = function (root) {
-  return swap(root);
-};
-
-var swap = function (root) {
-  if (!root) return null;
-  var { left, right } = root;
-  root.left = right;
-  root.right = left;
-  swap(root.left);
-  swap(root.right);
-  return root;
 };
 ```
 

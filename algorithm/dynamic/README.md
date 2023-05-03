@@ -7,7 +7,7 @@
 - leetcode: https://leetcode.cn/problems/climbing-stairs
 
 ```js
-var climbStairs = function (n) {
+var climbStairs = function(n) {
   /** dp[i] 代表爬到第 i - 1 层的方法数量 */
   const dp = [1, 2];
   for (let i = 2; i < n; i += 1) {
@@ -22,7 +22,7 @@ var climbStairs = function (n) {
 - leetcode: https://leetcode.cn/problems/coin-change
 
 ```js
-var coinChange = function (coins, amount) {
+var coinChange = function(coins, amount) {
   /** dp[i] 代表兑换 i 数量的金额需要的最少硬币数 */
   const dp = [0];
   for (let i = 1; i <= amount; i += 1) {
@@ -40,7 +40,7 @@ var coinChange = function (coins, amount) {
 - leetcode: https://leetcode.cn/problems/maximum-subarray
 
 ```js
-var maxSubArray = function (nums) {
+var maxSubArray = function(nums) {
  /** dp[i] 代表以 nums 第 i 个数结尾最大子数组 */
   const dp = [nums[0]];
   for (let i = 1; i < nums.length; i += 1) {
@@ -55,7 +55,7 @@ var maxSubArray = function (nums) {
 - leetcode: https://leetcode.cn/problems/maximum-product-subarray
 
 ```js
-var maxProduct = function (nums) {
+var maxProduct = function(nums) {
   /** dp[i][0] dp[i][1] 分别代表以 nums 第 i 个数结尾最大和最小数 */
   const dp = [[nums[0], nums[0]]];
   for (let i = 1; i < nums.length; i += 1) {
@@ -72,7 +72,7 @@ var maxProduct = function (nums) {
 - leetcode: https://leetcode.cn/problems/longest-increasing-subsequence
 
 ```js
-var lengthOfLIS = function (nums) {
+var lengthOfLIS = function(nums) {
   /** dp[i] 代表数组 nums 第 i 位时最长严格递增子序列的长度 */
   const dp = [1];
   for (let i = 1; i < nums.length; i += 1) {
@@ -94,7 +94,7 @@ var lengthOfLIS = function (nums) {
 - leetcode: https://leetcode.cn/problems/triangle
 
 ```js
-var minimumTotal = function (triangle) {
+var minimumTotal = function(triangle) {
   /** dp[i][j] 代表从底部到顶部位置 [i,j] 时和最小值 */
   const dp = []
   for (let i = triangle.length - 1; i >= 0; i -= 1) {
@@ -116,7 +116,7 @@ var minimumTotal = function (triangle) {
 - leetcode: https://leetcode.cn/problems/edit-distance
 
 ```js
-var minDistance = function (word1, word2) {
+var minDistance = function(word1, word2) {
   /** dp[i][j] 代表 word1 第 i 个单词到 word2 第 j 个单词 变换所使用的最少操作数 */
   const dp = [];
   for (let i = 0, len1 = word1.length; i <= len1; i += 1) {
@@ -148,7 +148,7 @@ var minDistance = function (word1, word2) {
 - leetcode: https://leetcode.cn/problems/longest-common-subsequence/
 
 ```js
-var longestCommonSubsequence = function (text1, text2) {
+var longestCommonSubsequence = function(text1, text2) {
   /** dp[i][j] 代表单词 text1 第 i 位和单词 text2 第 j 位最长公共子串长度 */
   const dp = [];
   for (let i = 0; i <= text1.length; i += 1) {
@@ -176,7 +176,7 @@ var longestCommonSubsequence = function (text1, text2) {
 - leetcode: https://leetcode.cn/problems/maximum-length-of-repeated-subarray/
 
 ```js
-var findLength = function (nums1, nums2) {
+var findLength = function(nums1, nums2) {
   /** dp[i][j] 代表数组 nums1 包含第 i 位和数组 nums2 包含第 j 位最长子数组长度 */
   let res = 0;
   const dp = [];
@@ -206,7 +206,7 @@ var findLength = function (nums1, nums2) {
 - leetcode: https://leetcode.cn/problems/minimum-path-sum/
 
 ```js
-var minPathSum = function (grid) {
+var minPathSum = function(grid) {
   /** dp[i][j] 代表从左上角 [0, 0] 到 [i, j] 位置最短路径和 */
   const dp = [];
   for (let i = 0; i < grid.length; i += 1) {
@@ -234,7 +234,7 @@ var minPathSum = function (grid) {
 - leetcode: https://leetcode.cn/problems/longest-substring-without-repeating-characters/
 
 ```js
-var lengthOfLongestSubstring = function (s) {
+var lengthOfLongestSubstring = function(s) {
   if (!s.length) return 0;
   /** dp[i] 代表包含 s 第 i 位字符的最长字串 */
   const dp = [s[0]];
@@ -255,7 +255,7 @@ var lengthOfLongestSubstring = function (s) {
 - leetcode: https://leetcode.cn/problems/house-robber/
 
 ```js
-var rob = function (nums) {
+var rob = function(nums) {
   if (!nums.length) return 0
   /** dp[i][0] 代表打劫第 i 家时, 选择偷盗, 最大收益 */
   /** dp[i][0] 代表偷盗第 i 家时, 选择不偷盗, 最大收益 */
@@ -274,7 +274,7 @@ var rob = function (nums) {
 - leetcode: https://leetcode.cn/problems/trapping-rain-water/
 
 ```js
-var trap = function (height) {
+var trap = function(height) {
   if (!height.length) return 0;
   /** leftMax[i] 代表第 i 位置及其左侧最大值 */
   const leftMax = [];
@@ -304,7 +304,7 @@ var trap = function (height) {
 - leetcode: https://leetcode.cn/problems/best-time-to-buy-and-sell-stock/
 
 ```js
-var maxProfit = function (prices) {
+var maxProfit = function(prices) {
   let max = 0;
   /** dp[i] 代表第 i 天及之前最小值 */
   const dp = [prices[0]];
@@ -321,7 +321,7 @@ var maxProfit = function (prices) {
 - leetcode: https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-ii/
 
 ```js
-var maxProfit = function (prices) {
+var maxProfit = function(prices) {
   /** dp[i][0] 代表第 i 天, 当前持有股票, 最大收益 */
   /** dp[i][1] 代表第 i 天, 当前不持有股票, 最大收益 */
   const dp = [[-prices[0], 0]];
@@ -339,7 +339,7 @@ var maxProfit = function (prices) {
 - leetcode: https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-with-cooldown/
 
 ```js
-var maxProfit = function (prices) {
+var maxProfit = function(prices) {
   /** dp[i][0] 代表 第 i 天, 当前持有股票，最大收益 */
   /** dp[i][0] 代表 第 i 天, 当前不持有股票，最大收益 */
   const dp = [[-prices[0], 0]];
@@ -357,7 +357,7 @@ var maxProfit = function (prices) {
 - leetcode: https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/
 
 ```js
-var maxProfit = function (prices, fee) {
+var maxProfit = function(prices, fee) {
   /** dp[i][0] 代表第 i 天, 当前持有股票, 最大收益 */
   /** dp[i][1] 代表第 i 天, 当前不持有股票, 最大收益 */
   const dp = [[-prices[0], 0]];
@@ -375,7 +375,7 @@ var maxProfit = function (prices, fee) {
 - leetcode: https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-iii/
 
 ```js
-var maxProfit = function (prices) {
+var maxProfit = function(prices) {
   /** dp[i][0] 代表第 i 天, 没做过任何操作, 最大收益 */
   /** dp[i][1] 代表第 i 天, 总共第一次买入, 最大收益 */
   /** dp[i][2] 代表第 i 天, 总共第一次卖出, 最大收益 */
@@ -399,7 +399,7 @@ var maxProfit = function (prices) {
 - leetcode: https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-iv/
 
 ```js
-var maxProfit = function (k, prices) {
+var maxProfit = function(k, prices) {
   /** dp[i][j][0] 代表 第 i 天, 买卖了 j 次(卖出才算加1), 当前持有股票, 最大收益 */
   /** dp[i][j][1] 代表 第 i 天, 买卖了 j 次(卖出才算加1), 当前不持有股票, 最大收益 */
   const dp = [];

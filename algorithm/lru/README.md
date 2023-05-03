@@ -7,7 +7,7 @@
 - leetcode: https://leetcode.cn/problems/lru-cache
 
 ```js
-var LRUCache = function (capacity) {
+var LRUCache = function(capacity) {
   this.capacity = capacity;
   this.map = new Map();
 };
@@ -16,7 +16,7 @@ var LRUCache = function (capacity) {
  * @param {number} key
  * @return {number}
  */
-LRUCache.prototype.get = function (key) {
+LRUCache.prototype.get = function(key) {
   if (!this.map.has(key)) return -1;
   const value = this.map.get(key);
   /** 一旦取值就放在最后面 */
@@ -30,7 +30,7 @@ LRUCache.prototype.get = function (key) {
  * @param {number} value
  * @return {void}
  */
-LRUCache.prototype.put = function (key, value) {
+LRUCache.prototype.put = function(key, value) {
   if (this.map.get(key)) this.map.delete(key);
   this.map.set(key, value);
   /** 删除先添加进来的，刚添加进来的放在最后面 */
