@@ -23,14 +23,12 @@ var climbStairs = function (n) {
 
 ```js
 var coinChange = function (coins, amount) {
-  /** dp[i] 代表兑换 i 数量的钱需要的最少的硬币个数 */
+  /** dp[i] 代表兑换 i 数量的金额需要的最少硬币数 */
   const dp = [0];
   for (let i = 1; i <= amount; i += 1) {
     if (!dp[i]) dp[i] = Infinity;
     for (let j = 0; j < coins.length; j += 1) {
-      if (i - coins[j] >= 0) {
-        dp[i] = Math.min(dp[i - coins[j]] + 1, dp[i]);
-      }
+      if (i - coins[j] >= 0) dp[i] = Math.min(dp[i], dp[i - coins[j]] + 1);
     }
   }
   return dp[amount] === Infinity ? -1 : dp[amount];
@@ -258,17 +256,14 @@ var lengthOfLongestSubstring = function (s) {
 
 ```js
 var rob = function (nums) {
-  if (!nums.length) return 0;
-  /** dp[i][0] dp[i][1] 代表偷盗或不偷盗 nums 数组第 i 家时累计可以打劫的最大数 */
+  if (!nums.length) return 0
+  /** dp[i][0] 代表打劫第 i 家时, 选择偷盗, 最大收益 */
+  /** dp[i][0] 代表偷盗第 i 家时, 选择不偷盗, 最大收益 */
   const dp = [[nums[0], 0]];
   for (let i = 1; i < nums.length; i += 1) {
-    /** 偷盗 */
-    const robs = dp.map(i => i[0]);
-    /** 不偷盗 */
-    const unrobs = dp.map(i => i[1]);
     if (!dp[i]) dp[i] = [];
-    dp[i][0] = Math.max.apply(null, robs.slice(0, robs.length - 1).concat(unrobs)) + nums[i];
-    dp[i][1] =  Math.max.apply(null, robs.concat(unrobs));
+    dp[i][0] = dp[i - 1][1] + nums[i];
+    dp[i][1] = Math.max(dp[i - 1][0], dp[i - 1][1]);
   }
   return Math.max.apply(null, dp.reduce((a, b) => a.concat(b)));
 };
@@ -281,25 +276,24 @@ var rob = function (nums) {
 ```js
 var trap = function (height) {
   if (!height.length) return 0;
-
-  /** leftMax[i] 代表第 i 位置极其左边最大高度 */
-  const leftMax = [height[0]];
-  for (let i = 1; i < height.length; i += 1) {
-    leftMax[i] = Math.max(leftMax[i - 1], height[i]);
+  /** leftMax[i] 代表第 i 位置及其左侧最大值 */
+  const leftMax = [];
+  for (let i = 0; i < height.length; i += 1) {
+      if (i === 0) leftMax[i] = height[i];
+      else leftMax[i] = Math.max(leftMax[i - 1], height[i]);
   }
-  /** rightMax[i] 代表第 i 位置极其右边最大高度 */
+  /** rightMax[i] 代表第 i 位置及其右侧最大值 */
   const rightMax = [];
-  for (let i = height.length - 1; i >= 0; i -= 1) {
-    if (i === height.length - 1) rightMax[i] = height[i];
-    else rightMax[i] = Math.max(rightMax[i + 1], height[i]);
+  for (let i = height.length - 1; i >=0; i -= 1) {
+      if (i === height.length - 1) rightMax[i] = height[i];
+      else rightMax[i] = Math.max(rightMax[i + 1], height[i]);
   }
-  /** dp[i] 代表第 i 位置可以接的雨水 */
+  /** dp[i] 代表位置 i 可以接收的雨水数量 */
   const dp = [0];
   for (let i = 1; i < height.length - 1; i += 1) {
-    dp[i] = Math.min(leftMax[i], rightMax[i]) - height[i];
+      dp[i] = Math.min(leftMax[i], rightMax[i]) - height[i];
   }
-
-  return dp.reduce((a,b) => a + b);
+  return dp.reduce((a, b) => a + b);
 };
 ```
 
