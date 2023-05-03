@@ -5,107 +5,97 @@
 ## js 实现二叉树
 
 ```js
-function Node(data = null, left = null, right = null) {
-  this.data = data;
+function Node(val = null, left = null, right = null) {
+  this.val = val;
   this.left = left;
   this.right = right;
   this.toString = function () {
-    return this.data;
+    return this.val;
   };
 }
-
-function BST() {
-  this.head = new Node();
-}
-
-BST.prototype.insert = function (sourceNode) {
-  let first = this.head;
-  if (first.data === null && first.left === null && first.right === null) {
-    this.head = sourceNode;
-  } else {
-    while (true) {
-      console.log(123, sourceNode.data, first.data);
-      if (sourceNode.data > first.data) {
-        /** 右节点 */
-        if (first.right) {
-          first = first.right;
+class BST {
+  constructor() {
+    this.head = new Node();
+  }
+  insert(node) {
+    if (!this.head.val && !this.head.left && !this.head.right) {
+      this.head = node;
+    } else {
+      let head = this.head;
+      while (head) {
+        if (node.val > head.val) {
+          /** 右节点 */
+          if (head.right) {
+            head = head.right;
+          } else {
+            head.right = node;
+            break;
+          }
         } else {
-          first.right = sourceNode;
-          break;
-        }
-      } else {
-        /** 左节点 */
-        if (first.left) {
-          first = first.left;
-        } else {
-          first.left = sourceNode;
-          break;
+          /** 左节点 */
+          if (head.left) {
+            head = head.left;
+          } else  {
+            head.left = node;
+            break;
+          }
         }
       }
     }
   }
-};
-
-/** 前序: 根 -> 左 -> 右 */
-BST.prototype.preOrder = function (node) {
-  if (node) {
+  /** 前序: 根 -> 左 -> 右 */
+  preOrder(node) {
+    if (!node) return;
     console.log(node.toString());
     this.preOrder(node.left);
     this.preOrder(node.right);
   }
-};
-
-/** 中序: 左 -> 根 -> 右 */
-BST.prototype.inOrder = function () {
-  if (node) {
-    this.inOrder(node.left);
-    console.log(node.toString());
-    this.inOrder(node.right);
-  }
-};
-
-/** 后序: 左 -> 右 -> 根 */
-BST.prototype.postOrder = function () {
-  if (node) {
+  /** 后序: 左 -> 右 -> 根 */
+  postOrder(node) {
+    if (!node) return;
     this.postOrder(node.left);
     this.postOrder(node.right);
     console.log(node.toString());
   }
-};
-
-/** 最大 */
-BST.prototype.getMax = function () {
-  let first = this.head;
-  while (true) {
-    if (first.right) {
-      first = first.right;
-    } else {
-      return first.data;
-    }
+  /** 中序: 左 -> 根 -> 右 */
+  inOrder (node) {
+    if (!node) return;
+    this.preOrder(node.left);
+    console.log(node.toString());
+    this.preOrder(node.right);
   }
-};
-
-/** 最小 */
-BST.prototype.getMin = function () {
-  let first = this.head;
-  while (true) {
-    if (first.left) {
-      first = first.left;
-    } else {
-      return first.data;
+  /** 最大 */
+  getMax() {
+    let head = this.head;
+    while(head) {
+      if (head.right) head = head.right;
+      else break;
     }
+    return head.val;
   }
-};
+  /** 最小 */
+  getMin() {
+    let head = this.head;
+    while(head) {
+      if (head.left) head = head.left;
+      else break;
+    }
+    return head.val;
+  }
+}
 
-var a = new Node(1);
-var b = new Node(2);
+var a = new Node(2);
+var b = new Node(1);
 var c = new Node(3);
 var list = new BST();
 list.insert(a);
 list.insert(b);
+
 list.insert(c);
 console.log(list);
-console.log(list.preOrder(list.head));
+console.log(list.preOrder(list.head)); /** 2 -> 1 -> 3 */
+console.log(list.postOrder(list.head)); /** 1 -> 3 -> 2 */
+console.log(list.inOrder(list.head)); /** 1 -> 2 -> 3 */
 ```
 
 ## 验证是否是 BST
@@ -113,17 +103,25 @@ console.log(list.preOrder(list.head));
 - leetcode: https://leetcode.cn/problems/validate-binary-search-tree
 
 ```js
-var isValidBST = function (root) {
-  return _helper(root, -Infinity, Infinity);
+var isValidBST = function(root) {
+  if (!root) return true;    
+  /** 右边全部大于中间的; 左边的全部小于中间的 */
+  if (!leftIsValid(root.val, root.left) || !rightIsValid(root.val, root.right)) return false;
+  if (!isValidBST(root.left) || !isValidBST(root.right)) return false;
+  return true;
 };
-
-var _helper = function (root, lower, higher) {
-  if (!root) return true;
-  if (root.val <= lower || root.val >= higher) return false;
-  return (
-    _helper(root.left, lower, root.val) && _helper(root.right, root.val, higher)
-  );
-};
+var leftIsValid = (val, node) => {
+  if (!node) return true;
+  if (val <= node.val) return false;
+  if (!leftIsValid(val, node.left) || !leftIsValid(val, node.right)) return false;
+  return true;
+}
+var rightIsValid = (val, node) => {
+  if (!node) return true;
+  if (val >= node.val) return false;
+  if (!rightIsValid(val, node.left) || !rightIsValid(val, node.right)) return false;
+  return true;
+}
 ```
 
 ## 最近公共祖先
@@ -131,14 +129,10 @@ var _helper = function (root, lower, higher) {
 - leetcode: https://leetcode.cn/problems/lowest-common-ancestor-of-a-binary-search-tree
 
 ```js
-var lowestCommonAncestor = function (root, p, q) {
-  if (!root) return null;
-  if (p.val < root.val && q.val < root.val) {
-    return lowestCommonAncestor(root.left, p, q);
-  }
-  if (p.val > root.val && q.val > root.val) {
-    return lowestCommonAncestor(root.right, p, q);
-  }
+var lowestCommonAncestor = function(root, p, q) {
+  if (root.val > p.val && root.val < q.val) return root;
+  if (root.val < p.val && root.val < q.val) return lowestCommonAncestor(root.right, p, q);
+  if (root.val > p.val && root.val > q.val) return lowestCommonAncestor(root.left, p, q);
   return root;
 };
 ```
@@ -148,16 +142,15 @@ var lowestCommonAncestor = function (root, p, q) {
 - leetcode: https://leetcode.cn/problems/lowest-common-ancestor-of-a-binary-tree
 
 ```js
-var lowestCommonAncestor = function (root, p, q) {
+var lowestCommonAncestor = function(root, p, q) {
   if (!root) return null;
-  /** root 为 q 或为 p，代表找到了 */
   if (root === p || root === q) return root;
-  /** root 即不为 q 也不为 p */
-  let left = lowestCommonAncestor(root.left, p, q);
-  let right = lowestCommonAncestor(root.right, p, q);
+  const left = lowestCommonAncestor(root.left, p, q);
+  const right = lowestCommonAncestor(root.right, p, q);
+  /** 左侧均没 p 和 q, 则在右边 */
   if (!left) return right;
+  /** 右侧均没 p 和 q, 则在左边 */
   if (!right) return left;
-  /** left 和 right 均不为 null，则 left 和 right 是 root 左右子树 */
   return root;
 };
 ```
