@@ -598,22 +598,26 @@ var _bfs = function (root, target) {
 
 ```js
 var maxPathSum = function (root) {
-  let maxSum = -Infinity;
-  var maxGain = function (node) {
-    if (!node) return 0;
-    /** 递归计算左右子节点的最大贡献值: 只有在最大贡献值大于 0 时，才会选取对应子节点 */
-    const leftGain = Math.max(maxGain(node.left), 0);
-    const rightGain = Math.max(maxGain(node.right), 0);
-    /** 节点的最大路径和 = 该节点的值 + 左子节点最大贡献值 + 右子节点最大贡献值 */
-    const priceNewpath = node.val + leftGain + rightGain;
-    /** 更新答案 */
-    maxSum = Math.max(maxSum, priceNewpath);
-    /** 节点最大贡献值 = 该节点的值 + 左右贡献最大值 */
-    return node.val + Math.max(leftGain, rightGain);
-  };
-  maxGain(root);
-  return maxSum;
+  if (root === null) return 0;
+  const results = { max: -Infinity };
+  _dfs(root, results);
+  return results.max;
 };
+/** 后续遍历 */
+function _dfs(node, results) {
+  if (!node) return 0;
+  const left = _dfs(node.left, results);
+  const right = _dfs(node.right, results);
+
+  /** 当前节点路径值: 当前节点 + 左 + 右 */
+  results.max = Math.max(
+    node.val + Math.max(0, left) + Math.max(0, right),
+    results.max
+  );
+
+  /** 当前节点最长的路径: 当前节点 + 从左或右取 */
+  return node.val + Math.max(left, right, 0);
+}
 ```
 
 ## 参考资料
