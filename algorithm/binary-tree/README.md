@@ -473,62 +473,38 @@ var swap = function(node) {
 }
 ```
 
-## 平衡二叉树
-
-- leetcode: https://leetcode.cn/problems/balanced-binary-tree/
-
-```js
-var isBalanced = function (root) {
-  if (!root) return true;
-  const left = _dfs(root.left);
-  const right = _dfs(root.right);
-  const isValid = Math.abs(left - right) <= 1;
-  if (!isValid) return false;
-  if (!isBalanced(root.left) || !isBalanced(root.right)) return false;
-  return true;
-};
-
-var _dfs = function(node) {
-  if (!node) return 0;
-  const left = _dfs(node.left);
-  const right = _dfs(node.right);
-  return Math.max(left, right) + 1;
-}
-```
-
 ## 对称二叉树
 
 - leetcode: https://leetcode.cn/problems/symmetric-tree/
 
 ```js
 var isSymmetric = function(root) {
-  if (!root) return false
-  const queue = [root];
-  while (queue.find((i) => i)) {
-    const len = queue.length;
-    let current = [];
-    for (let i = 0; i < len; i += 1) {
-      const node = queue[i];
-      if (node && node.left) queue.push(node.left);
-      else queue.push(null);
-      if (node && node.right) queue.push(node.right);
-      else queue.push(null);
-      current.push(node ? node.val : null);
+  if (!root) return false;
+  const queue = [[root, 1, 0]];
+  while (queue.length) {
+    const length = queue.length;
+    for (let i = 0; i < length; i += 1) {
+      const [node, index, level] = queue[i];
+      if (node.left) queue.push([node.left, 2 * index, level + 1]);
+      if (node.right) queue.push([node.right, 2 * index + 1, level + 1]);
     }
-    const valid = isSymmetricArr(current);
+    queue.splice(0, length);
+    const valid = isSymmetricQueue(queue);
     if (!valid) return false;
-    queue.splice(0, len);
   }
   return true;
-};
+}
 
-var isSymmetricArr = function(arr) {
-  const length = arr.length;
-  const midLength = Math.floor(length / 2);
+var isSymmetricQueue = function(queue) {
+  const length = queue.length;
+  const midLength = Math.ceil(length / 2);
   for (let i = 0; i < midLength; i += 1) {
-    const first = arr[i];
-    const last = arr[length - i - 1];
-    if (first !== last) return false;
+    const [node1, index1, level1] = queue[i];
+    const [node2, index2, level2] = queue[length - i - 1];
+    if (level1 !== level2) return false;
+    if (node1.val !== node2.val) return false;
+    const total = Math.pow(2, level1) + Math.pow(2, level1 + 1) - 1;
+    if ((index1 + index2) !== total) return false;
   }
   return true;
 }
@@ -560,6 +536,29 @@ var isCompleteTree = function (root) {
 };
 ```
 
+## 平衡二叉树
+
+- leetcode: https://leetcode.cn/problems/balanced-binary-tree/
+
+```js
+var isBalanced = function (root) {
+  if (!root) return true;
+  const left = _dfs(root.left);
+  const right = _dfs(root.right);
+  const isValid = Math.abs(left - right) <= 1;
+  if (!isValid) return false;
+  if (!isBalanced(root.left) || !isBalanced(root.right)) return false;
+  return true;
+};
+
+var _dfs = function(node) {
+  if (!node) return 0;
+  const left = _dfs(node.left);
+  const right = _dfs(node.right);
+  return Math.max(left, right) + 1;
+}
+```
+
 ## 路径为 K
 
 - leetcode: https://leetcode.cn/problems/er-cha-shu-zhong-he-wei-mou-yi-zhi-de-lu-jing-lcof/
@@ -569,25 +568,25 @@ var isCompleteTree = function (root) {
 
 ```js
 var pathSum = function (root, target) {
-  return _bfs(root, target);
+  const results =  _bfs(root, target);
+  return results;
 };
 
 var _bfs = function (root, target) {
+  if (!root) return [];
   const results = [];
-  const queue = [];
-  if (root) queue.push([root, [root.val]]);
+  const queue = [[root, [root.val]]];
   while (queue.length) {
-    let len = queue.length;
-    for (let i = 0; i < len; i += 1) {
+    const length = queue.length;
+    for (let i = 0; i < length; i += 1) {
       const [node, path] = queue[i];
-      if (node.left) queue.push([node.left, path.concat(node.left.val)]);
-      if (node.right) queue.push([node.right, path.concat(node.right.val)]);
+      if (node.left) queue.push([node.left, [...path, node.left.val]]);
+      if (node.right) queue.push([node.right, [...path, node.right.val]]);
       if (!node.left && !node.right) {
-        const sum = path.reduce((a, b) => a + b);
-        if (sum === target) results.push(path);
+        if (path.reduce((a, b) => a + b) === target) results.push(path);
       }
     }
-    queue.splice(0, len);
+    queue.splice(0, length);
   }
   return results;
 };
