@@ -262,19 +262,22 @@ var widthOfBinaryTree = function(root) {
 - leetcode: https://leetcode.cn/problems/diameter-of-binary-tree/
 
 ```js
-var diameterOfBinaryTree = function(root) {
-  var height = 0;
-  var _dfs = function(node) {
-    if (!node) return 0;
-    let left = _dfs(node.left);
-    let right = _dfs(node.right);
-    /** 左右子树和最大为当前节点的路径长度 */
-    height = Math.max(left + right, height);
-    return Math.max(left, right) + 1;
-  };
-  _dfs(root);
-  return height;
+var diameterOfBinaryTree = function (root) {
+    const results = { max: -Infinity };
+    _dfs(root, results);
+    return results.max;
 };
+
+/** 后续遍历 */
+var _dfs = function(node, results) {
+  if (!node) return 0;
+  const left = _dfs(node.left, results);
+  const right = _dfs(node.right, results);
+  /** 中间计算过程 */
+  results.max = Math.max(left + right, results.max);
+  /** 当前节点最长直径: 左右最长 + 当前节点 */
+  return Math.max(left, right) + 1;
+}
 ```
 
 ## 遍历-层序
@@ -559,6 +562,29 @@ var _dfs = function(node) {
 }
 ```
 
+## 路径最大
+
+- leetcode: https://leetcode.cn/problems/binary-tree-maximum-path-sum/
+
+```js
+var maxPathSum = function (root) {
+  if (root === null) return 0;
+  const results = { max: -Infinity };
+  _dfs(root, results);
+  return results.max;
+};
+/** 后续遍历 */
+function _dfs(node, results) {
+  if (!node) return 0;
+  const left = _dfs(node.left, results);
+  const right = _dfs(node.right, results);
+  /** 中间计算过程 */
+  results.max = Math.max(node.val + Math.max(left, 0) + Math.max(right, 0), results.max);
+  /** 当前节点最大路径: 左右最大 + 当前节点 */
+  return Math.max(left, right, 0) + node.val;
+}
+```
+
 ## 路径为 K
 
 - leetcode: https://leetcode.cn/problems/er-cha-shu-zhong-he-wei-mou-yi-zhi-de-lu-jing-lcof/
@@ -590,34 +616,6 @@ var _bfs = function (root, target) {
   }
   return results;
 };
-```
-
-## 路径最大
-
-- leetcode: https://leetcode.cn/problems/binary-tree-maximum-path-sum/
-
-```js
-var maxPathSum = function (root) {
-  if (root === null) return 0;
-  const results = { max: -Infinity };
-  _dfs(root, results);
-  return results.max;
-};
-/** 后续遍历 */
-function _dfs(node, results) {
-  if (!node) return 0;
-  const left = _dfs(node.left, results);
-  const right = _dfs(node.right, results);
-
-  /** 当前节点路径值: 当前节点 + 左 + 右 */
-  results.max = Math.max(
-    node.val + Math.max(0, left) + Math.max(0, right),
-    results.max
-  );
-
-  /** 当前节点最长的路径: 当前节点 + 从左或右取 */
-  return node.val + Math.max(left, right, 0);
-}
 ```
 
 ## 参考资料
