@@ -421,8 +421,8 @@ var flatten = function(root) {
   let results = [];
   _dfs(root, results);
   for (let i = 0; i < results.length - 1; i += 1) {
-      results[i].left = null;
-      results[i].right = results[i + 1];
+    results[i].left = null;
+    results[i].right = results[i + 1];
   }
   return results[0];
 };
@@ -568,7 +568,7 @@ var _dfs = function(node) {
 
 ```js
 var maxPathSum = function (root) {
-  if (root === null) return 0;
+  if (!root) return 0;
   const results = { max: -Infinity };
   _dfs(root, results);
   return results.max;
@@ -579,7 +579,7 @@ function _dfs(node, results) {
   const left = _dfs(node.left, results);
   const right = _dfs(node.right, results);
   /** 中间计算过程 */
-  results.max = Math.max(node.val + Math.max(left, 0) + Math.max(right, 0), results.max);
+  results.max = Math.max(Math.max(left, 0) + Math.max(right, 0) + node.val, results.max);
   /** 当前节点最大路径: 左右最大 + 当前节点 */
   return Math.max(left, right, 0) + node.val;
 }

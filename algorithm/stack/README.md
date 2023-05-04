@@ -19,27 +19,26 @@ Stack.prototype.peek = function () {
 };
 ```
 
-## 对称字符合法性
+## 有效的括号
 
 - leetcode: https://leetcode.cn/problems/valid-parentheses
 
 ```js
 var isValid = function (s) {
+  /** 栈中存的是符号; 相邻成对则消除 */
   const stack = [];
   const map = new Map([
-    ["(", ")"],
-    ["{", "}"],
-    ["[", "]"],
+    ['(', ')'],
+    ['{', '}'],
+    ['[', ']']
   ]);
-  for (let i = 0, len = s.length; i < len; i += 1) {
-    const isLeft = map.has(s[i]);
-    if (isLeft) {
+  const left = Array.from(map.keys());
+  for (let i = 0; i < s.length; i += 1) {
+    if (left.indexOf(s[i]) > -1) {
       stack.push(s[i]);
     } else {
-      if (!stack.length) return false;
-      const last = stack[stack.length - 1];
+      const last = stack.pop();
       if (map.get(last) !== s[i]) return false;
-      else stack.pop();
     }
   }
   return !stack.length;
@@ -52,27 +51,23 @@ var isValid = function (s) {
 
 ```js
 var longestValidParentheses = function (s) {
-  /** 存入当前下标 index */
+  /** 栈中存的是符号的下标; 相邻成对则消除; 然后计算间隔 */
   const stack = [-1];
-  let res = 0;
+  let max = 0;
   for (let i = 0; i < s.length; i++) {
     if (s[i] === "(") {
-      /** 遇到左括号 '(' 进栈*/
       stack.push(i);
     } else {
-      /** 遇到右括号 ')' 将 '(' 出栈 */
       stack.pop();
       if (stack.length === 0) {
-        /** 已经全部出栈之后，进来一个新的右括号 ')' 位置记录 */
+        /** 栈中存的是符号的下标 */
         stack.push(i);
       } else {
-        /** stack 最后一个元素为 ')' 的位置 */
-        /** i - stack[stack.length - 1 值为消掉的元素数量 */
-        res = Math.max(res, i - stack[stack.length - 1]);
+        max = Math.max(max, i - stack[stack.length - 1]);
       }
     }
   }
-  return res;
+  return max;
 };
 ```
 
