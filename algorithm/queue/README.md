@@ -77,7 +77,10 @@ var maxSlidingWindow = function(nums, k) {
 
 ## 最小覆盖子串 (可变窗口)
 
-- leetcode: https://leetcode.cn/problems/minimum-window-substring/
+- 最小覆盖子串: https://leetcode.cn/problems/minimum-window-substring/
+- 字母异位词判断: https://leetcode.cn/problems/permutation-in-string/
+- 字母异位词起始索引: https://leetcode.cn/problems/find-all-anagrams-in-a-string/
+- 最短超串首尾索引: https://leetcode.cn/problems/shortest-supersequence-lcci/
 
 ```js
  var minWindow = function(s, t) {
@@ -86,8 +89,8 @@ var maxSlidingWindow = function(nums, k) {
   /** 定义窗口比较值: map 对象 */
   const elements = new Map();
   for (let char of t) {
-    if (elements.has(char)) elements.set(char, elements.get(char) + 1);
-    else elements.set(char, 1);
+    if (!elements.has(char)) elements.set(char, 1);
+    else elements.set(char, elements.get(char) + 1);
   }
   let totalElemets = elements.size;
   /** 初始化窗口边界 */

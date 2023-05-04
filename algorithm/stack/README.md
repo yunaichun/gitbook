@@ -24,7 +24,7 @@ Stack.prototype.peek = function () {
 - leetcode: https://leetcode.cn/problems/valid-parentheses
 
 ```js
-var isValid = function (s) {
+var isValid = function(s) {
   /** 栈中存的是符号; 相邻成对则消除 */
   const stack = [];
   const map = new Map([
@@ -50,7 +50,7 @@ var isValid = function (s) {
 - leetcode: https://leetcode.cn/problems/longest-valid-parentheses/
 
 ```js
-var longestValidParentheses = function (s) {
+var longestValidParentheses = function(s) {
   /** 栈中存的是符号的下标; 相邻成对则消除; 然后计算间隔 */
   const stack = [-1];
   let max = 0;
@@ -60,7 +60,6 @@ var longestValidParentheses = function (s) {
     } else {
       stack.pop();
       if (stack.length === 0) {
-        /** 栈中存的是符号的下标 */
         stack.push(i);
       } else {
         max = Math.max(max, i - stack[stack.length - 1]);
