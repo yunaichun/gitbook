@@ -131,7 +131,6 @@ var rightIsValid = (val, node) => {
 ```js
 var lowestCommonAncestor = function(root, p, q) {
   if (!root) return null;
-  if (root.val > p.val && root.val < q.val) return root;
   if (root.val < p.val && root.val < q.val) return lowestCommonAncestor(root.right, p, q);
   if (root.val > p.val && root.val > q.val) return lowestCommonAncestor(root.left, p, q);
   return root;
@@ -358,15 +357,15 @@ var _bfs = function(root) {
 ```js
 var preorderTraversal = function(root) {
   const results = [];
-  _helper(root, results);
+  _dfs(root, results);
   return results;
 };
 
-var _helper = function(node, results) {
+var _dfs = function(node, results) {
   if (!node) return;
   results.push(node.val);
-  _helper(node.left, results);
-  _helper(node.right, results);
+  _dfs(node.left, results);
+  _dfs(node.right, results);
 }
 ```
 
@@ -378,15 +377,15 @@ var _helper = function(node, results) {
 ```js
 var inorderTraversal = function(root) {
   const results = [];
-  _helper(root, results);
+  _dfs(root, results);
   return results;
 };
 
-var _helper = function(node, results) {
+var _dfs = function(node, results) {
   if (!node) return;
-  _helper(node.left, results);
+  _dfs(node.left, results);
   results.push(node.val);
-  _helper(node.right, results);
+  _dfs(node.right, results);
 };
 ```
 
@@ -397,15 +396,39 @@ var _helper = function(node, results) {
 ```js
 var postorderTraversal = function(root) {
   let results = [];
-  _helper(root, results);
+  _dfs(root, results);
   return results;
 };
 
-var _helper = function(node, results) {
+var _dfs = function(node, results) {
   if (!node) return;
-  _helper(node.left, results);
-  _helper(node.right, results);
+  _dfs(node.left, results);
+  _dfs(node.right, results);
   results.push(node.val);
+};
+```
+
+## 前序链表
+
+- leetcode: https://leetcode.cn/problems/flatten-binary-tree-to-linked-list/
+
+```js
+var flatten = function(root) {
+  if (!root) return null;
+  let results = [];
+  _dfs(root, results);
+  for (let i = 0; i < results.length - 1; i += 1) {
+      results[i].left = null;
+      results[i].right = results[i + 1];
+  }
+  return results[0];
+};
+
+var _dfs = function(root, results) {
+  if (!root) return;
+  results.push(root);
+  _dfs(root.left, results);
+  _dfs(root.right, results);
 };
 ```
 
@@ -518,50 +541,22 @@ var isSymmetricArr = function(arr) {
 
 ```js
 var isCompleteTree = function (root) {
-  const queue = [];
-  if (root) queue.push([root, 1]);
+  if (!root) return false
   let results = [];
-  /** 包含 index 的遍历 */
+  const queue = [[root, 1]];
   while (queue.length) {
     const current = [];
-    let len = queue.length;
-    for (let i = 0; i < len; i += 1) {
+    const length = queue.length;
+    for (let i = 0; i < length; i += 1) {
       const [node, index] = queue[i];
+      if (node.left) queue.push([node.left, 2 * index]);
+      if (node.right) queue.push([node.right, 2 * index + 1]);
       current.push(index);
-      if (node.left)
-        queue.push([node.left, (2 * index) % Number.MAX_SAFE_INTEGER]);
-      if (node.right)
-        queue.push([node.right, (2 * index + 1) % Number.MAX_SAFE_INTEGER]);
     }
     results = results.concat(current);
-    queue.splice(0, len);
+    queue.splice(0, length);
   }
   return results.length === results[results.length - 1];
-};
-```
-
-## 二叉树改为链表
-
-- leetcode: https://leetcode.cn/problems/flatten-binary-tree-to-linked-list/
-
-```js
-var flatten = function (root) {
-  let results = [];
-  _helper(root, results);
-  if (!results.length) return null;
-  for (let i = 0, len = results.length; i < len - 1; i += 1) {
-    const current = results[i];
-    current.left = null;
-    current.right = results[i + 1];
-  }
-  return results[0];
-};
-
-var _helper = function (root, results) {
-  if (!root) return;
-  results.push(root);
-  _helper(root.left, results);
-  _helper(root.right, results);
 };
 ```
 
