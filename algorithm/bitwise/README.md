@@ -30,12 +30,12 @@
 得到最低位 1: x & -x
 ```
 
-## 二进制位 1 的个数
+## 位 1 的个数
 
 - leetcode: https://leetcode.cn/problems/number-of-1-bits
 
 ```js
-var hammingWeight = function (n) {
+var hammingWeight = function(n) {
   let count = 0;
   while (n) {
     n = n & (n - 1);
@@ -45,12 +45,12 @@ var hammingWeight = function (n) {
 };
 ```
 
-## 是否是 2 的 n 次幂
+## 2 的 n 次幂判断
 
 - leetcode: https://leetcode.cn/problems/power-of-two
 
 ```js
-var isPowerOfTwo = function (n) {
+var isPowerOfTwo = function(n) {
   /** 仅有1个1: 清除最低位的1为0即可 */
   return n > 0 && !(n & (n - 1));
 };
@@ -61,12 +61,13 @@ var isPowerOfTwo = function (n) {
 - leetcode: https://leetcode.cn/problems/counting-bits
 
 ```js
-var countBits = function (n) {
-  const a = [0];
+var countBits = function(n) {
+  /** dp[i] 代表 i 数字具有的 1 的位数 */
+  const dp = [0];
   for (let i = 1; i <= n; i += 1) {
-    a[i] = a[i & (i - 1)] + 1;
+    dp[i] = dp[i & (i - 1)] + 1;
   }
-  return a;
+  return dp;
 };
 ```
 
