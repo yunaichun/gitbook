@@ -31,8 +31,10 @@ var threeSum = function(nums) {
       const second = nums[j];
       /** 第二个元素被当作第三个元素来使用 */
       if (!thirdMap[second]) {
+        /** 剩余元素待寻找的第 3 个元素*/
         thirdMap[0 - first - second] = { useed: false };
       } else if (!thirdMap[second].useed) {
+        /** 第 3 个元素已找到, 后续还有一样的第 3 个元素忽略 */
         thirdMap[second] = { useed: true };
         results.push([first, second, 0 - first - second]);
       }
@@ -44,16 +46,85 @@ var threeSum = function(nums) {
 
 ## 字符串相加
 
-- leetcode: https://leetcode.cn/classic/problems/add-strings/description/
+- leetcode: https://leetcode.cn/problems/add-strings/
 
 ```js
+var addStrings = function(num1, num2) {
+  const results = [];
+  let [i, j] = [num1.length - 1, num2.length - 1];
+  let c = 0;
+  while (i >=0 || j >= 0 || c) {
+    const a = num1[i] ? num1[i] - 0 : 0;
+    const b = num2[j] ? num2[j] - 0 : 0;
+    if (a + b + c >= 10) c = 1;
+    else c = 0;
+    results.unshift((a + b + c) % 10);
+    i -= 1;
+    j -= 1;
+  }
+  return results.join('');
+};
 ```
 
 ## 字符串相乘
 
-- leetcode: https://leetcode.cn/classic/problems/multiply-strings/description/
+- leetcode: https://leetcode.cn/problems/multiply-strings/description/
 
 ```js
+var multiply = function(num1, num2) {
+  if (num1 === '0' || num2 === '0') return '0';
+  let results = '0';
+  let zero = '';
+  for (let i = num2.length - 1; i >=0; i -= 1) {
+    if (num2[i] - 0) {
+      const arr = Array.from({ length: num2[i] }, () => num1);
+      let current = arr.reduce((a, b) => addStrings(a, b));
+      current += zero;
+      results = addStrings(results, current);
+    }
+    zero += '0';
+  }
+  return results;
+};
+
+
+var addStrings = function(num1, num2) {
+  const results = [];
+  let [i, j] = [num1.length - 1, num2.length - 1];
+  let c = 0;
+  while(i >=0 || j >= 0 || c) {
+    const a = num1[i] ? num1[i] - 0 : 0;
+    const b = num2[j] ? num2[j] - 0 : 0;
+    results.unshift((a + b + c) % 10);
+    if (a + b + c >= 10) c = 1;
+    else c = 0;
+    i -= 1;
+    j -= 1; 
+  }
+  return results.join('');
+}
+```
+
+## 多数元素
+
+- leetcode: https://leetcode.com/problems/majority-element
+
+```js
+var majorityElement = function(nums) {
+  const elements = new Map();
+  let max = 1;
+  let num = null;
+  for (let i = 0; i < nums.length; i += 1) {
+    if (!elements.has(nums[i])) elements.set(nums[i], 1);
+    else elements.set(nums[i], elements.get(nums[i]) + 1);
+    max = Math.max(elements.get(nums[i]), max);
+    if (elements.get(nums[i]) >= max) {
+      max = elements.get(nums[i]);
+      num = nums[i];
+    }
+  }
+  return num;
+};
 ```
 
 ## 缺失的第一个正数
@@ -81,28 +152,11 @@ var threeSum = function(nums) {
 
   return N + 1;
 };
-```
 
-## 多数元素
-
-- https://leetcode.com/problems/majority-element
-
-```js
-var majorityElement = function(nums) {
-  const elements = new Map();
-  let max = 1;
-  let num = null;
-  for (let i = 0; i < nums.length; i += 1) {
-    if (!elements.has(nums[i])) elements.set(nums[i], 1);
-    else elements.set(nums[i], elements.get(nums[i]) + 1);
-    max = Math.max(elements.get(nums[i]), max);
-    if (elements.get(nums[i]) >= max) {
-      max = elements.get(nums[i]);
-      num = nums[i];
-    }
-  }
-  return num;
-};
+// nums = [3,4,-1,1]
+// [ -1, 4, 3, 1 ]
+// [ -1, 1, 3, 4 ]
+// [ 1, -1, 3, 4 ]
 ```
 
 ## 参考资料
