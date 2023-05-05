@@ -11,24 +11,17 @@ var Trie = function () {
   this.root = {};
 };
 
-/**
- * @param {string} word
- * @return {void}
- */
 Trie.prototype.insert = function (word) {
   let root = this.root;
   for (let i = 0, len = word.length; i < len; i += 1) {
     const cur = word[i];
+    /** 如果没有开辟新的节点, 否则从旧节点后添加 */
     if (!root[cur]) root[cur] = {};
     root = root[cur];
   }
   root["#"] = "#";
 };
 
-/**
- * @param {string} word
- * @return {boolean}
- */
 Trie.prototype.search = function (word) {
   let root = this.root;
   for (let i = 0, len = word.length; i < len; i += 1) {
@@ -40,10 +33,6 @@ Trie.prototype.search = function (word) {
   return false;
 };
 
-/**
- * @param {string} prefix
- * @return {boolean}
- */
 Trie.prototype.startsWith = function (prefix) {
   let root = this.root;
   for (let i = 0, len = prefix.length; i < len; i += 1) {
