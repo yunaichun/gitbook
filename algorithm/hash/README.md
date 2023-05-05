@@ -87,7 +87,6 @@ var multiply = function(num1, num2) {
   return results;
 };
 
-
 var addStrings = function(num1, num2) {
   const results = [];
   let [i, j] = [num1.length - 1, num2.length - 1];
