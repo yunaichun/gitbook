@@ -139,9 +139,9 @@ var majorityElement = function(nums) {
   for (let i = 0; i < N; i += 1) {
     /** 把当前元素放在对应的位置上面去: nums[i] 应该放到 nums[nums[i] -1] 位置上面去 */
     while (nums[i] >= 1 && nums[i] <= N && nums[i] !== nums[nums[i] - 1]) {
-      const [a, b] = [nums[nums[i] - 1], nums[i]];
-      nums[nums[i] - 1] = b;
-      nums[i] = a;
+      const [a, b] = [nums[i], nums[nums[i] - 1]];
+      nums[nums[i] - 1] = a;
+      nums[i] = b;
     }
   }
 

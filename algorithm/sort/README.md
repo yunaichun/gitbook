@@ -5,13 +5,13 @@
 ## 冒泡排序
 
 ```js
-function bubbleSort(arr) {
-  for (let i = 0, len = arr.length; i < len - 1; i += 1) {
-    for (let j = i + 1; j < len; j += 1) {
-      if (arr[i] > arr[j]) {
-        const temp = arr[i];
-        arr[i] = arr[j];
-        arr[j] = temp;
+var bubbleSort = function(arr) {
+  for (let i = 0; i < arr.length - 1; i += 1) {
+    for (let j = i + 1; j < arr.length; j += 1) {
+      let [a, b] = [arr[i], arr[j]];
+      if (a > b) {
+        arr[i] = b;
+        arr[j] = a;
       }
     }
   }
@@ -22,15 +22,15 @@ function bubbleSort(arr) {
 ## 选择排序
 
 ```js
-function selectionSort(arr) {
-  for (let i = 0, len = arr.length; i < len - 1; i += 1) {
+var selectionSort = function(arr) {
+  for (let i = 0; i < arr.length - 1; i += 1) {
     let min = i;
-    for (let j = i + 1; j < len; j += 1) {
+    for (let j = i + 1; j < arr.length; j += 1) {
       if (arr[j] < arr[min]) min = j;
     }
-    const temp = arr[i];
-    arr[i] = arr[min];
-    arr[min] = temp;
+    const [a, b] = [arr[i], arr[min]];
+    arr[i] = b;
+    arr[min] = a;
   }
   return arr;
 }
@@ -39,13 +39,13 @@ function selectionSort(arr) {
 ## 插入排序
 
 ```js
-function insertSort(arr) {
-  for (let i = 1, len = arr.length; i < len; i += 1) {
+var insertSort = function(arr) {
+  for (let i = 1; i < arr.length; i += 1) {
     const min = arr[i];
-    /** 确保从 i 位置开始往后移 */
     let j = i;
-    for (; j - 1 >= 0 && arr[j - 1] > min; j -= 1) {
+    while (j - 1 >= 0 && arr[j - 1] > min) {
       arr[j] = arr[j - 1];
+      j -= 1;
     }
     arr[j] = min;
   }
@@ -56,15 +56,14 @@ function insertSort(arr) {
 ## 希尔排序
 
 ```js
-function shellSort(arr) {
-  let gap = Math.floor(arr.length / 2);
-  for (; gap > 0; gap = Math.floor(gap / 2)) {
-    for (let i = gap, len = arr.length; i < len; i += 1) {
+var shellSort = function(arr) {
+  for (let gap = Math.floor(arr.length / 2); gap > 0; gap -= 1) {
+    for (let i = gap; i < arr.length; i += 1) {
       const min = arr[i];
-      /** 确保从 i 位置开始往后移 */
       let j = i;
-      for (; j - gap >= 0 && arr[j - gap] > min; j -= gap) {
+      while (j - gap >= 0 && arr[j - gap] > min) {
         arr[j] = arr[j - gap];
+        j -= gap
       }
       arr[j] = min;
     }
@@ -76,15 +75,16 @@ function shellSort(arr) {
 ## 快速排序
 
 ```js
-function quickSort(arr) {
-  if (arr.length <= 1) return arr;
+var quickSort = function(arr) {
+  if (arr.length <= 1) return arr;  
   const basic = arr[0];
   const lesser = [];
   const greater = [];
-  for (let i = 0, len = arr.length; i < len; i += 1) {
+  for (let i = 1; i < arr.length; i += 1) {
     if (arr[i] < basic) lesser.push(arr[i]);
-    else if (arr[i] > basic) greater.push(arr[i]);
+    else greater.push(arr[i]);
   }
+
   return quickSort(lesser).concat(basic, quickSort(greater));
 }
 ```
