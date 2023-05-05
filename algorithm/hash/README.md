@@ -7,10 +7,10 @@
 - leetcode: https://leetcode.cn/problems/two-sum
 
 ```js
-var twoSum = function (nums, target) {
-  for (let i = 0, len = nums.length; i < len; i += 1) {
+var twoSum = function(nums, target) {
+  for (let i = 0; i < nums.length; i += 1) {
     const j = nums.indexOf(target - nums[i]);
-    if (j > -1 && i !== j) return [i, j];
+    if (j > -1 && j !== i) return [i, j];
   }
 };
 ```
@@ -20,24 +20,21 @@ var twoSum = function (nums, target) {
 - leetcode: https://leetcode.cn/problems/3sum
 
 ```js
-var threeSum = function (nums) {
-  if (nums.length < 3) return [];
-  nums.sort();
+var threeSum = function(nums) {
+  nums = nums.sort();
   const results = [];
-  for (let i = 0, len = nums.length; i < len - 2; i += 1) {
+  for (let i = 0; i < nums.length - 2; i += 1) {
     if (i > 0 && nums[i] === nums[i - 1]) continue;
-    let obj = {};
-    /** 循环遍历第二个元素 */
-    for (let j = i + 1; i < len; i += 1) {
-      const one = nums[i];
-      const two = nums[j];
-      const three = 0 - one - two;
-      /** 根据第二个元素确定第三个应该的元素 */
-      if (!obj[two]) {
-        obj[three] = { add: false };
-      } else if (!obj[two].add) {
-        obj[two] = { add: true };
-        results.push([one, two, three]);
+    const first = nums[i];
+    const thirdMap = {};
+    for (let j = i + 1; j < nums.length; j += 1) {
+      const second = nums[j];
+      /** 第二个元素被当作第三个元素来使用 */
+      if (!thirdMap[second]) {
+        thirdMap[0 - first - second] = { useed: false };
+      } else if (!thirdMap[second].useed) {
+        thirdMap[second] = { useed: true };
+        results.push([first, second, 0 - first - second]);
       }
     }
   }
@@ -45,35 +42,18 @@ var threeSum = function (nums) {
 };
 ```
 
-## 有效字母异同位
+## 字符串相加
 
-- leetcode: https://leetcode.cn/problems/valid-anagram
+- leetcode: https://leetcode.cn/classic/problems/add-strings/description/
 
 ```js
-var isAnagram = function (s, t) {
-  return s.split("").sort().join() === t.split("").sort().join();
-};
 ```
 
-## 众数
+## 字符串相乘
 
-- https://leetcode.com/problems/majority-element
+- leetcode: https://leetcode.cn/classic/problems/multiply-strings/description/
 
 ```js
-var majorityElement = function (nums) {
-  const map = new Map();
-  let [maxCount, maxNum] = [0, null];
-  for (let i = 0, len = nums.length; i < len; i++) {
-    if (map.has(nums[i])) map.set(nums[i], map.get(nums[i]) + 1);
-    else map.set(nums[i], 1);
-    const currentCount = map.get(nums[i]);
-    if (currentCount > maxCount) {
-      maxCount = currentCount;
-      maxNum = nums[i];
-    }
-  }
-  return maxNum;
-};
 ```
 
 ## 缺失的第一个正数
@@ -81,7 +61,7 @@ var majorityElement = function (nums) {
 - leetcode: https://leetcode.cn/problems/first-missing-positive/
 
 ```js
-var firstMissingPositive = function (nums) {
+ var firstMissingPositive = function(nums) {
   /** 哈希表: a[i - 1] = i */
   /** 极端情况: [1, 2, ... N], 最小的正整数 为 N + 1 */
 
@@ -89,9 +69,9 @@ var firstMissingPositive = function (nums) {
   for (let i = 0; i < N; i += 1) {
     /** 把当前元素放在对应的位置上面去: nums[i] 应该放到 nums[nums[i] -1] 位置上面去 */
     while (nums[i] >= 1 && nums[i] <= N && nums[i] !== nums[nums[i] - 1]) {
-      const temp = nums[nums[i] - 1];
-      nums[nums[i] - 1] = nums[i];
-      nums[i] = temp;
+      const [a, b] = [nums[nums[i] - 1], nums[i]];
+      nums[nums[i] - 1] = b;
+      nums[i] = a;
     }
   }
 
@@ -103,6 +83,27 @@ var firstMissingPositive = function (nums) {
 };
 ```
 
+## 多数元素
+
+- https://leetcode.com/problems/majority-element
+
+```js
+var majorityElement = function(nums) {
+  const elements = new Map();
+  let max = 1;
+  let num = null;
+  for (let i = 0; i < nums.length; i += 1) {
+    if (!elements.has(nums[i])) elements.set(nums[i], 1);
+    else elements.set(nums[i], elements.get(nums[i]) + 1);
+    max = Math.max(elements.get(nums[i]), max);
+    if (elements.get(nums[i]) >= max) {
+      max = elements.get(nums[i]);
+      num = nums[i];
+    }
+  }
+  return num;
+};
+```
 
 ## 参考资料
 

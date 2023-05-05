@@ -78,9 +78,9 @@ var maxSlidingWindow = function(nums, k) {
 ## 最小覆盖子串 (可变窗口)
 
 - 最小覆盖子串: https://leetcode.cn/problems/minimum-window-substring/
+- 最小覆盖子串首尾索引: https://leetcode.cn/problems/shortest-supersequence-lcci/
 - 字母异位词判断: https://leetcode.cn/problems/permutation-in-string/
 - 字母异位词起始索引: https://leetcode.cn/problems/find-all-anagrams-in-a-string/
-- 最短超串首尾索引: https://leetcode.cn/problems/shortest-supersequence-lcci/
 
 ```js
  var minWindow = function(s, t) {
