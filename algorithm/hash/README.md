@@ -8,10 +8,19 @@
 
 ```js
 var twoSum = function(nums, target) {
+  const secondMap = {};
   for (let i = 0; i < nums.length; i += 1) {
-    const j = nums.indexOf(target - nums[i]);
-    if (j > -1 && j !== i) return [i, j];
+    const first = nums[i];
+    /** 第 1 个元素被当作第 2 个元素来使用 */
+    if (!secondMap[first]) {
+      /** 剩余元素待寻找的第 2 个元素*/
+      secondMap[target - first] = { index: i };
+    } else  {
+      /** 第 2 个元素已找到 */
+      return [i, secondMap[first].index];
+    }
   }
+  return [];
 };
 ```
 
@@ -29,13 +38,13 @@ var threeSum = function(nums) {
     const thirdMap = {};
     for (let j = i + 1; j < nums.length; j += 1) {
       const second = nums[j];
-      /** 第二个元素被当作第三个元素来使用 */
+      /** 第 2 个元素被当作第 3 个元素来使用 */
       if (!thirdMap[second]) {
         /** 剩余元素待寻找的第 3 个元素*/
-        thirdMap[0 - first - second] = { useed: false };
-      } else if (!thirdMap[second].useed) {
+        thirdMap[0 - first - second] = { foundAndUsed: false };
+      } else if (!thirdMap[second].foundAndUsed) {
         /** 第 3 个元素已找到, 后续还有一样的第 3 个元素忽略 */
-        thirdMap[second] = { useed: true };
+        thirdMap[second] = { foundAndUsed: true };
         results.push([first, second, 0 - first - second]);
       }
     }
@@ -137,8 +146,8 @@ var majorityElement = function(nums) {
 
   const N = nums.length;
   for (let i = 0; i < N; i += 1) {
-    /** 把当前元素放在对应的位置上面去: nums[i] 应该放到 nums[nums[i] -1] 位置上面去 */
-    while (nums[i] >= 1 && nums[i] <= N && nums[i] !== nums[nums[i] - 1]) {
+    /** 把当前元素放在对应的位置上面去: nums[i] 值应该放到 nums[i] -1 位置上面去 */
+    while (nums[i] - 1 >= 0 && nums[i] - 1 < N && nums[i] !== nums[nums[i] - 1]) {
       const [a, b] = [nums[i], nums[nums[i] - 1]];
       nums[nums[i] - 1] = a;
       nums[i] = b;

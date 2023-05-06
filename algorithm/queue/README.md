@@ -47,30 +47,27 @@ KthLargest.prototype.add = function(val) {
 
 ```js
 var maxSlidingWindow = function(nums, k) {
-  /** 结果 */
+  /** 滑动窗口结果 */
   const results = [];
-  /** 定义窗口比较值: 单调递减队列的下标 */
-  const deque = [];
-    /** 初始化窗口边界 */
+  /** 滑动窗口条件 */
+  const queue = [];
+  /** 滑动窗口边界 */
   let [left, right] = [0, 0];
 
-  for (; right < nums.length; right++) {
+  for (; right < nums.length; right += 1) {
     left = right - k + 1;
-
-    /** 最左侧开始: 不在滑动窗口内的全部移除 */
-    while (deque[0] < left) {
-      deque.shift();
+    /** 开始元素不在范围内的移除 */
+    while (queue[0] < left) {
+      queue.shift();
     }
-
-    /** 最右侧开始: 小于当前滑动进来的全部移除 */
-    while (nums[deque[deque.length - 1]] < nums[right]) {
-      deque.pop();
+    /** 结尾元素小于当前的全部移除 */
+    while (nums[right] >= nums[queue[queue.length - 1]]) {
+      queue.pop();
     }
-
-    /** 存储下标 */
-    deque.push(right);
-    if (left >= 0) results.push(nums[deque[0]]);
+    queue.push(right);
+    if (left >= 0) results.push(nums[queue[0]]);
   }
+
   return results;
 };
 ```
@@ -84,16 +81,16 @@ var maxSlidingWindow = function(nums, k) {
 
 ```js
  var minWindow = function(s, t) {
-  /** 结果 */
+  /** 滑动窗口结果 */
   let min = "";
-  /** 定义窗口比较值: map 对象 */
+  /** 滑动窗口条件 */
   const elements = new Map();
   for (let char of t) {
     if (!elements.has(char)) elements.set(char, 1);
     else elements.set(char, elements.get(char) + 1);
   }
   let totalElemets = elements.size;
-  /** 初始化窗口边界 */
+  /** 滑动窗口边界 */
   let [left, right] = [0, 0];
 
   for (; right < s.length; right += 1) {
@@ -124,11 +121,11 @@ var maxSlidingWindow = function(nums, k) {
 
 ```js
 var minSubArrayLen = function(target, nums) {
-  /** 结果 */
+  /** 滑动窗口结果 */
   let min = Infinity;
-  /** 定义窗口比较值: map 对象 */
+  /** 滑动窗口条件 */
   let sum = 0;
-  /** 初始化窗口边界 */
+  /** 滑动窗口边界 */
   let [left, right] = [0, 0];
 
   for (; right < nums.length; right += 1) {
