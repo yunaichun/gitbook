@@ -29,9 +29,9 @@ var search = function (nums, target) {
 
 ```js
 var searchRange = function(nums, target) {
-    const left = searchLeft(nums, target);
-    const right = searchRight(nums, target);
-    return [left, right];
+  const left = searchLeft(nums, target);
+  const right = searchRight(nums, target);
+  return [left, right];
 };
 
 var searchLeft = function(nums, target) {
@@ -48,6 +48,7 @@ var searchLeft = function(nums, target) {
     }
   }
   if (nums[left] != target) return -1;
+  /** 如果 target 在 nums 中只有一个, 收缩结束 left 还会回到原来的位置 */
   return left;
 }
 
@@ -65,6 +66,7 @@ var searchRight = function(nums, target) {
     }
   }
   if (nums[right] != target) return -1;
+  /** 如果 target 在 nums 中只有一个, 收缩结束 right 还会回到原来的位置 */
   return right;
 }
 ```
@@ -137,14 +139,95 @@ var searchLeft = function(nums, target) {
     const mid = Math.floor((left + right) / 2);
     const sqrt = mid * mid;
     if (sqrt < x) {
-    left = mid + 1;
+      left = mid + 1;
     } else if (sqrt > x) {
-    right = mid - 1;
+      right = mid - 1;
     } else {
-    return mid;
+      return mid;
+    }
+  }
+  /** 此时的 left 平方已经超出了 x */
+  return right;
+};
+```
+
+## 排列硬币
+
+- leetcode: https://leetcode.cn/problems/arranging-coins/
+
+```js
+var arrangeCoins = function(n) {
+  let [left, right] = [0, n];
+  while (left <= right) {
+    const mid = Math.floor((left + right) / 2);
+    const max = (1 + mid) * mid / 2;
+    if (max < n) {
+      left = mid + 1;
+    } else if (max > n) {
+      right = mid - 1;
+    } else {
+      return mid;
     }
   }
   return right;
+};
+```
+
+## 猜数字大小
+
+- leetcode: https://leetcode.cn/problems/guess-number-higher-or-lower/
+
+```js
+var guessNumber = function(n) {
+  let [left, right] = [1, n];
+  while (left <= right) {
+    const mid = Math.floor((right + left) / 2);
+    if (guess(mid) === -1) {
+      right = mid - 1;
+    } else if (guess(mid) === 1) {
+      left = mid + 1;
+    } else {
+      return mid;
+    }
+  }
+};
+```
+
+## 搜索旋转排序数组
+
+- leetcode: https://leetcode.cn/problems/search-in-rotated-sorted-array/
+- leetcode: https://leetcode.cn/problems/search-in-rotated-sorted-array-ii/
+
+```js
+var search = function(nums, target) {
+  let [left, right] = [0, nums.length - 1];
+  while (left <= right) {
+    const mid = Math.floor((left + right) / 2);
+    if (nums[mid] === target) return true;
+    /** 如果存在重复数字, 就可能会发生 nums[mid] === nums[start] 了, 如 nums = [1,0,1,1,1] target = 0, 则会进入到错误的判断里导致一直查不到 */
+    /** 这个时候可以选择舍弃 start, 也就是 start 右移一位 */
+    while (left < mid && nums[mid] === nums[left] ) {
+      left += 1;
+    }
+    /** 假如 mid 小于 left, 则 mid 一定在右边有序或无序部分, 即 [mid, end] 部分有序 */
+    /** 假如 mid 大于 left, 则 mid 一定在左边有序或无序部分, 即 [start, mid] 部分有序 */
+    if (nums[mid] < nums[left]) {
+      if (nums[mid] < target && target <= nums[right]) {
+        /** 比较 target 和有序部分的边界关系: 在有序部分 */
+        left = mid + 1;
+      } else {
+        right = mid - 1;
+      }
+    } else {
+      if (nums[left] <= target && target < nums[mid] ) {
+        /** 比较 target 和有序部分的边界关系: 在有序部分 */
+        right = mid - 1;
+      } else {
+        left = mid + 1;
+      }
+    }
+  }
+  return false;
 };
 ```
 
