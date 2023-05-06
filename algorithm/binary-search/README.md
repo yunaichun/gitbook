@@ -205,25 +205,30 @@ var search = function(nums, target) {
   while (left <= right) {
     const mid = Math.floor((left + right) / 2);
     if (nums[mid] === target) return true;
-    /** 如果存在重复数字, 就可能会发生 nums[mid] === nums[start] 了, 如 nums = [1,0,1,1,1] target = 0, 则会进入到错误的判断里导致一直查不到 */
-    /** 这个时候可以选择舍弃 start, 也就是 start 右移一位 */
+    /** nums[mid] 与 nums[left] 值相同, 有个替代品 mid, 舍弃掉 left */
     while (left < mid && nums[mid] === nums[left] ) {
       left += 1;
     }
-    /** 假如 mid 小于 left, 则 mid 一定在右边有序或无序部分, 即 [mid, end] 部分有序 */
-    /** 假如 mid 大于 left, 则 mid 一定在左边有序或无序部分, 即 [start, mid] 部分有序 */
+    /** nums[mid] 与 nums[right] 值相同, 有个替代品 mid, 舍弃掉 right */
+    while (right > mid && nums[mid] === nums[right] ) {
+      right -= 1;
+    }
     if (nums[mid] < nums[left]) {
+      /** 假如 mid 小于 left, 则 mid 一定在右边有序或无序部分, 即 [mid, end] 部分有序 */
       if (nums[mid] < target && target <= nums[right]) {
-        /** 比较 target 和有序部分的边界关系: 在有序部分 */
+        /** 一定在右侧有序部分 */
         left = mid + 1;
       } else {
+        /** 排除在右侧有序部分, 则右侧收缩 */
         right = mid - 1;
       }
     } else {
-      if (nums[left] <= target && target < nums[mid] ) {
-        /** 比较 target 和有序部分的边界关系: 在有序部分 */
+      /** 假如 mid 大于 left, 则 mid 一定在左边有序或无序部分, 即 [start, mid] 部分有序 */
+      if (nums[left] <= target && target < nums[mid]) {
+        /** 一定在左侧有序部分 */
         right = mid - 1;
       } else {
+        /** 排除在左侧有序部分, 则左侧收缩 */
         left = mid + 1;
       }
     }
@@ -238,38 +243,18 @@ var search = function(nums, target) {
 - leetcode: https://leetcode.cn/problems/find-minimum-in-rotated-sorted-array-ii/
 
 ```js
-var findMin = function (nums) {
+var findMin = function(nums) {
   let [left, right] = [0, nums.length - 1];
   while (left < right) {
     if (nums[left] < nums[right]) return nums[left];
     const mid = Math.floor((left + right) / 2);
+    /** 由于最小的一定在右侧，因此可以收缩左区间，即 left = mid + 1 */
     if (nums[mid] > nums[right]) {
-      /** 说明 mid 在左侧有序部分，由于最小的一定在右侧，因此可以收缩左区间，即 l = mid + 1 */
       left = mid + 1;
-    } else {
-      /** 否则收缩右侧，即 r = mid（不可以 r = mid - 1） */
-      right = mid;
-    }
-  }
-
-  return nums[left];
-};
-```
-```js
-var findMin = function (nums) {
-  let [left, right] = [0, nums.length - 1];
-  while (left < right) {
-    if (nums[left] < nums[right]) return nums[left];
-    const mid = Math.floor((left + right) / 2);
-    if (nums[mid] > nums[right]) {
-      /** 说明 mid 一定在左侧有序部分，由于最小的一定在右侧，因此可以收缩左区间，即 l = mid + 1 */
-      left = mid + 1;
-    } else if (nums[mid] < nums[right]) {
-      /** 否则收缩右侧，即 r = mid（不可以 r = mid - 1） */
+    } else if (nums[mid] < nums[right]){
       right = mid;
     } else {
-      /** 如果存在重复数字, 就可能会发生 nums[mid] === nums[start] 了, 如 nums = [1, 1] 则会进入到错误的判断里导致一直查不到 */
-      /** 这个时候可以选择舍弃 right, 也就是 right 左移一位 */
+      /** nums[mid] 与 nums[right] 值相同, 有个替代品 mid, 舍弃掉 right */
       right = right - 1;
     }
   }
