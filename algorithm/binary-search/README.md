@@ -169,6 +169,7 @@ var arrangeCoins = function(n) {
       return mid;
     }
   }
+  /** 此时的 left 平方已经超出了 x */
   return right;
 };
 ```
@@ -193,7 +194,7 @@ var guessNumber = function(n) {
 };
 ```
 
-## 搜索旋转排序数组
+## 旋转排序数组搜索
 
 - leetcode: https://leetcode.cn/problems/search-in-rotated-sorted-array/
 - leetcode: https://leetcode.cn/problems/search-in-rotated-sorted-array-ii/
@@ -228,6 +229,52 @@ var search = function(nums, target) {
     }
   }
   return false;
+};
+```
+
+## 旋转排序数组最小值
+
+- leetcode: https://leetcode.cn/problems/find-minimum-in-rotated-sorted-array/
+- leetcode: https://leetcode.cn/problems/find-minimum-in-rotated-sorted-array-ii/
+
+```js
+var findMin = function (nums) {
+  let [left, right] = [0, nums.length - 1];
+  while (left < right) {
+    if (nums[left] < nums[right]) return nums[left];
+    const mid = Math.floor((left + right) / 2);
+    if (nums[mid] > nums[right]) {
+      /** 说明 mid 在左侧有序部分，由于最小的一定在右侧，因此可以收缩左区间，即 l = mid + 1 */
+      left = mid + 1;
+    } else {
+      /** 否则收缩右侧，即 r = mid（不可以 r = mid - 1） */
+      right = mid;
+    }
+  }
+
+  return nums[left];
+};
+```
+```js
+var findMin = function (nums) {
+  let [left, right] = [0, nums.length - 1];
+  while (left < right) {
+    if (nums[left] < nums[right]) return nums[left];
+    const mid = Math.floor((left + right) / 2);
+    if (nums[mid] > nums[right]) {
+      /** 说明 mid 一定在左侧有序部分，由于最小的一定在右侧，因此可以收缩左区间，即 l = mid + 1 */
+      left = mid + 1;
+    } else if (nums[mid] < nums[right]) {
+      /** 否则收缩右侧，即 r = mid（不可以 r = mid - 1） */
+      right = mid;
+    } else {
+      /** 如果存在重复数字, 就可能会发生 nums[mid] === nums[start] 了, 如 nums = [1, 1] 则会进入到错误的判断里导致一直查不到 */
+      /** 这个时候可以选择舍弃 right, 也就是 right 左移一位 */
+      right = right - 1;
+    }
+  }
+
+  return nums[left];
 };
 ```
 
