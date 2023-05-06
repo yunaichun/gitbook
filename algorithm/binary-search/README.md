@@ -131,19 +131,20 @@ var searchLeft = function(nums, target) {
 - leetcode: https://leetcode.cn/problems/sqrtx/
 
 ```js
-var searchInsert = function(nums, target) {
-  let [left, right] = [0, nums.length - 1];
+ var mySqrt = function (x) {
+  let [left, right] = [0, x];
   while (left <= right) {
     const mid = Math.floor((left + right) / 2);
-    if (nums[mid] < target) {
-      left = mid + 1;
-    } else if (nums[mid] > target) {
-      right = mid - 1;
+    const sqrt = mid * mid;
+    if (sqrt < x) {
+    left = mid + 1;
+    } else if (sqrt > x) {
+    right = mid - 1;
     } else {
-      return mid;
+    return mid;
     }
   }
-  return left;
+  return right;
 };
 ```
 
