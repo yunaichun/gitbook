@@ -243,23 +243,23 @@ var search = function(nums, target) {
 - leetcode: https://leetcode.cn/problems/find-minimum-in-rotated-sorted-array-ii/
 
 ```js
-var findMin = function(nums) {
+var findMin = function (nums) {
   let [left, right] = [0, nums.length - 1];
   while (left < right) {
     if (nums[left] < nums[right]) return nums[left];
     const mid = Math.floor((left + right) / 2);
-    /** 由于最小的一定在右侧，因此可以收缩左区间，即 left = mid + 1 */
-    if (nums[mid] > nums[right]) {
-      left = mid + 1;
-    } else if (nums[mid] < nums[right]){
+    /** 最小的一定在右侧 */
+    if (nums[mid] < nums[left]) {
       right = mid;
+    } else if (nums[mid] > nums[left]) {
+      left = mid + 1;
     } else {
-      /** nums[mid] 与 nums[right] 值相同, 有个替代品 mid, 舍弃掉 right */
-      right = right - 1;
+      /** nums[mid] 与 nums[left] 值相同, 有个替代品 mid, 舍弃掉 left */
+      left = left + 1;
     }
   }
 
-  return nums[left];
+  return nums[right];
 };
 ```
 
