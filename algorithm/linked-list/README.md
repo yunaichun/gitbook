@@ -363,45 +363,38 @@ var isPalindrome = function(head) {
 ## 两数相加
 
 - https://leetcode.cn/problems/add-two-numbers/
-- https://leetcode.cn/problems/add-strings/
 
 ```js
 var addTwoNumbers = function (l1, l2) {
-  /** 拿到节点值 */
   const list1 = [];
   while (l1) {
-    list1.push(l1.val);
+    list1.push(l1);
     l1 = l1.next;
   }
   const list2 = [];
   while (l2) {
-    list2.push(l2.val);
+    list2.push(l2);
     l2 = l2.next;
   }
-  /** 数字相加 */
-  const results = [];
-  let i = 0;
-  let j = 0;
-  let addOne = 0;
-  while (i < list1.length || j < list2.length || addOne !== 0) {
-    const a = list1[i] || 0;
-    const b = list2[j] || 0;
-    results.push((a + b + addOne) % 10);
-    if ((a + b + addOne) / 10 >= 1) addOne = 1;
-    else addOne = 0;
+  const list = list1.length > list2.length ? list1 : list2;
+  let [i, j] = [0, 0];
+  let c = 0;
+  while (i < list1.length || j < list2.length || c !== 0) {
+    const a = list1[i] ? list1[i].val : 0;
+    const b = list2[j] ? list2[j].val : 0;
+    const val = (a + b + c) % 10;
+    if (list[i]) list[i].val = val;
+    else list[i] = new ListNode(val);
+    if (a + b + c >= 10) c = 1;
+    else c = 0;
     i += 1;
     j += 1;
   }
-  /** 构建新链表 */
-  const dynamicHead = new ListNode();
-  let prev = dynamicHead;
-  for (let i = 0, len = results.length; i < len; i += 1) {
-    const current = new ListNode(results[i]);
-    if (i === 0) dynamicHead.next = current;
-    prev.next = current;
-    prev = current;
+  for (let i = 1; i < list.length; i += 1) {
+    list[i - 1].next = list[i];
+    list[i].next = null;
   }
-  return dynamicHead.next;
+  return list.length ? list[0] : null;
 };
 ```
 
