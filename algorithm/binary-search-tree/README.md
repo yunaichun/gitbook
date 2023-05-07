@@ -5,15 +5,17 @@
 ## js 实现二叉树
 
 ```js
-function Node(val = null, left = null, right = null) {
-  this.val = val;
-  this.left = left;
-  this.right = right;
-  this.toString = function () {
+class Node {
+  constructor (val = null, left = null, right = null) {
+    this.val = val;
+    this.left = left;
+    this.right = right;
+  }
+  toString () {
     return this.val;
-  };
+  }
 }
-class BST {
+class BinarySerarchTree {
   constructor() {
     this.head = new Node();
   }
@@ -87,15 +89,15 @@ class BST {
 var a = new Node(2);
 var b = new Node(1);
 var c = new Node(3);
-var list = new BST();
-list.insert(a);
-list.insert(b);
+var bst = new BinarySerarchTree();
+bst.insert(a);
+bst.insert(b);
 
-list.insert(c);
-console.log(list);
-console.log(list.preOrder(list.head)); /** 2 -> 1 -> 3 */
-console.log(list.postOrder(list.head)); /** 1 -> 3 -> 2 */
-console.log(list.inOrder(list.head)); /** 1 -> 2 -> 3 */
+bst.insert(c);
+console.log(bst);
+console.log(bst.preOrder(bst.head)); /** 2 -> 1 -> 3 */
+console.log(bst.postOrder(bst.head)); /** 1 -> 3 -> 2 */
+console.log(bst.inOrder(bst.head)); /** 1 -> 2 -> 3 */
 ```
 
 ## 验证是否是 BST
@@ -413,7 +415,7 @@ var _dfs = function(node, results) {
 
 ## 前序链表
 
-- leetcode: https://leetcode.cn/problems/flatten-binary-tree-to-linked-list/
+- leetcode: https://leetcode.cn/problems/flatten-binary-tree-to-linked-bst/
 
 ```js
 var flatten = function(root) {

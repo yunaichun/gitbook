@@ -148,7 +148,7 @@
   - [字典树](./algorithm/trie/README.md)
   - [基础排序](./algorithm/sort/README.md)
   - [二分查找](./algorithm/binary-search/README.md)
-  - [二叉树](./algorithm/binary-tree/README.md)
+  - [二叉搜索树](./algorithm/binary-search-tree/README.md)
   - [递归回溯](./algorithm/recursion/README.md)
   - [位运算](./algorithm/bitwise/README.md)
   - [动态规划](./algorithm/dynamic/README.md)

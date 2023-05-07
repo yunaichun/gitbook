@@ -5,46 +5,45 @@
 ## js 实现链表
 
 ```js
-function Node(data = null, next = null) {
-  this.data = data;
-  this.next = next;
+class Node {
+  constructor (val = null, next = null) {
+    this.val = val;
+    this.next = next;
+  }
 }
 
-function ListNode() {
-  this.head = new Node();
-}
-ListNode.prototype.insert = function (sourceNode, targetNode) {
-  const first = this.head;
-  if (first.data === null && first.next === null) {
-    this.head = sourceNode;
-  } else {
-    sourceNode.next = targetNode.next;
-    targetNode.next = sourceNode;
+class LinkedList {
+  constructor () {
+    this.head = new Node();
   }
-  return first;
-};
-ListNode.prototype.removeNode = function (node) {
-  const first = this.head;
-  /** 找到 node 节点的父节点 */
-  while (first.next) {
-    if (first.next === node) {
-      first.next = first.next.next;
-      break;
+  insert(sourceNode, targetNode) {
+    if (!this.head.val && !this.head.next) {
+      this.head = sourceNode;
+    } else {
+      sourceNode.next = targetNode.next;
+      targetNode.next = sourceNode;
     }
-    first = first.next;
   }
-  return first;
-};
-
-let a = new Node(1);
-let b = new Node(2);
-let c = new Node(3);
-let list = new ListNode(a);
-list.insertAfter(a);
-list.insertAfter(b, a);
-list.insertAfter(c, b);
-list.removeNode(b);
-console.log(list);
+  remove(node) {
+    let head = this.head;
+    while (head) {
+      if (head.next === node) {
+        head.next = node.next;
+        break;
+      }
+      head = head.next;
+    }
+  }
+}
+var a = new Node(1);
+var b = new Node(2);
+var c = new Node(3);
+var linkedList = new LinkedList();
+linkedList.insert(a);
+linkedList.insert(b, a);
+linkedList.insert(c, b);
+linkedList.remove(b);
+console.log(linkedList); /** 1 -> 3 -> null */
 ```
 
 ## 环形链表
