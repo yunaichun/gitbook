@@ -128,7 +128,7 @@ var reverseBetween = function(head, left, right) {
 - https://leetcode.cn/problems/reverse-nodes-in-k-group/
 
 ```js
-var reverseKGroup = function (head, k) {
+var reverseKGroup = function(head, k) {
   let count = 1;
   let list = [];
   while (head) {
@@ -158,11 +158,8 @@ var swapPairs = function(head) {
   const list = [];
   let isPush = true;
   while(head) {
-    if (isPush) {
-      list.push(head);
-    } else {
-      list.splice(list.length - 1, 0, head);
-    }
+    if (isPush) list.push(head);
+    else list.splice(list.length - 1, 0, head);
     isPush = !isPush;
     head = head.next;
   }
@@ -186,7 +183,7 @@ var reorderList = function(head) {
     head = head.next;
   }
   for (let i = 0; i < Math.floor(list.length / 2); i += 1) {
-    const right = list.length - 1 - i;
+    const right = list.length - i - 1;
     list[i].next = list[right];
     list[right].next = list[i + 1];
     list[i + 1].next = null;
@@ -200,53 +197,65 @@ var reorderList = function(head) {
 - https://leetcode.cn/problems/merge-two-sorted-lists/
 
 ```js
-var mergeTwoLists = function (list1, list2) {
+var mergeTwoLists = function(list1, list2) {
   let list = [];
-  while (list1) {
+  while(list1) {
     list.push(list1);
     list1 = list1.next;
   }
-  while (list2) {
+  while(list2) {
     list.push(list2);
     list2 = list2.next;
   }
   list = list.sort((a, b) => a.val - b.val);
-  const dynamicHead = new ListNode();
-  let prev = dynamicHead;
-  for (let i = 0, len = list.length; i < len; i += 1) {
-    const node = list[i];
-    if (i === 0) dynamicHead.next = node;
-    prev.next = node;
-    node.next = null;
-    prev = node;
+  for (let i = 1; i < list.length; i += 1) {
+    list[i - 1].next = list[i];
+    list[i].next = null;
   }
-  return dynamicHead.next;
+  return list.length ? list[0] : null;
 };
 ```
 
-## 合并链表 II
+## 合并 K 个升序链表
+
+- https://leetcode.cn/problems/merge-k-sorted-lists/
 
 ```js
-var mergeKLists = function (lists) {
+var mergeKLists = function(lists) {
   let list = [];
-  for (let i = 0, len = lists.length; i < len; i += 1) {
-    let current = lists[i];
-    while (current) {
-      list.push(current);
-      current = current.next;
+  for (let i = 0; i < lists.length; i += 1) {
+    let head = lists[i];
+    while(head) {
+      list.push(head);
+      head = head.next;
     }
   }
   list = list.sort((a, b) => a.val - b.val);
-  const dynamicHead = new ListNode();
-  let prev = dynamicHead;
-  for (let i = 0, len = list.length; i < len; i += 1) {
-    const node = list[i];
-    if (i === 0) dynamicHead.next = node;
-    prev.next = node;
-    node.next = null;
-    prev = node;
+  for (let i = 1; i < list.length; i += 1) {
+    list[i - 1].next = list[i];
+    list[i].next = null;
   }
-  return dynamicHead.next;
+  return list.length ? list[0] : null;
+};
+```
+
+## 排序链表
+
+- https://leetcode.cn/problems/sort-list/
+
+```js
+var sortList = function(head) {
+  let list = [];
+  while (head) {
+    list.push(head);
+    head = head.next;
+  }
+  list = list.sort((a, b) => a.val - b.val);
+  for (let i = 1; i < list.length; i += 1) {
+    list[i - 1].next = list[i];
+    list[i].next = null;
+  }
+  return list.length ? list[0] : null;
 };
 ```
 
@@ -255,24 +264,19 @@ var mergeKLists = function (lists) {
 - https://leetcode.cn/problems/remove-duplicates-from-sorted-list/
 
 ```js
-var deleteDuplicates = function (head) {
+var deleteDuplicates = function(head) {
   const list = [];
   while (head) {
     const find = list.find((i) => i.val === head.val);
     if (!find) list.push(head);
     head = head.next;
   }
-
-  const dynamicHead = new ListNode(0);
-  let prev = dynamicHead;
-  for (let i = 0, len = list.length; i < len; i += 1) {
-    const node = list[i];
-    if (i === 0) dynamicHead.next = node;
-    prev.next = node;
-    node.next = null;
-    prev = node;
+  for (let i = 1; i < list.length; i += 1) {
+    list[i - 1].next = list[i];
+    list[i].next = null;
   }
-  return dynamicHead.next;
+  if (list.length === 1) list[0].next = null;
+  return list.length ? list[0] : null;
 };
 ```
 
@@ -281,29 +285,23 @@ var deleteDuplicates = function (head) {
 - https://leetcode.cn/problems/remove-duplicates-from-sorted-list-ii/
 
 ```js
-var deleteDuplicates = function (head) {
+var deleteDuplicates = function(head) {
   let list = [];
   while (head) {
     list.push(head);
     head = head.next;
   }
-
   list = list.filter((i) => {
-    const iCount = list.filter((j) => j.val === i.val);
-    if (iCount.length > 1) return false;
+    const count = list.filter((j) => j.val === i.val);
+    if (count.length > 1) return false;
     return true;
   });
-
-  const dynamicHead = new ListNode(0);
-  let prev = dynamicHead;
-  for (let i = 0, len = list.length; i < len; i += 1) {
-    const node = list[i];
-    if (i === 0) dynamicHead.next = node;
-    prev.next = node;
-    node.next = null;
-    prev = node;
+  for (let i = 1; i < list.length; i += 1) {
+    list[i - 1].next = list[i];
+    list[i].next = null;
   }
-  return dynamicHead.next;
+  if (list.length === 1) list[0].next = null;
+  return list.length ? list[0] : null;
 };
 ```
 
@@ -312,17 +310,19 @@ var deleteDuplicates = function (head) {
 - https://leetcode.cn/problems/remove-nth-node-from-end-of-list/
 
 ```js
-var removeNthFromEnd = function (head, n) {
+var removeNthFromEnd = function(head, n) {
   const list = [];
   while (head) {
     list.push(head);
     head = head.next;
   }
-  /** 删除链表的节点 index 为 len - n */
-  const len = list.length;
-  if (len - n >= 1) list[len - n - 1].next = list[len - n].next;
-  else return list[0].next;
-  return list[0];
+  if (list.length - n >= 0) {
+    const prev = list[list.length - n - 1];
+    const current = list[list.length - n];
+    if (prev) prev.next = current.next;
+    else return list[0].next;
+  }
+  return list.length ? list[0] : null;
 };
 ```
 
@@ -331,41 +331,13 @@ var removeNthFromEnd = function (head, n) {
 - https://leetcode.cn/problems/lian-biao-zhong-dao-shu-di-kge-jie-dian-lcof/
 
 ```js
-var getKthFromEnd = function (head, k) {
+var getKthFromEnd = function(head, k) {
   const list = [];
   while (head) {
     list.push(head);
     head = head.next;
   }
-  /** 返回链表的节点 index 为 len - n */
-  const len = list.length;
-  return list[len - k];
-};
-```
-
-## 排序链表
-
-- https://leetcode.cn/problems/sort-list/submissions/
-
-```js
-var sortList = function (head) {
-  let list = [];
-  while (head) {
-    list.push(head);
-    head = head.next;
-  }
-  list = list.sort((a, b) => a.val - b.val);
-
-  const dynamicHead = new ListNode(0);
-  let prev = dynamicHead;
-  for (let i = 0, len = list.length; i < len; i += 1) {
-    const node = list[i];
-    if (i === 0) dynamicHead.next = node;
-    prev.next = node;
-    node.next = null;
-    prev = node;
-  }
-  return dynamicHead.next;
+  return list[list.length - k];
 };
 ```
 
@@ -374,20 +346,16 @@ var sortList = function (head) {
 - https://leetcode.cn/problems/palindrome-linked-list/
 
 ```js
-var isPalindrome = function (head) {
+var isPalindrome = function(head) {
   let list = [];
   while (head) {
     list.push(head);
     head = head.next;
   }
-
-  let len = list.length;
-  for (let i = 0; i < Math.floor(len / 2); i += 1) {
-    if (list[i].val !== list[len - i - 1].val) {
-      return false;
-    }
+  for (let i = 0; i < Math.floor(list.length / 2); i += 1) {
+    const right = list.length - i - 1;
+    if (list[i].val !== list[right].val) return false;
   }
-
   return true;
 };
 ```
