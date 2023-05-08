@@ -177,7 +177,7 @@ var minDistance = function(word1, word2) {
 
 ```js
 var longestCommonSubsequence = function(text1, text2) {
-  /** dp[i][j] 代表 text1 第 i 个单词及之前和 text2 第 j 个单词及之前最长公共子串长度 */
+  /** dp[i][j] 代表 text1 前 i 个单词和 text2 前 j 个单词最长公共子串长度 */
   const dp = [];
   for (let i = 0; i <= text1.length; i += 1) {
     if (!dp[i]) dp[i] = [];
