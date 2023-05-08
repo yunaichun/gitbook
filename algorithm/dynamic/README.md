@@ -177,7 +177,7 @@ var minDistance = function(word1, word2) {
 
 ```js
 var longestCommonSubsequence = function(text1, text2) {
-  /** dp[i][j] 代表单词 text1 第 i 位和单词 text2 第 j 位最长公共子串长度 */
+  /** dp[i][j] 代表单词 text1 第 i 位前和单词 text2 第 j 位前最长公共子串长度 */
   const dp = [];
   for (let i = 0; i <= text1.length; i += 1) {
     if (!dp[i]) dp[i] = [];
@@ -205,7 +205,7 @@ var longestCommonSubsequence = function(text1, text2) {
 
 ```js
 var findLength = function(nums1, nums2) {
-  /** dp[i][j] 代表数组 nums1 包含第 i 位和数组 nums2 包含第 j 位最长子数组长度 */
+  /** dp[i][j] 代表数组 nums1 第 i 位结尾时和数组 nums2 第 j 位结尾时最长子数组长度 */
   let res = 0;
   const dp = [];
   for (let i = 0; i <= nums1.length; i += 1) {
