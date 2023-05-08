@@ -128,6 +128,28 @@ var searchLeft = function(nums, target) {
 }
 ```
 
+## 完全平方数
+
+- https://leetcode.cn/problems/valid-perfect-square/
+
+```js
+var isPerfectSquare = function(num) {
+  let [left, right] = [0, num];
+  while (left <= right) {
+    const mid = Math.floor((left + right) / 2);
+    const res = mid * mid;
+    if (res < num) {
+      left = mid + 1;
+    } else if (res > num) {
+      right = mid - 1;
+    } else {
+      return true;
+    }
+  }
+  return false;
+};
+```
+
 ## 平方根
 
 - leetcode: https://leetcode.cn/problems/sqrtx/
@@ -191,6 +213,27 @@ var guessNumber = function(n) {
       return mid;
     }
   }
+};
+```
+
+## 第一个错误版本
+
+- https://leetcode.cn/problems/first-bad-version/
+
+```js
+var solution = function(isBadVersion) {
+  return function(n) {
+    let [left, right] = [0, n];
+    while(left <= right) {
+      const mid = Math.floor((left + right) / 2);
+      if (isBadVersion(mid)) {
+        right = mid - 1;
+      } else {
+        left = mid + 1;
+      }
+    }
+    return left;
+  };
 };
 ```
 
