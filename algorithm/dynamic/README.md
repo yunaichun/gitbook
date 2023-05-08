@@ -17,24 +17,6 @@ var climbStairs = function(n) {
 };
 ```
 
-## 零钱兑换最少数量
-
-- leetcode: https://leetcode.cn/problems/coin-change
-
-```js
-var coinChange = function(coins, amount) {
-  /** dp[i] 代表兑换 i 数量的金额需要的最少硬币数 */
-  const dp = [0];
-  for (let i = 1; i <= amount; i += 1) {
-    if (!dp[i]) dp[i] = Infinity;
-    for (let j = 0; j < coins.length; j += 1) {
-      if (i - coins[j] >= 0) dp[i] = Math.min(dp[i], dp[i - coins[j]] + 1);
-    }
-  }
-  return dp[amount] === Infinity ? -1 : dp[amount];
-};
-```
-
 ## 和最大连续子序列值
 
 - leetcode: https://leetcode.cn/problems/maximum-subarray
@@ -73,7 +55,7 @@ var maxProduct = function(nums) {
 
 ```js
 var lengthOfLIS = function(nums) {
-  /** dp[i] 代表数组 nums 第 i 位时最长严格递增子序列的长度 */
+  /** dp[i] 代表数组 nums 以第 i 个数结尾时最长严格递增子序列的长度 */
   const dp = [1];
   for (let i = 1; i < nums.length; i += 1) {
     if (!dp[i]) dp[i] = -Infinity;
@@ -86,6 +68,24 @@ var lengthOfLIS = function(nums) {
     }
   }
   return Math.max.apply(null, dp);
+};
+```
+
+## 零钱兑换最少数量
+
+- leetcode: https://leetcode.cn/problems/coin-change
+
+```js
+var coinChange = function(coins, amount) {
+  /** dp[i] 代表兑换 i 数量的金额需要的最少硬币数 */
+  const dp = [0];
+  for (let i = 1; i <= amount; i += 1) {
+    if (!dp[i]) dp[i] = Infinity;
+    for (let j = 0; j < coins.length; j += 1) {
+      if (i - coins[j] >= 0) dp[i] = Math.min(dp[i], dp[i - coins[j]] + 1);
+    }
+  }
+  return dp[amount] === Infinity ? -1 : dp[amount];
 };
 ```
 
@@ -108,6 +108,34 @@ var minimumTotal = function(triangle) {
       }
   }
   return dp[0][0];
+};
+```
+
+## 矩阵最小路径和
+
+- leetcode: https://leetcode.cn/problems/minimum-path-sum/
+
+```js
+var minPathSum = function(grid) {
+  /** dp[i][j] 代表从左上角 [0, 0] 到 [i, j] 位置最短路径和 */
+  const dp = [];
+  for (let i = 0; i < grid.length; i += 1) {
+    if (!dp[i]) dp[i] = [];
+    for (let j = 0; j < grid[i].length; j += 1) {
+      if (i === 0 && j === 0) {
+        dp[i][j] = grid[i][j];
+      } else if (i === 0) {
+        /** 只能从左面来 */
+        dp[i][j] = dp[i][j - 1] + grid[i][j];
+      } else if (j === 0) {
+        /** 只能从上面来 */
+        dp[i][j] = dp[i - 1][j] + grid[i][j]
+      } else {
+        dp[i][j] = Math.min(dp[i - 1][j], dp[i][j - 1]) + grid[i][j];
+      }
+    }
+  }
+  return dp[grid.length - 1][grid[0].length - 1];
 };
 ```
 
@@ -198,34 +226,6 @@ var findLength = function(nums1, nums2) {
     }
   }
   return res;
-};
-```
-
-## 矩阵最小路径和
-
-- leetcode: https://leetcode.cn/problems/minimum-path-sum/
-
-```js
-var minPathSum = function(grid) {
-  /** dp[i][j] 代表从左上角 [0, 0] 到 [i, j] 位置最短路径和 */
-  const dp = [];
-  for (let i = 0; i < grid.length; i += 1) {
-    if (!dp[i]) dp[i] = [];
-    for (let j = 0; j < grid[i].length; j += 1) {
-      if (i === 0 && j === 0) {
-        dp[i][j] = grid[i][j];
-      } else if (i === 0) {
-        /** 只能从左面来 */
-        dp[i][j] = dp[i][j - 1] + grid[i][j];
-      } else if (j === 0) {
-        /** 只能从上面来 */
-        dp[i][j] = dp[i - 1][j] + grid[i][j]
-      } else {
-        dp[i][j] = Math.min(dp[i - 1][j], dp[i][j - 1]) + grid[i][j];
-      }
-    }
-  }
-  return dp[grid.length - 1][grid[0].length - 1];
 };
 ```
 
