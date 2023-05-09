@@ -275,7 +275,7 @@ var arrangeCoins = function(n) {
 };
 ```
 
-## 找到 K 个最接近的元素
+## 找到 K 个最接近的元素 (收缩逼近)
 
 - https://leetcode.cn/problems/find-k-closest-elements/
 
@@ -313,7 +313,7 @@ var findClosestElements = function (arr, k, x) {
   return results;
 };
 ```
-## 旋转排序数组搜索 (收缩逼近 + 内部中止)
+## 旋转排序数组搜索 (精确匹配 + 收缩逼近)
 
 - leetcode: https://leetcode.cn/problems/search-in-rotated-sorted-array/
 - leetcode: https://leetcode.cn/problems/search-in-rotated-sorted-array-ii/
@@ -356,7 +356,7 @@ var search = function(nums, target) {
 };
 ```
 
-## 旋转排序数组最小值 (收缩逼近 + 终止条件不含等于 + 内部中止)
+## 旋转排序数组最小值 (精确匹配 + 收缩逼近 + 终止条件不含等于)
 
 - leetcode: https://leetcode.cn/problems/find-minimum-in-rotated-sorted-array/
 - leetcode: https://leetcode.cn/problems/find-minimum-in-rotated-sorted-array-ii/
