@@ -368,7 +368,7 @@ var findPeakElement = function (nums) {
 };
 ```
 
-## 寻找重复数
+## 寻找重复数 (收缩逼近)
 
 - https://leetcode.cn/problems/find-the-duplicate-number/
 
