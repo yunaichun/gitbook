@@ -313,7 +313,7 @@ var findClosestElements = function (arr, k, x) {
   return results;
 };
 ```
-## 旋转排序数组搜索 (收缩逼近)
+## 旋转排序数组搜索 (收缩逼近 + 内部中止)
 
 - leetcode: https://leetcode.cn/problems/search-in-rotated-sorted-array/
 - leetcode: https://leetcode.cn/problems/search-in-rotated-sorted-array-ii/
@@ -356,7 +356,7 @@ var search = function(nums, target) {
 };
 ```
 
-## 旋转排序数组最小值 (收缩逼近 + 终止条件不含等于)
+## 旋转排序数组最小值 (收缩逼近 + 终止条件不含等于 + 内部中止)
 
 - leetcode: https://leetcode.cn/problems/find-minimum-in-rotated-sorted-array/
 - leetcode: https://leetcode.cn/problems/find-minimum-in-rotated-sorted-array-ii/
@@ -410,7 +410,7 @@ var findDuplicate = function (nums) {
 };
 ```
 
-## 分割数组的最大值
+## 分割数组的最大值 (收缩逼近 + 终止条件不含等于)
 
 - https://leetcode.cn/problems/split-array-largest-sum/
 
