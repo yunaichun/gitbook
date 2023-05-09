@@ -368,6 +368,35 @@ var findPeakElement = function (nums) {
 };
 ```
 
+## 寻找重复数
+
+- https://leetcode.cn/problems/find-the-duplicate-number/
+
+```js
+var findDuplicate = function (nums) {
+  /** 完全不重复极端情况: [1, 2, ..., N + 1] */
+  /** left 和 right 被模拟成 nums 里面的数据了 */
+  let [left, right] = [1, nums.length];
+    while (left < right) {
+    const mid = Math.floor((right + left) / 2);
+    let count = 0;
+    for (let i = 0; i < nums.length; i += 1) {
+      if (nums[i] <= mid) count += 1;
+    }
+    if (count <= mid) {
+      /** 不会在左边了 */
+      left = mid + 1;
+    } else if (count > mid) {
+      /** mid 可能就是重复的 */
+      /** 就在左边区域, 包含边界 */
+      right = mid;
+    }
+  }
+
+  return left;
+};
+```
+
 ## 参考资料
 
 - [数据结构与算法 JavaScript 描述](https://book.douban.com/subject/25945449/)
