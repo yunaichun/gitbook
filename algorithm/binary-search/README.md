@@ -91,6 +91,30 @@ var solution = function(isBadVersion) {
 };
 ```
 
+## 寻找比目标字母大的最小字母
+
+- https://leetcode.cn/problems/find-smallest-letter-greater-than-target/
+
+```js
+var nextGreatestLetter = function(letters, target) {
+  let [left, right] = [0, letters.length - 1];
+  while(left <= right) {
+    const mid = Math.floor((left + right) / 2);
+    if (letters[mid].charCodeAt() < target.charCodeAt()) {
+      left = mid + 1;
+    } else if (letters[mid].charCodeAt() > target.charCodeAt()) {
+      right = mid - 1;
+    } else {
+      /** 相等: 继续收缩 left, 看看右边是否比它大 */
+      left = mid + 1
+    }
+  }
+  if (!letters[left]) return letters[0];
+  /** 循环结束: left 比 right 大 1 */
+  return letters[left];
+};
+```
+
 ## 查找元素第一个和最后一个位置 (收缩逼近)
 
 - leetcode: https://leetcode.cn/problems/find-first-and-last-position-of-element-in-sorted-array/
@@ -332,16 +356,14 @@ var findPeakElement = function (nums) {
       /** 右边一定有峰值: 极端情况可能是 mid + 1 或 right */
       left = mid + 1;
     } else if (nums[mid] > nums[mid + 1]) {
-      /** mid 可能就是峰值 */
       /** 左边一定有峰值: 极端情况可能是 mid 或 left */
       right = mid;
     } else {
-      left = left + 1;
       /** 或 right = right - 1 */
+      left = left + 1;
     }
   }
-
-  /** right 为第一次可能满足的判断 */
+  /** 或 left */
   return right;
 };
 ```
