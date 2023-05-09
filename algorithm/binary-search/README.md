@@ -2,8 +2,13 @@
 
 > 算法-二分查找学习笔记。
 
-- 精确匹配: 循环体内满足条件直接返回
-- 收缩逼近: 循环体内满足条件不直接返回, 如果满足条件收缩 right, 则循环结束后返回 left; 反之亦然
+- 精确匹配
+  - 循环体内满足条件直接返回
+- 收缩逼近
+  - 循环体内满足条件不直接返回, 如果满足条件收缩 right, 则循环结束后返回 left (会往前嗅探, 查找更左的, 如果没有 left 也会回到起点搜到位置)
+  - 循环体内满足条件不直接返回, 如果满足条件收缩 left, 则循环结束后返回 right (会往后嗅探, 查找更右的, 如果没有 right 也会回到起点搜到位置)
+- 终止条件不含等于(即 left < right)
+  - 循环体内如果每次收缩可取边界的情况(即 left = mid 或 right = mid)终止条件均不含等于 
 
 ## 二分查找 (精确匹配)
 
@@ -313,7 +318,7 @@ var search = function(nums, target) {
 };
 ```
 
-## 旋转排序数组最小值 (收缩逼近)
+## 旋转排序数组最小值 (收缩逼近 + 终止条件不含等于)
 
 - leetcode: https://leetcode.cn/problems/find-minimum-in-rotated-sorted-array/
 - leetcode: https://leetcode.cn/problems/find-minimum-in-rotated-sorted-array-ii/
@@ -325,11 +330,10 @@ var findMin = function (nums) {
     if (nums[left] < nums[right]) return nums[left];
     const mid = Math.floor((left + right) / 2);
     if (nums[mid] < nums[left]) {
-      /** mid 可能就是最小的 */
-      /** 可舍弃掉 [mid, right] */
+      /** 满足条件: 一定在左边; 继续收缩 right, 看看左边是否还有 */
       right = mid;
     } else if (nums[mid] > nums[left]) {
-      /** 可舍弃掉 [left, mid] */
+      /** 一定不在左边 */
       left = mid + 1;
     } else {
       /** nums[mid] 与 nums[left] 值相同, 有个替代品 mid, 舍弃掉 left */
@@ -337,12 +341,39 @@ var findMin = function (nums) {
     }
   }
 
-  /** right 为第一次可能满足的判断 */
-  return nums[right];
+  return nums[left];
 };
 ```
 
-## 寻找峰值 (收缩逼近)
+## 寻找重复数 (收缩逼近 + 终止条件不含等于)
+
+- https://leetcode.cn/problems/find-the-duplicate-number/
+
+```js
+var findDuplicate = function (nums) {
+  /** 完全不重复极端情况: [1, 2, ..., N + 1] */
+  /** left 和 right 被模拟成 nums 里面的数据了 */
+  let [left, right] = [1, nums.length];
+  while (left < right) {
+    const mid = Math.floor((right + left) / 2);
+    let count = 0;
+    for (let i = 0; i < nums.length; i += 1) {
+      if (nums[i] <= mid) count += 1;
+    }
+    if (count <= mid) {
+      /** 一定不在左边 */
+      left = mid + 1;
+    } else if (count > mid) {
+      /** 满足条件: 一定在左边, 继续收缩 right, 看看左边是否还有 */
+      right = mid;
+    }
+  }
+
+  return left;
+};
+```
+
+## 寻找峰值 (收缩逼近 + 终止条件不含等于)
 
 - https://leetcode.cn/problems/find-peak-element/
 
@@ -365,35 +396,6 @@ var findPeakElement = function (nums) {
   }
   /** 或 left */
   return right;
-};
-```
-
-## 寻找重复数 (收缩逼近)
-
-- https://leetcode.cn/problems/find-the-duplicate-number/
-
-```js
-var findDuplicate = function (nums) {
-  /** 完全不重复极端情况: [1, 2, ..., N + 1] */
-  /** left 和 right 被模拟成 nums 里面的数据了 */
-  let [left, right] = [1, nums.length];
-    while (left < right) {
-    const mid = Math.floor((right + left) / 2);
-    let count = 0;
-    for (let i = 0; i < nums.length; i += 1) {
-      if (nums[i] <= mid) count += 1;
-    }
-    if (count <= mid) {
-      /** 不会在左边了 */
-      left = mid + 1;
-    } else if (count > mid) {
-      /** mid 可能就是重复的 */
-      /** 就在左边区域, 包含边界 */
-      right = mid;
-    }
-  }
-
-  return left;
 };
 ```
 
