@@ -318,7 +318,7 @@ var findMin = function (nums) {
 };
 ```
 
-## 寻找峰值 (收缩逼近)` 
+## 寻找峰值 (收缩逼近)
 
 - https://leetcode.cn/problems/find-peak-element/
 

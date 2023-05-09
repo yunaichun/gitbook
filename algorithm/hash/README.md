@@ -113,6 +113,30 @@ var addStrings = function(num1, num2) {
 }
 ```
 
+## 两个数组交集
+
+- https://leetcode.cn/problems/intersection-of-two-arrays/
+- https://leetcode.cn/problems/intersection-of-two-arrays-ii/
+
+```js
+var intersect = function(nums1, nums2) {
+  const elements = new Map();
+  for (let item of nums1) {
+    if (!elements.has(item)) elements.set(item, 1);
+    else elements.set(item, elements.get(item) + 1);
+  }
+  const results = [];
+  for (let item of nums2) {
+    if (elements.has(item)) {
+      results.push(item);
+      elements.set(item, elements.get(item) - 1);
+      if (elements.get(item) === 0) elements.delete(item);
+    }
+  }
+  return results;
+};
+```
+
 ## 多数元素
 
 - leetcode: https://leetcode.com/problems/majority-element
