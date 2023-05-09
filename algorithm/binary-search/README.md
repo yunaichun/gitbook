@@ -2,7 +2,10 @@
 
 > 算法-二分查找学习笔记。
 
-## 二分查找
+- 精确匹配: 循环体内满足条件直接返回
+- 收缩逼近: 循环体内满足条件不直接返回, 如果满足条件收缩 right, 则循环结束后返回 left; 反之亦然
+
+## 二分查找 (精确匹配)
 
 - leetcode: https://leetcode.cn/problems/binary-search/
 
@@ -23,7 +26,72 @@ var search = function (nums, target) {
 };
 ```
 
-## 左右边界
+## 完全平方数 (精确匹配)
+
+- https://leetcode.cn/problems/valid-perfect-square/
+
+```js
+var isPerfectSquare = function(num) {
+  let [left, right] = [0, num];
+  while (left <= right) {
+    const mid = Math.floor((left + right) / 2);
+    const res = mid * mid;
+    if (res < num) {
+      left = mid + 1;
+    } else if (res > num) {
+      right = mid - 1;
+    } else {
+      return true;
+    }
+  }
+  return false;
+};
+```
+
+## 猜数字大小 (精确匹配)
+
+- leetcode: https://leetcode.cn/problems/guess-number-higher-or-lower/
+
+```js
+var guessNumber = function(n) {
+  let [left, right] = [1, n];
+  while (left <= right) {
+    const mid = Math.floor((right + left) / 2);
+    if (guess(mid) === -1) {
+      right = mid - 1;
+    } else if (guess(mid) === 1) {
+      left = mid + 1;
+    } else {
+      return mid;
+    }
+  }
+};
+```
+
+## 第一个错误版本 (收缩逼近)
+
+- https://leetcode.cn/problems/first-bad-version/
+
+```js
+var solution = function(isBadVersion) {
+  return function(n) {
+    let [left, right] = [0, n];
+    while(left <= right) {
+      const mid = Math.floor((left + right) / 2);
+      if (isBadVersion(mid)) {
+        /** 满足条件: 继续收缩 right, 看看左边是否还有错误的版本 */
+        right = mid - 1;
+      } else {
+        left = mid + 1;
+      }
+    }
+    /** 循环结束: left 比 right 大 1 */
+    return left;
+  };
+};
+```
+
+## 查找元素第一个和最后一个位置 (收缩逼近)
 
 - leetcode: https://leetcode.cn/problems/find-first-and-last-position-of-element-in-sorted-array/
 
@@ -43,12 +111,12 @@ var searchLeft = function(nums, target) {
     } else if (nums[mid] > target) {
       right = mid - 1;
     } else {
-      /** 找到一个备胎: 收缩右边界, 继续看看左侧有没有 */
+      /** 满足条件: 继续收缩 right, 看看左边是否还有 */
       right = mid - 1;
     }
   }
   if (nums[left] != target) return -1;
-  /** 如果 target 在 nums 中只有一个, 收缩结束 left 还会回到原来的位置 */
+  /** 循环结束: left 比 right 大 1 */
   return left;
 }
 
@@ -61,17 +129,17 @@ var searchRight = function(nums, target) {
     } else if (nums[mid] > target) {
       right = mid - 1;
     } else {
-      /** 找到一个备胎: 收缩左边界, 继续看看右侧有没有 */
+      /** 满足条件: 继续收缩 left, 看看右边是否还有 */
       left = mid + 1;
     }
   }
   if (nums[right] != target) return -1;
-  /** 如果 target 在 nums 中只有一个, 收缩结束 right 还会回到原来的位置 */
+  /** 循环结束: left 比 right 大 1 */
   return right;
 }
 ```
 
-## 插入位置
+## 搜索插入位置 (收缩逼近)
 
 - leetcode: https://leetcode.cn/problems/search-insert-position/
 
@@ -85,15 +153,16 @@ var searchInsert = function(nums, target) {
     } else if (nums[mid] > target) {
       right = mid - 1;
     } else {
-      /** 找到了, 收缩右边界 */
+      /** 满足条件: 继续收缩 right, 看看左边是否还有 */
       right = mid - 1;
     }
   }
+  /** 循环结束: left 比 right 大 1 */
   return left;
 };
 ```
 
-## 目标下标
+## 找出数组排序后的目标下标 (收缩逼近)
 
 - leetcode: https://leetcode.cn/problems/find-target-indices-after-sorting-array/
 
@@ -119,43 +188,22 @@ var searchLeft = function(nums, target) {
     } else if (nums[mid] > target) {
       right = mid - 1;
     } else {
-      /** 找到一个备胎: 收缩右边界, 继续看看左侧有没有 */
+      /** 满足条件: 继续收缩 right, 看看左边是否还有 */
       right = mid - 1;
     }
   }
   if (nums[left] !== target) return -1;
+  /** 循环结束: left 比 right 大 1 */
   return left;
 }
 ```
 
-## 完全平方数
-
-- https://leetcode.cn/problems/valid-perfect-square/
-
-```js
-var isPerfectSquare = function(num) {
-  let [left, right] = [0, num];
-  while (left <= right) {
-    const mid = Math.floor((left + right) / 2);
-    const res = mid * mid;
-    if (res < num) {
-      left = mid + 1;
-    } else if (res > num) {
-      right = mid - 1;
-    } else {
-      return true;
-    }
-  }
-  return false;
-};
-```
-
-## 平方根
+## 平方根 (收缩逼近)
 
 - leetcode: https://leetcode.cn/problems/sqrtx/
 
 ```js
- var mySqrt = function (x) {
+var mySqrt = function (x) {
   let [left, right] = [0, x];
   while (left <= right) {
     const mid = Math.floor((left + right) / 2);
@@ -165,15 +213,16 @@ var isPerfectSquare = function(num) {
     } else if (sqrt > x) {
       right = mid - 1;
     } else {
+      /** 满足条件直接返回 */
       return mid;
     }
   }
-  /** 此时的 left 平方已经超出了 x */
+  /** 循环结束: left 比 right 大 1 */
   return right;
 };
 ```
 
-## 排列硬币
+## 排列硬币 (收缩逼近)
 
 - leetcode: https://leetcode.cn/problems/arranging-coins/
 
@@ -188,56 +237,16 @@ var arrangeCoins = function(n) {
     } else if (max > n) {
       right = mid - 1;
     } else {
+      /** 满足条件直接返回 */
       return mid;
     }
   }
-  /** 此时的 left 平方已经超出了 x */
+  /** 循环结束: left 比 right 大 1 */
   return right;
 };
 ```
 
-## 猜数字大小
-
-- leetcode: https://leetcode.cn/problems/guess-number-higher-or-lower/
-
-```js
-var guessNumber = function(n) {
-  let [left, right] = [1, n];
-  while (left <= right) {
-    const mid = Math.floor((right + left) / 2);
-    if (guess(mid) === -1) {
-      right = mid - 1;
-    } else if (guess(mid) === 1) {
-      left = mid + 1;
-    } else {
-      return mid;
-    }
-  }
-};
-```
-
-## 第一个错误版本
-
-- https://leetcode.cn/problems/first-bad-version/
-
-```js
-var solution = function(isBadVersion) {
-  return function(n) {
-    let [left, right] = [0, n];
-    while(left <= right) {
-      const mid = Math.floor((left + right) / 2);
-      if (isBadVersion(mid)) {
-        right = mid - 1;
-      } else {
-        left = mid + 1;
-      }
-    }
-    return left;
-  };
-};
-```
-
-## 旋转排序数组搜索
+## 旋转排序数组搜索 (收缩逼近)
 
 - leetcode: https://leetcode.cn/problems/search-in-rotated-sorted-array/
 - leetcode: https://leetcode.cn/problems/search-in-rotated-sorted-array-ii/
@@ -280,7 +289,7 @@ var search = function(nums, target) {
 };
 ```
 
-## 旋转排序数组最小值
+## 旋转排序数组最小值 (收缩逼近)
 
 - leetcode: https://leetcode.cn/problems/find-minimum-in-rotated-sorted-array/
 - leetcode: https://leetcode.cn/problems/find-minimum-in-rotated-sorted-array-ii/
@@ -291,10 +300,11 @@ var findMin = function (nums) {
   while (left < right) {
     if (nums[left] < nums[right]) return nums[left];
     const mid = Math.floor((left + right) / 2);
-    /** 最小的一定在右侧 */
     if (nums[mid] < nums[left]) {
+      /** 可舍弃掉 [mid, right] */
       right = mid;
     } else if (nums[mid] > nums[left]) {
+      /** 可舍弃掉 [left, mid] */
       left = mid + 1;
     } else {
       /** nums[mid] 与 nums[left] 值相同, 有个替代品 mid, 舍弃掉 left */

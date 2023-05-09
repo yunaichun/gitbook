@@ -115,7 +115,7 @@ var maxSlidingWindow = function(nums, k) {
 };
 ```
 
-## 长度最小的子数组 (可变窗口)
+## 长度最小的连续子数组 (可变窗口)
 
 - leetcode: https://leetcode.cn/problems/minimum-size-subarray-sum/
 
