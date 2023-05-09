@@ -275,6 +275,44 @@ var arrangeCoins = function(n) {
 };
 ```
 
+## 找到 K 个最接近的元素
+
+- https://leetcode.cn/problems/find-k-closest-elements/
+
+```js
+var findClosestElements = function (arr, k, x) {
+  let [left, right] = [0, arr.length - 1];
+  while (left <= right) {
+    const mid = Math.floor((left + right) / 2);
+    if (arr[mid] > x) {
+      right = mid - 1;
+    } else {
+      left = mid + 1;
+    }
+  }
+  [left, right] = [right, left];
+
+  const results = [];
+  while (k) {
+    let isLeft = true;
+    if (0 <= left && right < arr.length) {
+      isLeft = x - arr[left] <= arr[right] - x;
+    } else if (right < arr.length) {
+      isLeft = false;
+    }
+
+    if (isLeft) {
+      results.unshift(arr[left]);
+      left -= 1;
+    } else {
+      results.push(arr[right]);
+      right += 1;
+    }
+    k -= 1;
+  }
+  return results;
+};
+```
 ## 旋转排序数组搜索 (收缩逼近)
 
 - leetcode: https://leetcode.cn/problems/search-in-rotated-sorted-array/
@@ -351,8 +389,7 @@ var findMin = function (nums) {
 
 ```js
 var findDuplicate = function (nums) {
-  /** 完全不重复极端情况: [1, 2, ..., N + 1] */
-  /** left 和 right 被模拟成 nums 里面的数据了 */
+  /** left 和 right 代表 nums 每一项数据值的范围; 完全不重复极端情况: [1, 2, ..., N + 1] */
   let [left, right] = [1, nums.length];
   while (left < right) {
     const mid = Math.floor((right + left) / 2);
@@ -373,39 +410,13 @@ var findDuplicate = function (nums) {
 };
 ```
 
-## 寻找峰值 (收缩逼近 + 终止条件不含等于)
-
-- https://leetcode.cn/problems/find-peak-element/
-
-
-```js
-var findPeakElement = function (nums) {
-  let [left, right] = [0, nums.length - 1];
-  while (left < right) {
-    const mid = Math.floor((left + right) / 2);
-    if (nums[mid] < nums[mid + 1]) {
-      /** 右边一定有峰值: 极端情况可能是 mid + 1 或 right */
-      left = mid + 1;
-    } else if (nums[mid] > nums[mid + 1]) {
-      /** 左边一定有峰值: 极端情况可能是 mid 或 left */
-      right = mid;
-    } else {
-      /** 或 right = right - 1 */
-      left = left + 1;
-    }
-  }
-  /** 或 left */
-  return right;
-};
-```
-
 ## 分割数组的最大值
 
 - https://leetcode.cn/problems/split-array-largest-sum/
 
 ```js
 var splitArray = function(nums, k) {
-  /** 子数组和的范围 */
+  /** left 和 right 代表 nums 子数组和的范围 */
   let [left, right] = [Math.max(...nums), nums.reduce((a, b) => a + b)];
   while(left < right) {
     const mid = Math.floor((left + right) / 2);
@@ -431,6 +442,33 @@ var splitArray = function(nums, k) {
     }
   }
   return left;
+};
+```
+
+
+## 寻找峰值 (收缩逼近 + 终止条件不含等于)
+
+- https://leetcode.cn/problems/find-peak-element/
+
+
+```js
+var findPeakElement = function (nums) {
+  let [left, right] = [0, nums.length - 1];
+  while (left < right) {
+    const mid = Math.floor((left + right) / 2);
+    if (nums[mid] < nums[mid + 1]) {
+      /** 右边一定有峰值: 极端情况可能是 mid + 1 或 right */
+      left = mid + 1;
+    } else if (nums[mid] > nums[mid + 1]) {
+      /** 左边一定有峰值: 极端情况可能是 mid 或 left */
+      right = mid;
+    } else {
+      /** 或 right = right - 1 */
+      left = left + 1;
+    }
+  }
+  /** 或 left */
+  return right;
 };
 ```
 
