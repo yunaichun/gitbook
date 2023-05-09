@@ -399,6 +399,41 @@ var findPeakElement = function (nums) {
 };
 ```
 
+## 分割数组的最大值
+
+- https://leetcode.cn/problems/split-array-largest-sum/
+
+```js
+var splitArray = function(nums, k) {
+  /** 子数组和的范围 */
+  let [left, right] = [Math.max(...nums), nums.reduce((a, b) => a + b)];
+  while(left < right) {
+    const mid = Math.floor((left + right) / 2);
+    let subNums = 0;
+    let count = 0;
+    for (let i = 0; i < nums.length; i += 1) {
+      subNums += nums[i];
+      if (subNums > mid) {
+        count += 1;
+        subNums = nums[i];
+      }
+    }
+    count += 1;
+    if (count < k) {
+      /** 分割还不到 k 次和就可以达到 mid, 如果分割 k 次, mid 可以更小 */
+      right = mid - 1;
+    } else if (count > k) {
+      /** 分割超过 k 次和才能达到 mid, 如果分割 k 次, mid 需要更大 */
+      left = mid + 1;
+    } else {
+      /** 满足条件: 分割 k 次刚好为 mid, 向左继续嗅探寻找更小的值 */
+      right = mid;
+    }
+  }
+  return left;
+};
+```
+
 ## 参考资料
 
 - [数据结构与算法 JavaScript 描述](https://book.douban.com/subject/25945449/)
