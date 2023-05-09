@@ -258,11 +258,11 @@ var search = function(nums, target) {
     const mid = Math.floor((left + right) / 2);
     if (nums[mid] === target) return true;
     /** nums[mid] 与 nums[left] 值相同, 有个替代品 mid, 舍弃掉 left */
-    while (left < mid && nums[mid] === nums[left] ) {
+    while (left < mid && nums[mid] === nums[left]) {
       left += 1;
     }
     /** nums[mid] 与 nums[right] 值相同, 有个替代品 mid, 舍弃掉 right */
-    while (right > mid && nums[mid] === nums[right] ) {
+    while (right > mid && nums[mid] === nums[right]) {
       right -= 1;
     }
     if (nums[mid] < nums[left]) {
@@ -301,6 +301,7 @@ var findMin = function (nums) {
     if (nums[left] < nums[right]) return nums[left];
     const mid = Math.floor((left + right) / 2);
     if (nums[mid] < nums[left]) {
+      /** mid 可能就是最小的 */
       /** 可舍弃掉 [mid, right] */
       right = mid;
     } else if (nums[mid] > nums[left]) {
@@ -312,7 +313,36 @@ var findMin = function (nums) {
     }
   }
 
+  /** right 为第一次可能满足的判断 */
   return nums[right];
+};
+```
+
+## 寻找峰值 (收缩逼近)` 
+
+- https://leetcode.cn/problems/find-peak-element/
+
+
+```js
+var findPeakElement = function (nums) {
+  let [left, right] = [0, nums.length - 1];
+  while (left < right) {
+    const mid = Math.floor((left + right) / 2);
+    if (nums[mid] < nums[mid + 1]) {
+      /** 右边一定有峰值: 极端情况可能是 mid + 1 或 right */
+      left = mid + 1;
+    } else if (nums[mid] > nums[mid + 1]) {
+      /** mid 可能就是峰值 */
+      /** 左边一定有峰值: 极端情况可能是 mid 或 left */
+      right = mid;
+    } else {
+      left = left + 1;
+      /** 或 right = right - 1 */
+    }
+  }
+
+  /** right 为第一次可能满足的判断 */
+  return right;
 };
 ```
 
