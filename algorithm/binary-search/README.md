@@ -227,53 +227,7 @@ var searchLeft = function(nums, target) {
 }
 ```
 
-## 平方根 (收缩逼近)
 
-- leetcode: https://leetcode.cn/problems/sqrtx/
-
-```js
-var mySqrt = function (x) {
-  let [left, right] = [0, x];
-  while (left <= right) {
-    const mid = Math.floor((left + right) / 2);
-    const sqrt = mid * mid;
-    if (sqrt < x) {
-      left = mid + 1;
-    } else if (sqrt > x) {
-      right = mid - 1;
-    } else {
-      /** 满足条件直接返回 */
-      return mid;
-    }
-  }
-  /** 循环结束: left 比 right 大 1 */
-  return right;
-};
-```
-
-## 排列硬币 (收缩逼近)
-
-- leetcode: https://leetcode.cn/problems/arranging-coins/
-
-```js
-var arrangeCoins = function(n) {
-  let [left, right] = [0, n];
-  while (left <= right) {
-    const mid = Math.floor((left + right) / 2);
-    const max = (1 + mid) * mid / 2;
-    if (max < n) {
-      left = mid + 1;
-    } else if (max > n) {
-      right = mid - 1;
-    } else {
-      /** 满足条件直接返回 */
-      return mid;
-    }
-  }
-  /** 循环结束: left 比 right 大 1 */
-  return right;
-};
-```
 
 ## 找到 K 个最接近的元素 (收缩逼近)
 
@@ -313,6 +267,55 @@ var findClosestElements = function (arr, k, x) {
   return results;
 };
 ```
+
+## 平方根 (精确匹配 + 收缩逼近)
+
+- leetcode: https://leetcode.cn/problems/sqrtx/
+
+```js
+var mySqrt = function (x) {
+  let [left, right] = [0, x];
+  while (left <= right) {
+    const mid = Math.floor((left + right) / 2);
+    const sqrt = mid * mid;
+    if (sqrt < x) {
+      left = mid + 1;
+    } else if (sqrt > x) {
+      right = mid - 1;
+    } else {
+      /** 满足条件直接返回 */
+      return mid;
+    }
+  }
+  /** 循环结束: left 比 right 大 1 */
+  return right;
+};
+```
+
+## 排列硬币 (精确匹配 + 收缩逼近)
+
+- leetcode: https://leetcode.cn/problems/arranging-coins/
+
+```js
+var arrangeCoins = function(n) {
+  let [left, right] = [0, n];
+  while (left <= right) {
+    const mid = Math.floor((left + right) / 2);
+    const max = (1 + mid) * mid / 2;
+    if (max < n) {
+      left = mid + 1;
+    } else if (max > n) {
+      right = mid - 1;
+    } else {
+      /** 满足条件直接返回 */
+      return mid;
+    }
+  }
+  /** 循环结束: left 比 right 大 1 */
+  return right;
+};
+```
+
 ## 旋转排序数组搜索 (精确匹配 + 收缩逼近)
 
 - leetcode: https://leetcode.cn/problems/search-in-rotated-sorted-array/
