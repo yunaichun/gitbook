@@ -96,7 +96,7 @@ var solution = function(isBadVersion) {
 };
 ```
 
-## 寻找比目标字母大的最小字母
+## 寻找比目标字母大的最小字母 (收缩逼近)
 
 - https://leetcode.cn/problems/find-smallest-letter-greater-than-target/
 
