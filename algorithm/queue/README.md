@@ -168,7 +168,7 @@ var totalFruit = function(fruits) {
 };
 ```
 
-## 和相同的二元子数组 (可变窗口 + 双指针)
+## 和相同的连续子数组个数 (可变窗口 + 双指针)
 
 - https://leetcode.cn/problems/binary-subarrays-with-sum/
 
@@ -180,6 +180,7 @@ var numSubarraysWithSum = function(nums, goal) {
   let [sum1, sum2] = [0, 0];
   /** 滑动窗口边界 */
   let [left1, left2, right] = [0, 0, 0];
+
   for (; right < nums.length; right += 1) {
     sum1 += nums[right];
     sum2 += nums[right];
@@ -196,12 +197,37 @@ var numSubarraysWithSum = function(nums, goal) {
       left2 += 1;
     }
 
-    console.log(left1, left2, right);
     /** left2 - left1 中间的均满足条件 */
     res += left2 - left1;
   }
   return res;
 };
+/** nums = [0 ,0, 1, 1, 1]; goal = 2 */
+/** left1 = 0, left2 = 3, right = 3 */
+/** left1 = 3, left2 = 4, right = 4 */
+```
+
+## 优美子数组个数
+
+- https://leetcode.cn/problems/count-number-of-nice-subarrays/
+
+```js
+var numberOfSubarrays = function(nums, k) {
+  const arr = [-1];
+  for (let i = 0; i < nums.length; i += 1) {
+    if (nums[i] % 2 === 1) arr.push(i);
+  }
+  arr.push(nums.length);
+
+  let res = 0;
+  for (let i = 1; i + k < arr.length; i += 1) {
+    const left = arr[i] - arr[i - 1];
+    const right = arr[i + k] - arr[i + k - 1];
+    res += left * right;
+  }
+  return res;
+}
+// nums = [0, 0, 0, 1, 0, 1, 0, 0, 0]
 ```
 ## 参考资料
 
