@@ -569,14 +569,14 @@ var _dfs = function(node) {
 - leetcode: https://leetcode.cn/problems/binary-tree-maximum-path-sum/
 
 ```js
-var maxPathSum = function (root) {
+var maxPathSum = function(root) {
   if (!root) return 0;
   const results = { max: -Infinity };
   _dfs(root, results);
   return results.max;
 };
 /** 后续遍历 */
-function _dfs(node, results) {
+var _dfs = function(node, results) {
   if (!node) return 0;
   const left = _dfs(node.left, results);
   const right = _dfs(node.right, results);
