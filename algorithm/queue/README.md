@@ -21,7 +21,7 @@ Queue.prototype.front = function (item) {
 
 ## 数组第 K 大元素
 
-- leetcode: https://leetcode.cn/problems/kth-largest-element-in-a-stream
+- https://leetcode.cn/problems/kth-largest-element-in-a-stream
 
 ```js
 var KthLargest = function(k, nums) {
@@ -43,7 +43,7 @@ KthLargest.prototype.add = function(val) {
 
 ## 滑动窗口最大值 (固定窗口)
 
-- leetcode: https://leetcode.cn/problems/sliding-window-maximum/
+- https://leetcode.cn/problems/sliding-window-maximum/
 
 ```js
 var maxSlidingWindow = function(nums, k) {
@@ -117,7 +117,7 @@ var maxSlidingWindow = function(nums, k) {
 
 ## 长度最小的连续子数组 (可变窗口)
 
-- leetcode: https://leetcode.cn/problems/minimum-size-subarray-sum/
+- https://leetcode.cn/problems/minimum-size-subarray-sum/
 
 ```js
 var minSubArrayLen = function(target, nums) {
@@ -142,7 +142,7 @@ var minSubArrayLen = function(target, nums) {
 
 ## 水果成篮 (可变窗口)
 
-- leetcode: https://leetcode.cn/problems/fruit-into-baskets/
+- https://leetcode.cn/problems/fruit-into-baskets /
 
 ```js
 var totalFruit = function(fruits) {
@@ -168,6 +168,41 @@ var totalFruit = function(fruits) {
 };
 ```
 
+## 和相同的二元子数组 (可变窗口 + 双指针)
+
+- https://leetcode.cn/problems/binary-subarrays-with-sum/
+
+```js
+var numSubarraysWithSum = function(nums, goal) {
+  /** 滑动窗口结果 */
+  let res = 0;
+  /** 滑动窗口条件 */
+  let [sum1, sum2] = [0, 0];
+  /** 滑动窗口边界 */
+  let [left1, left2, right] = [0, 0, 0];
+  for (; right < nums.length; right += 1) {
+    sum1 += nums[right];
+    sum2 += nums[right];
+
+    /** 此次遍历得到 left1: 满足 sum1 === goal 时 left1 的值 */
+    while (left1 <= right && sum1 > goal) {
+      sum1 -= nums[left1]; 
+      left1 += 1;
+    }
+
+    /** 此次遍历得到 left2: 满足 sum2 < goal 时 left2 的值 */
+    while (left2 <= right && sum2 >= goal) {
+      sum2 -= nums[left2];
+      left2 += 1;
+    }
+
+    console.log(left1, left2, right);
+    /** left2 - left1 中间的均满足条件 */
+    res += left2 - left1;
+  }
+  return res;
+};
+```
 ## 参考资料
 
 - [数据结构与算法 JavaScript 描述](https://book.douban.com/subject/25945449/)
