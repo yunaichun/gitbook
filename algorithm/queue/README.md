@@ -140,6 +140,34 @@ var minSubArrayLen = function(target, nums) {
 };
 ```
 
+## 水果成篮 (可变窗口)
+
+- leetcode: https://leetcode.cn/problems/fruit-into-baskets/
+
+```js
+var totalFruit = function(fruits) {
+  /** 滑动窗口结果 */
+  let max = -Infinity;
+  /** 滑动窗口条件 */
+  const elements = new Map();
+  /** 滑动窗口边界 */
+  let [left, right] = [0, 0];
+
+  for (; right < fruits.length; right += 1) {
+    if (!elements.has(fruits[right])) elements.set(fruits[right], 1);
+    else elements.set(fruits[right], elements.get(fruits[right]) + 1);
+
+    while (elements.size > 2) {
+      if (elements.has(fruits[left])) elements.set(fruits[left], elements.get(fruits[left]) - 1);
+      if (elements.get(fruits[left]) === 0) elements.delete(fruits[left]);
+      left += 1;
+    }
+    max = Math.max(right - left + 1, max);
+  }
+  return max;
+};
+```
+
 ## 参考资料
 
 - [数据结构与算法 JavaScript 描述](https://book.douban.com/subject/25945449/)
