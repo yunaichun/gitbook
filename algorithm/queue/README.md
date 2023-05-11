@@ -210,11 +210,12 @@ var longestOnes = function(nums, k) {
 // nums = [0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1], k = 3
 ```
 
-## 和相同的连续子数组个数 (可变窗口 + 双指针)
+## 和相同的连续子数组个数 (可变窗口 + 非精确满足 + 双 left 指针)
 
 - https://leetcode.cn/problems/binary-subarrays-with-sum/
 
 ```js
+/** 满足条件时: 前面有多少个 0, 则符合条件的就有多少个 + 1 */
 var numSubarraysWithSum = function(nums, goal) {
   /** 滑动窗口结果 */
   let res = 0;
@@ -227,26 +228,25 @@ var numSubarraysWithSum = function(nums, goal) {
     sum1 += nums[right];
     sum2 += nums[right];
 
-    /** 此次遍历得到 left1: 满足 sum1 === goal 时 left1 的值 */
+    /** 等于 goal 时左边界 */
     while (left1 <= right && sum1 > goal) {
       sum1 -= nums[left1]; 
       left1 += 1;
     }
 
-    /** 此次遍历得到 left2: 满足 sum2 < goal 时 left2 的值 */
+    /** 小于 goal 时左边界 */
     while (left2 <= right && sum2 >= goal) {
       sum2 -= nums[left2];
       left2 += 1;
     }
 
+    console.log(right, left1, left2);
     /** left2 - left1 中间的均满足条件 */
     res += left2 - left1;
   }
   return res;
 };
-/** nums = [0 ,0, 1, 1, 1]; goal = 2 */
-/** left1 = 0, left2 = 3, right = 3 */
-/** left1 = 3, left2 = 4, right = 4 */
+// nums = [1, 0, 1, 0, 1], goal = 2;
 ```
 
 ## 参考资料
