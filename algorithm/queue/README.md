@@ -2,6 +2,11 @@
 
 > 算法-队列学习笔记。
 
+- 固定窗口
+- 可变窗口
+  - 精确满足: 在满足条件, 移动 left, while 循环中计算结果
+  - 非精确满足: 每次移动 right 时均计算结果
+
 ## js 实现队列
 
 ```js
@@ -19,26 +24,28 @@ Queue.prototype.front = function (item) {
 };
 ```
 
-## 数组第 K 大元素
+## 优美子数组个数
 
-- https://leetcode.cn/problems/kth-largest-element-in-a-stream
+- https://leetcode.cn/problems/count-number-of-nice-subarrays/
 
 ```js
-var KthLargest = function(k, nums) {
-  this.minHeap = nums.sort((a,b) => b - a);
-  this.k = k;
-};
-KthLargest.prototype.add = function(val) {
-  let index = this.minHeap.length;
-  for (let i = 0; i < this.minHeap.length; i += 1) {
-    if (val > this.minHeap[i]) {
-      index = i;
-      break;
-    }
+var numberOfSubarrays = function(nums, k) {
+  const odds = [-1];
+  for (let i = 0; i < nums.length; i += 1) {
+    if (nums[i] % 2 === 1) odds.push(i);
   }
-  this.minHeap.splice(index, 0, val);
-  return this.minHeap[this.k - 1];
+  odds.push(nums.length);
+
+  /** 包含 k 个奇数: 之前数量 * 之后数量*/
+  let res = 0;
+  for (let i = 1; i + k < odds.length; i += 1) {
+    const left = odds[i] - odds[i - 1];
+    const right = odds[i + k] - odds[i + k - 1];
+    res += left * right;
+  }
+  return res;
 }
+// nums = [2, 2, 2, 1, 2, 2, 1, 2, 2, 2], k = 2
 ```
 
 ## 滑动窗口最大值 (固定窗口)
@@ -72,7 +79,7 @@ var maxSlidingWindow = function(nums, k) {
 };
 ```
 
-## 最小覆盖子串 (可变窗口)
+## 最小覆盖子串 (可变窗口 + 精确满足)
 
 - 最小覆盖子串: https://leetcode.cn/problems/minimum-window-substring/
 - 最小覆盖子串首尾索引: https://leetcode.cn/problems/shortest-supersequence-lcci/
@@ -115,7 +122,7 @@ var maxSlidingWindow = function(nums, k) {
 };
 ```
 
-## 长度最小的连续子数组 (可变窗口)
+## 长度最小的连续子数组 (可变窗口 + 精确满足)
 
 - https://leetcode.cn/problems/minimum-size-subarray-sum/
 
@@ -130,21 +137,24 @@ var minSubArrayLen = function(target, nums) {
 
   for (; right < nums.length; right += 1) {
     sum += nums[right];
+
     while(sum >= target) {
       min = Math.min(right - left + 1, min);
       sum -= nums[left];
       left += 1;
     }
   }
+
   return min === Infinity ? 0 : min;
 };
 ```
 
-## 水果成篮 (可变窗口)
+## 水果成篮 (可变窗口 + 非精确满足)
 
-- https://leetcode.cn/problems/fruit-into-baskets /
+- https://leetcode.cn/problems/fruit-into-baskets/
 
 ```js
+/** 转换题意: 滑动窗口的元素种类最多允许有 2 个, 小于等于 2 个均可参与计算 */
 var totalFruit = function(fruits) {
   /** 滑动窗口结果 */
   let max = -Infinity;
@@ -162,10 +172,42 @@ var totalFruit = function(fruits) {
       if (elements.get(fruits[left]) === 0) elements.delete(fruits[left]);
       left += 1;
     }
+
     max = Math.max(right - left + 1, max);
   }
+
   return max;
 };
+```
+
+## 最大连续 1 的个数 (可变窗口 + 非精确满足)
+
+- https://leetcode.cn/problems/max-consecutive-ones-iii/
+
+```js
+/** 转换题意: 滑动窗口的子数组最多允许有 K 个 0, 小于等于均可参与计算 */
+var longestOnes = function(nums, k) {
+  /** 滑动窗口结果 */
+  let res = 0;
+  /** 滑动窗口条件 */
+  let zeros = 0;
+  /** 滑动窗口边界 */
+  let [left, right] = [0, 0];
+
+  for (; right < nums.length; right += 1) {
+    if (nums[right] === 0) zeros += 1;
+
+    while (zeros > k) {
+      if (nums[left] === 0) zeros -= 1;
+      left += 1;
+    }
+
+    res = Math.max(right - left + 1, res);
+  }
+
+  return res;
+}
+// nums = [0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1], k = 3
 ```
 
 ## 和相同的连续子数组个数 (可变窗口 + 双指针)
@@ -207,28 +249,6 @@ var numSubarraysWithSum = function(nums, goal) {
 /** left1 = 3, left2 = 4, right = 4 */
 ```
 
-## 优美子数组个数
-
-- https://leetcode.cn/problems/count-number-of-nice-subarrays/
-
-```js
-var numberOfSubarrays = function(nums, k) {
-  const arr = [-1];
-  for (let i = 0; i < nums.length; i += 1) {
-    if (nums[i] % 2 === 1) arr.push(i);
-  }
-  arr.push(nums.length);
-
-  let res = 0;
-  for (let i = 1; i + k < arr.length; i += 1) {
-    const left = arr[i] - arr[i - 1];
-    const right = arr[i + k] - arr[i + k - 1];
-    res += left * right;
-  }
-  return res;
-}
-// nums = [0, 0, 0, 1, 0, 1, 0, 0, 0]
-```
 ## 参考资料
 
 - [数据结构与算法 JavaScript 描述](https://book.douban.com/subject/25945449/)
