@@ -10,13 +10,13 @@
 - 可变窗口
   - 最小满足: 在满足条件, 每次移动 left, 循环中计算结果
   - 最大满足: 在满足条件, 每次移动 right 时均计算结果
-  - 刚好满足: 用下面的前缀和方法
+  - 所有满足: 用下面的前缀和方法
 
 #### 前缀和
 
 > 前缀和一般用于求连续的
 
-- 滑动窗口的可变窗口如果求刚好, 可用此方法
+- 滑动窗口的可变窗口如果求所有满足的总数, 可用此方法
 
 ## js 实现队列
 
@@ -74,7 +74,7 @@ var maxSlidingWindow = function(nums, k) {
 - 字母异位词起始索引: https://leetcode.cn/problems/find-all-anagrams-in-a-string/
 
 ```js
- var minWindow = function(s, t) {
+var minWindow = function(s, t) {
   /** 滑动窗口结果 */
   let min = "";
   /** 滑动窗口条件 */
@@ -138,6 +138,49 @@ var minSubArrayLen = function(target, nums) {
 };
 ```
 
+- 最小替换子串得到平衡字符串
+
+- https://leetcode.cn/problems/replace-the-substring-for-balanced-string/
+
+```js
+var balancedString = function(s) {
+  /** 滑动窗口结果 */
+  let min = 0;
+  /** 滑动窗口条件 */
+  const average = s.length / 4;
+  const map = new Map();
+  for (let i = 0; i < s.length; i += 1) {
+    if (!map.has(s[i])) map.set(s[i], 1);
+    else map.set(s[i], map.get(s[i]) + 1);
+  }
+  /** 滑动窗口边界 */
+  let [left, right] = [0, 0];
+
+  if (checkRemaining(map, average)) return 0;
+  
+  for (; right < s.length; right += 1) {
+    map.set(s[right], map.get(s[right]) - 1);
+
+    while(checkRemaining(map, average)) {
+      const newMin = right - left + 1;
+      if (!min || newMin < min) min = newMin;
+      map.set(s[left], map.get(s[left])  + 1);
+      left += 1;
+    }
+  }
+
+  return min;
+};
+
+var checkRemaining = (map, average) => {
+  const q = map.get('Q') || 0;
+  const w = map.get('W') || 0;
+  const e = map.get('E') || 0;
+  const r = map.get('R') || 0;
+  return q <= average && w <= average && e <= average && r <= average;
+}
+```
+
 ## 收集连续水果最大数量 (可变窗口 + 最大满足)
 
 - https://leetcode.cn/problems/fruit-into-baskets/
@@ -177,7 +220,7 @@ var totalFruit = function(fruits) {
 /** 转换题意: 滑动窗口的子数组最多允许有 K 个 0, 小于等于均可参与计算 */
 var longestOnes = function(nums, k) {
   /** 滑动窗口结果 */
-  let res = 0;
+  let max = 0;
   /** 滑动窗口条件 */
   let zeros = 0;
   /** 滑动窗口边界 */
@@ -191,15 +234,15 @@ var longestOnes = function(nums, k) {
       left += 1;
     }
 
-    res = Math.max(right - left + 1, res);
+    max = Math.max(right - left + 1, max);
   }
 
-  return res;
+  return max;
 }
 // nums = [0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1], k = 3
 ```
 
-## 和相同的连续子数组个数 (前缀和 + 刚好满足)
+## 和相同的连续子数组个数 (前缀和 + 所有满足)
 
 - https://leetcode.cn/problems/binary-subarrays-with-sum/
 
@@ -224,7 +267,7 @@ var numSubarraysWithSum = function(nums, goal) {
 // nums = [0, 0, 1, 0, 1, 0, 0]; goal = 2
 ```
 
-## 优美子数组个数 (前缀和 + 刚好满足)
+## 优美子数组个数 (前缀和 + 所有满足)
 
 - https://leetcode.cn/problems/count-number-of-nice-subarrays/
 
