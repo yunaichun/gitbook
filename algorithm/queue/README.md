@@ -136,7 +136,7 @@ var minSubArrayLen = function(target, nums) {
 };
 ```
 
-- 最小替换子串得到平衡字符串 (可变窗口 + 最小满足)
+## 最小替换子串得到平衡字符串 (可变窗口 + 最小满足)
 
 - https://leetcode.cn/problems/replace-the-substring-for-balanced-string/
 
@@ -181,7 +181,7 @@ var checkRemaining = function(map, average) {
 }
 ```
 
-##  将 x 减到 0 的最小操作数 (可变窗口 + 最小满足)
+## 将 x 减到 0 的最小操作数 (可变窗口 + 最小满足)
 
 - https://leetcode.cn/problems/minimum-operations-to-reduce-x-to-zero/
 
