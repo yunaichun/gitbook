@@ -4,8 +4,9 @@
 
 - 固定窗口
 - 可变窗口
-  - 精确满足: 在满足条件, 移动 left, while 循环中计算结果
-  - 非精确满足: 每次移动 right 时均计算结果
+  - 求最小: 在满足条件, 每次移动 left, 循环中计算结果
+  - 求最大: 在满足条件, 每次移动 right 时均计算结果
+  - 求刚好: 双指针
 
 ## js 实现队列
 
@@ -22,30 +23,6 @@ Queue.prototype.dequeue = function () {
 Queue.prototype.front = function (item) {
   return this.queue[0];
 };
-```
-
-## 优美子数组个数
-
-- https://leetcode.cn/problems/count-number-of-nice-subarrays/
-
-```js
-var numberOfSubarrays = function(nums, k) {
-  const odds = [-1];
-  for (let i = 0; i < nums.length; i += 1) {
-    if (nums[i] % 2 === 1) odds.push(i);
-  }
-  odds.push(nums.length);
-
-  /** 包含 k 个奇数: 之前数量 * 之后数量*/
-  let res = 0;
-  for (let i = 1; i + k < odds.length; i += 1) {
-    const left = odds[i] - odds[i - 1];
-    const right = odds[i + k] - odds[i + k - 1];
-    res += left * right;
-  }
-  return res;
-}
-// nums = [2, 2, 2, 1, 2, 2, 1, 2, 2, 2], k = 2
 ```
 
 ## 滑动窗口最大值 (固定窗口)
@@ -79,7 +56,7 @@ var maxSlidingWindow = function(nums, k) {
 };
 ```
 
-## 最小覆盖子串 (可变窗口 + 精确满足)
+## 最小覆盖子串 (可变窗口 + 求最小)
 
 - 最小覆盖子串: https://leetcode.cn/problems/minimum-window-substring/
 - 最小覆盖子串首尾索引: https://leetcode.cn/problems/shortest-supersequence-lcci/
@@ -122,7 +99,7 @@ var maxSlidingWindow = function(nums, k) {
 };
 ```
 
-## 长度最小的连续子数组 (可变窗口 + 精确满足)
+## 长度最小的连续子数组 (可变窗口 + 求最小)
 
 - https://leetcode.cn/problems/minimum-size-subarray-sum/
 
@@ -149,7 +126,7 @@ var minSubArrayLen = function(target, nums) {
 };
 ```
 
-## 水果成篮 (可变窗口 + 非精确满足)
+## 收集的水果最大数量 (可变窗口 + 求最大)
 
 - https://leetcode.cn/problems/fruit-into-baskets/
 
@@ -180,7 +157,7 @@ var totalFruit = function(fruits) {
 };
 ```
 
-## 最大连续 1 的个数 (可变窗口 + 非精确满足)
+## 最大连续 1 的个数 (可变窗口 + 求最大)
 
 - https://leetcode.cn/problems/max-consecutive-ones-iii/
 
@@ -210,7 +187,7 @@ var longestOnes = function(nums, k) {
 // nums = [0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1], k = 3
 ```
 
-## 和相同的连续子数组个数 (可变窗口 + 非精确满足 + 双 left 指针)
+## 和相同的连续子数组个数 (可变窗口 + 求刚好)
 
 - https://leetcode.cn/problems/binary-subarrays-with-sum/
 
@@ -246,7 +223,31 @@ var numSubarraysWithSum = function(nums, goal) {
   }
   return res;
 };
-// nums = [1, 0, 1, 0, 1], goal = 2;
+// nums = [0, 0, 1, 0, 1, 0, 0]; goal = 2
+```
+
+## 优美子数组个数 (求刚好)
+
+- https://leetcode.cn/problems/count-number-of-nice-subarrays/
+
+```js
+var numberOfSubarrays = function(nums, k) {
+  const odds = [-1];
+  for (let i = 0; i < nums.length; i += 1) {
+    if (nums[i] % 2 === 1) odds.push(i);
+  }
+  odds.push(nums.length);
+
+  /** 包含 k 个奇数: 之前数量 * 之后数量*/
+  let res = 0;
+  for (let i = 1; i + k < odds.length; i += 1) {
+    const left = odds[i] - odds[i - 1];
+    const right = odds[i + k] - odds[i + k - 1];
+    res += left * right;
+  }
+  return res;
+}
+// nums = [2, 2, 2, 1, 2, 2, 1, 2, 2, 2], k = 2
 ```
 
 ## 参考资料
