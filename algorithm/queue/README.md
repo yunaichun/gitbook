@@ -14,9 +14,7 @@
 
 #### 前缀和
 
-> 前缀和一般用于求连续的
-
-- 滑动窗口的可变窗口如果求所有满足的总数, 可用此方法
+> 前缀和一般用于求连续的, 所有满足条件的总数
 
 ## js 实现队列
 
@@ -138,11 +136,12 @@ var minSubArrayLen = function(target, nums) {
 };
 ```
 
-- 最小替换子串得到平衡字符串
+- 最小替换子串得到平衡字符串 (可变窗口 + 最小满足)
 
 - https://leetcode.cn/problems/replace-the-substring-for-balanced-string/
 
 ```js
+/** 逆向思维: 剩下的字符串均小于等于 leng/4; 当前的连续的窗口才符合 */
 var balancedString = function(s) {
   /** 滑动窗口结果 */
   let min = 0;
@@ -156,7 +155,8 @@ var balancedString = function(s) {
   /** 滑动窗口边界 */
   let [left, right] = [0, 0];
 
-  if (checkRemaining(map, average)) return 0;
+    /** 全部包含不符合 */
+  if (checkRemaining(map, average)) return min;
   
   for (; right < s.length; right += 1) {
     map.set(s[right], map.get(s[right]) - 1);
@@ -172,13 +172,48 @@ var balancedString = function(s) {
   return min;
 };
 
-var checkRemaining = (map, average) => {
+var checkRemaining = function(map, average) {
   const q = map.get('Q') || 0;
   const w = map.get('W') || 0;
   const e = map.get('E') || 0;
   const r = map.get('R') || 0;
   return q <= average && w <= average && e <= average && r <= average;
 }
+```
+
+##  将 x 减到 0 的最小操作数 (可变窗口 + 最小满足)
+
+- https://leetcode.cn/problems/minimum-operations-to-reduce-x-to-zero/
+
+```js
+/** 逆向思维: 剩下的小于等于 x; 当前的连续的窗口才符合 */
+var minOperations = function(nums, x) {
+  /** 滑动窗口结果 */
+  let min = -1;
+  /** 滑动窗口条件 */
+  let sum = 0;
+  const all = nums.reduce((a, b) => a + b, 0)
+  /** 滑动窗口边界 */
+  let [left, right] = [0, 0];
+
+  /** 全部包含不符合 */
+  if (all < x) return min;
+
+  for (; right < nums.length; right += 1) {
+    sum += nums[right];
+
+    while (all - sum <= x) {
+       const newMin = nums.length - (right - left + 1);
+       if (all - sum === x) {
+         if (min === -1 || (newMin >= 0 && newMin < min)) min = newMin;
+       }
+       sum -= nums[left];
+       left += 1;
+    }
+  }
+
+  return min;
+};
 ```
 
 ## 收集连续水果最大数量 (可变窗口 + 最大满足)
@@ -239,7 +274,6 @@ var longestOnes = function(nums, k) {
 
   return max;
 }
-// nums = [0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1], k = 3
 ```
 
 ## 和相同的连续子数组个数 (前缀和 + 所有满足)
