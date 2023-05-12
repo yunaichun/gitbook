@@ -155,7 +155,7 @@ var balancedString = function(s) {
   /** 滑动窗口边界 */
   let [left, right] = [0, 0];
 
-    /** 全部包含不符合 */
+  /** 全部包含不符合 */
   if (checkRemaining(map, average)) return min;
   
   for (; right < s.length; right += 1) {
@@ -203,12 +203,12 @@ var minOperations = function(nums, x) {
     sum += nums[right];
 
     while (all - sum <= x) {
-       const newMin = nums.length - (right - left + 1);
-       if (all - sum === x) {
-         if (min === -1 || (newMin >= 0 && newMin < min)) min = newMin;
-       }
-       sum -= nums[left];
-       left += 1;
+      if (all - sum === x) {
+      const newMin = nums.length - (right - left + 1);
+      if (min === -1 || (newMin >= 0 && newMin < min)) min = newMin;
+      }
+      sum -= nums[left];
+      left += 1;
     }
   }
 
