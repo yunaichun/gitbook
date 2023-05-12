@@ -2,11 +2,21 @@
 
 > 算法-队列学习笔记。
 
+#### 滑动窗口
+
+> 滑动窗口一般用于求连续的, 可分为固定窗口和可变窗口
+
 - 固定窗口
 - 可变窗口
-  - 求最小: 在满足条件, 每次移动 left, 循环中计算结果
-  - 求最大: 在满足条件, 每次移动 right 时均计算结果
-  - 求刚好: 双指针
+  - 最小满足: 在满足条件, 每次移动 left, 循环中计算结果
+  - 最大满足: 在满足条件, 每次移动 right 时均计算结果
+  - 刚好满足: 用下面的前缀和方法
+
+#### 前缀和
+
+> 前缀和一般用于求连续的
+
+- 滑动窗口的可变窗口如果求刚好, 可用此方法
 
 ## js 实现队列
 
@@ -56,7 +66,7 @@ var maxSlidingWindow = function(nums, k) {
 };
 ```
 
-## 最小覆盖子串 (可变窗口 + 求最小)
+## 最小覆盖子串 (可变窗口 + 最小满足)
 
 - 最小覆盖子串: https://leetcode.cn/problems/minimum-window-substring/
 - 最小覆盖子串首尾索引: https://leetcode.cn/problems/shortest-supersequence-lcci/
@@ -99,34 +109,36 @@ var maxSlidingWindow = function(nums, k) {
 };
 ```
 
-## 长度最小的连续子数组 (可变窗口 + 求最小)
+## 长度最小的连续子数组 (可变窗口 + 最小满足)
 
 - https://leetcode.cn/problems/minimum-size-subarray-sum/
 
 ```js
 var minSubArrayLen = function(target, nums) {
-  /** 滑动窗口结果 */
-  let min = Infinity;
-  /** 滑动窗口条件 */
+  /** 结果 */
+  let min = 0;
+  /** 定义窗口比较值: map 对象 */
   let sum = 0;
-  /** 滑动窗口边界 */
+  /** 初始化窗口边界 */
   let [left, right] = [0, 0];
-
+  
   for (; right < nums.length; right += 1) {
     sum += nums[right];
-
+    
     while(sum >= target) {
+      const newMin = right - left + 1
+      if (!min || newMin < min) min = newMin;
       min = Math.min(right - left + 1, min);
       sum -= nums[left];
       left += 1;
     }
   }
 
-  return min === Infinity ? 0 : min;
+  return min;
 };
 ```
 
-## 收集的水果最大数量 (可变窗口 + 求最大)
+## 收集连续水果最大数量 (可变窗口 + 最大满足)
 
 - https://leetcode.cn/problems/fruit-into-baskets/
 
@@ -134,7 +146,7 @@ var minSubArrayLen = function(target, nums) {
 /** 转换题意: 滑动窗口的元素种类最多允许有 2 个, 小于等于 2 个均可参与计算 */
 var totalFruit = function(fruits) {
   /** 滑动窗口结果 */
-  let max = -Infinity;
+  let max = 0;
   /** 滑动窗口条件 */
   const elements = new Map();
   /** 滑动窗口边界 */
@@ -157,7 +169,7 @@ var totalFruit = function(fruits) {
 };
 ```
 
-## 最大连续 1 的个数 (可变窗口 + 求最大)
+## 最大连续 1 的个数 (可变窗口 + 最大满足)
 
 - https://leetcode.cn/problems/max-consecutive-ones-iii/
 
@@ -187,63 +199,46 @@ var longestOnes = function(nums, k) {
 // nums = [0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1], k = 3
 ```
 
-## 和相同的连续子数组个数 (可变窗口 + 求刚好)
+## 和相同的连续子数组个数 (前缀和 + 刚好满足)
 
 - https://leetcode.cn/problems/binary-subarrays-with-sum/
 
 ```js
-/** 满足条件时: 前面有多少个 0, 则符合条件的就有多少个 + 1 */
 var numSubarraysWithSum = function(nums, goal) {
-  /** 滑动窗口结果 */
-  let res = 0;
-  /** 滑动窗口条件 */
-  let [sum1, sum2] = [0, 0];
-  /** 滑动窗口边界 */
-  let [left1, left2, right] = [0, 0, 0];
-
-  for (; right < nums.length; right += 1) {
-    sum1 += nums[right];
-    sum2 += nums[right];
-
-    /** 等于 goal 时左边界 */
-    while (left1 <= right && sum1 > goal) {
-      sum1 -= nums[left1]; 
-      left1 += 1;
-    }
-
-    /** 小于 goal 时左边界 */
-    while (left2 <= right && sum2 >= goal) {
-      sum2 -= nums[left2];
-      left2 += 1;
-    }
-
-    console.log(right, left1, left2);
-    /** left2 - left1 中间的均满足条件 */
-    res += left2 - left1;
+  /** 前缀和 */
+  const prevSums = [0];
+  for (let i = 0; i < nums.length; i += 1) {
+    prevSums[i + 1] = prevSums[i] + nums[i];
   }
-  return res;
-};
+
+  /** 统计个数 */
+  let count = 0;
+  for (let i = 0; i < prevSums.length - 1; i += 1) {
+    for (let j = i + 1; j < prevSums.length; j += 1) {
+      if (prevSums[j] - prevSums[i] === goal) count += 1;
+    }
+  }
+
+  return count;
+}
 // nums = [0, 0, 1, 0, 1, 0, 0]; goal = 2
 ```
 
-## 优美子数组个数 (求刚好)
+## 优美子数组个数 (前缀和 + 刚好满足)
 
 - https://leetcode.cn/problems/count-number-of-nice-subarrays/
 
 ```js
 var numberOfSubarrays = function(nums, k) {
-  const odds = [-1];
+  const prevSums = [0];
   for (let i = 0; i < nums.length; i += 1) {
-    if (nums[i] % 2 === 1) odds.push(i);
+    prevSums[i + 1] = prevSums[i] + (nums[i] & 1);
   }
-  odds.push(nums.length);
-
-  /** 包含 k 个奇数: 之前数量 * 之后数量*/
   let res = 0;
-  for (let i = 1; i + k < odds.length; i += 1) {
-    const left = odds[i] - odds[i - 1];
-    const right = odds[i + k] - odds[i + k - 1];
-    res += left * right;
+  for (let i = 0; i < prevSums.length - 1; i += 1) {
+    for (let j = i + 1; j < prevSums.length; j += 1) {
+      if (prevSums[j] - prevSums[i] === k) res += 1;
+    }
   }
   return res;
 }
