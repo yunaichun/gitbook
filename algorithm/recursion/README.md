@@ -47,17 +47,12 @@ var _dfs = function(n, left, right, cur, results) {
 - https://leetcode.cn/problems/number-of-islands/
 
 ```js
-/** 上下左右 */
-const dx = [-1, 1, 0, 0];
-const dy = [0, 0, -1, 1];
-
-/** 会修改原始数据 */
 var numIslands = function (grid) {
   let sum = 0;
-  for (let i = 0, len1 = grid.length; i < len1; i += 1) {
-    for (let j = 0, len2 = grid[i].length; j < len2; j += 1) {
-      if (grid[i][j] === "1") {
-        _helper(grid, i, j, [{ x: i, y: j }]);
+  for (let i = 0; i < grid.length; i += 1) {
+    for (let j = 0; j < grid[i].length; j += 1) {
+      if (grid[i][j] === '1') {
+        _dfs(grid, i, j, [{ x: i, y: j }]);
         sum += 1;
       }
     }
@@ -65,21 +60,24 @@ var numIslands = function (grid) {
   return sum;
 };
 
-var _helper = function (grid, row, column, visited) {
-  const m = grid.length;
-  const n = grid[0].length;
-  for (let i = 0; i < 4; i += 1) {
-    const x = dx[i] + row;
-    const y = dy[i] + column;
-    const isValid = x >= 0 && x < m && y >= 0 && y < n;
-    const isVisited = visited.find((i) => i.x === x && i.y === y);
-    if (!isValid || isVisited) continue;
-    if (grid[x][y] === "1") {
-      grid[x][y] = 0;
-      _helper(grid, x, y, visited.concat({ x, y }));
+const around = [[-1, 0], [0, 1], [1, 0], [0, -1]];
+var _dfs = function(grid, row, column, visited) {
+  const rows = grid.length;
+  const columns = grid[0].length;
+  for (let i = 0; i < around.length; i += 1) {
+    const x = row + around[i][0];
+    const y = column + around[i][1];
+    const xIsValid = 0 <= x && x < rows;
+    const yIsValid = 0 <= y && y < columns;
+    const hasVisited = visited.find(v => v.x === x && v.y === y);
+    if (xIsValid && yIsValid && !hasVisited) {
+      if (grid[x][y] === '1') {
+        grid[x][y] = '0';
+        _dfs(grid, x, y, visited.concat({ x, y }));
+      }
     }
   }
-};
+}
 ```
 
 ## 回溯
