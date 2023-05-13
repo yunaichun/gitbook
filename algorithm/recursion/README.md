@@ -4,20 +4,16 @@
 
 ## 递归
 
-- DFS 是一个劲的往某一个方向搜索
-- 而回溯算法建立在 DFS 基础之上的，但不同的是在搜索过程中，达到结束条件后，恢复状态，回溯上一层，再次搜索。因此回溯算法与 DFS 的区别就是有无状态重置
-
 #### n 次幂
 
 - https://leetcode.cn/problems/powx-n
 
 ```js
-var myPow = function (x, n) {
+var myPow = function(x, n) {
   if (n < 0) return 1 / myPow(x, -n);
   if (n === 0) return 1;
-  if (n === 1) return x;
-  if (n % 2) return myPow(x * x, (n - 1) / 2) * x;
-  return myPow(x * x, n / 2);
+  if (n % 2 === 0) return myPow(x * x, n / 2);
+  else return  myPow(x * x, (n - 1) / 2) * x;
 };
 ```
 
@@ -28,27 +24,25 @@ var myPow = function (x, n) {
 ```js
 var generateParenthesis = function (n) {
   let results = [];
-  _helper(n, 0, 0, "", results);
+  _dfs(n, 0, 0, '', results);
   return results;
 };
 
-var _helper = function (n, leftUsed, rightUsed, cur, results) {
-  if (leftUsed === n && rightUsed === n) {
+var _dfs = function(n, left, right, cur, results) {
+  if (left === n && right === n) {
     results.push(cur);
     return;
   }
-  if (leftUsed < n) {
-    _helper(n, leftUsed + 1, rightUsed, cur + "(", results);
+  if (left < n) {
+    _dfs(n, left + 1, right, cur + '(', results);;
   }
-  if (rightUsed < n && rightUsed < leftUsed) {
-    _helper(n, leftUsed, rightUsed + 1, cur + ")", results);
+  if (right < n && right < left) {
+    _dfs(n, left, right + 1, cur + ')', results);;
   }
-};
+}
 ```
 
 #### 岛屿个数
-
-**会修改原始数据**
 
 - https://leetcode.cn/problems/number-of-islands/
 
@@ -57,6 +51,7 @@ var _helper = function (n, leftUsed, rightUsed, cur, results) {
 const dx = [-1, 1, 0, 0];
 const dy = [0, 0, -1, 1];
 
+/** 会修改原始数据 */
 var numIslands = function (grid) {
   let sum = 0;
   for (let i = 0, len1 = grid.length; i < len1; i += 1) {
@@ -88,9 +83,6 @@ var _helper = function (grid, row, column, visited) {
 ```
 
 ## 回溯
-
-- 当问题需要 "回头"，以此来查找出所有的解的时候，使用回溯算法
-- 即满足结束条件或者发现不是正确路径的时候(走不通)，要撤销选择，回退到上一个状态，继续尝试，直到找出所有解为止
 
 #### 子集
 
