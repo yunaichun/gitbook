@@ -71,7 +71,7 @@ var _dfs = function(board, row, col, path, results, visited, trie) {
     if (isValid(board, x, y, visited, trie)) {
       path.push(board[x][y]);
       visited.push({ x, y });
-      _dfs(board, x, y, path, results, visited, trie[board[x][y]]);
+      _dfs(board, x, y, [...path], results, [...visited], trie[board[x][y]]);
       path.pop();
       visited.pop();
     }
