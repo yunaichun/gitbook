@@ -310,31 +310,32 @@ var _dfs = function(s, path, results, start) {
 
 ```js
 var restoreIpAddresses = function (s) {
-  /** 1、递归树 */
-  /** 2 */
-  /** 25 */
-  /** 255 */
   let results = [];
-  _helper(s, 0, [], results);
+  _dfs(s, [], results, 0);
   return results;
 };
 
-var _helper = function (s, start, path, results) {
-  /** 2、保存结果: 终止条件 */
-  if (path.length === 4 && path.join("").length === s.length) {
-    results.push(path.join("."));
+var _dfs = function(s, path, results, start) {
+  if (path.length === 4 && path.join('').length === s.length) {
+    results.push(path.join('.'));
     return;
   }
+  /** start 代表从 start 位置开始可以截取的元素 */
   for (let i = start; i < s.length; i += 1) {
-    /** 3、选择+递归+重置: 剪枝 */
     const char = s.slice(start, i + 1);
-    if (Number(char) < 0 || Number(char) > 255) continue;
-    if (char.length > 1 && char[0] === "0") continue;
-    path.push(char);
-    _helper(s, start + char.length, [...path], results);
-    path.pop();
+    if (isValidChar(char)) {
+      path.push(char);
+      _dfs(s, [...path], results, i + 1);
+      path.pop();
+    }
   }
-};
+}
+
+var isValidChar = function(char) {
+  if (Number(char) < 0 || Number(char) > 255) return false;
+  if (char.length > 1 && char[0] === "0") return false;
+  return true;
+}
 ```
 
 #### 分割回文字符串
@@ -342,38 +343,33 @@ var _helper = function (s, start, path, results) {
 - https://leetcode.cn/problems/palindrome-partitioning/
 
 ```js
-var partition = function (s) {
+var partition = function(s) {
   const results = [];
-  /** 1、递归树 */
-  /** a -> ab(删除) b -> c*/
-  /** aa -> b */
-  _helper(s, 0, [], results);
+  _dfs(s, [], results, 0);
   return results;
 };
 
-var _helper = function (s, start, path, results) {
-  /** 2、保存结果: 终止条件 */
+var _dfs = function(s, path, results, start) {
   if (path.join("").length === s.length) {
     results.push(path);
     return;
   }
   for (let i = start; i < s.length; i += 1) {
-    /** 3、选择+递归+重置: 剪枝 */
     const char = s.slice(start, i + 1);
-    if (!_isValidChar(char)) continue;
-    path.push(char);
-    _helper(s, start + char.length, [...path], results);
-    path.pop();
+    if (isValidChar(char)) {
+      path.push(char);
+      _dfs(s, [...path], results, i + 1);
+      path.pop();
+    }
   }
-};
+}
 
-var _isValidChar = function (char) {
-  const n = Math.floor(char.length / 2);
-  for (let i = 0; i < n; i += 1) {
-    if (char[i] !== char[char.length - i - 1]) return false;
+var isValidChar = function(char) {
+  for (let i = 0; i < Math.floor(char.length / 2); i += 1) {
+    if (char[i] !== char[char.length - 1 - i]) return false;
   }
   return true;
-};
+}
 ```
 
 #### 单词搜索
