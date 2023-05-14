@@ -83,7 +83,7 @@ var _helper = function(nums, path, results, start) {
   results.push(path);
   for (let i = start; i < nums.length; i += 1) {
     /** i > start: 代表同一轮循环中, 当前元素和前一个元素一样的话 */
-    if (i > start && nums[i] === nums[i - 1]) continue;
+    if (i > 0 && nums[i] === nums[i - 1] && i > start) continue;
     path.push(nums[i]);
     _helper(nums, [...path], results, i + 1);
     path.pop();
@@ -165,7 +165,7 @@ var _dfs = function(candidates, target, path, results, start) {
   }
   for (let i = start; i < candidates.length; i += 1) {
     /** i > start: 代表同一轮循环中, 当前元素和前一个元素一样的话 */
-    if (i > start && candidates[i] === candidates[i - 1]) continue;
+    if (i > 0 && candidates[i] === candidates[i - 1] && i > start) continue;
     path.push(candidates[i]);
     _dfs(candidates, target - candidates[i], [...path], results, i + 1);
     path.pop();
@@ -312,7 +312,7 @@ var partition = function(s) {
 };
 
 var _dfs = function(s, path, results, start) {
-  if (path.join("").length === s.length) {
+  if (path.join('').length === s.length) {
     results.push(path);
     return;
   }
@@ -425,62 +425,51 @@ var isValid = function(board, row, column, word, visited, start) {
 }
 ```
 
-
 ## 数独
 
 - https://leetcode.cn/problems/valid-sudoku
 - https://leetcode.cn/problems/sudoku-solver
 
 ```js
-var solveSudoku = function (board) {
-  _helper(board);
+var solveSudoku = function(board) {
+  _dfs(board);
   return board;
 };
 
-var isValidSudoku = function (board) {
-  /** 1、递归树 */
-  /** . -> 1 */
-  /** . -> 2 */
-  const results = _helper(board);
-  return results;
-};
-
-var _helper = function (board) {
-  for (let i = 0, len1 = board.length; i < len1; i += 1) {
-    for (let j = 0, len2 = board[0].length; j < len2; j += 1) {
-      /** 3、选择+递归+重置: 剪枝 */
-      if (board[i][j] === ".") {
+var _dfs = function(board) {
+  for (let i = 0; i < board.length; i += 1) {
+    for (let j = 0; j < board[i].length; j += 1) {
+      if (board[i][j] === '.') {
         for (let char = 1; char < 10; char += 1) {
-          const isValidChar = _isValid(board, i, j, char.toString());
-          if (isValidChar) {
+          if (isValid(board, i, j, char.toString())) {
             board[i][j] = char.toString();
-            /** 再次递归寻找下一个 . 此步骤是关键 */
-            if (_helper(board)) return true;
-            else board[i][j] = ".";
+            /** 继续遍历后面所有的, 都 ok, 就是正确的数独 */
+            if (_dfs(board)) return true;
           }
         }
-        /** 能走到这里说明 1 - 9 所有数字都试了，不管用 */
+        /** 寻找 9 个数据均无解, 则不是有效数独, 回归到原来位置 */
+        board[i][j] = '.';
         return false;
       }
-    }
+    } 
   }
   return true;
-};
+}
 
-var _isValid = function (board, row, column, char) {
-  for (let i = 0; i < 9; i += 1) {
-    if (board[row][i] === char) return false;
+var isValid = function(board, row, column, char) {
+  for (i = 0; i < 9; i += 1) {
     if (board[i][column] === char) return false;
+    if (board[row][i] === char) return false;
   }
   const m = Math.floor(row / 3);
   const n = Math.floor(column / 3);
-  for (let i = m * 3; i < m * 3 + 3; i += 1) {
-    for (let j = n * 3; j < n * 3 + 3; j += 1) {
+  for (let i = m * 3; i < (m + 1) * 3; i += 1) {
+    for (let j = n * 3; j < (n + 1) * 3; j += 1) {
       if (board[i][j] === char) return false;
     }
   }
   return true;
-};
+}
 ```
 
 ## N 皇后
