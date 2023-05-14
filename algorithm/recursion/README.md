@@ -425,10 +425,47 @@ var isValid = function(board, row, column, word, visited, start) {
 }
 ```
 
-## 数独
+## 有效数独
+
+- https://leetcode.cn/problems/sudoku-solver
+
+```js
+var isValidSudoku = function (board) {
+  let res = _dfs(board);
+  return res;
+};
+
+var _dfs = function(board) {
+  for (let i = 0; i < board.length; i += 1) {
+    for (let j = 0; j < board[i].length; j += 1) {
+      if (board[i][j] !== '.') {
+        if (!isValid(board, i, j)) return false;
+      }
+    } 
+  }
+  return true;
+}
+
+var isValid = function(board, row, column) {
+  const char = board[row][column];
+  for (i = 0; i < 9; i += 1) {
+    if (i !== row && board[i][column] === char) return false;
+    if (i !== column &&board[row][i] === char) return false;
+  }
+  const m = Math.floor(row / 3);
+  const n = Math.floor(column / 3);
+  for (let i = m * 3; i < (m + 1) * 3; i += 1) {
+    for (let j = n * 3; j < (n + 1) * 3; j += 1) {
+      if (i !== row && j !== column && board[i][j] === char) return false;
+    }
+  }
+  return true;
+}
+```
+
+## 解唯一数独
 
 - https://leetcode.cn/problems/valid-sudoku
-- https://leetcode.cn/problems/sudoku-solver
 
 ```js
 var solveSudoku = function(board) {
