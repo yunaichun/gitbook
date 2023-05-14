@@ -87,18 +87,18 @@ var _dfs = function(grid, row, column, visited) {
 - https://leetcode.cn/problems/subsets/
 
 ```js
+/** 下一个元素不回头 */
 var subsets = function(nums) {
   const results = [];
-  _dfs(nums, 0, [], results)
+  _dfs(nums, [], results, 0)
   return results;
 };
 
-var _dfs = function(nums, start, path, results) {
+var _dfs = function(nums, path, results, start) {
   results.push(path);
   for (let i = start; i < nums.length; i += 1) {
-    /** start 元素开始, 然后从下个元素开始进入到下一轮 */
     path.push(nums[i]);
-    _dfs(nums, i + 1, [...path], results);
+    _dfs(nums, [...path], results, i + 1);
     path.pop();
   }
 }
@@ -109,21 +109,21 @@ var _dfs = function(nums, start, path, results) {
 - https://leetcode.cn/problems/subsets-ii/
 
 ```js
+/** 下一个元素不回头 */
 var subsetsWithDup = function(nums) {
   nums.sort();
-  const results = [];
-  _helper(nums, 0, [], results);
+  const results = [];                                                                       ` ` 
+  _helper(nums, [], results, 0);
   return results;
 };
 
-var _helper = function(nums, start, path, results) {
+var _helper = function(nums, path, results, start) {
   results.push(path);
   for (let i = start; i < nums.length; i += 1) {
-    /** 选择 start 开始, 后续连续元素有相同的则忽略掉 */
+    /** i > start: 代表同一轮循环中, 当前元素和前一个元素一样的话 */
     if (i > start && nums[i] === nums[i - 1]) continue;
-    /** start 元素开始, 然后从下个元素开始进入到下一轮 */
     path.push(nums[i]);
-    _helper(nums, i + 1, [...path], results);
+    _helper(nums, [...path], results, i + 1);
     path.pop();
   }
 };
@@ -134,20 +134,21 @@ var _helper = function(nums, start, path, results) {
 - https://leetcode.cn/problems/combinations/
 
 ```js
+/** 下一个元素不回头 */
 var combine = function(n, k) {
   const results = [];
-  _dfs(n, k, 1, [], results);
+  _dfs(n, k, [], results, 1);
   return results;
 };
 
-var _dfs = function(n, k, start, path, results) {
+var _dfs = function(n, k, path, results, start) {
   if (path.length === k) {
     results.push(path);
     return;
   }
   for (let i = start; i <= n; i += 1) {
     path.push(i);
-    _dfs(n, k, i + 1, [...path], results);
+    _dfs(n, k, [...path], results, i + 1);
     path.pop();
   }
 };
