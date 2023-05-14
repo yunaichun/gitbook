@@ -42,44 +42,6 @@ var _dfs = function(n, left, right, cur, results) {
 }
 ```
 
-#### 岛屿个数
-
-- https://leetcode.cn/problems/number-of-islands/
-
-```js
-var numIslands = function (grid) {
-  let sum = 0;
-  for (let i = 0; i < grid.length; i += 1) {
-    for (let j = 0; j < grid[i].length; j += 1) {
-      if (grid[i][j] === '1') {
-        _dfs(grid, i, j, [{ x: i, y: j }]);
-        sum += 1;
-      }
-    }
-  }
-  return sum;
-};
-
-const around = [[-1, 0], [0, 1], [1, 0], [0, -1]];
-var _dfs = function(grid, row, column, visited) {
-  const rows = grid.length;
-  const columns = grid[0].length;
-  for (let i = 0; i < around.length; i += 1) {
-    const x = row + around[i][0];
-    const y = column + around[i][1];
-    const xIsValid = 0 <= x && x < rows;
-    const yIsValid = 0 <= y && y < columns;
-    const hasVisited = visited.find(v => v.x === x && v.y === y);
-    if (xIsValid && yIsValid && !hasVisited) {
-      if (grid[x][y] === '1') {
-        grid[x][y] = '0';
-        _dfs(grid, x, y, visited.concat({ x, y }));
-      }
-    }
-  }
-}
-```
-
 ## 回溯
 
 #### 子集
@@ -372,139 +334,99 @@ var isValidChar = function(char) {
 }
 ```
 
+#### 岛屿个数
+
+- https://leetcode.cn/problems/number-of-islands/
+
+```js
+/** 会修改原始数据 */
+var numIslands = function (grid) {
+  let sum = 0;
+  for (let i = 0; i < grid.length; i += 1) {
+    for (let j = 0; j < grid[i].length; j += 1) {
+      if (grid[i][j] === '1') {
+        _dfs(grid, i, j, [{ x: i, y: j }]);
+        sum += 1;
+      }
+    }
+  }
+  return sum;
+};
+
+const around = [[-1, 0], [0, 1], [1, 0], [0, -1]];
+var _dfs = function(grid, row, column, visited) {
+  for (let i = 0; i < around.length; i += 1) {
+    const x = row + around[i][0];
+    const y = column + around[i][1];
+    if (isValid(grid, x, y, visited)) {
+      if (grid[x][y] === '1') {
+        grid[x][y] = '0';
+        visited.push({ x, y });
+        _dfs(grid, x, y, [...visited]);
+        visited.pop();
+      }
+    }
+  }
+}
+
+var isValid = function(grid, row, column, visited) {
+  const rows = grid.length;
+  const columns = grid[0].length;
+  if (row < 0 || row >= rows) return false;
+  if (column < 0 || column >= columns) return false;
+  if (visited.find(v => v.x === row && v.y === column)) return false;
+  return true;
+}
+```
+
 #### 单词搜索
 
 - https://leetcode.cn/problems/word-search
 - https://leetcode.cn/problems/word-search-ii
 
 ```js
-/** 上下左右 */
-const dx = [-1, 1, 0, 0];
-const dy = [0, 0, -1, 1];
-
-var findWords = function (board, words) {
-  const results = [];
-  for (let i = 0, len = words.length; i < len; i += 1) {
-    const isExist = exist(board, words[i]);
-    if (isExist) results.push(words[i]);
-  }
-  return results;
-};
-
 var exist = function (board, word) {
-  if (!board.length) return false;
-  /** 1、递归树 */
-  /** A -> B */
-  /** A -> S */
   const results = [];
-  for (let i = 0, len1 = board.length; i < len1; i += 1) {
-    for (let j = 0, len2 = board[i].length; j < len2; j += 1) {
-      const char = board[i][j];
-      if (word.indexOf(char) === 0) {
-        _helper(board, word, i, j, [{ x: i, y: j }], [char], results);
-      }
+  for (let i = 0; i < board.length; i += 1) {
+    for (let j = 0; j < board[i].length; j += 1) {
+      if (board[i][j] === word[0]) _dfs(board, i, j, word, [board[i][j]], results, [{ x: i, y: j }], 1)
     }
   }
   return results.length;
-};
+}
 
-var _helper = function (board, word, row, column, visited, path, results) {
-  const m = board.length;
-  const n = board[0].length;
-  if (word.indexOf(path.join("")) !== 0) return;
-  /** 2、保存结果: 结束条件 */
-  if (path.join("") === word) {
-    results.push(path.join(""));
-    return;
-  }
-  /** 3、选择+递归+重置: 剪枝 */
-  for (let i = 0; i < 4; i += 1) {
-    const x = row + dx[i];
-    const y = column + dy[i];
-    const isValid = x >= 0 && x < m && y >= 0 && y < n;
-    const isVisited = visited.find((i) => i.x === x && i.y === y);
-    if (!isValid || isVisited) continue;
-    const char = board[x][y];
-    path.push(char);
-    visited.push({ x, y });
-    _helper(board, word, x, y, [...visited], [...path], results);
-    path.pop();
-    visited.pop();
-  }
-};
-```
-
-## N 皇后
-
-- https://leetcode.cn/problems/n-queens/
-- https://leetcode.cn/problems/n-queens-ii/
-
-```js
-var totalNQueens = function (n) {
-  const results = [];
-  /** 1、递归树 */
-  _helper(n, [], [], results);
-  return results.length;
-};
-
-var solveNQueens = function (n) {
-  const results = [];
-  /** 1、递归树 */
-  _helper(n, [], [], results);
-  return results;
-};
-
-var _helper = function (n, visited, path, results) {
-  /** 2、保存结果: 终止条件 */
-  if (path.length === n) {
+const around = [[-1, 0], [0, 1], [1, 0], [0, -1]];
+var _dfs = function(board, row, column, word, path, results, visited, start) {
+  if (path.length === word.length) {
     results.push(path);
     return;
   }
-
-  for (let i = 0; i < n; i += 1) {
-    /** 3、选择+递归+重置: 剪枝 */
-    const row = path.length;
-    const column = i;
-    const char = _generate(n, i);
-    const isValid = _isValid(visited, row, column);
-    if (!isValid) continue;
-    path.push(char);
-    visited.push({ row, column });
-    _helper(n, [...visited], [...path], results);
-    path.pop();
-    visited.pop();
+  for (let i = 0; i < around.length; i += 1) {
+    const x = row + around[i][0];
+    const y = column + around[i][1];
+    if (isValid(board, x, y, word, visited, start)) {
+      path.push(board[x][y]);
+      visited.push({ x, y });
+      _dfs(board, x, y, word, [...path], results, [...visited], start + 1);
+      path.pop();
+      visited.pop();
+    }
   }
-};
+}
 
-var _generate = function (n, pos) {
-  let char = "";
-  for (let i = 0; i < n; i += 1) {
-    if (i === pos) char += "Q";
-    else char += ".";
-  }
-  return char;
-};
-
-var _isValid = function (visited, row, column) {
-  const exist = visited.find((i) => {
-    /** 存在相同行 */
-    if (i.row === row) return true;
-    /** 存在相同列 */
-    if (i.column === column) return true;
-    /** 捺上存在 */
-    if (i.row - i.column === row - column) return true;
-    /** 撇上存在 */
-    if (i.row + i.column === row + column) return true;
-    return false;
-  });
-  if (exist) return false;
+var isValid = function(board, row, column, word, visited, start) {
+  const rows = board.length;
+  const columns = board[0].length;
+  if (row < 0 || row >= rows) return false;
+  if (column < 0 || column >= columns) return false;
+  if (visited.find(v => v.x === row && v.y === column)) return false;
+  if (board[row][column] !== word[start]) return false;
   return true;
-};
+}
 ```
 
-## 数独
 
-**不同于以上之处是会修改原始数据，再不断递归修改后的原始数据**
+## 数独
 
 - https://leetcode.cn/problems/valid-sudoku
 - https://leetcode.cn/problems/sudoku-solver
@@ -559,6 +481,56 @@ var _isValid = function (board, row, column, char) {
   }
   return true;
 };
+```
+
+## N 皇后
+
+- https://leetcode.cn/problems/n-queens/
+- https://leetcode.cn/problems/n-queens-ii/
+
+```js
+var totalNQueens = function(n) {
+  const results = [];
+  _helper(n, [], results, []);
+  return results.length;
+};
+
+var solveNQueens = function(n) {
+  const results = [];
+  _dfs(n, [], results, []);
+  return results;
+};
+
+var _dfs = function(n, path, results, visited) {
+  if (path.length === n) {
+    results.push(path);
+    return;
+  }
+  for (let i = 0; i < n; i += 1) {
+    const [row, column] = [path.length, i];
+    if (isValid(row, column, visited)) {
+      let char = Array.from({ length: n }, () => '.').join('');
+      char = char.slice(0, column) + 'Q' + char.slice(column + 1);
+      path.push(char);
+      visited.push({ x: row, y: column });
+      _dfs(n, [...path], results, [...visited]);
+      path.pop();
+      visited.pop();
+    }
+  }
+}
+
+var isValid = function(row, column, visited) {
+  for (let i = 0; i < visited.length; i += 1) {
+    const { x, y } = visited[i];
+    if (x === row) return false;
+    if (y === column) return false;
+    if (y - x === column - row) return false;
+    if (y - x === column - row) return false;
+    if (y + x === column + row) return false;
+  }
+  return true;
+}
 ```
 
 ## 参考资料
