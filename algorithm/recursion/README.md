@@ -116,7 +116,7 @@ var subsetsWithDup = function(nums) {
   return results;
 };
 
-var _helper = function (nums, start, path, results) {
+var _helper = function(nums, start, path, results) {
   results.push(path);
   for (let i = start; i < nums.length; i += 1) {
     /** 选择 start 开始, 后续连续元素有相同的则忽略掉 */
@@ -197,6 +197,7 @@ var _dfs = function(candidates, target, start, path, results) {
     return;
   }
   for (let i = start; i < candidates.length; i += 1) {
+    /** 选择 start 开始, 后续连续元素有相同的则忽略掉 */
     if (i > start && candidates[i] === candidates[i - 1]) continue;
     path.push(candidates[i]);
     _dfs(candidates, target - candidates[i], i + 1, [...path], results);
