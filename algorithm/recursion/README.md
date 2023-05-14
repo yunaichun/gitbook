@@ -159,24 +159,27 @@ var _dfs = function(n, k, path, results, start) {
 - https://leetcode.cn/problems/combination-sum/
 
 ```js
+/** 下一个元素可以回头 */
 var combinationSum = function(candidates, target) {
   const results = [];
   _dfs(candidates, target, [], results);
   return results;
 };
 
-var _dfs = function(candidates, target, path, results) {
-  if (target <= 0) {
+var _dfs = function (candidates, target, path, results) {
+  if (target < 0) return;
+  if (target === 0) {
     const exist = results.find((i) => i.sort().join() === path.sort().join());
-    if (target === 0 && !exist) results.push(path);
+    if (!exist) results.push(path);
     return;
   }
-  for (let i = 0; i < candidates.length; i += 1) {
+
+  for (let i = 0, len = candidates.length; i < len; i += 1) {
     path.push(candidates[i]);
     _dfs(candidates, target - candidates[i], [...path], results);
     path.pop();
   }
-}
+};
 ```
 
 #### 组合总和 II
@@ -184,24 +187,25 @@ var _dfs = function(candidates, target, path, results) {
 - https://leetcode.cn/problems/combination-sum-ii/
 
 ```js
+/** 下一个元素不回头 */
 var combinationSum2 = function(candidates, target) {
   candidates.sort();
   const results = [];
-  _dfs(candidates, target, 0, [], results);
+  _dfs(candidates, target, [], results, 0);
   return results;
 };
 
-var _dfs = function(candidates, target, start, path, results) {
+var _dfs = function(candidates, target, path, results, start) {
   if (target <= 0) {
     const exist = results.find((i) => i.sort().join() === path.sort().join());
     if (target === 0 && !exist) results.push(path);
     return;
   }
   for (let i = start; i < candidates.length; i += 1) {
-    /** 选择 start 开始, 后续连续元素有相同的则忽略掉 */
+    /** i > start: 代表同一轮循环中, 当前元素和前一个元素一样的话 */
     if (i > start && candidates[i] === candidates[i - 1]) continue;
     path.push(candidates[i]);
-    _dfs(candidates, target - candidates[i], i + 1, [...path], results);
+    _dfs(candidates, target - candidates[i], [...path], results, i + 1);
     path.pop();
   }
 }
@@ -212,6 +216,7 @@ var _dfs = function(candidates, target, start, path, results) {
 - https://leetcode.cn/problems/permutations/
 
 ```js
+/** 当前元素每次循环均可被访问, 但是同次循环只能用一次 */
 var permute = function(nums) {
   let results = [];
   _dfs(nums, [], results, []);
@@ -241,6 +246,7 @@ var _dfs = function(nums, path, results, visited) {
 - https://leetcode.cn/problems/zi-fu-chuan-de-pai-lie-lcof/
 
 ```js
+/** 当前元素每次循环均可被访问, 但是同次循环只能用一次 */
 var permuteUnique = function(nums) {
   nums.sort();
   let results = [];
@@ -256,7 +262,7 @@ var _dfs = function(nums, path, results, visited) {
   for (let i = 0; i < nums.length; i += 1) {
     /** 当前元素被访问过了 */
     if (visited[i]) continue;
-    /** 当前元素是第一次进入 path, 前一个元素还没进入 path */
+    /** !visited[i - 1]: 代表同一轮循环中, 当前元素首次进入 path 且前一个元素还没进入 path */
     if (i > 0 && nums[i] === nums[i - 1] && !visited[i - 1]) continue;
     path.push(nums[i]);
     visited[i] = true;
