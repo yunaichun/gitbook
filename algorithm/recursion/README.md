@@ -389,14 +389,14 @@ var exist = function (board, word) {
   const results = [];
   for (let i = 0; i < board.length; i += 1) {
     for (let j = 0; j < board[i].length; j += 1) {
-      if (board[i][j] === word[0]) _dfs(board, i, j, word, [board[i][j]], results, [{ x: i, y: j }], 1)
+      if (board[i][j] === word[0]) _dfs(board, i, j, [board[i][j]], results, [{ x: i, y: j }], word, 1)
     }
   }
   return results.length;
 }
 
 const around = [[-1, 0], [0, 1], [1, 0], [0, -1]];
-var _dfs = function(board, row, column, word, path, results, visited, start) {
+var _dfs = function(board, row, column, path, results, visited, word, start) {
   if (path.length === word.length) {
     results.push(path);
     return;
@@ -404,17 +404,17 @@ var _dfs = function(board, row, column, word, path, results, visited, start) {
   for (let i = 0; i < around.length; i += 1) {
     const x = row + around[i][0];
     const y = column + around[i][1];
-    if (isValid(board, x, y, word, visited, start)) {
+    if (isValid(board, x, y, visited, word, start)) {
       path.push(board[x][y]);
       visited.push({ x, y });
-      _dfs(board, x, y, word, [...path], results, [...visited], start + 1);
+      _dfs(board, x, y, [...path], results, [...visited], word, start + 1);
       path.pop();
       visited.pop();
     }
   }
 }
 
-var isValid = function(board, row, column, word, visited, start) {
+var isValid = function(board, row, column, visited, word, start) {
   const rows = board.length;
   const columns = board[0].length;
   if (row < 0 || row >= rows) return false;
