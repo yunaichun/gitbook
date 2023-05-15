@@ -53,6 +53,26 @@ var threeSum = function(nums) {
 };
 ```
 
+## 比较版本号
+
+- https://leetcode.cn/problems/compare-version-numbers/
+
+```js
+var compareVersion = function (version1, version2) {
+  version1 = version1.split(".").map((i) => Number(`0.${i}`) * Math.pow(10, i.length));
+  version2 = version2.split(".").map((i) => Number(`0.${i}`) * Math.pow(10, i.length));
+  let [i, j] = [0, 0];
+  while (i < version1.length || j < version2.length) {
+    const a = version1[i] || 0;
+    const b = version2[i] || 0;
+    if (a > b) return 1;
+    else if (a < b) return -1;
+    [i, j] = [i + 1, j + 1];
+  }
+  return 0;
+};
+```
+
 ## 字符串相加
 
 - leetcode: https://leetcode.cn/problems/add-strings/
