@@ -425,7 +425,7 @@ var isValid = function(board, row, column, visited, word, start) {
 }
 ```
 
-## 有效数独
+#### 有效数独
 
 - https://leetcode.cn/problems/sudoku-solver
 
@@ -463,7 +463,7 @@ var isValid = function(board, row, column) {
 }
 ```
 
-## 解唯一数独
+#### 解唯一数独
 
 - https://leetcode.cn/problems/valid-sudoku
 
@@ -509,7 +509,7 @@ var isValid = function(board, row, column, char) {
 }
 ```
 
-## N 皇后
+#### N 皇后
 
 - https://leetcode.cn/problems/n-queens/
 - https://leetcode.cn/problems/n-queens-ii/
