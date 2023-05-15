@@ -58,12 +58,10 @@ var lengthOfLIS = function(nums) {
   /** dp[i] 代表数组 nums 以第 i 个数结尾时最长严格递增子序列的长度 */
   const dp = [1];
   for (let i = 1; i < nums.length; i += 1) {
-    if (!dp[i]) dp[i] = -Infinity;
+    if (!dp[i]) dp[i] = 1;
     for (let j = 0; j < i; j += 1) {
       if (nums[i] > nums[j]) {
         dp[i] = Math.max(dp[i], dp[j] + 1);
-      } else {
-        dp[i] = Math.max(dp[i], 1);
       }
     }
   }
