@@ -159,7 +159,7 @@ var intersect = function(nums1, nums2) {
 
 ## 多数元素
 
-- leetcode: https://leetcode.com/problems/majority-element
+- leetcode: https://leetcode.cn/problems/majority-element
 
 ```js
 var majorityElement = function(nums) {
@@ -170,10 +170,7 @@ var majorityElement = function(nums) {
     if (!elements.has(nums[i])) elements.set(nums[i], 1);
     else elements.set(nums[i], elements.get(nums[i]) + 1);
     max = Math.max(elements.get(nums[i]), max);
-    if (elements.get(nums[i]) >= max) {
-      max = elements.get(nums[i]);
-      num = nums[i];
-    }
+    if (elements.get(nums[i]) >= max) num = nums[i];
   }
   return num;
 };

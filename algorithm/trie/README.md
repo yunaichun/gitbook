@@ -91,7 +91,6 @@ var isValid = function(board, row, column, visited, trie) {
 class Trie {
   constructor() {
     this.root = {};
-    this.isEnd = false;
   }
 
   insert(word) {
