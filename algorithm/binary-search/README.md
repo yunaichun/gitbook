@@ -108,9 +108,9 @@ var nextGreatestLetter = function(letters, target) {
     if (letters[mid].charCodeAt() < target.charCodeAt()) {
       left = mid + 1;
     } else if (letters[mid].charCodeAt() > target.charCodeAt()) {
+      /** 满足条件: 继续收缩 right, 看看左边是否还有 */
       right = mid - 1;
     } else {
-      /** 相等: 继续收缩 left, 看看右边是否比它大 */
       left = mid + 1
     }
   }
@@ -227,8 +227,6 @@ var searchLeft = function(nums, target) {
 }
 ```
 
-
-
 ## 找到 K 个最接近的元素 (收缩逼近)
 
 - https://leetcode.cn/problems/find-k-closest-elements/
@@ -238,10 +236,13 @@ var findClosestElements = function (arr, k, x) {
   let [left, right] = [0, arr.length - 1];
   while (left <= right) {
     const mid = Math.floor((left + right) / 2);
-    if (arr[mid] > x) {
+    if (arr[mid] < x) {
+      left = mid + 1;
+    } else if (arr[mid] > x){
       right = mid - 1;
     } else {
-      left = mid + 1;
+      /** 满足条件: 继续收缩 right, 看看左边是否还有 */
+      right = mid - 1;
     }
   }
   [left, right] = [right, left];
