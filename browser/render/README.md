@@ -99,3 +99,6 @@ CSS3 transform 省去了构建布局和图层树和渲染引擎绘制图层阶�
 ## 参考资料
 
 - [浏览器工作原理与实践](https://time.geekbang.org/column/intro/100033601)
+- [How browsers work](https://web.dev/howbrowserswork/)
+- [What really happens when you navigate to a URL](http://igoro.com/archive/what-really-happens-when-you-navigate-to-a-url/)
+- [Chrome 浏览器架构](https://xie.infoq.cn/article/5d36d123bfd1c56688e125ad3)

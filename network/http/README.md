@@ -417,4 +417,5 @@ Sitemap: 指出站点地图的 URI
 
 ## 参考资料
 
+- [浏览器缓存机制](https://juejin.cn/post/6844903593275817998)
 - [Web协议详解与抓包实战](https://time.geekbang.org/course/intro/100026801)
