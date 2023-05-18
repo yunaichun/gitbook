@@ -58,3 +58,4 @@ console.log(c.__proto__ === a);
 ## 参考资料
 
 - [JavaScript专题之模拟实现new](https://zhuanlan.zhihu.com/p/49210829)
+- [JavaScript深入之new的模拟实现](https://github.com/mqyqingfeng/Blog/issues/13)

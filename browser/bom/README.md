@@ -212,5 +212,6 @@ setTimeout(function () { ev.dispatchEvent(eve2); }, 1000);
 
 ## 参考资料
 
+- [事件模型](https://javascript.ruanyifeng.com/dom/event.html)
 - [Element.getBoundingClientRect()](https://developer.mozilla.org/zh-CN/docs/Web/API/Element/getBoundingClientRect)
 - [web移动端浮层滚动阻止window窗体滚动JS/CSS处理](https://www.zhangxinxu.com/wordpress/2016/12/web-mobile-scroll-prevent-window-js-css/)

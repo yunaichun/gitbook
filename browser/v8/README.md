@@ -100,3 +100,6 @@ V8 中会把堆分为新生代和老生代两个区域:
 ## 参考资料
 
 - [浏览器工作原理与实践](https://time.geekbang.org/column/intro/100033601)
+- [一文搞懂V8引擎的垃圾回收](https://juejin.cn/post/6844904016325902344)
+- [浮点数精度及运算](https://github.com/mqyqingfeng/Blog/issues/155)
+- [字符串转换为十进制](https://juejin.cn/post/6844903815171276808)
