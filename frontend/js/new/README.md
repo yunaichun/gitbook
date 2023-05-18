@@ -29,6 +29,20 @@ let obj = fakeNew(M);
 console.log(obj instanceof M);
 ```
 
+## instanceof 实现
+
+```js
+function fake_instance_of(left, right) { 
+  let leftProto = left.__proto__;
+  let rightProto = right.prototype;
+  while (leftProto) {
+    if (leftProto === rightProto) return true;
+    leftProto = leftProto.__proto__;
+  }
+  return false;
+}
+```
+
 ## Object.create 与 new 的区别
 
 ```js

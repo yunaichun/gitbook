@@ -4,6 +4,8 @@
 
 ## 柯里化函数
 
+#### 参数长度判断
+
 ```js
 function curry(fn, ...args) {
   if (args.length === 10) {
@@ -15,12 +17,26 @@ function curry(fn, ...args) {
   }
 }
 
-
 function add(...args) {
   return args.reduce((pre, cur) => pre + cur);
 };
 // 45
 console.log(curry(add, 1, 2)(3)(4)(5)(6, 7, 8)(9)(0));
+```
+
+#### 无限长度版本
+
+```js
+function sum(...args) {
+  const res = function(...args2) {
+    return sum(...args.concat(args2));
+  }
+  res.toString = function() {
+    return args.reduce((a, b) => a + b, 0);
+  }
+  return res;
+}
+console.log(123, sum(1)(2)(3)(4).toString());
 ```
 
 ## 应用
