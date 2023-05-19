@@ -345,4 +345,5 @@ outer = null
 ## 参考资料
 
 - [浏览器工作原理与实践](https://time.geekbang.org/column/intro/100033601)
-- [JS中的可枚举属性与不可枚举属性以及扩展](https://www.cnblogs.com/moqiutao/p/7389146.html)
+- [深入了解 JavaScript 内存泄露 ](https://segmentfault.com/a/1190000020231307)
+- [JS 中的可枚举属性与不可枚举属性以及扩展](https://www.cnblogs.com/moqiutao/p/7389146.html)
