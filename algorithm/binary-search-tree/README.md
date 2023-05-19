@@ -463,18 +463,18 @@ var buildTree = function (preorder, inorder) {
 - leetcode: https://leetcode.cn/problems/er-cha-shu-de-jing-xiang-lcof/
 
 ```js
-var invertTree = function (root) {
+var invertTree = function(root) {
   return swap(root);
 };
 
 var swap = function(node) {
   if (!node) return null;
-  const temp = node.left;
-  node.left = node.right;
-  node.right = temp;
+  const [a, b] = [node.left, node.right];
+  node.left = b;
+  node.right = a;
   swap(node.left);
   swap(node.right);
-  return node;
+  return node; 
 }
 ```
 

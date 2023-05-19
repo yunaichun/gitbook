@@ -322,6 +322,27 @@ var numberOfSubarrays = function(nums, k) {
 // nums = [2, 2, 2, 1, 2, 2, 1, 2, 2, 2], k = 2
 ```
 
+## 和为 K 的连续子数组 (前缀和 + 所有满足)
+
+- https://leetcode.cn/problems/subarray-sum-equals-k/submissions/
+
+```js
+var subarraySum = function(nums, k) {
+  const prevSums = [0];
+  for (let i = 0; i < nums.length; i += 1) {
+    prevSums[i + 1] = prevSums[i] + nums[i];
+  }
+
+  let count = 0;
+  for (let i = 0; i < prevSums.length - 1; i += 1) {
+    for (j = i + 1; j < prevSums.length; j += 1) {
+      if (prevSums[j] - prevSums[i] === k) count += 1; 
+    }
+  }
+  return count;
+};
+```
+
 ## 参考资料
 
 - [数据结构与算法 JavaScript 描述](https://book.douban.com/subject/25945449/)
