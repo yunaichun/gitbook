@@ -21,7 +21,7 @@ Stack.prototype.peek = function () {
 
 ## 有效的括号
 
-- leetcode: https://leetcode.cn/problems/valid-parentheses
+- https://leetcode.cn/problems/valid-parentheses
 
 ```js
 var isValid = function(s) {
@@ -45,9 +45,49 @@ var isValid = function(s) {
 };
 ```
 
+## 有效的括号字符串
+
+- https://leetcode.cn/problems/valid-parenthesis-string/
+
+```js
+var checkValidString = function(s) {
+  const leftStack = [];
+  const asteriskStack = [];
+  
+  /** 先把右括号干掉 */
+  for (let i = 0; i < s.length; i += 1) {
+    const c = s[i];
+    if (c === '(') {
+      leftStack.push(i);
+    } else if (c === '*') {
+      asteriskStack.push(i);
+    } else {
+      if (leftStack.length) {
+        /** 右括号优先和左括号匹配 */
+        leftStack.pop();
+      } else if (asteriskStack.length) {
+        /** 没有左括号和星号匹配 */
+        asteriskStack.pop();
+      } else {
+        /** 否则就不是有效括号 */
+        return false;
+      }
+    }
+  }
+
+  /** 然后看左括号能不能全部消除，因为星号可以被当作空字符串 */
+  while (leftStack.length && asteriskStack.length) {
+    const leftIndex = leftStack.pop();
+    const asteriskIndex = asteriskStack.pop();
+    if (leftIndex > asteriskIndex) return false;
+  }
+  return leftStack.length === 0;
+};
+```
+
 ## 最长有效括号
 
-- leetcode: https://leetcode.cn/problems/longest-valid-parentheses/
+- https://leetcode.cn/problems/longest-valid-parentheses/
 
 ```js
 var longestValidParentheses = function(s) {

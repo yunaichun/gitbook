@@ -42,6 +42,67 @@ var _dfs = function(n, left, right, cur, results) {
 }
 ```
 
+## 删除无效的括号
+
+- https://leetcode.cn/problems/remove-invalid-parentheses/
+
+```js
+var removeInvalidParentheses = function(s) {
+  const results = [];
+
+  let lremove = 0;
+  let rremove = 0;
+  for (const c of s) {
+    if (c === '(') {
+      lremove += 1;
+    } else if (c === ')') {
+      if (lremove === 0) rremove += 1;
+      else lremove -= 1;
+    }
+  }
+
+  _dfs(s, 0, lremove, rremove, results);
+
+  return results;
+}
+
+var _dfs = function(str, start, lremove, rremove, results) {
+  if (lremove === 0 && rremove === 0) {
+    if (isValid(str)) results.push(str);
+    return;
+  }
+
+  for (let i = start; i < str.length; i++) {
+    /** 如果连续 2 个字符串一样的话只试错一次即可 */
+    if (i !== start && str[i] === str[i - 1]) continue;
+    /** 如果剩余的字符无法满足去掉的数量要求，直接返回 */
+    if (lremove + rremove > str.length - i) return;
+    /** 尝试去掉一个左括号 */
+    if (lremove > 0 && str[i] === '(') {
+      _dfs(str.substr(0, i) + str.substr(i + 1), i, lremove - 1, rremove, results);
+    }
+    /** 尝试去掉一个右括号 */
+    if (rremove > 0 && str[i] === ')') {
+      _dfs(str.substr(0, i) + str.substr(i + 1), i, lremove, rremove - 1, results);
+    }
+  }
+}
+
+var isValid = function(str) {
+  let count = 0;
+  for (let i = 0; i < str.length; i += 1) {
+    if (str[i] === '(') {
+      count += 1;
+    } else if (str[i] === ')') {
+      count -= 1;
+      if (count < 0) return false;
+    }
+  }
+
+  return count === 0;
+}
+```
+
 ## 回溯
 
 #### 子集
@@ -83,7 +144,7 @@ var _helper = function(nums, path, results, start) {
   results.push(path);
   for (let i = start; i < nums.length; i += 1) {
     /** i > start: 代表同一轮循环中, 当前元素和前一个元素一样的话 */
-    if (i > 0 && nums[i] === nums[i - 1] && i > start) continue;
+    if (i > start && nums[i] === nums[i - 1]) continue;
     path.push(nums[i]);
     _helper(nums, [...path], results, i + 1);
     path.pop();
