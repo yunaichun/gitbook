@@ -4,7 +4,7 @@
 
 ## 两数之和
 
-- leetcode: https://leetcode.cn/problems/two-sum
+- https://leetcode.cn/problems/two-sum
 
 ```js
 var twoSum = function(nums, target) {
@@ -26,7 +26,7 @@ var twoSum = function(nums, target) {
 
 ## 三数之和为 0
 
-- leetcode: https://leetcode.cn/problems/3sum
+- https://leetcode.cn/problems/3sum
 
 ```js
 var threeSum = function(nums) {
@@ -75,7 +75,7 @@ var compareVersion = function (version1, version2) {
 
 ## 字符串相加
 
-- leetcode: https://leetcode.cn/problems/add-strings/
+- https://leetcode.cn/problems/add-strings/
 
 ```js
 var addStrings = function(num1, num2) {
@@ -97,7 +97,7 @@ var addStrings = function(num1, num2) {
 
 ## 字符串相乘
 
-- leetcode: https://leetcode.cn/problems/multiply-strings/description/
+- https://leetcode.cn/problems/multiply-strings/description/
 
 ```js
 var multiply = function(num1, num2) {
@@ -159,7 +159,7 @@ var intersect = function(nums1, nums2) {
 
 ## 多数元素
 
-- leetcode: https://leetcode.cn/problems/majority-element
+- https://leetcode.cn/problems/majority-element
 
 ```js
 var majorityElement = function(nums) {
@@ -176,9 +176,30 @@ var majorityElement = function(nums) {
 };
 ```
 
+## 计数质数
+
+- https://leetcode.cn/problems/count-primes/
+
+```js
+var countPrimes = function(n) {
+  let count = 0;
+  for (let i = 2; i < n; i += 1) {
+    if (isValid(i)) count += 1;
+  }
+  return count;
+};
+
+/** a * b = n 则 a 或 b 最小的数一定小于根号 n */
+var isValid = function(n) {
+  for (let i = 2; i * i <= n; i += 1) {
+    if (n % i == 0) return false;
+  }
+  return true;
+}
+```
 ## 缺失的第一个正数
 
-- leetcode: https://leetcode.cn/problems/first-missing-positive/
+- https://leetcode.cn/problems/first-missing-positive/
 
 ```js
  var firstMissingPositive = function(nums) {
