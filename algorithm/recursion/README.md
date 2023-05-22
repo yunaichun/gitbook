@@ -74,7 +74,7 @@ var _dfs = function(str, start, lremove, rremove, results) {
 
   for (let i = start; i < str.length; i++) {
     /** 如果连续 2 个字符串一样的话只试错一次即可 */
-    if (i !== start && str[i] === str[i - 1]) continue;
+    if (i > start && str[i] === str[i - 1]) continue;
     /** 如果剩余的字符无法满足去掉的数量要求，直接返回 */
     if (lremove + rremove > str.length - i) return;
     /** 尝试去掉一个左括号 */
