@@ -4,7 +4,7 @@
 
 ## js 实现字典树
 
-- leetcode-208: https://leetcode.cn/problems/implement-trie-prefix-tree
+- https://leetcode.cn/problems/implement-trie-prefix-tree
 
 ```js
 var Trie = function () {

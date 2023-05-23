@@ -100,66 +100,9 @@ console.log(bst.postOrder(bst.head)); /** 1 -> 3 -> 2 */
 console.log(bst.inOrder(bst.head)); /** 1 -> 2 -> 3 */
 ```
 
-## 验证是否是 BST
+## 最大深度 (DFS + BFS)
 
-- leetcode: https://leetcode.cn/problems/validate-binary-search-tree
-
-```js
-var isValidBST = function(root) {
-  if (!root) return true;    
-  /** 右边全部大于中间的; 左边的全部小于中间的 */
-  if (!leftIsValid(root.val, root.left) || !rightIsValid(root.val, root.right)) return false;
-  if (!isValidBST(root.left) || !isValidBST(root.right)) return false;
-  return true;
-};
-var leftIsValid = (val, node) => {
-  if (!node) return true;
-  if (val <= node.val) return false;
-  if (!leftIsValid(val, node.left) || !leftIsValid(val, node.right)) return false;
-  return true;
-}
-var rightIsValid = (val, node) => {
-  if (!node) return true;
-  if (val >= node.val) return false;
-  if (!rightIsValid(val, node.left) || !rightIsValid(val, node.right)) return false;
-  return true;
-}
-```
-
-## 最近公共祖先
-
-- leetcode: https://leetcode.cn/problems/lowest-common-ancestor-of-a-binary-search-tree
-
-```js
-var lowestCommonAncestor = function(root, p, q) {
-  if (!root) return null;
-  if (root.val < p.val && root.val < q.val) return lowestCommonAncestor(root.right, p, q);
-  if (root.val > p.val && root.val > q.val) return lowestCommonAncestor(root.left, p, q);
-  return root;
-};
-```
-
-## 最近公共祖先 II
-
-- leetcode: https://leetcode.cn/problems/lowest-common-ancestor-of-a-binary-tree
-
-```js
-var lowestCommonAncestor = function(root, p, q) {
-  if (!root) return null;
-  if (root === p || root === q) return root;
-  const left = lowestCommonAncestor(root.left, p, q);
-  const right = lowestCommonAncestor(root.right, p, q);
-  /** 左侧均没 p 和 q, 则在右边 */
-  if (!left) return right;
-  /** 右侧均没 p 和 q, 则在左边 */
-  if (!right) return left;
-  return root;
-};
-```
-
-## 最大深度
-
-- leetcode: https://leetcode.cn/problems/maximum-depth-of-binary-tree
+- https://leetcode.cn/problems/maximum-depth-of-binary-tree
 
 ```js
 var maxDepth = function (root) {
@@ -193,9 +136,9 @@ var _dfs = function(root) {
 }
 ```
 
-## 最小深度
+## 最小深度 (DFS + BFS)
 
-- leetcode: https://leetcode.cn/problems/minimum-depth-of-binary-tree
+- https://leetcode.cn/problems/minimum-depth-of-binary-tree
 
 ```js
 var minDepth = function(root) {
@@ -234,34 +177,168 @@ function _dfs(root) {
 }
 ```
 
-## 最大宽度
+## 平衡二叉树 (DFS)
 
-- leetcode: https://leetcode.cn/problems/maximum-width-of-binary-tree/
+- https://leetcode.cn/problems/balanced-binary-tree/
 
 ```js
-var widthOfBinaryTree = function(root) {
-  if (!root) return 0;
-  let maxWidth = 1;
-  const queue = [[root, 1]];
-  while(queue.length) {
-    const current = [];
-    const length = queue.length;
-    for (let i = 0; i < length; i += 1) {
-      const [node, index] = queue[i];
-      if (node.left) queue.push([node.left, (index * 2) % Number.MAX_SAFE_INTEGER]);
-      if (node.right) queue.push([node.right, (index * 2 + 1) % Number.MAX_SAFE_INTEGER]);
-      current.push(index);
-    }
-    maxWidth = Math.max(current[current.length - 1] - current[0] + 1, maxWidth);
-    queue.splice(0, length)
-  }
-  return maxWidth;
+var isBalanced = function (root) {
+  if (!root) return true;
+  const left = _dfs(root.left);
+  const right = _dfs(root.right);
+  const isValid = Math.abs(left - right) <= 1;
+  if (!isValid) return false;
+  if (!isBalanced(root.left) || !isBalanced(root.right)) return false;
+  return true;
+};
+
+var _dfs = function(node) {
+  if (!node) return 0;
+  const left = _dfs(node.left);
+  const right = _dfs(node.right);
+  return Math.max(left, right) + 1;
+}
+```
+
+## 最近公共祖先 (DFS)
+
+- https://leetcode.cn/problems/lowest-common-ancestor-of-a-binary-search-tree
+
+```js
+var lowestCommonAncestor = function(root, p, q) {
+  if (!root) return null;
+  if (root.val < p.val && root.val < q.val) return lowestCommonAncestor(root.right, p, q);
+  if (root.val > p.val && root.val > q.val) return lowestCommonAncestor(root.left, p, q);
+  return root;
 };
 ```
 
-## 最大直径
+## 最近公共祖先 II (DFS)
 
-- leetcode: https://leetcode.cn/problems/diameter-of-binary-tree/
+- https://leetcode.cn/problems/lowest-common-ancestor-of-a-binary-tree
+
+```js
+var lowestCommonAncestor = function(root, p, q) {
+  if (!root) return null;
+  if (root === p || root === q) return root;
+  const left = lowestCommonAncestor(root.left, p, q);
+  const right = lowestCommonAncestor(root.right, p, q);
+  /** 左侧均没 p 和 q, 则在右边 */
+  if (!left) return right;
+  /** 右侧均没 p 和 q, 则在左边 */
+  if (!right) return left;
+  return root;
+};
+```
+
+## 前序遍历 (DFS)
+
+- https://leetcode.cn/problems/binary-tree-preorder-traversal/
+
+```js
+var preorderTraversal = function(root) {
+  const results = [];
+  _dfs(root, results);
+  return results;
+};
+
+var _dfs = function(node, results) {
+  if (!node) return;
+  results.push(node.val);
+  _dfs(node.left, results);
+  _dfs(node.right, results);
+}
+```
+
+## 中序遍历 (DFS)
+
+- https://leetcode.cn/problems/binary-tree-inorder-traversal/
+- https://leetcode.cn/problems/er-cha-sou-suo-shu-de-di-kda-jie-dian-lcof/
+
+```js
+var inorderTraversal = function(root) {
+  const results = [];
+  _dfs(root, results);
+  return results;
+};
+
+var _dfs = function(node, results) {
+  if (!node) return;
+  _dfs(node.left, results);
+  results.push(node.val);
+  _dfs(node.right, results);
+};
+```
+
+## 后序遍历 (DFS)
+
+- https://leetcode.cn/problems/binary-tree-postorder-traversal/
+
+```js
+var postorderTraversal = function(root) {
+  let results = [];
+  _dfs(root, results);
+  return results;
+};
+
+var _dfs = function(node, results) {
+  if (!node) return;
+  _dfs(node.left, results);
+  _dfs(node.right, results);
+  results.push(node.val);
+};
+```
+
+## 前序遍历成链表 (DFS)
+
+- https://leetcode.cn/problems/flatten-binary-tree-to-linked-bst/
+
+```js
+var flatten = function(root) {
+  if (!root) return null;
+  let results = [];
+  _dfs(root, results);
+  for (let i = 0; i < results.length - 1; i += 1) {
+    results[i].left = null;
+    results[i].right = results[i + 1];
+  }
+  return results[0];
+};
+
+var _dfs = function(root, results) {
+  if (!root) return;
+  results.push(root);
+  _dfs(root.left, results);
+  _dfs(root.right, results);
+};
+```
+
+## 中序遍历验证 BST (DFS)
+
+- https://leetcode.cn/problems/validate-binary-search-tree
+
+```js
+var isValidBST = function(root) {
+  const results = [];
+  _dfs(root, results);
+  for (let i = 1; i < results.length; i += 1) {
+    if (results[i] <= results[i - 1]) return false;
+  }
+  return true;
+};
+
+/** 中序遍历 */
+var _dfs = function(node, results) {
+  if (!node) return;
+  _dfs(node.left, results);
+  results.push(node.val);
+  _dfs(node.right, results);
+}
+```
+
+## 后续遍历最大直径 (DFS)
+
+- https://leetcode.cn/problems/diameter-of-binary-tree/
 
 ```js
 var diameterOfBinaryTree = function (root) {
@@ -282,10 +359,74 @@ var _dfs = function(node, results) {
 }
 ```
 
-## 遍历-层序
+## 后续遍历路径最大 (DFS)
 
-- leetcode: https://leetcode.cn/problems/binary-tree-level-order-traversal
-- leetcode: https://leetcode.cn/problems/binary-tree-level-order-traversal-ii/
+- https://leetcode.cn/problems/binary-tree-maximum-path-sum/
+
+```js
+var maxPathSum = function(root) {
+  if (!root) return 0;
+  const results = { max: -Infinity };
+  _dfs(root, results);
+  return results.max;
+};
+/** 后续遍历 */
+var _dfs = function(node, results) {
+  if (!node) return 0;
+  const left = _dfs(node.left, results);
+  const right = _dfs(node.right, results);
+  /** 中间计算过程 */
+  results.max = Math.max(Math.max(left, 0) + Math.max(right, 0) + node.val, results.max);
+  /** 当前节点最大路径: 左右最大 + 当前节点 */
+  return Math.max(left, right, 0) + node.val;
+}
+```
+
+## 前序 + 中序 => BST (DFS)
+
+- https://leetcode.cn/problems/construct-binary-tree-from-preorder-and-inorder-traversal/
+- https://leetcode.cn/problems/zhong-jian-er-cha-shu-lcof/
+
+```js
+var buildTree = function (preorder, inorder) {
+  if (!preorder.length && !inorder.length) return null;
+  const root = new TreeNode(preorder[0]);
+  const midIndex = inorder.indexOf(preorder[0]);
+  const leftPreorder = preorder.slice(1, midIndex + 1);
+  const rightPreorder = preorder.slice(midIndex + 1);
+  const leftInorder = inorder.slice(0, midIndex);
+  const rightInorder = inorder.slice(midIndex + 1);
+  root.left = buildTree(leftPreorder, leftInorder);
+  root.right = buildTree(rightPreorder, rightInorder);
+  return root;
+};
+```
+
+## 翻转二叉树 (DFS)
+
+- https://leetcode.cn/problems/invert-binary-tree/
+- https://leetcode.cn/problems/er-cha-shu-de-jing-xiang-lcof/
+
+```js
+var invertTree = function(root) {
+  return swap(root);
+};
+
+var swap = function(node) {
+  if (!node) return null;
+  const [a, b] = [node.left, node.right];
+  node.left = b;
+  node.right = a;
+  swap(node.left);
+  swap(node.right);
+  return node; 
+}
+```
+
+## 遍历-层序 (BFS)
+
+- https://leetcode.cn/problems/binary-tree-level-order-traversal
+- https://leetcode.cn/problems/binary-tree-level-order-traversal-ii/
 
 ```js
 var levelOrder = function(root) {
@@ -323,9 +464,9 @@ var _dfs = function(root, result = [], level = 0) {
 }
 ```
 
-## 遍历-锯齿
+## 锯齿遍历 (BFS)
 
-- leetcode: https://leetcode.cn/problems/binary-tree-zigzag-level-order-traversal/
+- https://leetcode.cn/problems/binary-tree-zigzag-level-order-traversal/
 
 ```js
 var zigzagLevelOrder = function(root) {
@@ -355,132 +496,93 @@ var _bfs = function(root) {
 }
 ```
 
-## 遍历-前序
+## 路径为 K (BFS)
 
-- leetcode: https://leetcode.cn/problems/binary-tree-preorder-traversal/
+- https://leetcode.cn/problems/er-cha-shu-zhong-he-wei-mou-yi-zhi-de-lu-jing-lcof/
+- https://leetcode.cn/problems/sum-root-to-leaf-numbers/
+- https://leetcode.cn/problems/path-sum/
+- https://leetcode.cn/problems/path-sum-ii/
 
 ```js
-var preorderTraversal = function(root) {
+var pathSum = function (root, target) {
+  const results =  _bfs(root, target);
+  return results;
+};
+
+var _bfs = function (root, target) {
+  if (!root) return [];
   const results = [];
-  _dfs(root, results);
-  return results;
-};
-
-var _dfs = function(node, results) {
-  if (!node) return;
-  results.push(node.val);
-  _dfs(node.left, results);
-  _dfs(node.right, results);
-}
-```
-
-## 遍历-中序
-
-- leetcode: https://leetcode.cn/problems/binary-tree-inorder-traversal/
-- leetcode: https://leetcode.cn/problems/er-cha-sou-suo-shu-de-di-kda-jie-dian-lcof/
-
-```js
-var inorderTraversal = function(root) {
-  const results = [];
-  _dfs(root, results);
-  return results;
-};
-
-var _dfs = function(node, results) {
-  if (!node) return;
-  _dfs(node.left, results);
-  results.push(node.val);
-  _dfs(node.right, results);
-};
-```
-
-## 遍历-后序
-
-- leetcode: https://leetcode.cn/problems/binary-tree-postorder-traversal/
-
-```js
-var postorderTraversal = function(root) {
-  let results = [];
-  _dfs(root, results);
-  return results;
-};
-
-var _dfs = function(node, results) {
-  if (!node) return;
-  _dfs(node.left, results);
-  _dfs(node.right, results);
-  results.push(node.val);
-};
-```
-
-## 前序链表
-
-- leetcode: https://leetcode.cn/problems/flatten-binary-tree-to-linked-bst/
-
-```js
-var flatten = function(root) {
-  if (!root) return null;
-  let results = [];
-  _dfs(root, results);
-  for (let i = 0; i < results.length - 1; i += 1) {
-    results[i].left = null;
-    results[i].right = results[i + 1];
+  const queue = [[root, [root.val]]];
+  while (queue.length) {
+    const length = queue.length;
+    for (let i = 0; i < length; i += 1) {
+      const [node, path] = queue[i];
+      if (node.left) queue.push([node.left, [...path, node.left.val]]);
+      if (node.right) queue.push([node.right, [...path, node.right.val]]);
+      if (!node.left && !node.right) {
+        if (path.reduce((a, b) => a + b) === target) results.push(path);
+      }
+    }
+    queue.splice(0, length);
   }
-  return results[0];
-};
-
-var _dfs = function(root, results) {
-  if (!root) return;
-  results.push(root);
-  _dfs(root.left, results);
-  _dfs(root.right, results);
+  return results;
 };
 ```
 
-## 前序 + 中序 => BST
+## 最大宽度 (BFS)
 
-- leetcode: https://leetcode.cn/problems/construct-binary-tree-from-preorder-and-inorder-traversal/
-- leetcode: https://leetcode.cn/problems/zhong-jian-er-cha-shu-lcof/
+- https://leetcode.cn/problems/maximum-width-of-binary-tree/
 
 ```js
-var buildTree = function (preorder, inorder) {
-  if (!preorder.length && !inorder.length) return null;
-  const root = new TreeNode(preorder[0]);
-  const midIndex = inorder.indexOf(preorder[0]);
-  const leftPreorder = preorder.slice(1, midIndex + 1);
-  const rightPreorder = preorder.slice(midIndex + 1);
-  const leftInorder = inorder.slice(0, midIndex);
-  const rightInorder = inorder.slice(midIndex + 1);
-  root.left = buildTree(leftPreorder, leftInorder);
-  root.right = buildTree(rightPreorder, rightInorder);
-  return root;
+var widthOfBinaryTree = function(root) {
+  if (!root) return 0;
+  let maxWidth = 1;
+  const queue = [[root, 1]];
+  while(queue.length) {
+    const current = [];
+    const length = queue.length;
+    for (let i = 0; i < length; i += 1) {
+      const [node, index] = queue[i];
+      if (node.left) queue.push([node.left, (index * 2) % Number.MAX_SAFE_INTEGER]);
+      if (node.right) queue.push([node.right, (index * 2 + 1) % Number.MAX_SAFE_INTEGER]);
+      current.push(index);
+    }
+    maxWidth = Math.max(current[current.length - 1] - current[0] + 1, maxWidth);
+    queue.splice(0, length)
+  }
+  return maxWidth;
 };
 ```
 
-## 翻转二叉树
+## 完全二叉树 (BFS)
 
-- leetcode: https://leetcode.cn/problems/invert-binary-tree/
-- leetcode: https://leetcode.cn/problems/er-cha-shu-de-jing-xiang-lcof/
+- https://leetcode.cn/problems/check-completeness-of-a-binary-tree/
+- https://leetcode.cn/problems/count-complete-tree-nodes/submissions/
 
 ```js
-var invertTree = function(root) {
-  return swap(root);
+var isCompleteTree = function (root) {
+  if (!root) return false
+  let results = [];
+  const queue = [[root, 1]];
+  while (queue.length) {
+    const current = [];
+    const length = queue.length;
+    for (let i = 0; i < length; i += 1) {
+      const [node, index] = queue[i];
+      if (node.left) queue.push([node.left, 2 * index]);
+      if (node.right) queue.push([node.right, 2 * index + 1]);
+      current.push(index);
+    }
+    results = results.concat(current);
+    queue.splice(0, length);
+  }
+  return results.length === results[results.length - 1];
 };
-
-var swap = function(node) {
-  if (!node) return null;
-  const [a, b] = [node.left, node.right];
-  node.left = b;
-  node.right = a;
-  swap(node.left);
-  swap(node.right);
-  return node; 
-}
 ```
 
-## 对称二叉树
+## 对称二叉树 (BFS)
 
-- leetcode: https://leetcode.cn/problems/symmetric-tree/
+- https://leetcode.cn/problems/symmetric-tree/
 
 ```js
 var isSymmetric = function(root) {
@@ -513,111 +615,6 @@ var isSymmetricQueue = function(queue) {
   }
   return true;
 }
-```
-
-## 完全二叉树
-
-- leetcode: https://leetcode.cn/problems/check-completeness-of-a-binary-tree/
-- leetcode: https://leetcode.cn/problems/count-complete-tree-nodes/submissions/
-
-```js
-var isCompleteTree = function (root) {
-  if (!root) return false
-  let results = [];
-  const queue = [[root, 1]];
-  while (queue.length) {
-    const current = [];
-    const length = queue.length;
-    for (let i = 0; i < length; i += 1) {
-      const [node, index] = queue[i];
-      if (node.left) queue.push([node.left, 2 * index]);
-      if (node.right) queue.push([node.right, 2 * index + 1]);
-      current.push(index);
-    }
-    results = results.concat(current);
-    queue.splice(0, length);
-  }
-  return results.length === results[results.length - 1];
-};
-```
-
-## 平衡二叉树
-
-- leetcode: https://leetcode.cn/problems/balanced-binary-tree/
-
-```js
-var isBalanced = function (root) {
-  if (!root) return true;
-  const left = _dfs(root.left);
-  const right = _dfs(root.right);
-  const isValid = Math.abs(left - right) <= 1;
-  if (!isValid) return false;
-  if (!isBalanced(root.left) || !isBalanced(root.right)) return false;
-  return true;
-};
-
-var _dfs = function(node) {
-  if (!node) return 0;
-  const left = _dfs(node.left);
-  const right = _dfs(node.right);
-  return Math.max(left, right) + 1;
-}
-```
-
-## 路径最大
-
-- leetcode: https://leetcode.cn/problems/binary-tree-maximum-path-sum/
-
-```js
-var maxPathSum = function(root) {
-  if (!root) return 0;
-  const results = { max: -Infinity };
-  _dfs(root, results);
-  return results.max;
-};
-/** 后续遍历 */
-var _dfs = function(node, results) {
-  if (!node) return 0;
-  const left = _dfs(node.left, results);
-  const right = _dfs(node.right, results);
-  /** 中间计算过程 */
-  results.max = Math.max(Math.max(left, 0) + Math.max(right, 0) + node.val, results.max);
-  /** 当前节点最大路径: 左右最大 + 当前节点 */
-  return Math.max(left, right, 0) + node.val;
-}
-```
-
-## 路径为 K
-
-- leetcode: https://leetcode.cn/problems/er-cha-shu-zhong-he-wei-mou-yi-zhi-de-lu-jing-lcof/
-- leetcode: https://leetcode.cn/problems/sum-root-to-leaf-numbers/
-- leetcode: https://leetcode.cn/problems/path-sum/
-- leetcode: https://leetcode.cn/problems/path-sum-ii/
-
-```js
-var pathSum = function (root, target) {
-  const results =  _bfs(root, target);
-  return results;
-};
-
-var _bfs = function (root, target) {
-  if (!root) return [];
-  const results = [];
-  const queue = [[root, [root.val]]];
-  while (queue.length) {
-    const length = queue.length;
-    for (let i = 0; i < length; i += 1) {
-      const [node, path] = queue[i];
-      if (node.left) queue.push([node.left, [...path, node.left.val]]);
-      if (node.right) queue.push([node.right, [...path, node.right.val]]);
-      if (!node.left && !node.right) {
-        if (path.reduce((a, b) => a + b) === target) results.push(path);
-      }
-    }
-    queue.splice(0, length);
-  }
-  return results;
-};
 ```
 
 ## 参考资料

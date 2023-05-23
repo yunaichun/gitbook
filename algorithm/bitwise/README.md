@@ -32,7 +32,7 @@
 
 ## 位 1 的个数
 
-- leetcode: https://leetcode.cn/problems/number-of-1-bits
+- https://leetcode.cn/problems/number-of-1-bits
 
 ```js
 var hammingWeight = function(n) {
@@ -47,7 +47,7 @@ var hammingWeight = function(n) {
 
 ## 2 的 n 次幂判断
 
-- leetcode: https://leetcode.cn/problems/power-of-two
+- https://leetcode.cn/problems/power-of-two
 
 ```js
 var isPowerOfTwo = function(n) {
@@ -58,7 +58,7 @@ var isPowerOfTwo = function(n) {
 
 ## n 个数分别每个 1 的个数
 
-- leetcode: https://leetcode.cn/problems/counting-bits
+- https://leetcode.cn/problems/counting-bits
 
 ```js
 var countBits = function(n) {

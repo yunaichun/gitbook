@@ -52,7 +52,7 @@ var isValid = function(s) {
 ```js
 var checkValidString = function(s) {
   const leftStack = [];
-  const asteriskStack = [];
+  const starStack = [];
   
   /** 先把右括号干掉 */
   for (let i = 0; i < s.length; i += 1) {
@@ -60,14 +60,14 @@ var checkValidString = function(s) {
     if (c === '(') {
       leftStack.push(i);
     } else if (c === '*') {
-      asteriskStack.push(i);
+      starStack.push(i);
     } else {
       if (leftStack.length) {
         /** 右括号优先和左括号匹配 */
         leftStack.pop();
-      } else if (asteriskStack.length) {
+      } else if (starStack.length) {
         /** 没有左括号和星号匹配 */
-        asteriskStack.pop();
+        starStack.pop();
       } else {
         /** 否则就不是有效括号 */
         return false;
@@ -76,9 +76,9 @@ var checkValidString = function(s) {
   }
 
   /** 然后看左括号能不能全部消除，因为星号可以被当作空字符串 */
-  while (leftStack.length && asteriskStack.length) {
+  while (leftStack.length && starStack.length) {
     const leftIndex = leftStack.pop();
-    const asteriskIndex = asteriskStack.pop();
+    const asteriskIndex = starStack.pop();
     if (leftIndex > asteriskIndex) return false;
   }
   return leftStack.length === 0;

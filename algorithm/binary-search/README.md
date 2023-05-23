@@ -12,7 +12,7 @@
 
 ## 二分查找 (精确匹配)
 
-- leetcode: https://leetcode.cn/problems/binary-search/
+- https://leetcode.cn/problems/binary-search/
 
 ```js
 var search = function (nums, target) {
@@ -55,7 +55,7 @@ var isPerfectSquare = function(num) {
 
 ## 猜数字大小 (精确匹配)
 
-- leetcode: https://leetcode.cn/problems/guess-number-higher-or-lower/
+- https://leetcode.cn/problems/guess-number-higher-or-lower/
 
 ```js
 var guessNumber = function(n) {
@@ -122,7 +122,7 @@ var nextGreatestLetter = function(letters, target) {
 
 ## 查找元素第一个和最后一个位置 (收缩逼近)
 
-- leetcode: https://leetcode.cn/problems/find-first-and-last-position-of-element-in-sorted-array/
+- https://leetcode.cn/problems/find-first-and-last-position-of-element-in-sorted-array/
 
 ```js
 var searchRange = function(nums, target) {
@@ -170,7 +170,7 @@ var searchRight = function(nums, target) {
 
 ## 搜索插入位置 (收缩逼近)
 
-- leetcode: https://leetcode.cn/problems/search-insert-position/
+- https://leetcode.cn/problems/search-insert-position/
 
 ```js
 var searchInsert = function(nums, target) {
@@ -193,7 +193,7 @@ var searchInsert = function(nums, target) {
 
 ## 找出数组排序后的目标下标 (收缩逼近)
 
-- leetcode: https://leetcode.cn/problems/find-target-indices-after-sorting-array/
+- https://leetcode.cn/problems/find-target-indices-after-sorting-array/
 
 ```js
 var targetIndices = function(nums, target) {
@@ -271,7 +271,7 @@ var findClosestElements = function (arr, k, x) {
 
 ## 平方根 (精确匹配 + 收缩逼近)
 
-- leetcode: https://leetcode.cn/problems/sqrtx/
+- https://leetcode.cn/problems/sqrtx/
 
 ```js
 var mySqrt = function (x) {
@@ -295,7 +295,7 @@ var mySqrt = function (x) {
 
 ## 排列硬币 (精确匹配 + 收缩逼近)
 
-- leetcode: https://leetcode.cn/problems/arranging-coins/
+- https://leetcode.cn/problems/arranging-coins/
 
 ```js
 var arrangeCoins = function(n) {
@@ -319,8 +319,8 @@ var arrangeCoins = function(n) {
 
 ## 旋转排序数组搜索 (精确匹配 + 收缩逼近)
 
-- leetcode: https://leetcode.cn/problems/search-in-rotated-sorted-array/
-- leetcode: https://leetcode.cn/problems/search-in-rotated-sorted-array-ii/
+- https://leetcode.cn/problems/search-in-rotated-sorted-array/
+- https://leetcode.cn/problems/search-in-rotated-sorted-array-ii/
 
 ```js
 var search = function(nums, target) {
@@ -362,8 +362,8 @@ var search = function(nums, target) {
 
 ## 旋转排序数组最小值 (精确匹配 + 收缩逼近 + 终止条件不含等于)
 
-- leetcode: https://leetcode.cn/problems/find-minimum-in-rotated-sorted-array/
-- leetcode: https://leetcode.cn/problems/find-minimum-in-rotated-sorted-array-ii/
+- https://leetcode.cn/problems/find-minimum-in-rotated-sorted-array/
+- https://leetcode.cn/problems/find-minimum-in-rotated-sorted-array-ii/
 
 ```js
 var findMin = function (nums) {

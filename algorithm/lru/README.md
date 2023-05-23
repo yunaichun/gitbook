@@ -4,7 +4,7 @@
 
 ## LRU 实现
 
-- leetcode: https://leetcode.cn/problems/lru-cache
+- https://leetcode.cn/problems/lru-cache
 
 ```js
 var LRUCache = function(capacity) {

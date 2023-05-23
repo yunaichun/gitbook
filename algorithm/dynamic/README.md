@@ -4,7 +4,7 @@
 
 ## 多少种不同方法可以爬到楼顶
 
-- leetcode: https://leetcode.cn/problems/climbing-stairs
+- https://leetcode.cn/problems/climbing-stairs
 
 ```js
 var climbStairs = function(n) {
@@ -19,7 +19,7 @@ var climbStairs = function(n) {
 
 ## 和最大连续子序列值
 
-- leetcode: https://leetcode.cn/problems/maximum-subarray
+- https://leetcode.cn/problems/maximum-subarray
 
 ```js
 var maxSubArray = function(nums) {
@@ -34,7 +34,7 @@ var maxSubArray = function(nums) {
 
 ## 积最大连续子序列值
 
-- leetcode: https://leetcode.cn/problems/maximum-product-subarray
+- https://leetcode.cn/problems/maximum-product-subarray
 
 ```js
 var maxProduct = function(nums) {
@@ -51,7 +51,7 @@ var maxProduct = function(nums) {
 
 ## 最长上升子序列长度
 
-- leetcode: https://leetcode.cn/problems/longest-increasing-subsequence
+- https://leetcode.cn/problems/longest-increasing-subsequence
 
 ```js
 var lengthOfLIS = function(nums) {
@@ -71,7 +71,7 @@ var lengthOfLIS = function(nums) {
 
 ## 零钱兑换最少数量
 
-- leetcode: https://leetcode.cn/problems/coin-change
+- https://leetcode.cn/problems/coin-change
 
 ```js
 var coinChange = function(coins, amount) {
@@ -89,7 +89,7 @@ var coinChange = function(coins, amount) {
 
 ## 三角形从顶到低最小路径和
 
-- leetcode: https://leetcode.cn/problems/triangle
+- https://leetcode.cn/problems/triangle
 
 ```js
 var minimumTotal = function(triangle) {
@@ -111,7 +111,7 @@ var minimumTotal = function(triangle) {
 
 ## 矩阵最小路径和
 
-- leetcode: https://leetcode.cn/problems/minimum-path-sum/
+- https://leetcode.cn/problems/minimum-path-sum/
 
 ```js
 var minPathSum = function(grid) {
@@ -139,7 +139,7 @@ var minPathSum = function(grid) {
 
 ## 最短编辑距离
 
-- leetcode: https://leetcode.cn/problems/edit-distance
+- https://leetcode.cn/problems/edit-distance
 
 ```js
 var minDistance = function(word1, word2) {
@@ -171,7 +171,7 @@ var minDistance = function(word1, word2) {
 
 ## 最长公共子串长度(非连续)
 
-- leetcode: https://leetcode.cn/problems/longest-common-subsequence/
+- https://leetcode.cn/problems/longest-common-subsequence/
 
 ```js
 var longestCommonSubsequence = function(text1, text2) {
@@ -199,7 +199,7 @@ var longestCommonSubsequence = function(text1, text2) {
 
 ## 最长重复子数组长度 (连续)
 
-- leetcode: https://leetcode.cn/problems/maximum-length-of-repeated-subarray/
+- https://leetcode.cn/problems/maximum-length-of-repeated-subarray/
 
 ```js
 var findLength = function(nums1, nums2) {
@@ -229,7 +229,7 @@ var findLength = function(nums1, nums2) {
 
 ## 最长无重复子串长度
 
-- leetcode: https://leetcode.cn/problems/longest-substring-without-repeating-characters/
+- https://leetcode.cn/problems/longest-substring-without-repeating-characters/
 
 ```js
 var lengthOfLongestSubstring = function(s) {
@@ -250,7 +250,7 @@ var lengthOfLongestSubstring = function(s) {
 
 ## 打家劫舍
 
-- leetcode: https://leetcode.cn/problems/house-robber/
+- https://leetcode.cn/problems/house-robber/
 
 ```js
 var rob = function(nums) {
@@ -269,7 +269,7 @@ var rob = function(nums) {
 
 ## 接雨水
 
-- leetcode: https://leetcode.cn/problems/trapping-rain-water/
+- https://leetcode.cn/problems/trapping-rain-water/
 
 ```js
 var trap = function(height) {
@@ -299,7 +299,7 @@ var trap = function(height) {
 
 #### 买卖 1 次
 
-- leetcode: https://leetcode.cn/problems/best-time-to-buy-and-sell-stock/
+- https://leetcode.cn/problems/best-time-to-buy-and-sell-stock/
 
 ```js
 var maxProfit = function(prices) {
@@ -316,7 +316,7 @@ var maxProfit = function(prices) {
 
 #### 买卖无数次
 
-- leetcode: https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-ii/
+- https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-ii/
 
 ```js
 var maxProfit = function(prices) {
@@ -334,7 +334,7 @@ var maxProfit = function(prices) {
 
 #### 冷冻 1 天
 
-- leetcode: https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-with-cooldown/
+- https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-with-cooldown/
 
 ```js
 var maxProfit = function(prices) {
@@ -352,7 +352,7 @@ var maxProfit = function(prices) {
 
 #### 含有手续费
 
-- leetcode: https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/
+- https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/
 
 ```js
 var maxProfit = function(prices, fee) {
@@ -370,7 +370,7 @@ var maxProfit = function(prices, fee) {
 
 #### 买卖 2 次
 
-- leetcode: https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-iii/
+- https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-iii/
 
 ```js
 var maxProfit = function(prices) {
@@ -394,7 +394,7 @@ var maxProfit = function(prices) {
 
 #### 买卖 k 次
 
-- leetcode: https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-iv/
+- https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-iv/
 
 ```js
 var maxProfit = function(k, prices) {

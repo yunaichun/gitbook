@@ -42,7 +42,7 @@ var _dfs = function(n, left, right, cur, results) {
 }
 ```
 
-## 删除无效的括号
+#### 删除无效的括号
 
 - https://leetcode.cn/problems/remove-invalid-parentheses/
 
@@ -50,24 +50,24 @@ var _dfs = function(n, left, right, cur, results) {
 var removeInvalidParentheses = function(s) {
   const results = [];
 
-  let lremove = 0;
-  let rremove = 0;
+  let left = 0;
+  let right = 0;
   for (const c of s) {
     if (c === '(') {
-      lremove += 1;
+      left += 1;
     } else if (c === ')') {
-      if (lremove === 0) rremove += 1;
-      else lremove -= 1;
+      if (left === 0) right += 1;
+      else left -= 1;
     }
   }
 
-  _dfs(s, 0, lremove, rremove, results);
+  _dfs(s, 0, left, right, results);
 
   return results;
 }
 
-var _dfs = function(str, start, lremove, rremove, results) {
-  if (lremove === 0 && rremove === 0) {
+var _dfs = function(str, start, left, right, results) {
+  if (left === 0 && right === 0) {
     if (isValid(str)) results.push(str);
     return;
   }
@@ -76,30 +76,30 @@ var _dfs = function(str, start, lremove, rremove, results) {
     /** 如果连续 2 个字符串一样的话只试错一次即可 */
     if (i > start && str[i] === str[i - 1]) continue;
     /** 如果剩余的字符无法满足去掉的数量要求，直接返回 */
-    if (lremove + rremove > str.length - i) return;
+    if (left + right > str.length - i) return;
     /** 尝试去掉一个左括号 */
-    if (lremove > 0 && str[i] === '(') {
-      _dfs(str.substr(0, i) + str.substr(i + 1), i, lremove - 1, rremove, results);
+    if (left > 0 && str[i] === '(') {
+      _dfs(str.substr(0, i) + str.substr(i + 1), i, left - 1, right, results);
     }
     /** 尝试去掉一个右括号 */
-    if (rremove > 0 && str[i] === ')') {
-      _dfs(str.substr(0, i) + str.substr(i + 1), i, lremove, rremove - 1, results);
+    if (right > 0 && str[i] === ')') {
+      _dfs(str.substr(0, i) + str.substr(i + 1), i, left, right - 1, results);
     }
   }
 }
 
 var isValid = function(str) {
-  let count = 0;
+  const stack = [];
   for (let i = 0; i < str.length; i += 1) {
     if (str[i] === '(') {
-      count += 1;
+      stack.push(str[i]);
     } else if (str[i] === ')') {
-      count -= 1;
-      if (count < 0) return false;
+      if (!stack.length) return false;
+      stack.pop();
     }
   }
 
-  return count === 0;
+  return !stack.length;
 }
 ```
 
