@@ -2,7 +2,7 @@
 
 > 算法学习笔记。
 
-## js 实现字典树
+## JS 实现字典树
 
 - https://leetcode.cn/problems/implement-trie-prefix-tree
 

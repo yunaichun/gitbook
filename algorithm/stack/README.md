@@ -2,7 +2,7 @@
 
 > 算法-栈学习笔记。
 
-## js 实现栈
+## JS 实现栈
 
 ```js
 function Stack() {
