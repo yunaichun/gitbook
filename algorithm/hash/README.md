@@ -197,6 +197,34 @@ var isValid = function(n) {
   return true;
 }
 ```
+
+##  字符的最短距离
+
+- https://leetcode.cn/problems/shortest-distance-to-a-character/
+
+```js
+var shortestToChar = function(s, c) {
+  const results = [];
+
+  /** s[i] 到其左侧最近的字符 c 的距离 */
+  let index = -1;
+  for (let i = 0; i < s.length; ++i) {
+    if (s[i] === c) index = i;
+    if (index === -1) results[i] = Infinity;
+    else results[i] = i - index;
+  }
+
+  /** s[i] 到其右侧最近的字符 c 的距离 */
+  index = -1;
+  for (let i = s.length - 1; i >= 0; --i) {
+    if (s[i] == c) index = i;
+    if (index === -1) continue;
+    else results[i] = Math.min(results[i], index - i);
+  }
+  return results;
+};
+```
+
 ## 缺失的第一个正数
 
 - https://leetcode.cn/problems/first-missing-positive/
