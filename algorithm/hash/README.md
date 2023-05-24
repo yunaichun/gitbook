@@ -225,9 +225,34 @@ var shortestToChar = function(s, c) {
 };
 ```
 
+## 具有给定数值的最小字符串
+
+- https://leetcode.cn/problems/smallest-string-with-a-given-numeric-value/
+
+```js
+var getSmallestString = function(n, k) {
+  const results = new Array(n).fill('z');
+  for (let i = n - 1; i >= 0; i -= 1) {
+    const max = getMax(i, k);
+    results[i] = String.fromCharCode(max + 96);
+    k = k - max;
+  }
+  return results.join('');
+};
+
+var getMax = function(i, sums) {
+  let current = 26;
+  while (i + current > sums) {
+    current -= 1;
+  }
+  return current;
+}
+```
+
 ## 缺失的第一个正数
 
 - https://leetcode.cn/problems/first-missing-positive/
+
 
 ```js
  var firstMissingPositive = function(nums) {
