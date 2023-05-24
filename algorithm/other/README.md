@@ -149,6 +149,38 @@ var isValid = function(d1, d2, winners) {
 }
 ```
 
+## 转换字符串 (滑动窗口)
+
+- https://leetcode-solution-leetcode-pp.gitbook.io/leetcode-solution/selected/byte-dance-algo-ex
+
+
+```js
+var answer = function(str) {
+  return Math.max(longestChar(str, 'a'), longestChar(str, 'b'));
+}
+
+var longestChar = function(str, convertChar) {
+  /** 滑动窗口结果 */
+  let max = 0;
+  /** 滑动窗口条件 */
+  let total = 0;
+  /** 滑动窗口边界 */
+  let [left, right] = [0, 0];
+
+  for (; right < str.length; right += 1) {
+    if (str[i] === convertChar) total += 1;
+
+    while (total > 1) {
+      if (str[left] === convertChar) total -= 1;
+      left += 1;
+    }
+
+    max = Math.max(max, right - left + 1);
+  }
+  return max;
+}
+```
+
 ## 参考资料
 
 - [数据结构与算法 JavaScript 描述](https://book.douban.com/subject/25945449/)

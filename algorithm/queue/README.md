@@ -389,7 +389,7 @@ var numberOfSubarrays = function(nums, k) {
 // nums = [2, 2, 2, 1, 2, 2, 1, 2, 2, 2], k = 2
 ```
 
-######和为 K 的连续子数组 (前缀和 + 所有满足)
+#### 和为 K 的连续子数组 (前缀和 + 所有满足)
 
 - https://leetcode.cn/problems/subarray-sum-equals-k/submissions/
 
