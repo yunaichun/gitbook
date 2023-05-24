@@ -153,3 +153,4 @@
   - [位运算](./algorithm/bitwise/README.md)
   - [动态规划](./algorithm/dynamic/README.md)
   - [LRU Cache](./algorithm/lru/README.md)
+  - [其他](./algorithm/other/README.md)

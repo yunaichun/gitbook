@@ -95,4 +95,5 @@ var set = new Set(arr); // Set(3) {1, 2, 3}
 
 - [数据结构与算法 JavaScript 描述](https://book.douban.com/subject/25945449/)
 - [极客时间算法课程](https://time.geekbang.org/course/intro/100019701)
+- [系列博客](https://leetcode-solution-leetcode-pp.gitbook.io)
 - [Map 和 Set](https://www.liaoxuefeng.com/wiki/1022910821149312/1023024181109440)

@@ -423,3 +423,4 @@ var maxProfit = function(k, prices) {
 
 - [数据结构与算法 JavaScript 描述](https://book.douban.com/subject/25945449/)
 - [极客时间算法课程](https://time.geekbang.org/course/intro/100019701)
+- [系列博客](https://leetcode-solution-leetcode-pp.gitbook.io)

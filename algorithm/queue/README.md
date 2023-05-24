@@ -2,20 +2,6 @@
 
 > 算法-队列学习笔记。
 
-#### 滑动窗口
-
-> 滑动窗口一般用于求连续的, 可分为固定窗口和可变窗口
-
-- 固定窗口
-- 可变窗口
-  - 最小满足: 在满足条件, 每次移动 left, 循环中计算结果
-  - 最大满足: 在满足条件, 每次移动 right 时均计算结果
-  - 所有满足: 用下面的前缀和方法
-
-#### 前缀和
-
-> 前缀和一般用于求连续的, 所有满足条件的总数
-
 ## JS 实现队列
 
 ```js
@@ -33,7 +19,84 @@ Queue.prototype.front = function (item) {
 };
 ```
 
-## 滑动窗口最大值 (固定窗口)
+## 简单队列
+
+#### 比较版本号
+
+- https://leetcode.cn/problems/compare-version-numbers/
+
+```js
+var compareVersion = function (version1, version2) {
+  version1 = version1.split(".").map((i) => Number(`0.${i}`) * Math.pow(10, i.length));
+  version2 = version2.split(".").map((i) => Number(`0.${i}`) * Math.pow(10, i.length));
+  let [i, j] = [0, 0];
+  while (i < version1.length || j < version2.length) {
+    const a = version1[i] || 0;
+    const b = version2[i] || 0;
+    if (a > b) return 1;
+    else if (a < b) return -1;
+    [i, j] = [i + 1, j + 1];
+  }
+  return 0;
+};
+```
+
+#### 字符串相加
+
+- https://leetcode.cn/problems/add-strings/
+
+```js
+var addStrings = function(num1, num2) {
+  const results = [];
+  let [i, j] = [num1.length - 1, num2.length - 1];
+  let c = 0;
+  while (i >=0 || j >= 0 || c) {
+    const a = num1[i] ? num1[i] - 0 : 0;
+    const b = num2[j] ? num2[j] - 0 : 0;
+    if (a + b + c >= 10) c = 1;
+    else c = 0;
+    results.unshift((a + b + c) % 10);
+    i -= 1;
+    j -= 1;
+  }
+  return results.join('');
+};
+```
+
+#### 字符串相乘
+
+- https://leetcode.cn/problems/multiply-strings/description/
+
+```js
+var multiply = function(num1, num2) {
+  if (num1 === '0' || num2 === '0') return '0';
+  let results = '0';
+  let zero = '';
+  for (let i = num2.length - 1; i >=0; i -= 1) {
+    if (num2[i] - 0) {
+      const arr = Array.from({ length: num2[i] }, () => num1);
+      let current = arr.reduce((a, b) => addStrings(a, b));
+      current += zero;
+      /** addStrings 调用上面的字符串相加 */
+      results = addStrings(results, current);
+    }
+    zero += '0';
+  }
+  return results;
+};
+```
+
+## 滑动窗口
+
+> 滑动窗口一般用于求连续的, 可分为固定窗口和可变窗口
+
+- 固定窗口
+- 可变窗口
+  - 最小满足: 在满足条件, 每次移动 left, 循环中计算结果
+  - 最大满足: 在满足条件, 每次移动 right 时均计算结果
+  - 所有满足: 用下面的前缀和方法
+
+#### 滑动窗口最大值 (固定窗口)
 
 - https://leetcode.cn/problems/sliding-window-maximum/
 
@@ -64,7 +127,7 @@ var maxSlidingWindow = function(nums, k) {
 };
 ```
 
-## 最小覆盖子串 (可变窗口 + 最小满足)
+#### 最小覆盖子串 (可变窗口 + 最小满足)
 
 - 最小覆盖子串: https://leetcode.cn/problems/minimum-window-substring/
 - 最小覆盖子串首尾索引: https://leetcode.cn/problems/shortest-supersequence-lcci/
@@ -107,7 +170,7 @@ var minWindow = function(s, t) {
 };
 ```
 
-## 长度最小的连续子数组 (可变窗口 + 最小满足)
+######长度最小的连续子数组 (可变窗口 + 最小满足)
 
 - https://leetcode.cn/problems/minimum-size-subarray-sum/
 
@@ -136,7 +199,7 @@ var minSubArrayLen = function(target, nums) {
 };
 ```
 
-## 最小替换子串得到平衡字符串 (可变窗口 + 最小满足)
+#### 最小替换子串得到平衡字符串 (可变窗口 + 最小满足)
 
 - https://leetcode.cn/problems/replace-the-substring-for-balanced-string/
 
@@ -181,7 +244,7 @@ var checkRemaining = function(map, average) {
 }
 ```
 
-## 将 x 减到 0 的最小操作数 (可变窗口 + 最小满足)
+######将 x 减到 0 的最小操作数 (可变窗口 + 最小满足)
 
 - https://leetcode.cn/problems/minimum-operations-to-reduce-x-to-zero/
 
@@ -216,7 +279,7 @@ var minOperations = function(nums, x) {
 };
 ```
 
-## 收集连续水果最大数量 (可变窗口 + 最大满足)
+#### 收集连续水果最大数量 (可变窗口 + 最大满足)
 
 - https://leetcode.cn/problems/fruit-into-baskets/
 
@@ -247,7 +310,7 @@ var totalFruit = function(fruits) {
 };
 ```
 
-## 最大连续 1 的个数 (可变窗口 + 最大满足)
+#### 最大连续 1 的个数 (可变窗口 + 最大满足)
 
 - https://leetcode.cn/problems/max-consecutive-ones-iii/
 
@@ -276,7 +339,11 @@ var longestOnes = function(nums, k) {
 }
 ```
 
-## 和相同的连续子数组个数 (前缀和 + 所有满足)
+## 前缀和
+
+> 前缀和一般用于求连续的, 所有满足条件的总数
+
+#### 和相同的连续子数组个数 (前缀和 + 所有满足)
 
 - https://leetcode.cn/problems/binary-subarrays-with-sum/
 
@@ -301,7 +368,7 @@ var numSubarraysWithSum = function(nums, goal) {
 // nums = [0, 0, 1, 0, 1, 0, 0]; goal = 2
 ```
 
-## 优美子数组个数 (前缀和 + 所有满足)
+#### 优美子数组个数 (前缀和 + 所有满足)
 
 - https://leetcode.cn/problems/count-number-of-nice-subarrays/
 
@@ -322,7 +389,7 @@ var numberOfSubarrays = function(nums, k) {
 // nums = [2, 2, 2, 1, 2, 2, 1, 2, 2, 2], k = 2
 ```
 
-## 和为 K 的连续子数组 (前缀和 + 所有满足)
+######和为 K 的连续子数组 (前缀和 + 所有满足)
 
 - https://leetcode.cn/problems/subarray-sum-equals-k/submissions/
 
@@ -347,3 +414,4 @@ var subarraySum = function(nums, k) {
 
 - [数据结构与算法 JavaScript 描述](https://book.douban.com/subject/25945449/)
 - [极客时间算法课程](https://time.geekbang.org/course/intro/100019701)
+- [系列博客](https://leetcode-solution-leetcode-pp.gitbook.io)
