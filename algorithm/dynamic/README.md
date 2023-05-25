@@ -69,6 +69,30 @@ var lengthOfLIS = function(nums) {
 };
 ```
 
+## 无重叠区间
+
+- https://leetcode.cn/problems/non-overlapping-intervals/
+
+```js
+var eraseOverlapIntervals = function(intervals) {
+  intervals.sort((a, b) => a[0] - b[0]);
+  
+  /** dp[i] 代表数组 intervals 以第 i 个数结尾时最长严格递增子序列数组的长度 */
+  const dp = [1];
+  const len = intervals.length;
+  for (let i = 1; i < len; i += 1) {
+    if (!dp[i]) dp[i] = 1;
+    for (let j = 0; j < i; j += 1) {
+      if (intervals[j][1] <= intervals[i][0]) {
+        dp[i] = Math.max(dp[i], dp[j] + 1);
+      }
+    }
+  }
+
+  return len - Math.max.apply(null, dp)
+};
+```
+
 ## 零钱兑换最少数量
 
 - https://leetcode.cn/problems/coin-change
