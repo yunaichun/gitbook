@@ -5,7 +5,7 @@
 ## 递归实现深拷贝
 
 ```js
-function extendDeep(parent) {
+var extendDeep = (parent) => {
   if (typeof parent !== 'object') return parent;
   let child = Array.isArray(parent) ? [] : {};
   for (const key in parent) {
@@ -42,6 +42,21 @@ console.log(obj);
 const obj3 = { ...obj };
 obj3.a.c = 1;
 console.log(obj);
+```
+
+## 树构建
+
+```js
+var makeTree = (pid, arr) => {
+  const res = [];
+  for (let i = 0; i < arr.length; i += 1) {
+    if (arr[i].parentId === pid) {
+      arr[i].children = makeTree(arr[i].id, arr);
+      res.push(arr[i]);
+    }
+  }
+  return res;
+}
 ```
 
 ## 参考资料

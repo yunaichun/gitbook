@@ -159,7 +159,7 @@ var answer = function(str) {
   return Math.max(longestChar(str, 'a'), longestChar(str, 'b'));
 }
 
-var longestChar = function(str, convertChar) {
+var longestChar = function(str, char) {
   /** 滑动窗口结果 */
   let max = 0;
   /** 滑动窗口条件 */
@@ -168,10 +168,10 @@ var longestChar = function(str, convertChar) {
   let [left, right] = [0, 0];
 
   for (; right < str.length; right += 1) {
-    if (str[i] === convertChar) total += 1;
+    if (str[right] === char) total += 1;
 
     while (total > 1) {
-      if (str[left] === convertChar) total -= 1;
+      if (str[left] === char) total -= 1;
       left += 1;
     }
 

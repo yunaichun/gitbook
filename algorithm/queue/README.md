@@ -170,7 +170,7 @@ var minWindow = function(s, t) {
 };
 ```
 
-######长度最小的连续子数组 (可变窗口 + 最小满足)
+#### 长度最小的连续子数组 (可变窗口 + 最小满足)
 
 - https://leetcode.cn/problems/minimum-size-subarray-sum/
 
@@ -244,7 +244,7 @@ var checkRemaining = function(map, average) {
 }
 ```
 
-######将 x 减到 0 的最小操作数 (可变窗口 + 最小满足)
+#### 将 x 减到 0 的最小操作数 (可变窗口 + 最小满足)
 
 - https://leetcode.cn/problems/minimum-operations-to-reduce-x-to-zero/
 

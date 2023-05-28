@@ -167,6 +167,68 @@ FakePromise.all = function(promises) {
 }
 ```
 
+## 并发设计
+
+```js
+class TaskQueue {
+  constructor(max) {
+    this.max = max;
+    this.tasks = [];
+    this.results = [];
+    this.executed = [];
+  }
+  addTask (task) {
+    this.tasks.push(task);
+  }
+  getNextIndex () {
+    for (let i = 0; i < this.tasks.length; i += 1) {
+      if (this.executed.indexOf(i) < 0) return i;
+    }
+  }
+  next(i) {
+    this.executed.push(i);
+    const task = this.tasks[i];
+    return new Promise((reslove) => {
+      task().then(res => {
+        console.log(111111, res);
+        this.results[i] = res;
+      }).catch(err => {
+        this.results[i] = err;
+      }).finally(() => {
+        if (this.executed.length === this.tasks.length) reslove(this.results);
+        else reslove(this.next(this.getNextIndex()))
+      })
+    })
+  }
+  async run() {
+    const min = Math.min(this.tasks.length, this.max);
+    const tasks = Array.from({ length: min }, (v, i) => this.next(i));
+    await Promise.all(tasks);
+    return this.results;
+  }
+}
+
+const task = (i) => {
+  return () => {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(i);
+      }, 1000);
+    });
+  };
+};
+async function test() {
+  const taskQueue = new TaskQueue(3);
+  for (let i = 0; i < 10; i++) {
+    taskQueue.addTask(task(i));
+  }
+  const time = new Date().getTime();
+  let results = await taskQueue.run();
+  console.log(2222, results, new Date().getTime() - time);
+}
+test();
+```
+
 ## 最终实现
 
 Promise实现: https://github.com/yunaichun/javascript-note/blob/master/JS笔记/重要笔记/Promise构造函数实现.js
