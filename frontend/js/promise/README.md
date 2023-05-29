@@ -173,33 +173,23 @@ FakePromise.all = function(promises) {
 class Scheduler {
   constructor () {
 		this.tasks = [];
-		this.excuting = [];
+		this.max = 0;
   }
   async add(promiseCreator) {
-		this.tasks.push(promiseCreator);
-		return new Promise(resolve => resolve(this.run()));
+		return new Promise((resolve, reject) => {
+			this.tasks.push([promiseCreator, resolve, reject]);
+			this.run();
+		});
   }
   run() {
-		return new Promise(resolve => {
-			const promise = (resolve) => {
-				const task = this.tasks.shift();
-				if (task) {
-					this.excuting.push(task);
-					resolve(task().then(() => {
-						const index = this.excuting.indexOf(task);
-						if (index > -1) this.excuting.splice(index, 1);
-						this.run();
-					}));
-				}
-			}
-			if (this.tasks.length && this.excuting.length <= 2) {
-				while (this.tasks.length && this.excuting.length <= 2) {
-					promise(resolve);
-				}
-			} else {
-				promise(resolve);
-			}
-		})
+		if (this.tasks.length && this.max < 2) {
+			this.max += 1;
+			const [task, resolve, reject] = this.tasks.shift();
+			task().then(resolve, reject).finally(() => {
+				this.max -= 1;
+				this.run();
+			});
+		}
   }
 }
 
