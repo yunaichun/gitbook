@@ -170,63 +170,47 @@ FakePromise.all = function(promises) {
 ## 并发设计
 
 ```js
-class TaskQueue {
-  constructor(max) {
-    this.max = max;
-    this.tasks = [];
-    this.results = [];
-    this.executed = [];
+class Scheduler {
+  constructor () {
+		this.tasks = [];
+		this.excuting = [];
   }
-  addTask (task) {
-    this.tasks.push(task);
+  async add(promiseCreator) {
+		this.tasks.push(promiseCreator);
+		return new Promise(resolve => resolve(this.run()));
   }
-  getNextIndex () {
-    for (let i = 0; i < this.tasks.length; i += 1) {
-      if (this.executed.indexOf(i) < 0) return i;
-    }
-  }
-  next(i) {
-    this.executed.push(i);
-    const task = this.tasks[i];
-    return new Promise((reslove) => {
-      task().then(res => {
-        console.log(111111, res);
-        this.results[i] = res;
-      }).catch(err => {
-        this.results[i] = err;
-      }).finally(() => {
-        if (this.executed.length === this.tasks.length) reslove(this.results);
-        else reslove(this.next(this.getNextIndex()))
-      })
-    })
-  }
-  async run() {
-    const min = Math.min(this.tasks.length, this.max);
-    const tasks = Array.from({ length: min }, (v, i) => this.next(i));
-    await Promise.all(tasks);
-    return this.results;
+  run() {
+		return new Promise(resolve => {
+			const promise = (resolve) => {
+				const task = this.tasks.shift();
+				if (task) {
+					this.excuting.push(task);
+					resolve(task().then(() => {
+						const index = this.excuting.indexOf(task);
+						if (index > -1) this.excuting.splice(index, 1);
+						this.run();
+					}));
+				}
+			}
+			if (this.tasks.length && this.excuting.length <= 2) {
+				while (this.tasks.length && this.excuting.length <= 2) {
+					promise(resolve);
+				}
+			} else {
+				promise(resolve);
+			}
+		})
   }
 }
 
-const task = (i) => {
-  return () => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(i);
-      }, 1000);
-    });
-  };
-};
-async function test() {
-  const taskQueue = new TaskQueue(3);
-  for (let i = 0; i < 10; i++) {
-    taskQueue.addTask(task(i));
-  }
-  const time = new Date().getTime();
-  let results = await taskQueue.run();
-  console.log(2222, results, new Date().getTime() - time);
-}
-test();
+const timeout = (time) => new Promise(resolve =>  setTimeout(resolve, time));
+const scheduler = new Scheduler();
+const addTask = (time, order) => scheduler.add(() => timeout(time)).then(() => console.log(order)); 
+
+addTask(1000, '1');
+addTask(500, '2');
+addTask(300, '3');
+addTask(400, '4');
 ```
 
 ## 最终实现
