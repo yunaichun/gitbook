@@ -169,11 +169,13 @@ FakePromise.all = function(promises) {
 
 ## 并发设计
 
+#### add 方法执行
 ```js
 class Scheduler {
   constructor () {
 		this.tasks = [];
-		this.max = 0;
+		this.count = 0;
+    this.max = 2;
   }
   async add(promiseCreator) {
 		return new Promise((resolve, reject) => {
@@ -182,11 +184,11 @@ class Scheduler {
 		});
   }
   run() {
-		if (this.tasks.length && this.max < 2) {
-			this.max += 1;
+		if (this.tasks.length && this.count < this.max) {
+			this.count += 1;
 			const [task, resolve, reject] = this.tasks.shift();
 			task().then(resolve, reject).finally(() => {
-				this.max -= 1;
+				this.count -= 1;
 				this.run();
 			});
 		}
@@ -201,6 +203,54 @@ addTask(1000, '1');
 addTask(500, '2');
 addTask(300, '3');
 addTask(400, '4');
+```
+
+#### run 方法执行
+
+```js
+class TaskQueue {
+  constructor(max) {
+    this.max = max;
+		this.count = 0;
+		this.index = 0;
+    this.tasks = [];
+    this.results = [];
+  }
+  add(task) {
+    this.tasks.push([task, this.index]);
+		this.index += 1;
+  }
+	run() {
+		return new Promise((resolve) => {
+			const runTask = () => {
+				this.count += 1;
+				const [task, index] = this.tasks.shift();
+				task().then((res) => {
+					this.results[index] = res;
+				}).catch((err) => {
+					this.results[index] = err;
+				}).finally(() => {
+					this.count -= 1;
+					if (this.tasks.length && this.count < this.max) runTask();
+					if (this.count === 0) resolve(this.results);
+				});
+			}
+			const min = Math.min(this.tasks.length, this.max);
+			for (let i = 0; i < min; i += 1) {
+				runTask();
+			}
+		});
+	}
+}
+
+const start = new Date();
+const timeout = (time, order) => () => new Promise(resolve => setTimeout(resolve, time)).then(() => { console.log(order, "_________", new Date() - start); return order; });
+const taskQueue = new TaskQueue(2);
+taskQueue.add(timeout(1000, '1'));
+taskQueue.add(timeout(500, '2'));
+taskQueue.add(timeout(300, '3'));
+taskQueue.add(timeout(400, '4'));
+taskQueue.run().then(res => console.log(1111, res));
 ```
 
 ## 最终实现
