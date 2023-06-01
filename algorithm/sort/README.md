@@ -89,6 +89,33 @@ var quickSort = function(arr) {
 }
 ```
 
+## 快排最小k个数
+
+- https://leetcode.cn/problems/zui-xiao-de-kge-shu-lcof/
+
+```js
+var quickSort = function(arr, k) {
+  if (arr.length <= 1) return arr;  
+  const basic = arr[0];
+  const lesser = [];
+  const greater = [];
+  for (let i = 1; i < arr.length; i += 1) {
+    if (arr[i] < basic) lesser.push(arr[i]);
+    else greater.push(arr[i]);
+  }
+
+	if (lesser.length + 1 === k) {
+		return lesser.concat(basic);
+	} else if (lesser.length + 1 > k) {
+		return quickSort(lesser, k);
+	} else {
+		return lesser.concat(basic, quickSort(greater, k - lesser.length - 1));
+    // 前 k 小的数据排序输出
+    // return quickSort(lesser, lesser.length).concat(basic, quickSort(greater, k - lesser.length - 1));
+	}
+}
+```
+
 ## 参考资料
 
 - [数据结构与算法 JavaScript 描述](https://book.douban.com/subject/25945449/)
