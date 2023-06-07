@@ -236,7 +236,7 @@ class TaskQueue {
             runTask();
             if (this.count === 0) resolve(this.results);
           });
-          if (index < this.max) runTask();
+          runTask();
         }
       }
       runTask();
