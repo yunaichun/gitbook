@@ -212,36 +212,36 @@ addTask(400, '4');
 class TaskQueue {
   constructor(max) {
     this.max = max;
-		this.count = 0;
-		this.index = 0;
-    this.tasks = [];
+    this.count = 0;
+    this.index = 0;
     this.results = [];
+    this.tasks = [];
   }
   add(task) {
     this.tasks.push([task, this.index]);
-		this.index += 1;
+    this.index += 1;
   }
-	run() {
-		return new Promise((resolve) => {
-			const runTask = () => {
-				this.count += 1;
-				const [task, index] = this.tasks.shift();
-				task().then((res) => {
-					this.results[index] = res;
-				}).catch((err) => {
-					this.results[index] = err;
-				}).finally(() => {
-					this.count -= 1;
-					if (this.tasks.length && this.count < this.max) runTask();
-					if (this.count === 0) resolve(this.results);
-				});
-			}
-			const min = Math.min(this.tasks.length, this.max);
-			for (let i = 0; i < min; i += 1) {
-				runTask();
-			}
-		});
-	}
+  run() {
+    return new Promise((resolve) => {
+      const runTask = () => {
+        if (this.tasks.length && this.count < this.max) {
+          this.count += 1;
+          const [task, index] = this.tasks.shift();
+          task().then((res) => {
+            this.results[index] = res;
+          }).catch((err) => {
+            this.results[index] = err;
+          }).finally(() => {
+            this.count -= 1;
+            runTask();
+            if (this.count === 0) resolve(this.results);
+          });
+          if (index < this.max) runTask();
+        }
+      }
+      runTask();
+    });
+  }
 }
 
 const start = new Date();
