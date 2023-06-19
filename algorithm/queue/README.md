@@ -53,9 +53,9 @@ var addStrings = function(num1, num2) {
   while (i >=0 || j >= 0 || c) {
     const a = num1[i] ? num1[i] - 0 : 0;
     const b = num2[j] ? num2[j] - 0 : 0;
+    results.unshift((a + b + c) % 10);
     if (a + b + c >= 10) c = 1;
     else c = 0;
-    results.unshift((a + b + c) % 10);
     i -= 1;
     j -= 1;
   }
