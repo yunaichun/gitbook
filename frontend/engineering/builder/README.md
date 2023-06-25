@@ -2,9 +2,9 @@
 
 > 本文介绍基于组件库低代码搭建平台的实践笔记。
 
-## 架构图
+## 蜻蜓低代码平台设计
 
-![design](./images/%E5%9F%BA%E4%BA%8E%E7%BB%84%E4%BB%B6%E5%BA%93%E7%9A%84%E4%BD%8E%E4%BB%A3%E7%A0%81%E5%B9%B3%E5%8F%B0.png)
+- 设计文档: https://www.yuque.com/shaoxia-0szvl/zayqnu/gzqb8g4lgegggnau
 
 ## 参考
 
