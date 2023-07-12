@@ -44,3 +44,4 @@ nvm alias default <version>
 
 - [在 Mac 下安装 nvm 管理 node（解决版）](https://segmentfault.com/a/1190000017391932)
 - [node版本管理工具nvm-Mac下安装及使用](https://segmentfault.com/a/1190000004404505)
+- [在 Mac 下安装 pyenv 管理 python](https://www.freecodecamp.org/chinese/news/python-version-on-mac-update/)
